@@ -1,0 +1,67 @@
+- generic [active] [ref=e1]:
+  - main [ref=e3]:
+    - main [ref=e4]:
+      - generic [ref=e6]:
+        - link "Back to home" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - img [ref=e8]
+        - generic [ref=e10]:
+          - paragraph [ref=e11]: Account
+          - heading "Profile settings" [level=1] [ref=e12]
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - generic [ref=e15]:
+            - generic [ref=e16]:
+              - paragraph [ref=e17]:
+                - img [ref=e18]
+                - text: Customer portal
+              - generic [ref=e21]:
+                - heading "Your CravingsPH account" [level=2] [ref=e22]
+                - paragraph [ref=e23]: Review your contact details, keep receipts going to the right inbox, and jump back to saved restaurants or recent orders.
+            - img [ref=e25]
+          - generic [ref=e28]:
+            - generic [ref=e29]:
+              - paragraph [ref=e30]: Member since
+              - paragraph [ref=e31]: Recently joined
+            - generic [ref=e32]:
+              - paragraph [ref=e33]: Quick return
+              - paragraph [ref=e34]: Saved
+            - generic [ref=e35]:
+              - paragraph [ref=e36]: Best next step
+              - paragraph [ref=e37]: Reorder
+        - generic [ref=e48]:
+          - generic [ref=e49]:
+            - generic [ref=e50]:
+              - heading "Stay close to your favorites" [level=2] [ref=e51]
+              - paragraph [ref=e52]: Jump back into the retention flows you already use the most.
+            - generic [ref=e53]:
+              - link "Saved restaurants Review your go-to places and trim your list. Open" [ref=e54] [cursor=pointer]:
+                - /url: /saved
+                - generic [ref=e55]:
+                  - img [ref=e57]
+                  - generic [ref=e59]:
+                    - generic [ref=e60]: Saved restaurants
+                    - text: Review your go-to places and trim your list.
+                - generic [ref=e61]: Open
+              - link "Order history Reorder or leave a review for completed meals. Open" [ref=e62] [cursor=pointer]:
+                - /url: /orders
+                - generic [ref=e63]:
+                  - img [ref=e65]
+                  - generic [ref=e69]:
+                    - generic [ref=e70]: Order history
+                    - text: Reorder or leave a review for completed meals.
+                - generic [ref=e71]: Open
+          - generic [ref=e72]:
+            - generic [ref=e73]:
+              - img [ref=e74]
+              - text: Session
+            - generic [ref=e77]:
+              - heading "Sign out" [level=2] [ref=e78]
+              - paragraph [ref=e79]: Use this if you are on a shared device or switching to a different customer account.
+            - button "Sign out" [ref=e80]:
+              - img
+              - text: Sign out
+  - generic [ref=e81]: Checking health...
+  - button "Open Next.js Dev Tools" [ref=e87] [cursor=pointer]:
+    - img [ref=e88]
+  - alert [ref=e91]

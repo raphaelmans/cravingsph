@@ -1,51 +1,43 @@
-# CravingsPH — Frontend UI Scaffold
+# CravingsPH Database Seeds
 
 ## Objective
 
-Scaffold the complete frontend for CravingsPH: all pages, components, route wirings, and state management across three portals (Customer, Owner, Admin) covering all 7 PRD phases. Use shadcn/ui with the established design system.
+Implement the database seed workflow described in `specs/database-seeds/` for CravingsPH.
 
-## Spec Directory
-
-All design artifacts are in `specs/frontend-ui-scaffold/`:
-- `design.md` — **primary reference**: routes, component trees, state, interfaces
-- `plan.md` — 16-step implementation plan (follow in order)
-- `requirements.md` — architectural decisions
-- `research/legacy-component-mapping.md` — legacy→new component migration guide
-- `research/reference-patterns.md` — reference repo patterns for sidebar/nav
+Add a local-development seed command that creates one realistic demo restaurant/menu hierarchy using the current Drizzle schema and the seed style established in the reference boilerplate repo.
 
 ## Key Requirements
 
-1. **Route groups**: `(public)` customer, `(auth)` login/register, `(owner)` restaurant owner, `(admin)` platform admin
-2. **Strict portal separation**: no portal switching between customer and owner
-3. **Design system**: `shape="pill"` for customer buttons/inputs, `#f86006` orange brand, `<Price />` for amounts, `<Logo />` for wordmark
-4. **Legacy patterns preserved**: bottom sheets for mobile interactions, smart cart merging, persistent localStorage cart, branch-scoped URLs
-5. **Legacy improvements**: horizontal scroll category tabs (not dropdown), single MenuItemSheet with `mode` prop (not duplicate sheets), required modifier validation, fuzzy search
-6. **Feature modules**: `src/features/{feature}/components/`, `hooks/`, `stores/`
-7. **Server state**: tRPC + TanStack Query (no Zustand for server data)
-8. **Client state**: Zustand cart store only, branch-scoped, persisted
-9. **Owner sidebar**: collapsible Restaurant→Branch hierarchy, permission-filtered nav, badge counts
-10. **Onboarding**: both wizard (linear) and hub (card grid) modes
+1. Follow the design and plan in `specs/database-seeds/`.
+2. Add a TypeScript seed runner under `scripts/` and keep fixture data separate from runner logic.
+3. Wire package scripts using `dotenvx` + `tsx`, similar to the reference repo pattern.
+4. Require `DATABASE_URL` and `SEED_OWNER_USER_ID`.
+5. Validate that the owner exists in `auth.users` before creating app data.
+6. Seed or ensure supporting `profile` and `user_roles` rows for that owner.
+7. Seed one demo `organization -> restaurant -> branch -> category -> menu_item -> item_variant / modifier_group -> modifier` graph.
+8. Make the seed idempotent and safe to rerun.
+9. Print created/skipped counts per entity type.
+10. Do not implement destructive reset behavior as part of the default seed command.
 
 ## Acceptance Criteria
 
-- Given a customer scans a QR code, when the page loads, then they see the menu without login
-- Given a customer taps a category tab, when scrolling, then the page jumps to that section
-- Given identical items are added to cart, when merged, then quantity increases instead of duplicating
-- Given dine-in is selected at checkout, when the form renders, then only table number is shown
-- Given an order is placed, when payment methods display, then copy buttons work for account numbers
-- Given a new owner registers, when they first access /organization, then they are redirected to get-started
-- Given the onboarding wizard completes, when all 7 steps are done, then the owner sees their dashboard
-- Given a new order arrives, when the owner views Inbox, then accept/reject actions are available
-- Given an admin reviews verification, when they approve, then the restaurant status updates
-
-## Implementation Order
-
-Follow `specs/frontend-ui-scaffold/plan.md` steps 1–16 sequentially. Each step builds on the previous and ends with demoable functionality. Do not skip steps.
+1. Given `.env.local` contains valid `DATABASE_URL` and `SEED_OWNER_USER_ID`, when `pnpm db:seed:demo` runs on an empty local database, then it creates one demo organization, restaurant, branch, categories, items, variants, modifier groups, and modifiers.
+2. Given the owner auth user exists but `profile` and `user_roles` rows do not, when the seed runs, then those supporting rows are created before the organization.
+3. Given the seed already ran once, when it runs again with the same fixture data, then it does not create duplicate rows.
+4. Given `DATABASE_URL` or `SEED_OWNER_USER_ID` is missing, when the seed starts, then it fails fast with a clear error before any app-table inserts.
+5. Given `SEED_OWNER_USER_ID` does not match an auth user, when the seed starts, then it exits clearly and creates no restaurant graph data.
+6. Given the seed completes successfully, when stdout is reviewed, then created/skipped counts are visible by entity type.
 
 ## References
 
-- PRD: `docs/prd.md`
-- Implementation intent: `docs/implementation-intent.md`
-- Legacy codebase: `/Users/raphaelm/Documents/Coding/startups/legacy-cravings/`
-- Reference architecture: `/Users/raphaelm/Documents/Coding/boilerplates/next16bp/`
-- User stories: `user-stories/`
+- `specs/database-seeds/design.md`
+- `specs/database-seeds/plan.md`
+- `specs/database-seeds/research/current-state-and-schema.md`
+- `specs/database-seeds/research/reference-seed-pattern.md`
+- `specs/database-seeds/research/owner-auth-strategy.md`
+
+## Notes
+
+- Prefer a first-pass implementation that treats owner auth creation as a prerequisite, not part of the seed script.
+- Keep the implementation narrow and useful for local UI development.
+- After implementation, run the relevant validation and verify the owner and public menu flows against the seeded data.

@@ -1,0 +1,340 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - img [ref=e134]
+        - generic [ref=e9]:
+          - paragraph [ref=e138]: Codex QA Org 1773072231
+          - paragraph [ref=e139]: member
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: Setup
+          - list [ref=e16]:
+            - listitem [ref=e17]:
+              - link "Get Started" [ref=e18] [cursor=pointer]:
+                - /url: /organization/get-started
+                - img [ref=e19]
+                - generic [ref=e24]: Get Started
+        - generic [ref=e25]:
+          - generic [ref=e26]: Overview
+          - list [ref=e28]:
+            - listitem [ref=e29]:
+              - link "Dashboard" [ref=e30] [cursor=pointer]:
+                - /url: /organization
+                - img [ref=e31]
+                - generic [ref=e36]: Dashboard
+        - generic [ref=e37]:
+          - generic [ref=e38]: Restaurants
+          - list [ref=e40]:
+            - listitem [ref=e42]:
+              - link "Restaurants" [ref=e43] [cursor=pointer]:
+                - /url: /organization/restaurants
+                - img [ref=e44]
+                - generic [ref=e48]: Restaurants
+              - button [expanded] [ref=e140]:
+                - img [ref=e141]
+              - list [ref=e50]:
+                - listitem [ref=e144]:
+                  - link "QA Test Kitchen 1773072231" [ref=e145] [cursor=pointer]:
+                    - /url: /organization/restaurants/36fe405f-6aef-4065-93a7-c9fd40aa4c49
+                    - generic [ref=e146]: QA Test Kitchen 1773072231
+                  - button [ref=e147]:
+                    - img [ref=e148]
+        - generic [ref=e51]:
+          - generic [ref=e52]: Orders
+          - list [ref=e54]:
+            - listitem [ref=e55]:
+              - link "Orders" [ref=e56] [cursor=pointer]:
+                - /url: /organization/orders
+                - img [ref=e57]
+                - generic [ref=e60]: Orders
+        - generic [ref=e61]:
+          - generic [ref=e62]: Finance
+          - list [ref=e64]:
+            - listitem [ref=e65]:
+              - link "Payments" [ref=e66] [cursor=pointer]:
+                - /url: /organization/payments
+                - img [ref=e67]
+                - generic [ref=e69]: Payments
+        - generic [ref=e70]:
+          - generic [ref=e71]: Organization
+          - list [ref=e73]:
+            - listitem [ref=e74]:
+              - link "Team" [ref=e75] [cursor=pointer]:
+                - /url: /organization/team
+                - img [ref=e76]
+                - generic [ref=e81]: Team
+            - listitem [ref=e82]:
+              - link "Verification" [ref=e83] [cursor=pointer]:
+                - /url: /organization/verify
+                - img [ref=e84]
+                - generic [ref=e87]: Verification
+            - listitem [ref=e88]:
+              - link "Settings" [ref=e89] [cursor=pointer]:
+                - /url: /organization/settings
+                - img [ref=e90]
+                - generic [ref=e93]: Settings
+        - generic [ref=e94]:
+          - generic [ref=e95]: Account
+          - list [ref=e97]:
+            - listitem [ref=e98]:
+              - link "Profile" [ref=e99] [cursor=pointer]:
+                - /url: /organization/profile
+                - img [ref=e100]
+                - generic [ref=e103]: Profile
+      - button "C codex+1773072231@example.com" [ref=e150]:
+        - generic [ref=e152]: C
+        - paragraph [ref=e154]: codex+1773072231@example.com
+      - button "Toggle Sidebar" [ref=e105]
+    - main [ref=e106]:
+      - generic [ref=e107]:
+        - generic [ref=e411]:
+          - button "Toggle Sidebar" [ref=e412]:
+            - img
+            - generic [ref=e413]: Toggle Sidebar
+          - navigation "breadcrumb" [ref=e414]:
+            - list [ref=e415]:
+              - listitem [ref=e416]:
+                - link "Restaurants" [ref=e417] [cursor=pointer]:
+                  - /url: /organization/restaurants
+              - listitem [ref=e418]:
+                - listitem [ref=e419]:
+                  - img [ref=e420]
+                - link "QA Test Kitchen 1773072231" [disabled] [ref=e422]
+              - listitem [ref=e423]:
+                - listitem [ref=e424]:
+                  - img [ref=e425]
+                - link "Branch Settings" [disabled] [ref=e427]
+          - button "Preview as customer" [ref=e429]:
+            - img
+            - text: Preview as customer
+        - generic [ref=e430]:
+          - generic [ref=e431]:
+            - generic [ref=e432]:
+              - heading "Main Branch" [level=1] [ref=e433]
+              - generic [ref=e434]: Active branch
+            - paragraph [ref=e435]: Adjust order intake, storefront timing, and table QR materials for this location. Changes here affect only this branch and do not modify the rest of the restaurant network.
+          - generic [ref=e436]:
+            - generic [ref=e438]:
+              - img [ref=e440]
+              - generic [ref=e444]:
+                - paragraph [ref=e445]: Ordering status
+                - paragraph [ref=e446]: Live
+            - generic [ref=e448]:
+              - img [ref=e450]
+              - generic [ref=e452]:
+                - paragraph [ref=e453]: Acceptance mode
+                - paragraph [ref=e454]: Manual
+            - generic [ref=e456]:
+              - img [ref=e458]
+              - generic [ref=e461]:
+                - paragraph [ref=e462]: Payment countdown
+                - paragraph [ref=e463]: 15 min
+          - generic [ref=e464]:
+            - generic [ref=e465]:
+              - generic [ref=e466]:
+                - generic [ref=e467]:
+                  - generic [ref=e468]: Operating Hours
+                  - paragraph [ref=e469]: Set the storefront schedule your team plans to follow. Weekly hours are stored locally for now until branch scheduling fields are added to the backend.
+                - generic [ref=e470]:
+                  - button "Copy Monday to weekdays" [ref=e471]:
+                    - img
+                    - text: Copy Monday to weekdays
+                  - button "Reset" [ref=e472]:
+                    - img
+                    - text: Reset
+              - generic [ref=e473]:
+                - generic [ref=e474]:
+                  - generic [ref=e475]:
+                    - generic [ref=e476]:
+                      - paragraph [ref=e477]: Monday
+                      - paragraph [ref=e478]: 09:00 to 21:00
+                    - generic [ref=e479]: Open
+                  - generic [ref=e480]:
+                    - generic [ref=e481]:
+                      - switch "Toggle Monday opening hours" [checked] [ref=e482]
+                      - generic [ref=e483]: Open
+                    - generic [ref=e484]:
+                      - combobox [ref=e485]:
+                        - generic: 09:00
+                        - img
+                      - combobox [ref=e486]:
+                        - generic: 21:00
+                        - img
+                - generic [ref=e487]:
+                  - generic [ref=e488]:
+                    - generic [ref=e489]:
+                      - paragraph [ref=e490]: Tuesday
+                      - paragraph [ref=e491]: 09:00 to 21:00
+                    - generic [ref=e492]: Open
+                  - generic [ref=e493]:
+                    - generic [ref=e494]:
+                      - switch "Toggle Tuesday opening hours" [checked] [ref=e495]
+                      - generic [ref=e496]: Open
+                    - generic [ref=e497]:
+                      - combobox [ref=e498]:
+                        - generic: 09:00
+                        - img
+                      - combobox [ref=e499]:
+                        - generic: 21:00
+                        - img
+                - generic [ref=e500]:
+                  - generic [ref=e501]:
+                    - generic [ref=e502]:
+                      - paragraph [ref=e503]: Wednesday
+                      - paragraph [ref=e504]: 09:00 to 21:00
+                    - generic [ref=e505]: Open
+                  - generic [ref=e506]:
+                    - generic [ref=e507]:
+                      - switch "Toggle Wednesday opening hours" [checked] [ref=e508]
+                      - generic [ref=e509]: Open
+                    - generic [ref=e510]:
+                      - combobox [ref=e511]:
+                        - generic: 09:00
+                        - img
+                      - combobox [ref=e512]:
+                        - generic: 21:00
+                        - img
+                - generic [ref=e513]:
+                  - generic [ref=e514]:
+                    - generic [ref=e515]:
+                      - paragraph [ref=e516]: Thursday
+                      - paragraph [ref=e517]: 09:00 to 21:00
+                    - generic [ref=e518]: Open
+                  - generic [ref=e519]:
+                    - generic [ref=e520]:
+                      - switch "Toggle Thursday opening hours" [checked] [ref=e521]
+                      - generic [ref=e522]: Open
+                    - generic [ref=e523]:
+                      - combobox [ref=e524]:
+                        - generic: 09:00
+                        - img
+                      - combobox [ref=e525]:
+                        - generic: 21:00
+                        - img
+                - generic [ref=e526]:
+                  - generic [ref=e527]:
+                    - generic [ref=e528]:
+                      - paragraph [ref=e529]: Friday
+                      - paragraph [ref=e530]: 09:00 to 22:00
+                    - generic [ref=e531]: Open
+                  - generic [ref=e532]:
+                    - generic [ref=e533]:
+                      - switch "Toggle Friday opening hours" [checked] [ref=e534]
+                      - generic [ref=e535]: Open
+                    - generic [ref=e536]:
+                      - combobox [ref=e537]:
+                        - generic: 09:00
+                        - img
+                      - combobox [ref=e538]:
+                        - generic: 22:00
+                        - img
+                - generic [ref=e539]:
+                  - generic [ref=e540]:
+                    - generic [ref=e541]:
+                      - paragraph [ref=e542]: Saturday
+                      - paragraph [ref=e543]: 10:00 to 22:00
+                    - generic [ref=e544]: Open
+                  - generic [ref=e545]:
+                    - generic [ref=e546]:
+                      - switch "Toggle Saturday opening hours" [checked] [ref=e547]
+                      - generic [ref=e548]: Open
+                    - generic [ref=e549]:
+                      - combobox [ref=e550]:
+                        - generic: 10:00
+                        - img
+                      - combobox [ref=e551]:
+                        - generic: 22:00
+                        - img
+                - generic [ref=e552]:
+                  - generic [ref=e553]:
+                    - generic [ref=e554]:
+                      - paragraph [ref=e555]: Sunday
+                      - paragraph [ref=e556]: Closed all day
+                    - generic [ref=e557]: Closed
+                  - generic [ref=e558]:
+                    - generic [ref=e559]:
+                      - switch "Toggle Sunday opening hours" [ref=e560]
+                      - generic [ref=e561]: Closed
+                    - generic [ref=e562]:
+                      - combobox [disabled] [ref=e563]:
+                        - generic: 10:00
+                        - img
+                      - combobox [disabled] [ref=e564]:
+                        - generic: 20:00
+                        - img
+            - generic [ref=e565]:
+              - generic [ref=e566]:
+                - generic [ref=e567]:
+                  - generic [ref=e568]: Order Settings
+                  - paragraph [ref=e569]: Branch-level controls for storefront availability and order intake behavior. These changes are persisted to the current branch record.
+                - generic [ref=e570]:
+                  - generic [ref=e571]:
+                    - generic [ref=e572]:
+                      - paragraph [ref=e573]: Enable online ordering
+                      - paragraph [ref=e574]: Turn off order intake without hiding the restaurant from discovery and preview flows.
+                    - switch "Toggle online ordering" [checked] [ref=e575]
+                  - generic [ref=e576]:
+                    - generic [ref=e577]:
+                      - paragraph [ref=e578]: Auto-accept orders
+                      - paragraph [ref=e579]: Skip manual approval for this branch when new orders land in the inbox.
+                    - switch "Toggle auto-accept" [ref=e580]
+                  - generic [ref=e581]:
+                    - text: Payment countdown (minutes)
+                    - paragraph [ref=e582]: Controls how long customers have to submit a transfer before the order is treated as expired.
+                    - spinbutton "Payment countdown (minutes)" [ref=e583]: "15"
+                  - button "Save order settings" [disabled]
+              - generic [ref=e584]:
+                - generic [ref=e585]:
+                  - generic [ref=e586]:
+                    - generic [ref=e587]: QR Code
+                    - generic [ref=e588]: Customer-facing
+                  - paragraph [ref=e589]: Generate a scannable menu card for tables, counters, and flyers. The preview links customers straight to this restaurant's public menu.
+                - generic [ref=e590]:
+                  - generic [ref=e591]:
+                    - generic [ref=e592]:
+                      - paragraph [ref=e593]: Destination URL
+                      - paragraph [ref=e594]: http://localhost:3000/restaurant/qa-test-kitchen-1773072231
+                    - generic [ref=e595]:
+                      - button "Download QR" [ref=e596]:
+                        - img
+                        - text: Download QR
+                      - button "Print QR" [ref=e597]:
+                        - img
+                        - text: Print QR
+                      - link "Preview menu" [ref=e598] [cursor=pointer]:
+                        - /url: http://localhost:3000/restaurant/qa-test-kitchen-1773072231
+                        - img
+                        - text: Preview menu
+                  - img "Main Branch menu QR code" [ref=e601]
+              - generic [ref=e602]:
+                - generic [ref=e604]: Preview
+                - generic [ref=e605]:
+                  - generic [ref=e606]:
+                    - generic [ref=e607]:
+                      - img [ref=e608]
+                      - generic [ref=e614]: Public menu entry point
+                    - paragraph [ref=e615]: http://localhost:3000/restaurant/qa-test-kitchen-1773072231
+                  - generic [ref=e616]:
+                    - paragraph [ref=e617]: Use this to validate the live customer flow, checkout copy, and menu visibility before printing QR cards for the branch.
+                    - paragraph [ref=e618]: "Address: Address not set yet"
+                  - button "Open customer preview" [ref=e619]:
+                    - img
+                    - text: Open customer preview
+  - generic [ref=e124]:
+    - generic [ref=e270]: "Server: ok"
+    - generic [ref=e271]: "Uptime: 1266s"
+  - generic [ref=e129] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e130]:
+      - img [ref=e131]
+    - generic [ref=e401]:
+      - button "Open issues overlay" [ref=e402]:
+        - generic [ref=e403]:
+          - generic [ref=e404]: "1"
+          - generic [ref=e405]: "2"
+        - generic [ref=e406]:
+          - text: Issue
+          - generic [ref=e407]: s
+      - button "Collapse issues badge" [ref=e408]:
+        - img [ref=e409]
+  - alert [ref=e272]

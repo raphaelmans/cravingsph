@@ -1,0 +1,13 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e36]:
+    - generic [ref=e37]:
+      - generic [ref=e38]: Check your email
+      - generic [ref=e39]: We've sent a confirmation link to your email address. Please click the link to verify your account.
+    - link "Back to sign in" [ref=e57] [cursor=pointer]:
+      - /url: /login?redirect=%2Fsaved
+  - generic [ref=e23]:
+    - generic [ref=e24]: "Server: ok"
+    - generic [ref=e25]: "Uptime: 655s"
+  - button "Open Next.js Dev Tools" [ref=e31] [cursor=pointer]:
+    - img [ref=e32]
+  - alert [ref=e35]: Create Account

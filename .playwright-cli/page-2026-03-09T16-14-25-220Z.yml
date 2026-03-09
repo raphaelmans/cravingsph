@@ -1,0 +1,235 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - img [ref=e134]
+        - generic [ref=e9]:
+          - paragraph [ref=e138]: Codex QA Org 1773072231
+          - paragraph [ref=e139]: member
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: Setup
+          - list [ref=e16]:
+            - listitem [ref=e17]:
+              - link "Get Started" [ref=e18] [cursor=pointer]:
+                - /url: /organization/get-started
+                - img [ref=e19]
+                - generic [ref=e24]: Get Started
+        - generic [ref=e25]:
+          - generic [ref=e26]: Overview
+          - list [ref=e28]:
+            - listitem [ref=e29]:
+              - link "Dashboard" [ref=e30] [cursor=pointer]:
+                - /url: /organization
+                - img [ref=e31]
+                - generic [ref=e36]: Dashboard
+        - generic [ref=e37]:
+          - generic [ref=e38]: Restaurants
+          - list [ref=e40]:
+            - listitem [ref=e42]:
+              - link "Restaurants" [ref=e43] [cursor=pointer]:
+                - /url: /organization/restaurants
+                - img [ref=e44]
+                - generic [ref=e48]: Restaurants
+              - button [expanded] [ref=e140]:
+                - img [ref=e141]
+              - list [ref=e50]:
+                - listitem [ref=e144]:
+                  - link "QA Test Kitchen 1773072231" [ref=e145] [cursor=pointer]:
+                    - /url: /organization/restaurants/36fe405f-6aef-4065-93a7-c9fd40aa4c49
+                    - generic [ref=e146]: QA Test Kitchen 1773072231
+                  - button [ref=e147]:
+                    - img [ref=e148]
+        - generic [ref=e51]:
+          - generic [ref=e52]: Orders
+          - list [ref=e54]:
+            - listitem [ref=e55]:
+              - link "Orders" [ref=e56] [cursor=pointer]:
+                - /url: /organization/orders
+                - img [ref=e57]
+                - generic [ref=e60]: Orders
+        - generic [ref=e61]:
+          - generic [ref=e62]: Finance
+          - list [ref=e64]:
+            - listitem [ref=e65]:
+              - link "Payments" [ref=e66] [cursor=pointer]:
+                - /url: /organization/payments
+                - img [ref=e67]
+                - generic [ref=e69]: Payments
+        - generic [ref=e70]:
+          - generic [ref=e71]: Organization
+          - list [ref=e73]:
+            - listitem [ref=e74]:
+              - link "Team" [ref=e75] [cursor=pointer]:
+                - /url: /organization/team
+                - img [ref=e76]
+                - generic [ref=e81]: Team
+            - listitem [ref=e82]:
+              - link "Verification" [ref=e83] [cursor=pointer]:
+                - /url: /organization/verify
+                - img [ref=e84]
+                - generic [ref=e87]: Verification
+            - listitem [ref=e88]:
+              - link "Settings" [ref=e89] [cursor=pointer]:
+                - /url: /organization/settings
+                - img [ref=e90]
+                - generic [ref=e93]: Settings
+        - generic [ref=e94]:
+          - generic [ref=e95]: Account
+          - list [ref=e97]:
+            - listitem [ref=e98]:
+              - link "Profile" [ref=e99] [cursor=pointer]:
+                - /url: /organization/profile
+                - img [ref=e100]
+                - generic [ref=e103]: Profile
+      - button "C codex+1773072231@example.com" [ref=e150]:
+        - generic [ref=e152]: C
+        - paragraph [ref=e154]: codex+1773072231@example.com
+      - button "Toggle Sidebar" [ref=e105]
+    - main [ref=e106]:
+      - generic [ref=e107]:
+        - generic [ref=e273]:
+          - button "Toggle Sidebar" [ref=e274]:
+            - img
+            - generic [ref=e275]: Toggle Sidebar
+          - navigation "breadcrumb" [ref=e276]:
+            - list [ref=e277]:
+              - listitem [ref=e278]:
+                - link "Restaurants" [ref=e279] [cursor=pointer]:
+                  - /url: /organization/restaurants
+              - listitem [ref=e280]:
+                - listitem [ref=e281]:
+                  - img [ref=e282]
+                - link "QA Test Kitchen 1773072231" [ref=e284] [cursor=pointer]:
+                  - /url: /organization/restaurants/36fe405f-6aef-4065-93a7-c9fd40aa4c49
+              - listitem [ref=e285]:
+                - listitem [ref=e286]:
+                  - img [ref=e287]
+                - link "Branches" [disabled] [ref=e289]
+          - link "Restaurant Profile" [ref=e291] [cursor=pointer]:
+            - /url: /organization/restaurants/36fe405f-6aef-4065-93a7-c9fd40aa4c49
+            - img
+            - text: Restaurant Profile
+        - generic [ref=e292]:
+          - generic [ref=e293]:
+            - heading "QA Test Kitchen 1773072231 Branches" [level=1] [ref=e294]
+            - paragraph [ref=e295]: Manage each branch independently. Branch pages control menus, order inboxes, and branch-specific settings.
+          - generic [ref=e296]:
+            - generic [ref=e298]:
+              - img [ref=e300]
+              - generic [ref=e307]:
+                - paragraph [ref=e308]: Branches
+                - paragraph [ref=e309]: "1"
+            - generic [ref=e311]:
+              - img [ref=e313]
+              - generic [ref=e315]:
+                - paragraph [ref=e316]: Ordering live
+                - paragraph [ref=e317]: "1"
+            - generic [ref=e319]:
+              - img [ref=e321]
+              - generic [ref=e324]:
+                - paragraph [ref=e325]: Auto-accept enabled
+                - paragraph [ref=e326]: "0"
+          - generic [ref=e327]:
+            - generic [ref=e328]:
+              - generic [ref=e329]:
+                - heading "Branch directory" [level=2] [ref=e330]
+                - paragraph [ref=e331]: Each branch has its own menu, order inbox, QR materials, and operating rules.
+              - generic [ref=e333]:
+                - generic [ref=e335]:
+                  - generic [ref=e336]:
+                    - generic [ref=e337]: Main Branch
+                    - paragraph [ref=e338]: Quezon City, Metro Manila
+                  - generic [ref=e339]:
+                    - generic [ref=e340]: Active
+                    - generic [ref=e341]: Ordering live
+                - generic [ref=e342]:
+                  - generic [ref=e343]:
+                    - generic [ref=e344]:
+                      - generic [ref=e345]:
+                        - img [ref=e346]
+                        - text: Address
+                      - generic [ref=e349]:
+                        - paragraph [ref=e350]: Address not added
+                        - paragraph [ref=e351]: Phone not added
+                    - generic [ref=e352]:
+                      - generic [ref=e353]:
+                        - img [ref=e354]
+                        - text: Order rules
+                      - generic [ref=e357]:
+                        - paragraph [ref=e358]: Manual acceptance
+                        - paragraph [ref=e359]: 15 minute payment timer
+                  - generic [ref=e360]: "Branch slug: main-branch"
+                - generic [ref=e361]:
+                  - link "Edit Branch" [ref=e362] [cursor=pointer]:
+                    - /url: /organization/restaurants/36fe405f-6aef-4065-93a7-c9fd40aa4c49/branches/dd9297ad-5ec0-44d7-8f44-b9e2b3705898
+                    - img
+                    - text: Edit Branch
+                  - link "Settings" [ref=e363] [cursor=pointer]:
+                    - /url: /organization/restaurants/36fe405f-6aef-4065-93a7-c9fd40aa4c49/branches/dd9297ad-5ec0-44d7-8f44-b9e2b3705898/settings
+                    - img
+                    - text: Settings
+                  - link "Menu" [ref=e364] [cursor=pointer]:
+                    - /url: /organization/restaurants/36fe405f-6aef-4065-93a7-c9fd40aa4c49/branches/dd9297ad-5ec0-44d7-8f44-b9e2b3705898/menu
+                  - link "Orders" [ref=e365] [cursor=pointer]:
+                    - /url: /organization/restaurants/36fe405f-6aef-4065-93a7-c9fd40aa4c49/branches/dd9297ad-5ec0-44d7-8f44-b9e2b3705898/orders
+                    - img
+                    - text: Orders
+                  - link "Public Page" [ref=e366] [cursor=pointer]:
+                    - /url: /restaurant/qa-test-kitchen-1773072231
+                    - img
+                    - text: Public Page
+            - generic [ref=e368]:
+              - generic [ref=e370]:
+                - img [ref=e372]
+                - generic [ref=e375]:
+                  - generic [ref=e376]: Add Branch
+                  - generic [ref=e377]: Create a branch location so you can configure menus, order acceptance, and QR setup.
+              - generic [ref=e379]:
+                - generic [ref=e380]:
+                  - generic [ref=e381]: Branch Name
+                  - textbox "Branch Name" [ref=e382]:
+                    - /placeholder: e.g. Main Branch
+                - generic [ref=e383]:
+                  - generic [ref=e384]:
+                    - text: Street Address
+                    - generic [ref=e385]: (optional)
+                  - textbox "Street Address (optional)" [ref=e386]:
+                    - /placeholder: e.g. 123 Rizal St., Brgy. San Antonio
+                - generic [ref=e387]:
+                  - generic [ref=e388]:
+                    - generic [ref=e389]:
+                      - text: Province
+                      - generic [ref=e390]: (optional)
+                    - textbox "Province (optional)" [ref=e391]:
+                      - /placeholder: e.g. Metro Manila
+                  - generic [ref=e392]:
+                    - generic [ref=e393]:
+                      - text: City
+                      - generic [ref=e394]: (optional)
+                    - textbox "City (optional)" [ref=e395]:
+                      - /placeholder: e.g. Makati
+                - generic [ref=e396]:
+                  - generic [ref=e397]:
+                    - text: Phone
+                    - generic [ref=e398]: (optional)
+                  - textbox "Phone (optional)" [ref=e399]:
+                    - /placeholder: 09XX XXX XXXX
+                - button "Add Branch" [ref=e400]
+  - generic [ref=e124]:
+    - generic [ref=e270]: "Server: ok"
+    - generic [ref=e271]: "Uptime: 1266s"
+  - generic [ref=e129] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e130]:
+      - img [ref=e131]
+    - generic [ref=e401]:
+      - button "Open issues overlay" [ref=e402]:
+        - generic [ref=e403]:
+          - generic [ref=e404]: "1"
+          - generic [ref=e405]: "2"
+        - generic [ref=e406]:
+          - text: Issue
+          - generic [ref=e407]: s
+      - button "Collapse issues badge" [ref=e408]:
+        - img [ref=e409]
+  - alert [ref=e272]

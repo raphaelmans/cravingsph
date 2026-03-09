@@ -1,0 +1,16 @@
+[   16623ms] [ERROR] %o
+
+%s TRPCError: Restaurant not found
+    at RestaurantService.getBySlug (about://React/Server/file:///Users/raphaelm/Documents/Coding/startups/cravingsph/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__91a35a22._.js?128:3165:19)
+    at  resolveMiddleware (about://React/Server/file:///Users/raphaelm/Documents/Coding/startups/cravingsph/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__929eda50._.js?129:1768:30)
+    at  callRecursive (about://React/Server/file:///Users/raphaelm/Documents/Coding/startups/cravingsph/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__929eda50._.js?130:1804:24)
+    at  callRecursive (about://React/Server/file:///Users/raphaelm/Documents/Coding/startups/cravingsph/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__929eda50._.js?130:1804:24)
+    at <anonymous> (about://React/Server/file:///Users/raphaelm/Documents/Coding/startups/cravingsph/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__91a35a22._.js?131:1623:24)
+    at  callRecursive (about://React/Server/file:///Users/raphaelm/Documents/Coding/startups/cravingsph/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__929eda50._.js?130:1804:24)
+    at  procedure (about://React/Server/file:///Users/raphaelm/Documents/Coding/startups/cravingsph/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__929eda50._.js?132:1829:24)
+    at <anonymous> (about://React/Server/file:///Users/raphaelm/Documents/Coding/startups/cravingsph/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__929eda50._.js?133:1414:28)
+    at resolveErrorDev (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:1881:148)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:2389:29)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:2348:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:2457:221)
+    at progress (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:2625:13) The above error occurred in the <RestaurantPage> component. It was handled by the <ErrorBoundaryHandler> error boundary. @ http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:1342

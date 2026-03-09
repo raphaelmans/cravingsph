@@ -1,0 +1,96 @@
+# Session Handoff
+
+_Generated: 2026-03-09 15:35:34 UTC_
+
+## Git Context
+
+- **Branch:** `main`
+- **HEAD:** 5037258: chore: auto-commit before merge (loop primary)
+
+## Tasks
+
+### Completed
+
+- [x] Step 1a: Route groups + layout files — create (public), (owner), (admin) route groups with layout shells, migrate (protected) to (owner)
+- [x] Step 1b: Brand components — back-button, cover-image, empty-state, required-badge, optional-badge
+- [x] Step 1c: Layout components — customer-shell, customer-header, dashboard-shell, dashboard-navbar
+- [x] Step 1d: Route config — expand app-routes.ts with all portal routes
+- [x] Step 2a: Restaurant page route + header + server caller
+- [x] Step 2b: Category tabs + menu display components
+- [x] Step 2c: Menu item sheet + modifiers
+- [x] Step 2d: Menu search sheet
+- [x] Step 3a: Cart store — Zustand with persist, smart merging, branch scoping, selectors
+- [x] Step 3b: Cart UI — floating button, drawer, cart item, summary
+- [x] Step 3c: Wire cart to menu — connect store to RestaurantMenu, inline quantity pickers, floating button rendering
+- [x] Step 4a: Checkout sheet — OrderTypeSelector, adaptive form, wire to cart drawer
+- [x] Step 4b: Order confirmation sheet + wire full checkout flow
+- [x] Step 4b: Order confirmation sheet + wire full checkout flow
+- [x] Step 5a: PaymentMethodCard + PaymentCountdown presentational components
+- [x] Step 5b: PaymentProofForm with validation
+- [x] Step 5c: PaymentSheet + wire to checkout flow
+- [x] Step 6a: Build order-tracking presentational components (StatusStep, OrderStatusTracker, OrderDetails)
+- [x] Step 6b: Build order tracking page route with stub data and PaymentSheet wiring
+- [x] Step 7a: Discovery presentational components — HeroSection, CuisinePill, RestaurantCard, RestaurantCardList, ScanQRCTA
+- [x] Step 7b: Discovery home page — compose components with stub data
+- [x] Step 7c: Search page — LocationFilter, CuisineFilter, search results with stub data
+- [x] Step 8: Owner registration page + post-login smart routing
+- [x] Step 9a: Enhanced OwnerSidebar — collapsible Restaurant→Branch hierarchy, SidebarHeader with org name, NavUser footer
+- [x] Step 9b: Owner layout org gate — redirect to get-started if no org
+- [x] Step 9c: Owner dashboard page — stat cards + quick links
+- [x] Step 10a: Onboarding hub page — SetupCard grid + progress, rewrite get-started
+- [x] Step 10b: Onboarding wizard page — WizardProgress + WizardStep + 7 step forms
+- [x] Step 11a: Menu management page + item cards + category tabs + availability toggle
+- [x] Step 11b: AddCategoryDialog + delete category
+- [x] Step 11c: AddItemDialog + EditItemDialog
+- [x] Step 11d: VariantsDialog + ModifierGroupDialog
+- [x] Step 12a: Order management types + OrderRow + OrderDashboardTabs + dashboard page
+- [x] Step 12b: OrderDetail + AcceptRejectActions + StatusUpdateDropdown + detail page
+- [x] Step 12c: PaymentProofReview + OrderTimeline
+- [x] Step 13c: owner branch settings page
+- [x] Step 13a: owner payment config page
+- [x] Step 13d: owner verification page
+- [x] Step 13e: owner restaurant and branch CRUD pages
+- [x] Fix: /search suspense boundary build failure
+- [x] Step 14b: Admin verification queue + review
+- [x] Step 14c: Admin restaurant management pages
+- [x] Step 14d: Admin user management page
+- [x] Step 15a: Order history, reorder, and review flow
+- [x] Step 15b: Saved restaurants page
+- [x] Step 15c: Customer account page
+- [x] Step 16: Polish pass
+
+
+## Key Files
+
+Recently modified:
+
+- `.gitignore`
+- `.playwright-cli/page-2026-03-09T12-26-47-602Z.yml`
+- `.playwright-cli/page-2026-03-09T12-28-37-642Z.yml`
+- `.playwright-cli/page-2026-03-09T12-30-31-276Z.yml`
+- `.playwright-cli/page-2026-03-09T12-30-44-665Z.yml`
+- `.ralph/agent/memories.md`
+- `.ralph/agent/memories.md.lock`
+- `.ralph/agent/scratchpad.md`
+- `.ralph/agent/summary.md`
+- `.ralph/agent/tasks.jsonl`
+
+## Next Session
+
+Session completed successfully. No pending work.
+
+**Original objective:**
+
+```
+# CravingsPH — Frontend UI Scaffold
+
+## Objective
+
+Scaffold the complete frontend for CravingsPH: all pages, components, route wirings, and state management across three portals (Customer, Owner, Admin) covering all 7 PRD phases. Use shadcn/ui with the established design system.
+
+## Spec Directory
+
+All design artifacts are in `specs/frontend-ui-scaffold/`:
+- `design.md` — **primary reference**: routes, component trees, state, interfaces
+- `plan.md` — 16-step implementation plan (follow in ...
+```

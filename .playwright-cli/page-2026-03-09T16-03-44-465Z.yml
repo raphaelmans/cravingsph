@@ -1,0 +1,33 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: Sign In
+      - generic [ref=e6]: Enter your credentials to access your account
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - button "Continue with Google" [ref=e9]:
+          - generic [ref=e10]:
+            - img
+            - text: Continue with Google
+        - generic [ref=e11]:
+          - generic [ref=e12]: Email
+          - textbox "Email" [ref=e13]:
+            - /placeholder: you@example.com
+        - generic [ref=e14]:
+          - generic [ref=e15]: Password
+          - textbox "Password" [ref=e16]:
+            - /placeholder: Enter your password
+      - generic [ref=e17]:
+        - button "Sign In" [ref=e18]
+        - generic [ref=e19]:
+          - text: Don't have an account?
+          - link "Sign up" [ref=e20] [cursor=pointer]:
+            - /url: /register?redirect=%2Fsaved
+        - link "Sign in with magic link" [ref=e22] [cursor=pointer]:
+          - /url: /magic-link?redirect=%2Fsaved
+  - generic [ref=e23]:
+    - generic [ref=e24]: "Server: ok"
+    - generic [ref=e25]: "Uptime: 655s"
+  - button "Open Next.js Dev Tools" [ref=e31] [cursor=pointer]:
+    - img [ref=e32]
+  - alert [ref=e35]

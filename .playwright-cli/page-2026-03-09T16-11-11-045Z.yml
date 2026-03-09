@@ -1,0 +1,127 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - img [ref=e118]
+        - paragraph [ref=e122]: Dashboard
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: Setup
+          - list [ref=e16]:
+            - listitem [ref=e17]:
+              - link "Get Started" [ref=e18] [cursor=pointer]:
+                - /url: /organization/get-started
+                - img [ref=e19]
+                - generic [ref=e24]: Get Started
+        - generic [ref=e25]:
+          - generic [ref=e26]: Overview
+          - list [ref=e28]:
+            - listitem [ref=e29]:
+              - link "Dashboard" [ref=e30] [cursor=pointer]:
+                - /url: /organization
+                - img [ref=e31]
+                - generic [ref=e36]: Dashboard
+        - generic [ref=e37]:
+          - generic [ref=e38]: Restaurants
+          - list [ref=e40]:
+            - listitem [ref=e42]:
+              - link "Restaurants" [ref=e43] [cursor=pointer]:
+                - /url: /organization/restaurants
+                - img [ref=e44]
+                - generic [ref=e48]: Restaurants
+        - generic [ref=e49]:
+          - generic [ref=e50]: Orders
+          - list [ref=e52]:
+            - listitem [ref=e53]:
+              - link "Orders" [ref=e54] [cursor=pointer]:
+                - /url: /organization/orders
+                - img [ref=e55]
+                - generic [ref=e58]: Orders
+        - generic [ref=e59]:
+          - generic [ref=e60]: Finance
+          - list [ref=e62]:
+            - listitem [ref=e63]:
+              - link "Payments" [ref=e64] [cursor=pointer]:
+                - /url: /organization/payments
+                - img [ref=e65]
+                - generic [ref=e67]: Payments
+        - generic [ref=e68]:
+          - generic [ref=e69]: Organization
+          - list [ref=e71]:
+            - listitem [ref=e72]:
+              - link "Team" [ref=e73] [cursor=pointer]:
+                - /url: /organization/team
+                - img [ref=e74]
+                - generic [ref=e79]: Team
+            - listitem [ref=e80]:
+              - link "Verification" [ref=e81] [cursor=pointer]:
+                - /url: /organization/verify
+                - img [ref=e82]
+                - generic [ref=e85]: Verification
+            - listitem [ref=e86]:
+              - link "Settings" [ref=e87] [cursor=pointer]:
+                - /url: /organization/settings
+                - img [ref=e88]
+                - generic [ref=e91]: Settings
+        - generic [ref=e92]:
+          - generic [ref=e93]: Account
+          - list [ref=e95]:
+            - listitem [ref=e96]:
+              - link "Profile" [ref=e97] [cursor=pointer]:
+                - /url: /organization/profile
+                - img [ref=e98]
+                - generic [ref=e101]: Profile
+      - button "C codex+1773072231@example.com" [ref=e123]:
+        - generic [ref=e125]: C
+        - paragraph [ref=e127]: codex+1773072231@example.com
+      - button "Toggle Sidebar" [ref=e103]
+    - main [ref=e104]:
+      - generic [ref=e106]:
+        - generic [ref=e128]:
+          - link "Back to setup hub" [ref=e129] [cursor=pointer]:
+            - /url: /organization/get-started
+            - img
+            - generic [ref=e130]: Back to setup hub
+          - heading "Setup Wizard" [level=1] [ref=e131]
+          - generic [ref=e132]: Step 1 of 7
+        - navigation "Onboarding progress" [ref=e133]:
+          - list [ref=e134]:
+            - listitem [ref=e135]:
+              - generic [ref=e137]: "1"
+              - generic [ref=e139]: Organization
+            - listitem [ref=e140]:
+              - generic [ref=e143]: "2"
+              - generic [ref=e145]: Restaurant
+            - listitem [ref=e146]:
+              - generic [ref=e149]: "3"
+              - generic [ref=e151]: Branch
+            - listitem [ref=e152]:
+              - generic [ref=e154]: "4"
+              - generic [ref=e155]: Menu
+            - listitem [ref=e156]:
+              - generic [ref=e159]: "5"
+              - generic [ref=e161]: Payments
+            - listitem [ref=e162]:
+              - generic [ref=e165]: "6"
+              - generic [ref=e167]: Verification
+            - listitem [ref=e168]:
+              - generic [ref=e171]: "7"
+              - generic [ref=e172]: Complete
+        - generic [ref=e174]:
+          - generic [ref=e176]:
+            - img [ref=e178]
+            - generic [ref=e182]:
+              - generic [ref=e183]: Create Organization
+              - generic [ref=e184]: Your organization is the parent entity for all your restaurants
+          - generic [ref=e186]:
+            - generic [ref=e187]:
+              - generic [ref=e188]: Organization Name
+              - textbox "Organization Name" [ref=e189]:
+                - /placeholder: e.g. Juan's Food Group
+            - button "Create Organization" [ref=e190]
+  - generic [ref=e107]:
+    - generic [ref=e191]: "Server: ok"
+    - generic [ref=e192]: "Uptime: 1084s"
+  - button "Open Next.js Dev Tools" [ref=e113] [cursor=pointer]:
+    - img [ref=e114]
+  - alert [ref=e117]

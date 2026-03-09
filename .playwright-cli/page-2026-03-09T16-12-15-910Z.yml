@@ -1,0 +1,159 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - img [ref=e193]
+        - generic [ref=e9]:
+          - paragraph [ref=e197]: Codex QA Org 1773072231
+          - paragraph [ref=e198]: member
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: Setup
+          - list [ref=e16]:
+            - listitem [ref=e17]:
+              - link "Get Started" [ref=e18] [cursor=pointer]:
+                - /url: /organization/get-started
+                - img [ref=e19]
+                - generic [ref=e24]: Get Started
+        - generic [ref=e25]:
+          - generic [ref=e26]: Overview
+          - list [ref=e28]:
+            - listitem [ref=e29]:
+              - link "Dashboard" [ref=e30] [cursor=pointer]:
+                - /url: /organization
+                - img [ref=e31]
+                - generic [ref=e36]: Dashboard
+        - generic [ref=e37]:
+          - generic [ref=e38]: Restaurants
+          - list [ref=e40]:
+            - listitem [ref=e42]:
+              - link "Restaurants" [ref=e43] [cursor=pointer]:
+                - /url: /organization/restaurants
+                - img [ref=e44]
+                - generic [ref=e48]: Restaurants
+              - button [ref=e288]:
+                - img [ref=e289]
+        - generic [ref=e49]:
+          - generic [ref=e50]: Orders
+          - list [ref=e52]:
+            - listitem [ref=e53]:
+              - link "Orders" [ref=e54] [cursor=pointer]:
+                - /url: /organization/orders
+                - img [ref=e55]
+                - generic [ref=e58]: Orders
+        - generic [ref=e59]:
+          - generic [ref=e60]: Finance
+          - list [ref=e62]:
+            - listitem [ref=e63]:
+              - link "Payments" [ref=e64] [cursor=pointer]:
+                - /url: /organization/payments
+                - img [ref=e65]
+                - generic [ref=e67]: Payments
+        - generic [ref=e68]:
+          - generic [ref=e69]: Organization
+          - list [ref=e71]:
+            - listitem [ref=e72]:
+              - link "Team" [ref=e73] [cursor=pointer]:
+                - /url: /organization/team
+                - img [ref=e74]
+                - generic [ref=e79]: Team
+            - listitem [ref=e80]:
+              - link "Verification" [ref=e81] [cursor=pointer]:
+                - /url: /organization/verify
+                - img [ref=e82]
+                - generic [ref=e85]: Verification
+            - listitem [ref=e86]:
+              - link "Settings" [ref=e87] [cursor=pointer]:
+                - /url: /organization/settings
+                - img [ref=e88]
+                - generic [ref=e91]: Settings
+        - generic [ref=e92]:
+          - generic [ref=e93]: Account
+          - list [ref=e95]:
+            - listitem [ref=e96]:
+              - link "Profile" [ref=e97] [cursor=pointer]:
+                - /url: /organization/profile
+                - img [ref=e98]
+                - generic [ref=e101]: Profile
+      - button "C codex+1773072231@example.com" [ref=e123]:
+        - generic [ref=e125]: C
+        - paragraph [ref=e127]: codex+1773072231@example.com
+      - button "Toggle Sidebar" [ref=e103]
+    - main [ref=e104]:
+      - generic [ref=e106]:
+        - generic [ref=e291]:
+          - link "Back to setup hub" [ref=e292] [cursor=pointer]:
+            - /url: /organization/get-started
+            - img
+            - generic [ref=e293]: Back to setup hub
+          - heading "Setup Wizard" [level=1] [ref=e294]
+          - generic [ref=e295]: Step 3 of 7
+        - navigation "Onboarding progress" [ref=e296]:
+          - list [ref=e297]:
+            - listitem [ref=e298]:
+              - img [ref=e301]
+              - generic [ref=e304]: Organization
+            - listitem [ref=e305]:
+              - img [ref=e309]
+              - generic [ref=e312]: Restaurant
+            - listitem [ref=e313]:
+              - generic [ref=e316]: "3"
+              - generic [ref=e318]: Branch
+            - listitem [ref=e319]:
+              - generic [ref=e322]: "4"
+              - generic [ref=e324]: Menu
+            - listitem [ref=e325]:
+              - generic [ref=e328]: "5"
+              - generic [ref=e330]: Payments
+            - listitem [ref=e331]:
+              - generic [ref=e334]: "6"
+              - generic [ref=e336]: Verification
+            - listitem [ref=e337]:
+              - generic [ref=e340]: "7"
+              - generic [ref=e341]: Complete
+        - generic [ref=e343]:
+          - generic [ref=e345]:
+            - img [ref=e347]
+            - generic [ref=e350]:
+              - generic [ref=e351]: Add Branch
+              - generic [ref=e352]: Set up your first branch location
+          - generic [ref=e354]:
+            - generic [ref=e355]:
+              - generic [ref=e356]: Branch Name
+              - textbox "Branch Name" [ref=e357]:
+                - /placeholder: e.g. Main Branch
+            - generic [ref=e358]:
+              - generic [ref=e359]:
+                - text: Street Address
+                - generic [ref=e360]: (optional)
+              - textbox "Street Address (optional)" [ref=e361]:
+                - /placeholder: e.g. 123 Rizal St., Brgy. San Antonio
+            - generic [ref=e362]:
+              - generic [ref=e363]:
+                - generic [ref=e364]:
+                  - text: Province
+                  - generic [ref=e365]: (optional)
+                - textbox "Province (optional)" [ref=e366]:
+                  - /placeholder: e.g. Metro Manila
+              - generic [ref=e367]:
+                - generic [ref=e368]:
+                  - text: City
+                  - generic [ref=e369]: (optional)
+                - textbox "City (optional)" [ref=e370]:
+                  - /placeholder: e.g. Makati
+            - generic [ref=e371]:
+              - generic [ref=e372]:
+                - text: Phone
+                - generic [ref=e373]: (optional)
+              - textbox "Phone (optional)" [ref=e374]:
+                - /placeholder: 09XX XXX XXXX
+            - button "Add Branch" [ref=e375]
+        - button "Back" [ref=e377]:
+          - img
+          - text: Back
+  - generic [ref=e107]:
+    - generic [ref=e191]: "Server: ok"
+    - generic [ref=e192]: "Uptime: 1084s"
+  - button "Open Next.js Dev Tools" [ref=e113] [cursor=pointer]:
+    - img [ref=e114]
+  - alert [ref=e117]

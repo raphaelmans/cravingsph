@@ -1,0 +1,76 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: Setup
+          - list [ref=e16]:
+            - listitem [ref=e17]:
+              - link "Get Started" [ref=e18] [cursor=pointer]:
+                - /url: /organization/get-started
+                - img [ref=e19]
+                - generic [ref=e24]: Get Started
+        - generic [ref=e25]:
+          - generic [ref=e26]: Overview
+          - list [ref=e28]:
+            - listitem [ref=e29]:
+              - link "Dashboard" [ref=e30] [cursor=pointer]:
+                - /url: /organization
+                - img [ref=e31]
+                - generic [ref=e36]: Dashboard
+        - generic [ref=e37]:
+          - generic [ref=e38]: Restaurants
+          - list [ref=e40]:
+            - listitem [ref=e42]:
+              - link "Restaurants" [ref=e43] [cursor=pointer]:
+                - /url: /organization/restaurants
+                - img [ref=e44]
+                - generic [ref=e48]: Restaurants
+        - generic [ref=e49]:
+          - generic [ref=e50]: Orders
+          - list [ref=e52]:
+            - listitem [ref=e53]:
+              - link "Orders" [ref=e54] [cursor=pointer]:
+                - /url: /organization/orders
+                - img [ref=e55]
+                - generic [ref=e58]: Orders
+        - generic [ref=e59]:
+          - generic [ref=e60]: Finance
+          - list [ref=e62]:
+            - listitem [ref=e63]:
+              - link "Payments" [ref=e64] [cursor=pointer]:
+                - /url: /organization/payments
+                - img [ref=e65]
+                - generic [ref=e67]: Payments
+        - generic [ref=e68]:
+          - generic [ref=e69]: Organization
+          - list [ref=e71]:
+            - listitem [ref=e72]:
+              - link "Team" [ref=e73] [cursor=pointer]:
+                - /url: /organization/team
+                - img [ref=e74]
+                - generic [ref=e79]: Team
+            - listitem [ref=e80]:
+              - link "Verification" [ref=e81] [cursor=pointer]:
+                - /url: /organization/verify
+                - img [ref=e82]
+                - generic [ref=e85]: Verification
+            - listitem [ref=e86]:
+              - link "Settings" [ref=e87] [cursor=pointer]:
+                - /url: /organization/settings
+                - img [ref=e88]
+                - generic [ref=e91]: Settings
+        - generic [ref=e92]:
+          - generic [ref=e93]: Account
+          - list [ref=e95]:
+            - listitem [ref=e96]:
+              - link "Profile" [ref=e97] [cursor=pointer]:
+                - /url: /organization/profile
+                - img [ref=e98]
+                - generic [ref=e101]: Profile
+      - button "Toggle Sidebar" [ref=e103]
+    - main [ref=e104]
+  - generic [ref=e107]: Checking health...
+  - button "Open Next.js Dev Tools" [ref=e113] [cursor=pointer]:
+    - img [ref=e114]
+  - alert [ref=e117]

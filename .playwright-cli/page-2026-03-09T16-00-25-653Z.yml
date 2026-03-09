@@ -1,0 +1,160 @@
+- generic [ref=e1]:
+  - main [ref=e3]:
+    - main [ref=e4]:
+      - generic [ref=e5]:
+        - img "cravings" [ref=e6]:
+          - text: crav
+          - generic [ref=e7]:
+            - text: ı
+            - img [ref=e8]
+          - text: ngs
+        - paragraph [ref=e11]: Craving for something?
+        - generic [ref=e13]:
+          - img [ref=e14]
+          - searchbox "Search restaurants or dishes..." [ref=e17]: Jollibee
+      - generic [ref=e22]:
+        - link "Filipino" [ref=e23] [cursor=pointer]:
+          - /url: /search?cuisine=filipino
+          - generic [ref=e24]: 🇵🇭
+          - text: Filipino
+        - link "Chicken" [ref=e25] [cursor=pointer]:
+          - /url: /search?cuisine=chicken
+          - generic [ref=e26]: 🍗
+          - text: Chicken
+        - link "Rice Meals" [ref=e27] [cursor=pointer]:
+          - /url: /search?cuisine=rice-meals
+          - generic [ref=e28]: 🍚
+          - text: Rice Meals
+        - link "Seafood" [ref=e29] [cursor=pointer]:
+          - /url: /search?cuisine=seafood
+          - generic [ref=e30]: 🦐
+          - text: Seafood
+        - link "BBQ" [ref=e31] [cursor=pointer]:
+          - /url: /search?cuisine=bbq
+          - generic [ref=e32]: 🍖
+          - text: BBQ
+        - link "Desserts" [ref=e33] [cursor=pointer]:
+          - /url: /search?cuisine=desserts
+          - generic [ref=e34]: 🍧
+          - text: Desserts
+        - link "Coffee" [ref=e35] [cursor=pointer]:
+          - /url: /search?cuisine=coffee
+          - generic [ref=e36]: ☕
+          - text: Coffee
+        - link "Milk Tea" [ref=e37] [cursor=pointer]:
+          - /url: /search?cuisine=milk-tea
+          - generic [ref=e38]: 🧃
+          - text: Milk Tea
+        - link "Street Food" [ref=e39] [cursor=pointer]:
+          - /url: /search?cuisine=street-food
+          - generic [ref=e40]: 🍢
+          - text: Street Food
+        - link "Burgers" [ref=e41] [cursor=pointer]:
+          - /url: /search?cuisine=burgers
+          - generic [ref=e42]: 🍔
+          - text: Burgers
+      - generic [ref=e44]:
+        - heading "Featured near you" [level=2] [ref=e45]
+        - generic [ref=e49]:
+          - link "M Mang Inasal Filipino Chicken Chicken Inasal Paa · Pork BBQ · Halo-Halo" [ref=e52] [cursor=pointer]:
+            - /url: /restaurant/mang-inasal-sm-north
+            - generic [ref=e55]: M
+            - generic [ref=e56]:
+              - heading "Mang Inasal" [level=3] [ref=e57]
+              - generic [ref=e58]:
+                - generic [ref=e59]: Filipino
+                - generic [ref=e60]: Chicken
+              - paragraph [ref=e61]: Chicken Inasal Paa · Pork BBQ · Halo-Halo
+          - link "J Jollibee Filipino Fast Food Chickenjoy · Jolly Spaghetti · Yumburger" [ref=e64] [cursor=pointer]:
+            - /url: /restaurant/jollibee-katipunan
+            - generic [ref=e67]: J
+            - generic [ref=e68]:
+              - heading "Jollibee" [level=3] [ref=e69]
+              - generic [ref=e70]:
+                - generic [ref=e71]: Filipino
+                - generic [ref=e72]: Fast Food
+              - paragraph [ref=e73]: Chickenjoy · Jolly Spaghetti · Yumburger
+          - link "A Andok's Filipino Chicken Litson Manok · Dokito · Pork BBQ" [ref=e76] [cursor=pointer]:
+            - /url: /restaurant/andoks-commonwealth
+            - generic [ref=e79]: A
+            - generic [ref=e80]:
+              - heading "Andok's" [level=3] [ref=e81]
+              - generic [ref=e82]:
+                - generic [ref=e83]: Filipino
+                - generic [ref=e84]: Chicken
+              - paragraph [ref=e85]: Litson Manok · Dokito · Pork BBQ
+          - link "K Kuya J Restaurant Filipino Seafood Crispy Pata · Baked Scallops · Sinigang na Hipon" [ref=e88] [cursor=pointer]:
+            - /url: /restaurant/kuya-j-ayala
+            - generic [ref=e91]: K
+            - generic [ref=e92]:
+              - heading "Kuya J Restaurant" [level=3] [ref=e93]
+              - generic [ref=e94]:
+                - generic [ref=e95]: Filipino
+                - generic [ref=e96]: Seafood
+              - paragraph [ref=e97]: Crispy Pata · Baked Scallops · Sinigang na Hipon
+      - generic [ref=e99]:
+        - heading "Nearby restaurants" [level=2] [ref=e100]
+        - generic [ref=e101]:
+          - link "L Lugawan sa Kanto Filipino Street Food Lugaw · Tokwa't Baboy · Goto" [ref=e103] [cursor=pointer]:
+            - /url: /restaurant/lugawan-sa-kanto
+            - generic [ref=e106]: L
+            - generic [ref=e107]:
+              - heading "Lugawan sa Kanto" [level=3] [ref=e108]
+              - generic [ref=e109]:
+                - generic [ref=e110]: Filipino
+                - generic [ref=e111]: Street Food
+              - paragraph [ref=e112]: Lugaw · Tokwa't Baboy · Goto
+          - link "M Meryendahan ni Ate Filipino Desserts Turon · Banana Cue · Biko" [ref=e114] [cursor=pointer]:
+            - /url: /restaurant/meryendahan-ni-ate
+            - generic [ref=e117]: M
+            - generic [ref=e118]:
+              - heading "Meryendahan ni Ate" [level=3] [ref=e119]
+              - generic [ref=e120]:
+                - generic [ref=e121]: Filipino
+                - generic [ref=e122]: Desserts
+              - paragraph [ref=e123]: Turon · Banana Cue · Biko
+          - link "B Brew Coffee Co. Coffee Pastries Iced Spanish Latte · Matcha Latte · Ensaymada" [ref=e125] [cursor=pointer]:
+            - /url: /restaurant/brew-coffee-co
+            - generic [ref=e128]: B
+            - generic [ref=e129]:
+              - heading "Brew Coffee Co." [level=3] [ref=e130]
+              - generic [ref=e131]:
+                - generic [ref=e132]: Coffee
+                - generic [ref=e133]: Pastries
+              - paragraph [ref=e134]: Iced Spanish Latte · Matcha Latte · Ensaymada
+          - link "S Seafood Dampa Filipino Seafood Grilled Bangus · Sinigang na Salmon · Kare-Kare" [ref=e136] [cursor=pointer]:
+            - /url: /restaurant/seafood-dampa
+            - generic [ref=e139]: S
+            - generic [ref=e140]:
+              - heading "Seafood Dampa" [level=3] [ref=e141]
+              - generic [ref=e142]:
+                - generic [ref=e143]: Filipino
+                - generic [ref=e144]: Seafood
+              - paragraph [ref=e145]: Grilled Bangus · Sinigang na Salmon · Kare-Kare
+          - link "M Milk Tea House Milk Tea Snacks Okinawa Milk Tea · Wintermelon · Takoyaki" [ref=e147] [cursor=pointer]:
+            - /url: /restaurant/milk-tea-house
+            - generic [ref=e150]: M
+            - generic [ref=e151]:
+              - heading "Milk Tea House" [level=3] [ref=e152]
+              - generic [ref=e153]:
+                - generic [ref=e154]: Milk Tea
+                - generic [ref=e155]: Snacks
+              - paragraph [ref=e156]: Okinawa Milk Tea · Wintermelon · Takoyaki
+          - link "B BBQ Masters BBQ Filipino Pork Belly BBQ · Chicken Skewers · Java Rice" [ref=e158] [cursor=pointer]:
+            - /url: /restaurant/bbq-masters
+            - generic [ref=e161]: B
+            - generic [ref=e162]:
+              - heading "BBQ Masters" [level=3] [ref=e163]
+              - generic [ref=e164]:
+                - generic [ref=e165]: BBQ
+                - generic [ref=e166]: Filipino
+              - paragraph [ref=e167]: Pork Belly BBQ · Chicken Skewers · Java Rice
+      - button "Scan cravings QR" [active] [ref=e169]:
+        - img
+        - text: Scan cravings QR
+  - generic [ref=e170]:
+    - generic [ref=e181]: "Server: ok"
+    - generic [ref=e182]: "Uptime: 438s"
+  - button "Open Next.js Dev Tools" [ref=e176] [cursor=pointer]:
+    - img [ref=e177]
+  - alert [ref=e180]

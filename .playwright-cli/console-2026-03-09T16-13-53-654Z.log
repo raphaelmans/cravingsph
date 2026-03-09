@@ -1,0 +1,38 @@
+[   30584ms] [ERROR] In HTML, %s cannot be a descendant of <%s>.
+This will cause a hydration error.%s <li> li 
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/organizat..." tree={[...]} params={{...}} cacheNode={{rsc:<Fragment>, ...}} ...>
+          <SegmentViewNode type="page" pagePath="/Documents...">
+            <SegmentTrieNode>
+            <ClientPageRoot Component={function OwnerRestaurantBranchesPage} serverProvidedParams={{...}}>
+              <OwnerRestaurantBranchesPage params={Promise} searchParams={Promise}>
+                <DashboardNavbar breadcrumbs={[...]} actions={<Button>}>
+                  <header data-slot="dashboard-..." className="flex min-h...">
+                    <SidebarTrigger>
+                    <Separator>
+                    <Breadcrumb className="min-w-0 fl...">
+                      <nav aria-label="breadcrumb" data-slot="breadcrumb" className="min-w-0 fl...">
+                        <BreadcrumbList>
+                          <ol data-slot="breadcrumb..." className="text-muted...">
+                            <BreadcrumbItem>
+                            <BreadcrumbItem className="min-w-0">
+>                             <li data-slot="breadcrumb-item" className="inline-flex items-center gap-1.5 min-w-0">
+                                <BreadcrumbSeparator>
+>                                 <li
+>                                   data-slot="breadcrumb-separator"
+>                                   role="presentation"
+>                                   aria-hidden="true"
+>                                   className={"[&>svg]:size-3.5"}
+>                                 >
+                                ...
+                            ...
+                    ...
+                ...
+          ...
+        ...
+ @ http://localhost:3000/_next/static/chunks/03e60_next_dist_63589985._.js:3127
+[   30585ms] [ERROR] <%s> cannot contain a nested %s.
+See this log for the ancestor stack trace. li <li> @ http://localhost:3000/_next/static/chunks/03e60_next_dist_63589985._.js:3127

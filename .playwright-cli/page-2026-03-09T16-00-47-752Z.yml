@@ -1,0 +1,41 @@
+- generic [active] [ref=e1]:
+  - main [ref=e3]:
+    - main [ref=e183]:
+      - generic [ref=e184]:
+        - generic [ref=e185]:
+          - img [ref=e187]
+          - generic [ref=e189]:
+            - img "cravings" [ref=e190]:
+              - text: crav
+              - generic [ref=e191]:
+                - text: ı
+                - img [ref=e192]
+              - text: ngs
+            - generic [ref=e195]: Something interrupted the customer flow
+        - generic [ref=e196]:
+          - paragraph [ref=e197]: The page could not finish loading. You can retry the request or head back to discovery and continue browsing restaurants.
+          - generic [ref=e198]:
+            - button "Try again" [ref=e199]:
+              - img
+              - text: Try again
+            - link "Back to discovery" [ref=e200] [cursor=pointer]:
+              - /url: /
+              - img
+              - text: Back to discovery
+            - link "Search restaurants" [ref=e201] [cursor=pointer]:
+              - /url: /search
+  - generic [ref=e170]:
+    - generic [ref=e181]: "Server: ok"
+    - generic [ref=e182]: "Uptime: 438s"
+  - generic [ref=e175] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e176]:
+      - img [ref=e177]
+    - generic [ref=e202]:
+      - button "Open issues overlay" [ref=e203]:
+        - generic [ref=e204]:
+          - generic [ref=e205]: "0"
+          - generic [ref=e206]: "1"
+        - generic [ref=e207]: Issue
+      - button "Collapse issues badge" [ref=e208]:
+        - img [ref=e209]
+  - alert [ref=e180]

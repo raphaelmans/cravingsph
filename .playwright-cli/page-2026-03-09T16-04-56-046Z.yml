@@ -1,0 +1,183 @@
+- generic [active] [ref=e1]:
+  - main [ref=e59]:
+    - main [ref=e60]:
+      - generic [ref=e62]:
+        - link "Back to home" [ref=e63] [cursor=pointer]:
+          - /url: /
+          - img [ref=e64]
+        - generic [ref=e66]:
+          - paragraph [ref=e67]: Retention
+          - heading "Saved restaurants" [level=1] [ref=e68]
+      - generic [ref=e69]:
+        - generic [ref=e71]:
+          - generic [ref=e72]:
+            - paragraph [ref=e73]:
+              - img [ref=e74]
+              - text: Quick return list
+            - generic [ref=e77]:
+              - heading "Your favorite stops" [level=2] [ref=e78]
+              - paragraph [ref=e79]: Keep the restaurants you trust close to checkout, reorder from familiar kitchens, and trim the list whenever your cravings change.
+          - generic [ref=e80]:
+            - generic [ref=e81]:
+              - paragraph [ref=e82]: Saved now
+              - paragraph [ref=e83]: "3"
+            - generic [ref=e84]:
+              - paragraph [ref=e85]: Cuisine mix
+              - paragraph [ref=e86]: "5"
+            - generic [ref=e87]:
+              - paragraph [ref=e88]: Added this week
+              - paragraph [ref=e89]: "2"
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - generic [ref=e92]:
+              - generic [ref=e93]:
+                - generic [ref=e94]:
+                  - generic [ref=e95]:
+                    - generic [ref=e96]:
+                      - img
+                      - text: Saved
+                    - generic [ref=e97]: Added Mar 8
+                  - generic [ref=e98]:
+                    - heading "Mang Inasal" [level=2] [ref=e99]
+                    - paragraph [ref=e100]:
+                      - img [ref=e101]
+                      - text: SM North EDSA
+                - button "Remove Mang Inasal from saved restaurants" [ref=e104]:
+                  - img
+              - generic [ref=e105]:
+                - generic [ref=e106]: Filipino
+                - generic [ref=e107]: Chicken
+            - generic [ref=e108]:
+              - generic [ref=e109]:
+                - generic [ref=e110]:
+                  - paragraph [ref=e111]: Typical spend
+                  - generic [ref=e112]: ₱285
+                - generic [ref=e113]:
+                  - paragraph [ref=e114]: Delivery window
+                  - paragraph [ref=e115]:
+                    - img [ref=e116]
+                    - text: 20-25 min
+                - generic [ref=e119]:
+                  - paragraph [ref=e120]: Last ordered
+                  - paragraph [ref=e121]: Mar 7
+              - generic [ref=e122]:
+                - paragraph [ref=e123]: Why you saved it
+                - paragraph [ref=e124]: Reliable grilled favorites for family lunches.
+              - generic [ref=e125]:
+                - paragraph [ref=e126]: Go-to dishes
+                - generic [ref=e127]:
+                  - generic [ref=e128]: Chicken Inasal Paa
+                  - generic [ref=e129]: Pork BBQ
+                  - generic [ref=e130]: Halo-Halo
+            - generic [ref=e131]:
+              - link "View menu" [ref=e132] [cursor=pointer]:
+                - /url: /restaurant/mang-inasal-sm-north
+                - text: View menu
+                - img
+              - button "Unsave" [ref=e133]:
+                - img
+                - text: Unsave
+          - generic [ref=e134]:
+            - generic [ref=e135]:
+              - generic [ref=e136]:
+                - generic [ref=e137]:
+                  - generic [ref=e138]:
+                    - generic [ref=e139]:
+                      - img
+                      - text: Saved
+                    - generic [ref=e140]: Added Mar 7
+                  - generic [ref=e141]:
+                    - heading "Lugawan sa Kanto" [level=2] [ref=e142]
+                    - paragraph [ref=e143]:
+                      - img [ref=e144]
+                      - text: Katipunan Avenue
+                - button "Remove Lugawan sa Kanto from saved restaurants" [ref=e147]:
+                  - img
+              - generic [ref=e148]:
+                - generic [ref=e149]: Filipino
+                - generic [ref=e150]: Street Food
+            - generic [ref=e151]:
+              - generic [ref=e152]:
+                - generic [ref=e153]:
+                  - paragraph [ref=e154]: Typical spend
+                  - generic [ref=e155]: ₱160
+                - generic [ref=e156]:
+                  - paragraph [ref=e157]: Delivery window
+                  - paragraph [ref=e158]:
+                    - img [ref=e159]
+                    - text: 15-20 min
+                - generic [ref=e162]:
+                  - paragraph [ref=e163]: Last ordered
+                  - paragraph [ref=e164]: Mar 4
+              - generic [ref=e165]:
+                - paragraph [ref=e166]: Why you saved it
+                - paragraph [ref=e167]: Best quick comfort food when I want something warm.
+              - generic [ref=e168]:
+                - paragraph [ref=e169]: Go-to dishes
+                - generic [ref=e170]:
+                  - generic [ref=e171]: Lugaw
+                  - generic [ref=e172]: Tokwa't Baboy
+                  - generic [ref=e173]: Goto
+            - generic [ref=e174]:
+              - link "View menu" [ref=e175] [cursor=pointer]:
+                - /url: /restaurant/lugawan-sa-kanto
+                - text: View menu
+                - img
+              - button "Unsave" [ref=e176]:
+                - img
+                - text: Unsave
+          - generic [ref=e177]:
+            - generic [ref=e178]:
+              - generic [ref=e179]:
+                - generic [ref=e180]:
+                  - generic [ref=e181]:
+                    - generic [ref=e182]:
+                      - img
+                      - text: Saved
+                    - generic [ref=e183]: Added Mar 1
+                  - generic [ref=e184]:
+                    - heading "Brew Coffee Co." [level=2] [ref=e185]
+                    - paragraph [ref=e186]:
+                      - img [ref=e187]
+                      - text: BGC High Street
+                - button "Remove Brew Coffee Co. from saved restaurants" [ref=e190]:
+                  - img
+              - generic [ref=e191]:
+                - generic [ref=e192]: Coffee
+                - generic [ref=e193]: Pastries
+            - generic [ref=e194]:
+              - generic [ref=e195]:
+                - generic [ref=e196]:
+                  - paragraph [ref=e197]: Typical spend
+                  - generic [ref=e198]: ₱210
+                - generic [ref=e199]:
+                  - paragraph [ref=e200]: Delivery window
+                  - paragraph [ref=e201]:
+                    - img [ref=e202]
+                    - text: 18-24 min
+                - generic [ref=e205]:
+                  - paragraph [ref=e206]: Last ordered
+                  - paragraph [ref=e207]: Mar 1
+              - generic [ref=e208]:
+                - paragraph [ref=e209]: Why you saved it
+                - paragraph [ref=e210]: Easy cafe fallback for late afternoon cravings.
+              - generic [ref=e211]:
+                - paragraph [ref=e212]: Go-to dishes
+                - generic [ref=e213]:
+                  - generic [ref=e214]: Iced Spanish Latte
+                  - generic [ref=e215]: Matcha Latte
+                  - generic [ref=e216]: Ensaymada
+            - generic [ref=e217]:
+              - link "View menu" [ref=e218] [cursor=pointer]:
+                - /url: /restaurant/brew-coffee-co
+                - text: View menu
+                - img
+              - button "Unsave" [ref=e219]:
+                - img
+                - text: Unsave
+  - generic [ref=e23]:
+    - generic [ref=e24]: "Server: ok"
+    - generic [ref=e25]: "Uptime: 655s"
+  - button "Open Next.js Dev Tools" [ref=e31] [cursor=pointer]:
+    - img [ref=e32]
+  - alert [ref=e35]: CravingsPH | Discover restaurants and order faster

@@ -1,0 +1,128 @@
+- generic [ref=e1]:
+  - main [ref=e3]:
+    - main [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - link "Back to home" [ref=e7] [cursor=pointer]:
+            - /url: /
+            - img [ref=e8]
+          - generic [ref=e10]:
+            - img [ref=e11]
+            - searchbox "Search restaurants or dishes..." [active] [ref=e14]
+        - combobox [ref=e16]:
+          - img
+          - generic: All locations
+          - img
+        - generic [ref=e20]:
+          - button "All" [ref=e21]
+          - button "Filipino" [ref=e22]:
+            - generic [ref=e23]: 🇵🇭
+            - text: Filipino
+          - button "Chicken" [ref=e24]:
+            - generic [ref=e25]: 🍗
+            - text: Chicken
+          - button "Rice Meals" [ref=e26]:
+            - generic [ref=e27]: 🍚
+            - text: Rice Meals
+          - button "Seafood" [ref=e28]:
+            - generic [ref=e29]: 🦐
+            - text: Seafood
+          - button "BBQ" [ref=e30]:
+            - generic [ref=e31]: 🍖
+            - text: BBQ
+          - button "Desserts" [ref=e32]:
+            - generic [ref=e33]: 🍧
+            - text: Desserts
+          - button "Coffee" [ref=e34]:
+            - generic [ref=e35]: ☕
+            - text: Coffee
+          - button "Milk Tea" [ref=e36]:
+            - generic [ref=e37]: 🧃
+            - text: Milk Tea
+          - button "Street Food" [ref=e38]:
+            - generic [ref=e39]: 🍢
+            - text: Street Food
+          - button "Burgers" [ref=e40]:
+            - generic [ref=e41]: 🍔
+            - text: Burgers
+      - generic [ref=e42]:
+        - paragraph [ref=e43]: 8 results in filipino
+        - generic [ref=e44]:
+          - link "M Mang Inasal Filipino Chicken Chicken Inasal Paa · Pork BBQ · Halo-Halo" [ref=e46] [cursor=pointer]:
+            - /url: /restaurant/mang-inasal-sm-north
+            - generic [ref=e49]: M
+            - generic [ref=e50]:
+              - heading "Mang Inasal" [level=3] [ref=e51]
+              - generic [ref=e52]:
+                - generic [ref=e53]: Filipino
+                - generic [ref=e54]: Chicken
+              - paragraph [ref=e55]: Chicken Inasal Paa · Pork BBQ · Halo-Halo
+          - link "J Jollibee Filipino Fast Food Chickenjoy · Jolly Spaghetti · Yumburger" [ref=e57] [cursor=pointer]:
+            - /url: /restaurant/jollibee-katipunan
+            - generic [ref=e60]: J
+            - generic [ref=e61]:
+              - heading "Jollibee" [level=3] [ref=e62]
+              - generic [ref=e63]:
+                - generic [ref=e64]: Filipino
+                - generic [ref=e65]: Fast Food
+              - paragraph [ref=e66]: Chickenjoy · Jolly Spaghetti · Yumburger
+          - link "A Andok's Filipino Chicken Litson Manok · Dokito · Pork BBQ" [ref=e68] [cursor=pointer]:
+            - /url: /restaurant/andoks-commonwealth
+            - generic [ref=e71]: A
+            - generic [ref=e72]:
+              - heading "Andok's" [level=3] [ref=e73]
+              - generic [ref=e74]:
+                - generic [ref=e75]: Filipino
+                - generic [ref=e76]: Chicken
+              - paragraph [ref=e77]: Litson Manok · Dokito · Pork BBQ
+          - link "K Kuya J Restaurant Filipino Seafood Crispy Pata · Baked Scallops · Sinigang na Hipon" [ref=e79] [cursor=pointer]:
+            - /url: /restaurant/kuya-j-ayala
+            - generic [ref=e82]: K
+            - generic [ref=e83]:
+              - heading "Kuya J Restaurant" [level=3] [ref=e84]
+              - generic [ref=e85]:
+                - generic [ref=e86]: Filipino
+                - generic [ref=e87]: Seafood
+              - paragraph [ref=e88]: Crispy Pata · Baked Scallops · Sinigang na Hipon
+          - link "L Lugawan sa Kanto Filipino Street Food Lugaw · Tokwa't Baboy · Goto" [ref=e90] [cursor=pointer]:
+            - /url: /restaurant/lugawan-sa-kanto
+            - generic [ref=e93]: L
+            - generic [ref=e94]:
+              - heading "Lugawan sa Kanto" [level=3] [ref=e95]
+              - generic [ref=e96]:
+                - generic [ref=e97]: Filipino
+                - generic [ref=e98]: Street Food
+              - paragraph [ref=e99]: Lugaw · Tokwa't Baboy · Goto
+          - link "M Meryendahan ni Ate Filipino Desserts Turon · Banana Cue · Biko" [ref=e101] [cursor=pointer]:
+            - /url: /restaurant/meryendahan-ni-ate
+            - generic [ref=e104]: M
+            - generic [ref=e105]:
+              - heading "Meryendahan ni Ate" [level=3] [ref=e106]
+              - generic [ref=e107]:
+                - generic [ref=e108]: Filipino
+                - generic [ref=e109]: Desserts
+              - paragraph [ref=e110]: Turon · Banana Cue · Biko
+          - link "S Seafood Dampa Filipino Seafood Grilled Bangus · Sinigang na Salmon · Kare-Kare" [ref=e112] [cursor=pointer]:
+            - /url: /restaurant/seafood-dampa
+            - generic [ref=e115]: S
+            - generic [ref=e116]:
+              - heading "Seafood Dampa" [level=3] [ref=e117]
+              - generic [ref=e118]:
+                - generic [ref=e119]: Filipino
+                - generic [ref=e120]: Seafood
+              - paragraph [ref=e121]: Grilled Bangus · Sinigang na Salmon · Kare-Kare
+          - link "B BBQ Masters BBQ Filipino Pork Belly BBQ · Chicken Skewers · Java Rice" [ref=e123] [cursor=pointer]:
+            - /url: /restaurant/bbq-masters
+            - generic [ref=e126]: B
+            - generic [ref=e127]:
+              - heading "BBQ Masters" [level=3] [ref=e128]
+              - generic [ref=e129]:
+                - generic [ref=e130]: BBQ
+                - generic [ref=e131]: Filipino
+              - paragraph [ref=e132]: Pork Belly BBQ · Chicken Skewers · Java Rice
+  - generic [ref=e133]:
+    - generic [ref=e134]: "Server: ok"
+    - generic [ref=e135]: "Uptime: 482s"
+  - button "Open Next.js Dev Tools" [ref=e141] [cursor=pointer]:
+    - img [ref=e142]
+  - alert [ref=e145]

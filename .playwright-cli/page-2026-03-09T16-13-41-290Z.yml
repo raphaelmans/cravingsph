@@ -1,0 +1,173 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - img [ref=e193]
+        - generic [ref=e9]:
+          - paragraph [ref=e197]: Codex QA Org 1773072231
+          - paragraph [ref=e198]: member
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: Setup
+          - list [ref=e16]:
+            - listitem [ref=e17]:
+              - link "Get Started" [ref=e18] [cursor=pointer]:
+                - /url: /organization/get-started
+                - img [ref=e19]
+                - generic [ref=e24]: Get Started
+        - generic [ref=e25]:
+          - generic [ref=e26]: Overview
+          - list [ref=e28]:
+            - listitem [ref=e29]:
+              - link "Dashboard" [ref=e30] [cursor=pointer]:
+                - /url: /organization
+                - img [ref=e31]
+                - generic [ref=e36]: Dashboard
+        - generic [ref=e37]:
+          - generic [ref=e38]: Restaurants
+          - list [ref=e40]:
+            - listitem [ref=e42]:
+              - link "Restaurants" [ref=e43] [cursor=pointer]:
+                - /url: /organization/restaurants
+                - img [ref=e44]
+                - generic [ref=e48]: Restaurants
+              - button [ref=e288]:
+                - img [ref=e289]
+        - generic [ref=e49]:
+          - generic [ref=e50]: Orders
+          - list [ref=e52]:
+            - listitem [ref=e53]:
+              - link "Orders" [ref=e54] [cursor=pointer]:
+                - /url: /organization/orders
+                - img [ref=e55]
+                - generic [ref=e58]: Orders
+        - generic [ref=e59]:
+          - generic [ref=e60]: Finance
+          - list [ref=e62]:
+            - listitem [ref=e63]:
+              - link "Payments" [ref=e64] [cursor=pointer]:
+                - /url: /organization/payments
+                - img [ref=e65]
+                - generic [ref=e67]: Payments
+        - generic [ref=e68]:
+          - generic [ref=e69]: Organization
+          - list [ref=e71]:
+            - listitem [ref=e72]:
+              - link "Team" [ref=e73] [cursor=pointer]:
+                - /url: /organization/team
+                - img [ref=e74]
+                - generic [ref=e79]: Team
+            - listitem [ref=e80]:
+              - link "Verification" [ref=e81] [cursor=pointer]:
+                - /url: /organization/verify
+                - img [ref=e82]
+                - generic [ref=e85]: Verification
+            - listitem [ref=e86]:
+              - link "Settings" [ref=e87] [cursor=pointer]:
+                - /url: /organization/settings
+                - img [ref=e88]
+                - generic [ref=e91]: Settings
+        - generic [ref=e92]:
+          - generic [ref=e93]: Account
+          - list [ref=e95]:
+            - listitem [ref=e96]:
+              - link "Profile" [ref=e97] [cursor=pointer]:
+                - /url: /organization/profile
+                - img [ref=e98]
+                - generic [ref=e101]: Profile
+      - button "C codex+1773072231@example.com" [ref=e123]:
+        - generic [ref=e125]: C
+        - paragraph [ref=e127]: codex+1773072231@example.com
+      - button "Toggle Sidebar" [ref=e103]
+    - main [ref=e104]:
+      - generic [ref=e105]:
+        - generic [ref=e435]:
+          - button "Toggle Sidebar" [ref=e436]:
+            - img
+            - generic [ref=e437]: Toggle Sidebar
+          - navigation "breadcrumb" [ref=e438]:
+            - list [ref=e439]:
+              - listitem [ref=e440]:
+                - link "Dashboard" [disabled] [ref=e441]
+        - generic [ref=e442]:
+          - generic [ref=e443]:
+            - heading "Welcome back, Codex QA Org 1773072231" [level=1] [ref=e444]
+            - paragraph [ref=e445]: Here's an overview of your organization.
+          - generic [ref=e446]:
+            - generic [ref=e447]:
+              - generic [ref=e448]:
+                - generic [ref=e449]: Orders Today
+                - img [ref=e450]
+              - generic [ref=e453]:
+                - generic [ref=e454]: "--"
+                - paragraph [ref=e455]: Awaiting backend integration
+            - generic [ref=e456]:
+              - generic [ref=e457]:
+                - generic [ref=e458]: Pending Orders
+                - img [ref=e459]
+              - generic [ref=e462]:
+                - generic [ref=e463]: "--"
+                - paragraph [ref=e464]: Awaiting backend integration
+            - generic [ref=e465]:
+              - generic [ref=e466]:
+                - generic [ref=e467]: Active Locations
+                - img [ref=e468]
+              - generic [ref=e471]:
+                - generic [ref=e472]: "1"
+                - paragraph [ref=e473]: 1 restaurant registered
+            - generic [ref=e474]:
+              - generic [ref=e475]:
+                - generic [ref=e476]: Revenue Today
+                - img [ref=e477]
+              - generic [ref=e480]:
+                - generic [ref=e481]: "--"
+                - paragraph [ref=e482]: Awaiting backend integration
+          - generic [ref=e483]:
+            - heading "Quick Actions" [level=2] [ref=e484]
+            - generic [ref=e485]:
+              - link "Add Restaurant Register a new restaurant to your organization" [ref=e486] [cursor=pointer]:
+                - /url: /organization/restaurants
+                - generic [ref=e488]:
+                  - img [ref=e490]
+                  - generic [ref=e491]:
+                    - paragraph [ref=e492]: Add Restaurant
+                    - paragraph [ref=e493]: Register a new restaurant to your organization
+                  - img [ref=e494]
+              - link "Manage Menu Update items, categories, and pricing" [ref=e496] [cursor=pointer]:
+                - /url: /organization/restaurants
+                - generic [ref=e498]:
+                  - img [ref=e500]
+                  - generic [ref=e505]:
+                    - paragraph [ref=e506]: Manage Menu
+                    - paragraph [ref=e507]: Update items, categories, and pricing
+                  - img [ref=e508]
+              - link "View Orders Review incoming and active orders" [ref=e510] [cursor=pointer]:
+                - /url: /organization/orders
+                - generic [ref=e512]:
+                  - img [ref=e514]
+                  - generic [ref=e517]:
+                    - paragraph [ref=e518]: View Orders
+                    - paragraph [ref=e519]: Review incoming and active orders
+                  - img [ref=e520]
+              - link "Team Members Invite and manage your team" [ref=e522] [cursor=pointer]:
+                - /url: /organization/team
+                - generic [ref=e524]:
+                  - img [ref=e526]
+                  - generic [ref=e531]:
+                    - paragraph [ref=e532]: Team Members
+                    - paragraph [ref=e533]: Invite and manage your team
+                  - img [ref=e534]
+              - link "Payment Settings Configure payment methods and accounts" [ref=e536] [cursor=pointer]:
+                - /url: /organization/payments
+                - generic [ref=e538]:
+                  - img [ref=e540]
+                  - generic [ref=e542]:
+                    - paragraph [ref=e543]: Payment Settings
+                    - paragraph [ref=e544]: Configure payment methods and accounts
+                  - img [ref=e545]
+  - generic [ref=e107]:
+    - generic [ref=e191]: "Server: ok"
+    - generic [ref=e192]: "Uptime: 1084s"
+  - button "Open Next.js Dev Tools" [ref=e113] [cursor=pointer]:
+    - img [ref=e114]
+  - alert [ref=e117]
