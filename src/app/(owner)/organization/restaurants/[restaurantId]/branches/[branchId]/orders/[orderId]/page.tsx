@@ -8,11 +8,14 @@ import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
 import { Button } from "@/components/ui/button";
 import { AcceptRejectActions } from "@/features/order-management/components/accept-reject-actions";
 import { OrderDetail } from "@/features/order-management/components/order-detail";
+import { OrderTimeline } from "@/features/order-management/components/order-timeline";
+import { PaymentProofReview } from "@/features/order-management/components/payment-proof-review";
 import { StatusUpdateDropdown } from "@/features/order-management/components/status-update-dropdown";
 import {
   useAcceptOrder,
   useConfirmPayment,
   useOrderDetail,
+  useOrderTimeline,
   useRejectOrder,
   useRejectPayment,
   useUpdateOrderStatus,
@@ -29,16 +32,13 @@ interface OrderDetailPageProps {
 export default function OrderDetailPage({ params }: OrderDetailPageProps) {
   const { restaurantId, branchId, orderId } = use(params);
   const { data: order, isLoading } = useOrderDetail(orderId);
+  const { data: timeline } = useOrderTimeline(orderId);
 
   const acceptMutation = useAcceptOrder(branchId);
   const rejectMutation = useRejectOrder(branchId);
   const statusMutation = useUpdateOrderStatus(branchId);
   const confirmPaymentMutation = useConfirmPayment(branchId);
   const rejectPaymentMutation = useRejectPayment(branchId);
-
-  // Suppress unused variable warnings for payment mutations (wired in Step 12c)
-  void confirmPaymentMutation;
-  void rejectPaymentMutation;
 
   const ordersHref = `/organization/restaurants/${restaurantId}/branches/${branchId}/orders`;
 
@@ -58,6 +58,16 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
   ) => {
     statusMutation.mutate(id, newStatus);
     toast.success("Order status updated");
+  };
+
+  const handleConfirmPayment = (id: string) => {
+    confirmPaymentMutation.mutate(id);
+    toast.success("Payment confirmed");
+  };
+
+  const handleRejectPayment = (id: string, reason?: string) => {
+    rejectPaymentMutation.mutate(id, reason);
+    toast.info("Payment proof rejected");
   };
 
   return (
@@ -86,12 +96,12 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
         ) : (
           <div className="mx-auto max-w-2xl space-y-4">
             {/* Actions bar */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h1 className="text-xl font-semibold">
                 Order #{order.orderNumber}
               </h1>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 {order.status === "placed" && (
                   <AcceptRejectActions
                     orderId={order.id}
@@ -116,7 +126,15 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
             {/* Order detail card */}
             <OrderDetail order={order} />
 
-            {/* Placeholder for Step 12c: PaymentProofReview + OrderTimeline */}
+            <PaymentProofReview
+              order={order}
+              isConfirming={confirmPaymentMutation.isPending}
+              isRejecting={rejectPaymentMutation.isPending}
+              onConfirm={handleConfirmPayment}
+              onReject={handleRejectPayment}
+            />
+
+            <OrderTimeline events={timeline} />
           </div>
         )}
       </div>
@@ -130,6 +148,7 @@ function OrderDetailSkeleton() {
       <div className="h-8 w-48 animate-pulse rounded-md bg-muted" />
       <div className="h-64 animate-pulse rounded-lg bg-muted" />
       <div className="h-32 animate-pulse rounded-lg bg-muted" />
+      <div className="h-48 animate-pulse rounded-lg bg-muted" />
     </div>
   );
 }
