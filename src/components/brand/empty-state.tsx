@@ -1,0 +1,49 @@
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+
+interface EmptyStateProps {
+  icon?: React.ReactNode
+  title: string
+  description?: string
+  action?: { label: string; onClick: () => void }
+  className?: string
+}
+
+export function EmptyState({
+  icon,
+  title,
+  description,
+  action,
+  className,
+}: EmptyStateProps) {
+  return (
+    <div
+      data-slot="empty-state"
+      className={cn(
+        "flex flex-col items-center justify-center gap-3 rounded-xl bg-peach p-8 text-center",
+        className
+      )}
+    >
+      {icon && (
+        <div className="text-peach-foreground/60 [&>svg]:size-10">{icon}</div>
+      )}
+      <div className="space-y-1">
+        <h3 className="text-sm font-semibold text-peach-foreground">{title}</h3>
+        {description && (
+          <p className="text-sm text-peach-foreground/70">{description}</p>
+        )}
+      </div>
+      {action && (
+        <Button
+          variant="default"
+          size="sm"
+          shape="pill"
+          onClick={action.onClick}
+          className="mt-1"
+        >
+          {action.label}
+        </Button>
+      )}
+    </div>
+  )
+}
