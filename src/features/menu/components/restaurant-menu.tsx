@@ -9,6 +9,7 @@ import type {
 import { useCategoryObserver } from "../hooks/use-category-observer";
 import { CategoryTabs } from "./category-tabs";
 import { MenuItemSheet, type MenuItemSheetPayload } from "./menu-item-sheet";
+import { MenuSearchSheet } from "./menu-search-sheet";
 import { MenuSectionList } from "./menu-section-list";
 
 interface RestaurantMenuProps {
@@ -34,6 +35,9 @@ export function RestaurantMenu({ menu }: RestaurantMenuProps) {
   );
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
+  // Search sheet state
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
   const handleCategorySelect = useCallback((categoryId: string) => {
     setActiveCategoryIdOverride(categoryId);
   }, []);
@@ -56,7 +60,7 @@ export function RestaurantMenu({ menu }: RestaurantMenuProps) {
   }, []);
 
   const handleSearchOpen = useCallback(() => {
-    // Will open MenuSearchSheet in Step 2d
+    setIsSearchOpen(true);
   }, []);
 
   return (
@@ -80,6 +84,13 @@ export function RestaurantMenu({ menu }: RestaurantMenuProps) {
         open={isSheetOpen}
         onOpenChange={setIsSheetOpen}
         onSubmit={handleSheetSubmit}
+      />
+
+      <MenuSearchSheet
+        menu={menu}
+        open={isSearchOpen}
+        onOpenChange={setIsSearchOpen}
+        onItemSelect={handleItemSelect}
       />
     </div>
   );
