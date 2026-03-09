@@ -20,10 +20,38 @@ const buildRedirectUrl = (base: string, path: string) => {
 };
 
 export const appRoutes = {
+  // Public (customer)
   index: {
     base: "/",
     options: { type: "public" as const },
   },
+  restaurant: {
+    base: "/restaurant",
+    options: { type: "public" as const },
+    bySlug: (slug: string) => `/restaurant/${slug}`,
+    order: (slug: string, orderId: string) =>
+      `/restaurant/${slug}/order/${orderId}`,
+  },
+  search: {
+    base: "/search",
+    options: { type: "public" as const },
+  },
+
+  // Protected customer (auth optional, redirect to login if needed)
+  orders: {
+    base: "/orders",
+    options: { type: "protected" as const },
+  },
+  saved: {
+    base: "/saved",
+    options: { type: "protected" as const },
+  },
+  customerAccount: {
+    base: "/account",
+    options: { type: "protected" as const },
+  },
+
+  // Auth
   login: {
     base: "/login",
     options: { type: "guest" as const },
@@ -33,48 +61,81 @@ export const appRoutes = {
     base: "/register",
     options: { type: "guest" as const },
   },
+  registerOwner: {
+    base: "/register/owner",
+    options: { type: "guest" as const },
+  },
   magicLink: {
     base: "/magic-link",
     options: { type: "guest" as const },
   },
   postLogin: {
     base: "/post-login",
-    options: { type: "protected" as const },
+    options: { type: "guest" as const },
   },
-  dashboard: {
-    base: "/dashboard",
-    options: { type: "protected" as const },
+
+  // Owner portal
+  organization: {
+    base: "/organization",
+    options: { type: "organization" as const },
+    getStarted: "/organization/get-started",
+    onboarding: "/organization/onboarding",
+    restaurants: "/organization/restaurants",
+    payments: "/organization/payments",
+    team: "/organization/team",
+    verify: "/organization/verify",
+    settings: "/organization/settings",
   },
-  account: {
-    base: "/account",
-    options: { type: "protected" as const },
-    profile: "/account/profile",
+  ownerAccount: {
+    base: "/account/profile",
+    options: { type: "organization" as const },
+  },
+
+  // Admin portal
+  admin: {
+    base: "/admin",
+    options: { type: "admin" as const },
+    verification: "/admin/verification",
+    restaurants: "/admin/restaurants",
+    users: "/admin/users",
   },
 } satisfies Record<string, RouteConfig | Record<string, unknown>>;
 
 const exactOrChild = (path: string, base: string) =>
   path === base || path.startsWith(`${base}/`);
 
-const protectedBases = [
-  appRoutes.postLogin.base,
-  appRoutes.dashboard.base,
-  appRoutes.account.base,
+const publicBases = [
+  appRoutes.index.base,
+  appRoutes.restaurant.base,
+  appRoutes.search.base,
 ];
 
 const guestBases = [
   appRoutes.login.base,
   appRoutes.register.base,
   appRoutes.magicLink.base,
+  appRoutes.postLogin.base,
 ];
 
-const publicBases = [appRoutes.index.base];
+const protectedBases = [
+  appRoutes.orders.base,
+  appRoutes.saved.base,
+  appRoutes.customerAccount.base,
+];
+
+const organizationBases = [
+  appRoutes.organization.base,
+  appRoutes.ownerAccount.base,
+];
+
+const adminBases = [appRoutes.admin.base];
 
 export const routeGroups = {
   public: publicBases,
   guest: guestBases,
   protected: protectedBases,
-  organization: [] as string[],
-  admin: [] as string[],
+  organization: organizationBases,
+  admin: adminBases,
 };
 
 export const matchesRoute = (path: string, base: string) =>
