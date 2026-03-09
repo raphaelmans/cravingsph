@@ -64,3 +64,78 @@ Since we're scaffolding the UI and don't have dedicated `order.stats` or `order.
 2. Use `useOrganization` + `useRestaurants` hooks for real data (branch count)
 3. Stub order/revenue stats with TODO comments for future backend wiring
 4. Verify with typecheck + lint
+
+### Result
+- Committed as 9b4c948
+- Task closed: task-1773059444-a985
+- Dashboard has: DashboardNavbar breadcrumb, 4 stat cards (orders/pending/locations/revenue), 5 quick action links
+- Active Locations card wired to real restaurant count; order/revenue stats stubbed with "--" pending backend
+- Step 9 complete (9a sidebar + 9b org gate + 9c dashboard). Next: Step 10 (onboarding)
+
+## Iteration: Step 10a — Onboarding hub page (get-started)
+
+### Understanding
+Step 10 has two parts:
+- **Hub page** (`/organization/get-started`) — card grid showing 7 setup steps with completion status
+- **Wizard page** (`/organization/onboarding`) — linear 7-step wizard with entity forms
+
+The hub page currently exists as a stub (rocket icon + "Start Setup Wizard" button). Need to:
+1. Derive completion status by querying existing entities (org, restaurant, branch, menu)
+2. Show a grid of 7 SetupCards with status badges
+3. Show progress overview ("X of 7 complete")
+4. Each card links to relevant section or wizard step
+
+### Available tRPC hooks (from use-owner-sidebar-data.ts)
+- `useOrganization()` → org existence = step 1 complete
+- `useRestaurants(orgId)` → restaurant existence = step 2 complete
+- `useBranches(restaurantId)` → branch existence = step 3 complete
+- Menu/payment/verification steps = check pending (future backend)
+
+### Plan
+Task 10a: Onboarding hub — SetupCard + rewrite get-started page
+Task 10b: Onboarding wizard — WizardProgress + WizardStep + 7 step forms
+
+Starting with Task 10a this iteration.
+
+### Result
+- Committed as 0a98fcd
+- Task closed: task-1773060404-6693
+- Created: `src/features/onboarding/hooks/use-onboarding-status.ts` — derives step completion from existing tRPC queries
+- Created: `src/features/onboarding/components/setup-card.tsx` — card with icon, title, description, status badge
+- Rewrote: `src/app/(owner)/organization/get-started/page.tsx` — hub with header, progress bar, 7-card grid, wizard CTA
+- Next: Task 10b (onboarding wizard page) is now unblocked
+
+## Iteration: Step 10b — Onboarding wizard page
+
+### Understanding
+Build the wizard page at `/organization/onboarding` with:
+- **WizardProgress** component — horizontal step indicator (7 steps)
+- **WizardStep** wrapper — renders the appropriate form for the current step
+- **7 step forms**: OrganizationForm, RestaurantForm, BranchForm, MenuBuilderStep (stub), PaymentMethodsStep (stub), VerificationStep (stub), CompletionStep
+
+### Data flow
+- Step tracked via URL search params (`?step=1` through `?step=7`)
+- Step 1: Creates org (if not exists), pre-populates from `cravings:pending-org-name` localStorage
+- Step 2: Creates restaurant with org ID from existing query
+- Step 3: Creates branch with restaurant ID from existing query
+- Steps 4-6: Placeholder stubs (backend not ready)
+- Step 7: Completion summary + redirect to dashboard
+
+### Key patterns (from codebase research)
+- Forms: react-hook-form + zodResolver + shadcn Form components
+- tRPC mutations: `useTRPC()` → `useMutation()` with `mutationOptions()`
+- Cache invalidation: `getQueryClient().invalidateQueries()`
+- Zod schemas: CreateOrganizationSchema, CreateRestaurantSchema, CreateBranchSchema exist in DTOs
+- Entity forms should be reusable for standalone CRUD pages later (Step 13)
+
+### Plan
+1. Create `src/features/onboarding/components/wizard-progress.tsx`
+2. Create `src/features/onboarding/components/organization-form.tsx` (Step 1)
+3. Create `src/features/onboarding/components/restaurant-form.tsx` (Step 2)
+4. Create `src/features/onboarding/components/branch-form.tsx` (Step 3)
+5. Create `src/features/onboarding/components/menu-builder-step.tsx` (Step 4 stub)
+6. Create `src/features/onboarding/components/payment-methods-step.tsx` (Step 5 stub)
+7. Create `src/features/onboarding/components/verification-step.tsx` (Step 6 stub)
+8. Create `src/features/onboarding/components/completion-step.tsx` (Step 7)
+9. Create `src/app/(owner)/organization/onboarding/page.tsx` — wizard orchestrator
+10. Verify typecheck + lint
