@@ -1,5 +1,10 @@
-import { requireSession } from "@/shared/infra/supabase/session";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { appRoutes } from "@/common/app-routes";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { OrganizationNotFoundError } from "@/modules/organization/errors/organization.errors";
+import { makeOrganizationService } from "@/modules/organization/factories/organization.factory";
+import { requireSession } from "@/shared/infra/supabase/session";
 import { OwnerSidebar } from "./sidebar";
 
 export default async function OwnerLayout({
@@ -7,10 +12,29 @@ export default async function OwnerLayout({
 }: {
   children: React.ReactNode;
 }) {
-  await requireSession();
+  const session = await requireSession();
 
-  // TODO: Check if user has an organization, redirect to get-started if not
-  // This will be wired up when the organization query is available in the layout
+  const headerStore = await headers();
+  const pathname = headerStore.get("x-pathname") ?? appRoutes.organization.base;
+
+  const isOnboardingRoute =
+    pathname === appRoutes.organization.getStarted ||
+    pathname === appRoutes.organization.onboarding;
+
+  let hasOrganization = false;
+
+  try {
+    await makeOrganizationService().getByOwnerId(session.userId);
+    hasOrganization = true;
+  } catch (error) {
+    if (!(error instanceof OrganizationNotFoundError)) {
+      throw error;
+    }
+  }
+
+  if (!hasOrganization && !isOnboardingRoute) {
+    redirect(appRoutes.organization.getStarted);
+  }
 
   return <DashboardShell sidebar={<OwnerSidebar />}>{children}</DashboardShell>;
 }
