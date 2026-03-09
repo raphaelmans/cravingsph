@@ -1,6 +1,10 @@
 import { initTRPC, TRPCError } from "@trpc/server";
-import { AppError, AuthenticationError } from "@/shared/kernel/errors";
-import type { Context, AuthenticatedContext } from "./context";
+import {
+  AppError,
+  AuthenticationError,
+  AuthorizationError,
+} from "@/shared/kernel/errors";
+import type { AuthenticatedContext, Context } from "./context";
 
 /**
  * tRPC initialization with error formatter.
@@ -60,6 +64,7 @@ const t = initTRPC.context<Context>().create({
  */
 export const router = t.router;
 export const middleware = t.middleware;
+export const createCallerFactory = t.createCallerFactory;
 
 /**
  * Logger middleware - request lifecycle tracing.
@@ -109,6 +114,30 @@ const authMiddleware = t.middleware(async ({ ctx, next }) => {
   });
 });
 
+const adminMiddleware = t.middleware(async ({ ctx, next }) => {
+  if (!ctx.session || !ctx.userId) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Authentication required",
+      cause: new AuthenticationError("Authentication required"),
+    });
+  }
+
+  if (ctx.session.role !== "admin") {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Admin access required",
+      cause: new AuthorizationError("Admin access required", {
+        userId: ctx.userId,
+      }),
+    });
+  }
+
+  return next({
+    ctx: ctx as AuthenticatedContext,
+  });
+});
+
 /**
  * Base procedure with logging - all procedures use this
  */
@@ -123,3 +152,10 @@ export const publicProcedure = loggedProcedure;
  * Protected procedure - authentication required
  */
 export const protectedProcedure = loggedProcedure.use(authMiddleware);
+
+/**
+ * Admin procedure - authentication plus admin role required.
+ */
+export const adminProcedure = loggedProcedure
+  .use(authMiddleware)
+  .use(adminMiddleware);

@@ -1,6 +1,6 @@
-import { requireAdminSession } from "@/shared/infra/supabase/session";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
-import { AdminSidebar } from "./sidebar";
+import { AdminSidebar } from "@/features/admin/components/admin-sidebar";
+import { requireAdminSession } from "@/shared/infra/supabase/session";
 
 export default async function AdminLayout({
   children,
