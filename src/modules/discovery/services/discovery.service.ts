@@ -80,6 +80,7 @@ export class DiscoveryService implements IDiscoveryService {
     const popularMap = await this.repository.findPopularItems(ids);
 
     return rows.map((r) => ({
+      id: r.id,
       slug: r.slug,
       name: r.name,
       coverImageUrl: r.coverUrl,

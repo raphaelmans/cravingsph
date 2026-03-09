@@ -26,6 +26,7 @@ export const SearchInputSchema = z.object({
 // ---------------------------------------------------------------------------
 
 export interface RestaurantPreviewDTO {
+  id: string;
   slug: string;
   name: string;
   coverImageUrl: string | null;

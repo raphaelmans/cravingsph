@@ -2,13 +2,18 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
+import { useSession } from "@/features/auth/hooks/use-auth";
 import { useTRPC } from "@/trpc/client";
 
 export function useSavedRestaurants() {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
+  const session = useSession();
 
-  const listQuery = useQuery(trpc.savedRestaurant.list.queryOptions());
+  const listQuery = useQuery({
+    ...trpc.savedRestaurant.list.queryOptions(),
+    enabled: !!session.data,
+  });
 
   const toggleMutation = useMutation(
     trpc.savedRestaurant.toggle.mutationOptions({
