@@ -16,7 +16,8 @@
     "db:push": "dotenvx run --env-file=.env.local -- drizzle-kit push",
     "db:studio": "dotenvx run --env-file=.env.local -- drizzle-kit studio",
     "db:seed:demo": "dotenvx run --env-file=.env.local -- tsx scripts/seed-demo-restaurant.ts",
-    "db:seed:buckets": "dotenvx run --env-file=.env.local -- tsx scripts/seed-storage-buckets.ts"
+    "db:seed:buckets": "dotenvx run --env-file=.env.local -- tsx scripts/seed-storage-buckets.ts",
+    "db:seed:all": "dotenvx run --env-file=.env.local -- tsx scripts/seed-all.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

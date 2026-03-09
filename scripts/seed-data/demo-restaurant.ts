@@ -51,6 +51,7 @@ export type DemoSeed = {
     slug: string;
     description?: string;
     cuisineType?: string;
+    isFeatured?: boolean;
   };
   branch: {
     name: string;
@@ -58,6 +59,8 @@ export type DemoSeed = {
     city?: string;
     province?: string;
     address?: string;
+    latitude?: string;
+    longitude?: string;
   };
   categories: DemoCategory[];
 };
