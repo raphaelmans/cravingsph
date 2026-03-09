@@ -7,6 +7,7 @@ import { menuRouter } from "@/modules/menu/menu.router";
 import { organizationRouter } from "@/modules/organization/organization.router";
 import { profileRouter } from "@/modules/profile/profile.router";
 import { restaurantRouter } from "@/modules/restaurant/restaurant.router";
+import { savedRestaurantRouter } from "@/modules/saved-restaurant/saved-restaurant.router";
 import { router } from "./trpc";
 
 /**
@@ -20,6 +21,7 @@ export const appRouter = router({
   profile: profileRouter,
   organization: organizationRouter,
   restaurant: restaurantRouter,
+  savedRestaurant: savedRestaurantRouter,
   branch: branchRouter,
   menu: menuRouter,
 });

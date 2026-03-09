@@ -1,15 +1,8 @@
 "use client";
 
-import {
-  ArrowUpRight,
-  BookmarkX,
-  Clock3,
-  MapPin,
-  Sparkles,
-} from "lucide-react";
+import { ArrowUpRight, BookmarkX, MapPin, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { appRoutes } from "@/common/app-routes";
-import { Price } from "@/components/brand/price";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,16 +11,16 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import type { SavedRestaurantRecord } from "../hooks/use-saved-restaurants";
+import type { SavedRestaurantDTO } from "@/modules/saved-restaurant/dtos/saved-restaurant.dto";
 
 interface SavedRestaurantCardProps {
-  restaurant: SavedRestaurantRecord;
+  restaurant: SavedRestaurantDTO;
   onUnsave: () => void;
 }
 
 function formatDate(value: string | null) {
   if (!value) {
-    return "Not ordered yet";
+    return "Unknown";
   }
 
   return new Intl.DateTimeFormat("en-PH", {
@@ -62,10 +55,12 @@ export function SavedRestaurantCard({
               <h2 className="font-heading text-2xl font-bold">
                 {restaurant.name}
               </h2>
-              <p className="mt-1 inline-flex items-center gap-2 text-sm text-muted-foreground">
-                <MapPin className="size-4 text-primary" />
-                {restaurant.locationLabel}
-              </p>
+              {restaurant.locationLabel && (
+                <p className="mt-1 inline-flex items-center gap-2 text-sm text-muted-foreground">
+                  <MapPin className="size-4 text-primary" />
+                  {restaurant.locationLabel}
+                </p>
+              )}
             </div>
           </div>
 
@@ -96,51 +91,32 @@ export function SavedRestaurantCard({
       </CardHeader>
 
       <CardContent className="space-y-4 pt-5">
-        <div className="grid gap-3 sm:grid-cols-3">
-          <div className="rounded-[24px] border border-primary/10 bg-primary/[0.06] p-4">
-            <p className="text-sm text-muted-foreground">Typical spend</p>
-            <Price
-              amount={restaurant.averageTicketAmount}
-              className="mt-2 text-lg"
-            />
-          </div>
-          <div className="rounded-[24px] border border-primary/10 bg-background p-4">
-            <p className="text-sm text-muted-foreground">Delivery window</p>
-            <p className="mt-2 inline-flex items-center gap-2 font-medium">
-              <Clock3 className="size-4 text-primary" />
-              {restaurant.deliveryWindow}
+        {restaurant.note && (
+          <div className="rounded-[28px] border border-dashed border-primary/20 bg-muted/20 p-4">
+            <p className="text-sm font-medium text-foreground">
+              Why you saved it
+            </p>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              {restaurant.note}
             </p>
           </div>
-          <div className="rounded-[24px] border border-primary/10 bg-background p-4">
-            <p className="text-sm text-muted-foreground">Last ordered</p>
-            <p className="mt-2 font-medium">
-              {formatDate(restaurant.lastOrderedAt)}
-            </p>
-          </div>
-        </div>
+        )}
 
-        <div className="rounded-[28px] border border-dashed border-primary/20 bg-muted/20 p-4">
-          <p className="text-sm font-medium text-foreground">
-            Why you saved it
-          </p>
-          <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            {restaurant.note}
-          </p>
-        </div>
-
-        <div className="space-y-2">
-          <p className="text-sm font-medium text-foreground">Go-to dishes</p>
-          <div className="flex flex-wrap gap-2">
-            {restaurant.popularItems.map((item) => (
-              <span
-                key={`${restaurant.slug}-${item}`}
-                className="rounded-full border border-border bg-background px-3 py-1 text-sm text-muted-foreground"
-              >
-                {item}
-              </span>
-            ))}
+        {restaurant.popularItems.length > 0 && (
+          <div className="space-y-2">
+            <p className="text-sm font-medium text-foreground">Go-to dishes</p>
+            <div className="flex flex-wrap gap-2">
+              {restaurant.popularItems.map((item) => (
+                <span
+                  key={`${restaurant.slug}-${item}`}
+                  className="rounded-full border border-border bg-background px-3 py-1 text-sm text-muted-foreground"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </CardContent>
 
       <CardFooter className="flex flex-col gap-2 border-t border-primary/10 bg-muted/20 sm:flex-row">

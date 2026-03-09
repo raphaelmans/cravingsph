@@ -12,16 +12,18 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
+import { Spinner } from "@/components/ui/spinner";
 import { useProfile } from "@/features/profile";
 import { useSavedRestaurants } from "../hooks/use-saved-restaurants";
 import { SavedRestaurantCard } from "./saved-restaurant-card";
 
 export function SavedRestaurantsPage() {
   const { data: profile } = useProfile();
-  const { restaurants, stats, unsaveRestaurant } = useSavedRestaurants();
+  const { restaurants, stats, unsaveRestaurant, isLoading } =
+    useSavedRestaurants();
 
-  function handleUnsave(slug: string, restaurantName: string) {
-    unsaveRestaurant(slug);
+  function handleUnsave(restaurantId: string, restaurantName: string) {
+    unsaveRestaurant(restaurantId);
     toast.success(`${restaurantName} removed from your saved restaurants.`);
   }
 
@@ -93,13 +95,19 @@ export function SavedRestaurantsPage() {
           </div>
         </section>
 
-        {restaurants.length > 0 ? (
+        {isLoading ? (
+          <div className="flex items-center justify-center py-16">
+            <Spinner className="text-primary" />
+          </div>
+        ) : restaurants.length > 0 ? (
           <section className="space-y-4">
             {restaurants.map((restaurant) => (
               <SavedRestaurantCard
-                key={restaurant.slug}
+                key={restaurant.id}
                 restaurant={restaurant}
-                onUnsave={() => handleUnsave(restaurant.slug, restaurant.name)}
+                onUnsave={() =>
+                  handleUnsave(restaurant.restaurantId, restaurant.name)
+                }
               />
             ))}
           </section>
