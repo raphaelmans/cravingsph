@@ -1,7 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { ImagePlus, Loader2, X } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -24,6 +26,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { getSupabaseBrowserClient } from "@/shared/infra/supabase/browser-client";
 import { useUpdateItem } from "../hooks/use-management-menu";
 import type { ManagementMenuItem } from "../types";
 
@@ -50,6 +53,9 @@ export function EditItemDialog({
   onOpenChange,
 }: EditItemDialogProps) {
   const updateMutation = useUpdateItem(branchId);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const form = useForm<EditItemFormValues>({
     resolver: zodResolver(EditItemFormSchema),
@@ -70,8 +76,50 @@ export function EditItemDialog({
         basePrice: item.item.basePrice,
         imageUrl: item.item.imageUrl ?? "",
       });
+      setPreviewUrl(item.item.imageUrl ?? null);
     }
   }, [item, form]);
+
+  async function handleImageUpload(file: File) {
+    const maxSize = 5 * 1024 * 1024; // 5 MB
+    if (file.size > maxSize) {
+      toast.error("Image must be under 5 MB");
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const supabase = getSupabaseBrowserClient();
+      const ext = file.name.split(".").pop() ?? "jpg";
+      const path = `${branchId}/${crypto.randomUUID()}.${ext}`;
+
+      const { error } = await supabase.storage
+        .from("menu-item-images")
+        .upload(path, file, { upsert: true });
+
+      if (error) {
+        toast.error(`Upload failed: ${error.message}`);
+        return;
+      }
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("menu-item-images").getPublicUrl(path);
+
+      form.setValue("imageUrl", publicUrl);
+      setPreviewUrl(publicUrl);
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  function clearImage() {
+    form.setValue("imageUrl", "");
+    setPreviewUrl(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  }
 
   function onSubmit(data: EditItemFormValues) {
     if (!item) return;
@@ -153,22 +201,56 @@ export function EditItemDialog({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="imageUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Image URL (optional)</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="https://example.com/image.jpg"
-                      {...field}
+            {/* Image upload */}
+            <FormItem>
+              <FormLabel>Image (optional)</FormLabel>
+              <div className="flex items-center gap-3">
+                {previewUrl ? (
+                  <div className="relative size-20 shrink-0 overflow-hidden rounded-lg border bg-muted">
+                    <Image
+                      src={previewUrl}
+                      alt="Item preview"
+                      fill
+                      className="object-cover"
+                      sizes="80px"
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <button
+                      type="button"
+                      onClick={clearImage}
+                      className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-destructive text-white shadow"
+                    >
+                      <X className="size-3" />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    disabled={uploading}
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex size-20 shrink-0 items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25 bg-muted/50 text-muted-foreground transition-colors hover:border-muted-foreground/50 hover:bg-muted disabled:opacity-50"
+                  >
+                    {uploading ? (
+                      <Loader2 className="size-6 animate-spin" />
+                    ) : (
+                      <ImagePlus className="size-6" />
+                    )}
+                  </button>
+                )}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) handleImageUpload(file);
+                  }}
+                />
+                <p className="text-xs text-muted-foreground">
+                  JPG, PNG, or WebP. Max 5 MB.
+                </p>
+              </div>
+            </FormItem>
 
             <DialogFooter>
               <Button
@@ -178,7 +260,10 @@ export function EditItemDialog({
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={updateMutation.isPending}>
+              <Button
+                type="submit"
+                disabled={updateMutation.isPending || uploading}
+              >
                 {updateMutation.isPending ? "Saving..." : "Save Changes"}
               </Button>
             </DialogFooter>

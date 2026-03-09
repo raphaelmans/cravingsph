@@ -47,6 +47,7 @@ export function CartItem({
             fill
             className="object-cover"
             sizes="64px"
+            unoptimized={!item.imageUrl.includes("supabase.co")}
           />
         ) : (
           <div className="size-full bg-muted" />

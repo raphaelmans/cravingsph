@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -43,18 +44,20 @@ export function DashboardNavbar({
             {breadcrumbs.map((segment, i) => {
               const isLast = i === breadcrumbs.length - 1;
               return (
-                <BreadcrumbItem key={segment.label} className="min-w-0">
+                <Fragment key={segment.label}>
                   {i > 0 && <BreadcrumbSeparator />}
-                  {isLast || !segment.href ? (
-                    <BreadcrumbPage className="truncate">
-                      {segment.label}
-                    </BreadcrumbPage>
-                  ) : (
-                    <BreadcrumbLink className="truncate" href={segment.href}>
-                      {segment.label}
-                    </BreadcrumbLink>
-                  )}
-                </BreadcrumbItem>
+                  <BreadcrumbItem className="min-w-0">
+                    {isLast || !segment.href ? (
+                      <BreadcrumbPage className="truncate">
+                        {segment.label}
+                      </BreadcrumbPage>
+                    ) : (
+                      <BreadcrumbLink className="truncate" href={segment.href}>
+                        {segment.label}
+                      </BreadcrumbLink>
+                    )}
+                  </BreadcrumbItem>
+                </Fragment>
               );
             })}
           </BreadcrumbList>

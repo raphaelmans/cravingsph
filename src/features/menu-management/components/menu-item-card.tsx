@@ -9,6 +9,7 @@ import {
   Trash2,
 } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 import { Price } from "@/components/brand/price";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -43,19 +44,22 @@ export function MenuItemManagementCard({
   isToggling,
 }: MenuItemManagementCardProps) {
   const { item: menuItem, variants, modifierGroups } = item;
+  const [imgError, setImgError] = useState(false);
 
   return (
     <Card className={!menuItem.isAvailable ? "opacity-60" : undefined}>
       <CardContent className="flex gap-4 p-4">
         {/* Thumbnail */}
         <div className="relative size-20 shrink-0 overflow-hidden rounded-lg bg-muted">
-          {menuItem.imageUrl ? (
+          {menuItem.imageUrl && !imgError ? (
             <Image
               src={menuItem.imageUrl}
               alt={menuItem.name}
               fill
               className="object-cover"
               sizes="80px"
+              unoptimized={!menuItem.imageUrl.includes("supabase.co")}
+              onError={() => setImgError(true)}
             />
           ) : (
             <div className="flex size-full items-center justify-center">

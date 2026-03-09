@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { Price } from "@/components/brand/price";
 import type { MenuItemWithDetails } from "@/modules/menu/repositories/menu.repository";
 import { InlineQuantityPicker } from "./inline-quantity-picker";
@@ -38,6 +39,7 @@ export function MenuItemCard({
   const { item, variants } = menuItem;
   const price = getDisplayPrice(menuItem);
   const showFromPrice = variants.length > 1;
+  const [imgError, setImgError] = useState(false);
 
   return (
     <button
@@ -47,7 +49,7 @@ export function MenuItemCard({
       onClick={() => onSelect(menuItem)}
     >
       {/* Thumbnail */}
-      {item.imageUrl ? (
+      {item.imageUrl && !imgError ? (
         <div className="relative size-20 shrink-0 overflow-hidden rounded-md bg-muted">
           <Image
             src={item.imageUrl}
@@ -55,6 +57,8 @@ export function MenuItemCard({
             fill
             className="object-cover"
             sizes="80px"
+            unoptimized={!item.imageUrl.includes("supabase.co")}
+            onError={() => setImgError(true)}
           />
         </div>
       ) : (

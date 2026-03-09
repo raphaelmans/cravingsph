@@ -209,6 +209,7 @@ export function MenuItemSheet({
                 fill
                 className="object-cover"
                 sizes="100vw"
+                unoptimized={!menuItem.imageUrl.includes("supabase.co")}
               />
             </div>
           )}

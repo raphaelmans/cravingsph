@@ -27,7 +27,7 @@ export const CreateMenuItemSchema = z.object({
   categoryId: z.string().uuid(),
   name: z.string().min(1).max(200),
   description: z.string().optional(),
-  imageUrl: z.string().url().optional(),
+  imageUrl: z.string().url().optional().or(z.literal("")),
   basePrice: z.string().regex(/^\d+(\.\d{1,2})?$/, "Invalid price format"),
 });
 export type CreateMenuItemDTO = z.infer<typeof CreateMenuItemSchema>;
@@ -36,7 +36,7 @@ export const UpdateMenuItemSchema = z.object({
   id: z.string().uuid(),
   name: z.string().min(1).max(200).optional(),
   description: z.string().optional(),
-  imageUrl: z.string().url().optional(),
+  imageUrl: z.string().url().optional().or(z.literal("")),
   basePrice: z
     .string()
     .regex(/^\d+(\.\d{1,2})?$/, "Invalid price format")

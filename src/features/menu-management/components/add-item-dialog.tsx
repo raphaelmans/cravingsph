@@ -1,6 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ImagePlus, Loader2, X } from "lucide-react";
+import Image from "next/image";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -33,6 +36,7 @@ import {
   type CreateMenuItemDTO,
   CreateMenuItemSchema,
 } from "@/modules/menu/dtos/menu.dto";
+import { getSupabaseBrowserClient } from "@/shared/infra/supabase/browser-client";
 import { useCreateItem } from "../hooks/use-management-menu";
 import type { ManagementCategory } from "../types";
 
@@ -52,17 +56,66 @@ export function AddItemDialog({
   onOpenChange,
 }: AddItemDialogProps) {
   const createMutation = useCreateItem(branchId);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  // Resolve the initial category: explicit default > sole category > empty
+  const resolvedCategoryId =
+    defaultCategoryId ??
+    (categories.length === 1 ? categories[0].category.id : "");
 
   const form = useForm<CreateMenuItemDTO>({
     resolver: zodResolver(CreateMenuItemSchema),
     defaultValues: {
-      categoryId: defaultCategoryId ?? "",
+      categoryId: resolvedCategoryId,
       name: "",
       description: "",
       basePrice: "",
       imageUrl: "",
     },
   });
+
+  async function handleImageUpload(file: File) {
+    const maxSize = 5 * 1024 * 1024; // 5 MB
+    if (file.size > maxSize) {
+      toast.error("Image must be under 5 MB");
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const supabase = getSupabaseBrowserClient();
+      const ext = file.name.split(".").pop() ?? "jpg";
+      const path = `${branchId}/${crypto.randomUUID()}.${ext}`;
+
+      const { error } = await supabase.storage
+        .from("menu-item-images")
+        .upload(path, file, { upsert: true });
+
+      if (error) {
+        toast.error(`Upload failed: ${error.message}`);
+        return;
+      }
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("menu-item-images").getPublicUrl(path);
+
+      form.setValue("imageUrl", publicUrl);
+      setPreviewUrl(publicUrl);
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  function clearImage() {
+    form.setValue("imageUrl", "");
+    setPreviewUrl(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  }
 
   function onSubmit(data: CreateMenuItemDTO) {
     // Strip empty optional fields
@@ -76,22 +129,31 @@ export function AddItemDialog({
       onSuccess: () => {
         toast.success("Item created");
         form.reset({
-          categoryId: defaultCategoryId ?? "",
+          categoryId: resolvedCategoryId,
           name: "",
           description: "",
           basePrice: "",
           imageUrl: "",
         });
+        setPreviewUrl(null);
         onOpenChange(false);
       },
       onError: (err) => toast.error(err.message),
     });
   }
 
-  // Reset categoryId when defaultCategoryId changes (e.g. switching active tab)
+  // Reset categoryId when dialog opens
   function handleOpenChange(nextOpen: boolean) {
-    if (nextOpen && defaultCategoryId) {
-      form.setValue("categoryId", defaultCategoryId);
+    if (nextOpen) {
+      const categoryToSet =
+        defaultCategoryId ??
+        (categories.length === 1 ? categories[0].category.id : "");
+      if (categoryToSet) {
+        form.setValue("categoryId", categoryToSet);
+      }
+    }
+    if (!nextOpen) {
+      setPreviewUrl(null);
     }
     onOpenChange(nextOpen);
   }
@@ -191,22 +253,56 @@ export function AddItemDialog({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="imageUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Image URL (optional)</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="https://example.com/image.jpg"
-                      {...field}
+            {/* Image upload */}
+            <FormItem>
+              <FormLabel>Image (optional)</FormLabel>
+              <div className="flex items-center gap-3">
+                {previewUrl ? (
+                  <div className="relative size-20 shrink-0 overflow-hidden rounded-lg border bg-muted">
+                    <Image
+                      src={previewUrl}
+                      alt="Item preview"
+                      fill
+                      className="object-cover"
+                      sizes="80px"
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <button
+                      type="button"
+                      onClick={clearImage}
+                      className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-destructive text-white shadow"
+                    >
+                      <X className="size-3" />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    disabled={uploading}
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex size-20 shrink-0 items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25 bg-muted/50 text-muted-foreground transition-colors hover:border-muted-foreground/50 hover:bg-muted disabled:opacity-50"
+                  >
+                    {uploading ? (
+                      <Loader2 className="size-6 animate-spin" />
+                    ) : (
+                      <ImagePlus className="size-6" />
+                    )}
+                  </button>
+                )}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) handleImageUpload(file);
+                  }}
+                />
+                <p className="text-xs text-muted-foreground">
+                  JPG, PNG, or WebP. Max 5 MB.
+                </p>
+              </div>
+            </FormItem>
 
             <DialogFooter>
               <Button
@@ -216,7 +312,10 @@ export function AddItemDialog({
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={createMutation.isPending}>
+              <Button
+                type="submit"
+                disabled={createMutation.isPending || uploading}
+              >
                 {createMutation.isPending ? "Creating..." : "Add Item"}
               </Button>
             </DialogFooter>
