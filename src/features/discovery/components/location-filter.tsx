@@ -9,33 +9,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+export interface LocationOption {
+  city: string;
+  slug: string;
+  province?: string | null;
+  count?: number;
+}
+
 interface LocationFilterProps {
   value: string;
   onChange: (location: string) => void;
+  /** Dynamic locations from discovery.locations. Falls back to empty. */
+  locations?: LocationOption[];
 }
 
-export interface LocationOption {
-  label: string;
-  slug: string;
-}
-
-// ---------------------------------------------------------------------------
-// Stub locations — will be replaced by ph-provinces-cities data or tRPC call
-// ---------------------------------------------------------------------------
-export const LOCATION_OPTIONS: LocationOption[] = [
-  { label: "Makati", slug: "makati" },
-  { label: "BGC / Taguig", slug: "taguig" },
-  { label: "Quezon City", slug: "quezon-city" },
-  { label: "Manila", slug: "manila" },
-  { label: "Pasig", slug: "pasig" },
-  { label: "Mandaluyong", slug: "mandaluyong" },
-  { label: "San Juan", slug: "san-juan" },
-  { label: "Parañaque", slug: "paranaque" },
-  { label: "Las Piñas", slug: "las-pinas" },
-  { label: "Muntinlupa", slug: "muntinlupa" },
-];
-
-export function LocationFilter({ value, onChange }: LocationFilterProps) {
+export function LocationFilter({
+  value,
+  onChange,
+  locations = [],
+}: LocationFilterProps) {
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger className="w-auto gap-1.5 rounded-full">
@@ -44,9 +36,10 @@ export function LocationFilter({ value, onChange }: LocationFilterProps) {
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="all">All locations</SelectItem>
-        {LOCATION_OPTIONS.map((location) => (
-          <SelectItem key={location.slug} value={location.slug}>
-            {location.label}
+        {locations.map((loc) => (
+          <SelectItem key={loc.slug} value={loc.city}>
+            {loc.city}
+            {loc.count != null ? ` (${loc.count})` : ""}
           </SelectItem>
         ))}
       </SelectContent>

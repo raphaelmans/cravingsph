@@ -1,6 +1,7 @@
 import { adminRouter } from "@/modules/admin/admin.router";
 import { authRouter } from "@/modules/auth/auth.router";
 import { branchRouter } from "@/modules/branch/branch.router";
+import { discoveryRouter } from "@/modules/discovery/discovery.router";
 import { healthRouter } from "@/modules/health/health.router";
 import { menuRouter } from "@/modules/menu/menu.router";
 import { organizationRouter } from "@/modules/organization/organization.router";
@@ -13,6 +14,7 @@ import { router } from "./trpc";
  */
 export const appRouter = router({
   admin: adminRouter,
+  discovery: discoveryRouter,
   health: healthRouter,
   auth: authRouter,
   profile: profileRouter,

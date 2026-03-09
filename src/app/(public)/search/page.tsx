@@ -1,136 +1,15 @@
 "use client";
 
-import { ArrowLeft, Search, SearchX } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowLeft, Loader2, Search, SearchX } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { type FormEvent, Suspense, useMemo, useRef } from "react";
+import { type FormEvent, Suspense, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { CuisineFilter } from "@/features/discovery/components/cuisine-filter";
 import { LocationFilter } from "@/features/discovery/components/location-filter";
-import type { RestaurantPreview } from "@/features/discovery/components/restaurant-card";
 import { RestaurantCard } from "@/features/discovery/components/restaurant-card";
-
-// ---------------------------------------------------------------------------
-// Stub data — will be replaced by tRPC search procedure
-// ---------------------------------------------------------------------------
-
-const ALL_RESTAURANTS: RestaurantPreview[] = [
-  {
-    slug: "mang-inasal-sm-north",
-    name: "Mang Inasal",
-    coverImageUrl: null,
-    logoUrl: null,
-    cuisineTypes: ["Filipino", "Chicken"],
-    popularItems: ["Chicken Inasal Paa", "Pork BBQ", "Halo-Halo"],
-  },
-  {
-    slug: "jollibee-katipunan",
-    name: "Jollibee",
-    coverImageUrl: null,
-    logoUrl: null,
-    cuisineTypes: ["Filipino", "Fast Food"],
-    popularItems: ["Chickenjoy", "Jolly Spaghetti", "Yumburger"],
-  },
-  {
-    slug: "andoks-commonwealth",
-    name: "Andok's",
-    coverImageUrl: null,
-    logoUrl: null,
-    cuisineTypes: ["Filipino", "Chicken"],
-    popularItems: ["Litson Manok", "Dokito", "Pork BBQ"],
-  },
-  {
-    slug: "kuya-j-ayala",
-    name: "Kuya J Restaurant",
-    coverImageUrl: null,
-    logoUrl: null,
-    cuisineTypes: ["Filipino", "Seafood"],
-    popularItems: ["Crispy Pata", "Baked Scallops", "Sinigang na Hipon"],
-  },
-  {
-    slug: "lugawan-sa-kanto",
-    name: "Lugawan sa Kanto",
-    coverImageUrl: null,
-    logoUrl: null,
-    cuisineTypes: ["Filipino", "Street Food"],
-    popularItems: ["Lugaw", "Tokwa't Baboy", "Goto"],
-  },
-  {
-    slug: "meryendahan-ni-ate",
-    name: "Meryendahan ni Ate",
-    coverImageUrl: null,
-    logoUrl: null,
-    cuisineTypes: ["Filipino", "Desserts"],
-    popularItems: ["Turon", "Banana Cue", "Biko"],
-  },
-  {
-    slug: "brew-coffee-co",
-    name: "Brew Coffee Co.",
-    coverImageUrl: null,
-    logoUrl: null,
-    cuisineTypes: ["Coffee", "Pastries"],
-    popularItems: ["Iced Spanish Latte", "Matcha Latte", "Ensaymada"],
-  },
-  {
-    slug: "seafood-dampa",
-    name: "Seafood Dampa",
-    coverImageUrl: null,
-    logoUrl: null,
-    cuisineTypes: ["Filipino", "Seafood"],
-    popularItems: ["Grilled Bangus", "Sinigang na Salmon", "Kare-Kare"],
-  },
-  {
-    slug: "milk-tea-house",
-    name: "Milk Tea House",
-    coverImageUrl: null,
-    logoUrl: null,
-    cuisineTypes: ["Milk Tea", "Snacks"],
-    popularItems: ["Okinawa Milk Tea", "Wintermelon", "Takoyaki"],
-  },
-  {
-    slug: "bbq-masters",
-    name: "BBQ Masters",
-    coverImageUrl: null,
-    logoUrl: null,
-    cuisineTypes: ["BBQ", "Filipino"],
-    popularItems: ["Pork Belly BBQ", "Chicken Skewers", "Java Rice"],
-  },
-];
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-function filterRestaurants(
-  restaurants: RestaurantPreview[],
-  query: string,
-  cuisine: string,
-): RestaurantPreview[] {
-  return restaurants.filter((r) => {
-    // Text search — match name, cuisine types, or popular items
-    if (query) {
-      const q = query.toLowerCase();
-      const matchesName = r.name.toLowerCase().includes(q);
-      const matchesCuisine = r.cuisineTypes.some((c) =>
-        c.toLowerCase().includes(q),
-      );
-      const matchesItems = r.popularItems.some((item) =>
-        item.toLowerCase().includes(q),
-      );
-      if (!matchesName && !matchesCuisine && !matchesItems) return false;
-    }
-
-    // Cuisine filter — match any cuisine type slug
-    if (cuisine) {
-      const matchesCuisineFilter = r.cuisineTypes.some(
-        (c) => c.toLowerCase().replace(/\s+/g, "-") === cuisine,
-      );
-      if (!matchesCuisineFilter) return false;
-    }
-
-    return true;
-  });
-}
+import { useTRPC } from "@/trpc/client";
 
 // ---------------------------------------------------------------------------
 // Page
@@ -140,14 +19,22 @@ function SearchPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
+  const trpc = useTRPC();
 
   const query = searchParams.get("q") ?? "";
   const cuisine = searchParams.get("cuisine") ?? "";
   const location = searchParams.get("location") ?? "";
 
-  const results = useMemo(
-    () => filterRestaurants(ALL_RESTAURANTS, query, cuisine),
-    [query, cuisine],
+  const { data: results = [], isLoading } = useQuery(
+    trpc.discovery.search.queryOptions({
+      query: query || undefined,
+      cuisine: cuisine || undefined,
+      city: location || undefined,
+    }),
+  );
+
+  const { data: locations = [] } = useQuery(
+    trpc.discovery.locations.queryOptions(),
   );
 
   // Build new URL preserving existing params
@@ -168,6 +55,8 @@ function SearchPageContent() {
     const value = inputRef.current?.value.trim() ?? "";
     updateParams({ q: value });
   }
+
+  const hasFilters = query || cuisine || location;
 
   return (
     <main className="flex min-h-dvh flex-col">
@@ -201,6 +90,7 @@ function SearchPageContent() {
           <LocationFilter
             value={location || "all"}
             onChange={(v) => updateParams({ location: v === "all" ? "" : v })}
+            locations={locations}
           />
         </div>
 
@@ -212,32 +102,43 @@ function SearchPageContent() {
 
       {/* Results */}
       <div className="flex-1 px-4 py-4">
-        {query || cuisine ? (
-          <p className="mb-3 text-sm text-muted-foreground">
-            {results.length} result{results.length !== 1 ? "s" : ""}
-            {query ? ` for "${query}"` : ""}
-            {cuisine ? ` in ${cuisine.replace(/-/g, " ")}` : ""}
-          </p>
-        ) : null}
-
-        {results.length > 0 ? (
-          <div className="grid gap-3 sm:grid-cols-2">
-            {results.map((restaurant) => (
-              <RestaurantCard key={restaurant.slug} restaurant={restaurant} />
-            ))}
+        {isLoading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="size-6 animate-spin text-muted-foreground" />
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center gap-3 py-20 text-center">
-            <div className="flex size-16 items-center justify-center rounded-full bg-muted">
-              <SearchX className="size-7 text-muted-foreground" />
-            </div>
-            <div>
-              <p className="font-medium">No restaurants found</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Try a different search term or adjust your filters.
+          <>
+            {hasFilters ? (
+              <p className="mb-3 text-sm text-muted-foreground">
+                {results.length} result{results.length !== 1 ? "s" : ""}
+                {query ? ` for "${query}"` : ""}
+                {cuisine ? ` in ${cuisine.replace(/-/g, " ")}` : ""}
               </p>
-            </div>
-          </div>
+            ) : null}
+
+            {results.length > 0 ? (
+              <div className="grid gap-3 sm:grid-cols-2">
+                {results.map((restaurant) => (
+                  <RestaurantCard
+                    key={restaurant.slug}
+                    restaurant={restaurant}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center gap-3 py-20 text-center">
+                <div className="flex size-16 items-center justify-center rounded-full bg-muted">
+                  <SearchX className="size-7 text-muted-foreground" />
+                </div>
+                <div>
+                  <p className="font-medium">No restaurants found</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Try a different search term or adjust your filters.
+                  </p>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </main>
