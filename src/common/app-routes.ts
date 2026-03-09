@@ -96,6 +96,8 @@ export const appRoutes = {
     base: "/admin",
     options: { type: "admin" as const },
     verification: "/admin/verification",
+    verificationRequest: (requestId: string) =>
+      `/admin/verification/${requestId}`,
     restaurants: "/admin/restaurants",
     users: "/admin/users",
   },
