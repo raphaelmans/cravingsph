@@ -8,6 +8,7 @@ import { orderRouter } from "@/modules/order/order.router";
 import { organizationRouter } from "@/modules/organization/organization.router";
 import { profileRouter } from "@/modules/profile/profile.router";
 import { restaurantRouter } from "@/modules/restaurant/restaurant.router";
+import { reviewRouter } from "@/modules/review/review.router";
 import { savedRestaurantRouter } from "@/modules/saved-restaurant/saved-restaurant.router";
 import { router } from "./trpc";
 
@@ -26,6 +27,7 @@ export const appRouter = router({
   branch: branchRouter,
   menu: menuRouter,
   order: orderRouter,
+  review: reviewRouter,
 });
 
 /**

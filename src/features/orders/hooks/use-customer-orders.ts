@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useCartStore } from "@/features/cart/stores/cart.store";
 import { useTRPC } from "@/trpc/client";
@@ -165,17 +165,23 @@ export function useCustomerOrders() {
     };
   };
 
-  const submitReview = (_input: {
+  const reviewMutation = useMutation(
+    trpc.review.create.mutationOptions({
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: trpc.order.listMine.queryKey(),
+        });
+      },
+    }),
+  );
+
+  const submitReview = (input: {
     orderId: string;
     rating: number;
     comment: string;
     authorName: string;
   }) => {
-    // Review submission will be wired in Step 7 (review module).
-    // For now, invalidate the order list to pick up the hasReview flag.
-    queryClient.invalidateQueries({
-      queryKey: trpc.order.listMine.queryKey(),
-    });
+    reviewMutation.mutate(input);
   };
 
   return {
@@ -187,12 +193,19 @@ export function useCustomerOrders() {
   };
 }
 
-export function useRestaurantReviews(_restaurantSlug: string) {
-  // Reviews will be wired in Step 7 (review module).
-  // Return empty state for now.
+export function useRestaurantReviews(restaurantSlug: string) {
+  const trpc = useTRPC();
+
+  const reviewsQuery = useQuery(
+    trpc.review.listByRestaurant.queryOptions({ restaurantSlug }),
+  );
+
+  const data = reviewsQuery.data;
+
   return {
-    reviews: [] as CustomerReview[],
-    averageRating: 0,
-    totalReviews: 0,
+    reviews: (data?.reviews ?? []) as CustomerReview[],
+    averageRating: data?.averageRating ?? 0,
+    totalReviews: data?.totalReviews ?? 0,
+    isLoading: reviewsQuery.isLoading,
   };
 }
