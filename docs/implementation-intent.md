@@ -100,6 +100,14 @@ Route → Feature Component → hooks.ts → api.ts → tRPC client
 | Preview | Vercel preview deployments (per PR) |
 | Production | Vercel + Supabase production project |
 
+## Design Conventions
+
+- **Prices**: Always use `<Price />` from `@/components/brand/price` — renders in orange (`text-primary`) with `tabular-nums` for aligned columns
+- **Shapes**: Customer-facing pages use `shape="pill"` on buttons and inputs; admin pages use the default `rounded-md`
+- **Containers**: Cards and images use `rounded-lg` / `rounded-xl` — never pill-shaped
+- **Logo**: Use `<Logo />` from `@/components/brand/logo` — available in `sm`, `default`, `lg`, `xl` sizes
+- **Peach backgrounds**: Use `bg-peach` / `text-peach-foreground` for warm hero sections and empty states; keep `bg-accent` for component hover states
+
 ## References
 
 - Legacy analysis: `docs/legacy-analysis/`

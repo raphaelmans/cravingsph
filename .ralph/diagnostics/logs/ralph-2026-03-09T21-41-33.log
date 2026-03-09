@@ -1,0 +1,31 @@
+2026-03-09T13:41:33.431124Z  WARN ralph::preflight: Config file "presets/pdd-to-code-assist.yml" not found, using defaults
+2026-03-09T13:41:33.437577Z  INFO ralph: Loop lock held by PID 99371 (# CravingsPH — Frontend UI Scaffold
+
+## Objective
+), spawning parallel loop in worktree
+2026-03-09T13:41:33.667816Z  INFO ralph: Created worktree at /Users/raphaelm/Documents/Coding/startups/cravingsph/.worktrees/cheery-hawk on branch ralph/cheery-hawk
+2026-03-09T13:41:33.781723Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph/.worktrees/cheery-hawk"
+2026-03-09T13:41:33.782120Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.worktrees/cheery-hawk/.ralph/agent/memories.md" (exists: true)
+2026-03-09T13:41:33.787779Z  INFO ralph_core::event_loop: Successfully loaded 2 memories from store
+2026-03-09T13:41:33.787804Z  INFO ralph_core::event_loop: Injecting 2 memories (607 chars) into prompt
+2026-03-09T13:41:33.788210Z  INFO ralph_core::event_loop: Injecting ready tasks (1 ready, 1 open, 34 closed) into prompt
+2026-03-09T13:50:07.050319Z  WARN ralph_core::event_loop: build.done rejected: missing backpressure evidence
+2026-03-09T13:50:07.051797Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph/.worktrees/cheery-hawk"
+2026-03-09T13:50:07.051830Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.worktrees/cheery-hawk/.ralph/agent/memories.md" (exists: true)
+2026-03-09T13:50:07.052944Z  INFO ralph_core::event_loop: Successfully loaded 7 memories from store
+2026-03-09T13:50:07.052964Z  INFO ralph_core::event_loop: Injecting 7 memories (2276 chars) into prompt
+2026-03-09T13:50:07.053156Z  INFO ralph_core::event_loop: Injecting scratchpad (11349 chars) into prompt
+2026-03-09T13:50:07.053364Z  INFO ralph_core::event_loop: Injecting ready tasks (0 ready, 0 open, 35 closed) into prompt
+2026-03-09T13:56:38.106078Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph/.worktrees/cheery-hawk"
+2026-03-09T13:56:38.106936Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.worktrees/cheery-hawk/.ralph/agent/memories.md" (exists: true)
+2026-03-09T13:56:38.108004Z  INFO ralph_core::event_loop: Successfully loaded 10 memories from store
+2026-03-09T13:56:38.108020Z  INFO ralph_core::event_loop: Injecting 10 memories (3143 chars) into prompt
+2026-03-09T13:56:38.108197Z  INFO ralph_core::event_loop: Injecting scratchpad (13708 chars) into prompt
+2026-03-09T13:56:38.108413Z  INFO ralph_core::event_loop: Injecting ready tasks (4 ready, 4 open, 36 closed) into prompt
+2026-03-09T14:03:31.443350Z  WARN ralph_core::event_loop: build.done rejected: backpressure checks failed tests=true lint=true typecheck=true audit=false coverage=false duplication=false
+2026-03-09T14:03:31.444733Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph/.worktrees/cheery-hawk"
+2026-03-09T14:03:31.444962Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.worktrees/cheery-hawk/.ralph/agent/memories.md" (exists: true)
+2026-03-09T14:03:31.446157Z  INFO ralph_core::event_loop: Successfully loaded 12 memories from store
+2026-03-09T14:03:31.446177Z  INFO ralph_core::event_loop: Injecting 12 memories (3725 chars) into prompt
+2026-03-09T14:03:31.446378Z  INFO ralph_core::event_loop: Injecting scratchpad (16201 chars) into prompt
+2026-03-09T14:03:31.446597Z  INFO ralph_core::event_loop: Injecting ready tasks (3 ready, 3 open, 37 closed) into prompt

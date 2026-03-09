@@ -1,0 +1,109 @@
+2026-03-09T14:10:10.521486Z  WARN ralph::preflight: Config file "presets/pdd-to-code-assist.yml" not found, using defaults
+2026-03-09T14:10:10.641629Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T14:10:10.641825Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T14:10:10.645624Z  INFO ralph_core::event_loop: Successfully loaded 2 memories from store
+2026-03-09T14:10:10.645658Z  INFO ralph_core::event_loop: Injecting 2 memories (607 chars) into prompt
+2026-03-09T14:10:10.646145Z  INFO ralph_core::event_loop: Injecting ready tasks (1 ready, 1 open, 34 closed) into prompt
+2026-03-09T14:15:32.902635Z  WARN ralph_core::event_loop: build.done rejected: missing backpressure evidence
+2026-03-09T14:15:32.903855Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T14:15:32.904016Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T14:15:32.904445Z  INFO ralph_core::event_loop: Successfully loaded 4 memories from store
+2026-03-09T14:15:32.904458Z  INFO ralph_core::event_loop: Injecting 4 memories (1139 chars) into prompt
+2026-03-09T14:15:32.904641Z  INFO ralph_core::event_loop: Injecting scratchpad (10592 chars) into prompt
+2026-03-09T14:15:32.905031Z  INFO ralph_core::event_loop: Injecting ready tasks (0 ready, 0 open, 35 closed) into prompt
+2026-03-09T14:20:51.152847Z  WARN ralph_core::event_loop: build.done rejected: backpressure checks failed tests=true lint=true typecheck=true audit=true coverage=true duplication=true specs=true
+2026-03-09T14:20:51.153380Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T14:20:51.153550Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T14:20:51.154111Z  INFO ralph_core::event_loop: Successfully loaded 6 memories from store
+2026-03-09T14:20:51.154124Z  INFO ralph_core::event_loop: Injecting 6 memories (1728 chars) into prompt
+2026-03-09T14:20:51.154311Z  INFO ralph_core::event_loop: Injecting scratchpad (12707 chars) into prompt
+2026-03-09T14:20:51.154503Z  INFO ralph_core::event_loop: Injecting ready tasks (3 ready, 3 open, 36 closed) into prompt
+2026-03-09T14:26:29.180983Z  WARN ralph_core::event_loop: build.done rejected: backpressure checks failed tests=false lint=false typecheck=true audit=false coverage=false duplication=false
+2026-03-09T14:26:29.182519Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T14:26:29.182714Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T14:26:29.184454Z  INFO ralph_core::event_loop: Successfully loaded 7 memories from store
+2026-03-09T14:26:29.184668Z  INFO ralph_core::event_loop: Injecting 7 memories (2039 chars) into prompt
+2026-03-09T14:26:29.185571Z  INFO ralph_core::event_loop: Injecting scratchpad (15169 chars) into prompt
+2026-03-09T14:26:29.185785Z  INFO ralph_core::event_loop: Injecting ready tasks (2 ready, 2 open, 37 closed) into prompt
+2026-03-09T14:32:04.935155Z  WARN ralph_core::event_loop: build.done rejected: missing backpressure evidence
+2026-03-09T14:32:04.937719Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T14:32:04.937918Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T14:32:04.940563Z  INFO ralph_core::event_loop: Successfully loaded 8 memories from store
+2026-03-09T14:32:04.940753Z  INFO ralph_core::event_loop: Injecting 8 memories (2385 chars) into prompt
+2026-03-09T14:32:04.941009Z  INFO ralph_core::event_loop: Injecting scratchpad (16325 chars) into prompt
+2026-03-09T14:32:04.941363Z  INFO ralph_core::event_loop: Injecting ready tasks (1 ready, 1 open, 38 closed) into prompt
+2026-03-09T14:39:48.941284Z  WARN ralph_core::event_loop: build.done rejected: backpressure checks failed tests=true lint=true typecheck=true audit=true coverage=true duplication=true specs=true
+2026-03-09T14:39:48.941839Z  WARN ralph_core::event_loop: Task abandoned after 3 consecutive blocks task_id=Backpressure checks failed. Fix tests/lint/typecheck/audit/coverage/complexity/duplication/specs before emitting build.done.
+2026-03-09T14:39:48.942862Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T14:39:48.942982Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T14:39:48.945279Z  INFO ralph_core::event_loop: Successfully loaded 9 memories from store
+2026-03-09T14:39:48.945295Z  INFO ralph_core::event_loop: Injecting 9 memories (2764 chars) into prompt
+2026-03-09T14:39:48.945483Z  INFO ralph_core::event_loop: Injecting scratchpad (16587 chars) into prompt
+2026-03-09T14:39:48.945719Z  INFO ralph_core::event_loop: Injecting ready tasks (1 ready, 1 open, 39 closed) into prompt
+2026-03-09T14:41:54.593028Z  WARN ralph_core::event_loop: build.done rejected: missing backpressure evidence
+2026-03-09T14:41:54.593242Z  WARN ralph_core::event_loop: Task abandoned after 3 consecutive blocks task_id=Missing backpressure evidence. Include 'tests: pass', 'lint: pass', 'typecheck: pass', 'audit: pass', 'coverage: pass', 'complexity: <score>', 'duplication: pass', 'performance: pass' (optional), 'specs: pass' (optional) in build.done payload.
+2026-03-09T14:41:54.593929Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T14:41:54.594164Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T14:41:54.594840Z  INFO ralph_core::event_loop: Successfully loaded 10 memories from store
+2026-03-09T14:41:54.594866Z  INFO ralph_core::event_loop: Injecting 10 memories (3062 chars) into prompt
+2026-03-09T14:41:54.595084Z  INFO ralph_core::event_loop: Injecting scratchpad (16701 chars) into prompt
+2026-03-09T14:41:54.595504Z  INFO ralph_core::event_loop: Injecting ready tasks (0 ready, 0 open, 40 closed) into prompt
+2026-03-09T14:49:35.591280Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T14:49:35.591963Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T14:49:35.593771Z  INFO ralph_core::event_loop: Successfully loaded 13 memories from store
+2026-03-09T14:49:35.593801Z  INFO ralph_core::event_loop: Injecting 13 memories (3974 chars) into prompt
+2026-03-09T14:49:35.594015Z  INFO ralph_core::event_loop: Injecting scratchpad (16914 chars) into prompt
+2026-03-09T14:49:35.594366Z  INFO ralph_core::event_loop: Injecting ready tasks (3 ready, 3 open, 40 closed) into prompt
+2026-03-09T14:56:38.924664Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T14:56:38.925348Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T14:56:38.926805Z  INFO ralph_core::event_loop: Successfully loaded 15 memories from store
+2026-03-09T14:56:38.926873Z  INFO ralph_core::event_loop: Injecting 15 memories (4683 chars) into prompt
+2026-03-09T14:56:38.927349Z  INFO ralph_core::event_loop: Injecting scratchpad (16976 chars) into prompt
+2026-03-09T14:56:38.927532Z  INFO ralph_core::event_loop: Injecting ready tasks (2 ready, 2 open, 41 closed) into prompt
+2026-03-09T15:05:02.150281Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T15:05:02.152594Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T15:05:02.154302Z  INFO ralph_core::event_loop: Successfully loaded 16 memories from store
+2026-03-09T15:05:02.154322Z  INFO ralph_core::event_loop: Injecting 16 memories (5126 chars) into prompt
+2026-03-09T15:05:02.154519Z  INFO ralph_core::event_loop: Injecting scratchpad (17031 chars) into prompt
+2026-03-09T15:05:02.155036Z  INFO ralph_core::event_loop: Injecting ready tasks (1 ready, 1 open, 42 closed) into prompt
+2026-03-09T15:11:56.050111Z  WARN ralph_core::event_loop: build.done rejected: backpressure checks failed tests=true lint=true typecheck=true audit=true coverage=true duplication=false
+2026-03-09T15:11:56.051538Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T15:11:56.052292Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T15:11:56.053703Z  INFO ralph_core::event_loop: Successfully loaded 18 memories from store
+2026-03-09T15:11:56.053721Z  INFO ralph_core::event_loop: Injecting 18 memories (5869 chars) into prompt
+2026-03-09T15:11:56.053887Z  INFO ralph_core::event_loop: Injecting scratchpad (17004 chars) into prompt
+2026-03-09T15:11:56.054063Z  INFO ralph_core::event_loop: Injecting ready tasks (3 ready, 4 open, 43 closed) into prompt
+2026-03-09T15:18:42.863497Z  WARN ralph_core::event_loop: build.done rejected: missing backpressure evidence
+2026-03-09T15:18:42.864669Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T15:18:42.864859Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T15:18:42.866315Z  INFO ralph_core::event_loop: Successfully loaded 20 memories from store
+2026-03-09T15:18:42.866473Z  INFO ralph_core::event_loop: Injecting 20 memories (6675 chars) into prompt
+2026-03-09T15:18:42.866663Z  INFO ralph_core::event_loop: Injecting scratchpad (17126 chars) into prompt
+2026-03-09T15:18:42.866867Z  INFO ralph_core::event_loop: Injecting ready tasks (2 ready, 3 open, 44 closed) into prompt
+2026-03-09T15:24:09.501039Z  WARN ralph_core::event_loop: build.done rejected: backpressure checks failed tests=true lint=true typecheck=true audit=true coverage=true duplication=true specs=true
+2026-03-09T15:24:09.502298Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T15:24:09.502506Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T15:24:09.503844Z  INFO ralph_core::event_loop: Successfully loaded 23 memories from store
+2026-03-09T15:24:09.503873Z  INFO ralph_core::event_loop: Injecting 23 memories (7908 chars) into prompt
+2026-03-09T15:24:09.504111Z  INFO ralph_core::event_loop: Injecting scratchpad (17144 chars) into prompt
+2026-03-09T15:24:09.504242Z  INFO ralph_core::event_loop: Injecting ready tasks (1 ready, 2 open, 45 closed) into prompt
+2026-03-09T15:28:29.651933Z  WARN ralph_core::event_loop: build.done rejected: missing backpressure evidence
+2026-03-09T15:28:29.653577Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T15:28:29.653760Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T15:28:29.655447Z  INFO ralph_core::event_loop: Successfully loaded 24 memories from store
+2026-03-09T15:28:29.655635Z  INFO ralph_core::event_loop: Injecting 24 memories (8236 chars) into prompt
+2026-03-09T15:28:29.655867Z  INFO ralph_core::event_loop: Injecting scratchpad (17238 chars) into prompt
+2026-03-09T15:28:29.655979Z  INFO ralph_core::event_loop: Injecting ready tasks (1 ready, 1 open, 46 closed) into prompt
+2026-03-09T15:34:53.952640Z  WARN ralph_core::event_reader: Malformed JSON line error=trailing characters at line 1 column 129 line_number=15
+2026-03-09T15:34:53.953454Z  WARN ralph_core::event_loop: Malformed event line detected line=15 consecutive=1
+2026-03-09T15:34:53.954044Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T15:34:53.954209Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T15:34:53.955841Z  INFO ralph_core::event_loop: Successfully loaded 27 memories from store
+2026-03-09T15:34:53.955881Z  INFO ralph_core::event_loop: Injecting 27 memories (9265 chars) into prompt
+2026-03-09T15:34:53.956100Z  INFO ralph_core::event_loop: Injecting scratchpad (17263 chars) into prompt
+2026-03-09T15:34:53.956304Z  INFO ralph_core::event_loop: Injecting ready tasks (0 ready, 0 open, 47 closed) into prompt
+2026-03-09T15:35:33.841380Z  INFO ralph_core::event_loop: Completion event detected in JSONL topic=LOOP_COMPLETE
+2026-03-09T15:35:33.842129Z  INFO ralph_core::event_loop: Completion event detected - terminating
+2026-03-09T15:35:33.842555Z  INFO ralph::loop_runner: Completion event LOOP_COMPLETE detected.
+2026-03-09T15:35:33.842704Z  INFO ralph_core::event_loop: Wrapping up: completed. 15 iterations in 1h 25m 23s. reason=completed iterations=15 duration=1h 25m 23s
+2026-03-09T15:35:33.859907Z  INFO ralph_core::landing: Beginning landing sequence loop_id=primary

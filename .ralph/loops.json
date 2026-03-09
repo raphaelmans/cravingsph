@@ -1,0 +1,12 @@
+{
+  "loops": [
+    {
+      "id": "cheery-hawk",
+      "pid": 61156,
+      "started": "2026-03-09T13:41:33.668489Z",
+      "prompt": "# CravingsPH — Frontend UI Scaffold\n\n## Objective\n\nScaffold the complete frontend for CravingsPH:...",
+      "worktree_path": "/Users/raphaelm/Documents/Coding/startups/cravingsph/.worktrees/cheery-hawk",
+      "workspace": "/Users/raphaelm/Documents/Coding/startups/cravingsph/.worktrees/cheery-hawk"
+    }
+  ]
+}
