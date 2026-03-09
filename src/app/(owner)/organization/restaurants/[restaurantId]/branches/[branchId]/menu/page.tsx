@@ -28,6 +28,8 @@ import { AddCategoryDialog } from "@/features/menu-management/components/add-cat
 import { AddItemDialog } from "@/features/menu-management/components/add-item-dialog";
 import { EditItemDialog } from "@/features/menu-management/components/edit-item-dialog";
 import { MenuItemManagementCard } from "@/features/menu-management/components/menu-item-card";
+import { ModifierGroupDialog } from "@/features/menu-management/components/modifier-group-dialog";
+import { VariantsDialog } from "@/features/menu-management/components/variants-dialog";
 import {
   useDeleteCategory,
   useDeleteItem,
@@ -53,6 +55,10 @@ export default function MenuManagementPage({
   const [addCategoryOpen, setAddCategoryOpen] = useState(false);
   const [addItemOpen, setAddItemOpen] = useState(false);
   const [editTarget, setEditTarget] = useState<ManagementMenuItem | null>(null);
+  const [variantsTarget, setVariantsTarget] =
+    useState<ManagementMenuItem | null>(null);
+  const [modifiersTarget, setModifiersTarget] =
+    useState<ManagementMenuItem | null>(null);
   const [deleteCategoryTarget, setDeleteCategoryTarget] = useState<{
     id: string;
     name: string;
@@ -114,12 +120,12 @@ export default function MenuManagementPage({
     setEditTarget(item);
   }
 
-  function handleManageVariants(_item: ManagementMenuItem) {
-    toast.info("Variants dialog coming soon");
+  function handleManageVariants(target: ManagementMenuItem) {
+    setVariantsTarget(target);
   }
 
-  function handleManageModifiers(_item: ManagementMenuItem) {
-    toast.info("Modifiers dialog coming soon");
+  function handleManageModifiers(target: ManagementMenuItem) {
+    setModifiersTarget(target);
   }
 
   return (
@@ -304,6 +310,26 @@ export default function MenuManagementPage({
         open={editTarget !== null}
         onOpenChange={(open) => {
           if (!open) setEditTarget(null);
+        }}
+      />
+
+      {/* Variants Dialog */}
+      <VariantsDialog
+        branchId={branchId}
+        item={variantsTarget}
+        open={variantsTarget !== null}
+        onOpenChange={(open) => {
+          if (!open) setVariantsTarget(null);
+        }}
+      />
+
+      {/* Modifier Groups Dialog */}
+      <ModifierGroupDialog
+        branchId={branchId}
+        item={modifiersTarget}
+        open={modifiersTarget !== null}
+        onOpenChange={(open) => {
+          if (!open) setModifiersTarget(null);
         }}
       />
 

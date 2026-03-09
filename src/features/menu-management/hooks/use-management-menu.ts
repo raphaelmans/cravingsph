@@ -110,3 +110,100 @@ export function useDeleteCategory(branchId: string) {
     },
   });
 }
+
+// --- Variants ---
+
+export function useCreateVariant(branchId: string) {
+  const trpc = useTRPC();
+  const queryClient = getQueryClient();
+  const queryKey = trpc.menu.getManagementMenu.queryKey({ branchId });
+
+  return useMutation({
+    ...trpc.menu.createVariant.mutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+}
+
+export function useDeleteVariant(branchId: string) {
+  const trpc = useTRPC();
+  const queryClient = getQueryClient();
+  const queryKey = trpc.menu.getManagementMenu.queryKey({ branchId });
+
+  return useMutation({
+    ...trpc.menu.deleteVariant.mutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+}
+
+// --- Modifier Groups ---
+
+export function useCreateModifierGroup(branchId: string) {
+  const trpc = useTRPC();
+  const queryClient = getQueryClient();
+  const queryKey = trpc.menu.getManagementMenu.queryKey({ branchId });
+
+  return useMutation({
+    ...trpc.menu.createModifierGroup.mutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+}
+
+export function useUpdateModifierGroup(branchId: string) {
+  const trpc = useTRPC();
+  const queryClient = getQueryClient();
+  const queryKey = trpc.menu.getManagementMenu.queryKey({ branchId });
+
+  return useMutation({
+    ...trpc.menu.updateModifierGroup.mutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+}
+
+export function useDeleteModifierGroup(branchId: string) {
+  const trpc = useTRPC();
+  const queryClient = getQueryClient();
+  const queryKey = trpc.menu.getManagementMenu.queryKey({ branchId });
+
+  return useMutation({
+    ...trpc.menu.deleteModifierGroup.mutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+}
+
+// --- Modifiers ---
+
+export function useCreateModifier(branchId: string) {
+  const trpc = useTRPC();
+  const queryClient = getQueryClient();
+  const queryKey = trpc.menu.getManagementMenu.queryKey({ branchId });
+
+  return useMutation({
+    ...trpc.menu.createModifier.mutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+}
+
+export function useDeleteModifier(branchId: string) {
+  const trpc = useTRPC();
+  const queryClient = getQueryClient();
+  const queryKey = trpc.menu.getManagementMenu.queryKey({ branchId });
+
+  return useMutation({
+    ...trpc.menu.deleteModifier.mutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+}
