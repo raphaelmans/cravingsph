@@ -139,3 +139,41 @@ Build the wizard page at `/organization/onboarding` with:
 8. Create `src/features/onboarding/components/completion-step.tsx` (Step 7)
 9. Create `src/app/(owner)/organization/onboarding/page.tsx` — wizard orchestrator
 10. Verify typecheck + lint
+
+### Result
+- Committed as 9557e41
+- Task closed: task-1773060409-b056
+- Created: `src/features/onboarding/components/wizard-progress.tsx` — horizontal step indicator with 7 steps
+- Created: `src/features/onboarding/components/organization-form.tsx` — org creation with localStorage pre-fill
+- Created: `src/features/onboarding/components/restaurant-form.tsx` — restaurant creation with full form fields
+- Created: `src/features/onboarding/components/branch-form.tsx` — branch creation with address/province/city
+- Created: `src/features/onboarding/components/menu-builder-step.tsx` — stub (skip for now)
+- Created: `src/features/onboarding/components/payment-methods-step.tsx` — stub (skip for now)
+- Created: `src/features/onboarding/components/verification-step.tsx` — stub (skip for now)
+- Created: `src/features/onboarding/components/completion-step.tsx` — success + dashboard link
+- Created: `src/app/(owner)/organization/onboarding/page.tsx` — wizard orchestrator with URL-based step tracking
+- Step 10 complete (10a hub + 10b wizard). Next: Step 11 (owner menu management)
+
+## Iteration: Step 11a — Menu management page + item cards
+
+### Understanding
+Step 11 builds the CRUD interface for managing categories, items, variants, and modifiers.
+Route: `/organization/restaurants/[restaurantId]/branches/[branchId]/menu`
+
+### Data model
+- `getManagementMenu(branchId)` returns `FullMenu = MenuCategoryWithItems[]`
+- Each category has `items: MenuItemWithDetails[]`
+- Each item has `variants: ItemVariantRecord[]` and `modifierGroups: ModifierGroupWithModifiers[]`
+- All mutations exist in `menu.*` tRPC router
+
+### Task breakdown
+- **11a**: Menu management page + useManagementMenu hook + MenuItemManagementCard + category tabs + availability toggle
+- **11b**: AddCategoryDialog + delete category action
+- **11c**: AddItemDialog + EditItemDialog
+- **11d**: VariantsDialog + ModifierGroupDialog
+
+### Plan for 11a
+1. Create `src/features/menu-management/hooks/use-management-menu.ts` — wraps `menu.getManagementMenu`
+2. Create `src/features/menu-management/components/menu-item-card.tsx` — card with image, name, price, availability Switch, actions DropdownMenu
+3. Create `src/app/(owner)/organization/restaurants/[restaurantId]/branches/[branchId]/menu/page.tsx` — page with DashboardNavbar, category tabs, item grid
+4. Verify typecheck + lint
