@@ -65,6 +65,7 @@ export function OwnerRegisterForm() {
         email: data.email,
         password: data.password,
         redirect: ONBOARDING_REDIRECT,
+        portalPreference: "owner",
       });
       setSuccess(true);
     } catch (error) {

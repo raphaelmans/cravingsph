@@ -4,10 +4,11 @@ import { api } from "@/trpc/server";
 
 /**
  * Post-login redirect handler.
- * Routes users to the correct portal based on their role:
+ * Routes users to the correct portal based on their portal preference and role:
  * - Admin → /admin
- * - Owner (has org) → /organization
- * - Customer (no org) → / (home)
+ * - Owner (portal_preference = 'owner') → /organization or /organization/get-started
+ * - Customer (portal_preference = 'customer') → / (home)
+ * - Legacy (null portal_preference) → check org existence for backward compat
  */
 export default async function PostLoginPage() {
   const session = await getServerSession();
@@ -20,14 +21,27 @@ export default async function PostLoginPage() {
     redirect("/admin");
   }
 
-  // Check if user has an organization to determine owner vs customer
+  // Explicit portal preference takes priority
+  if (session.portalPreference === "customer") {
+    redirect("/");
+  }
+
+  if (session.portalPreference === "owner") {
+    const caller = await api();
+    try {
+      await caller.organization.mine();
+      redirect("/organization");
+    } catch {
+      redirect("/organization/get-started");
+    }
+  }
+
+  // Legacy accounts (null portal_preference): check org existence
   const caller = await api();
   try {
     await caller.organization.mine();
-    // Has an org → owner portal
     redirect("/organization");
   } catch {
-    // No org → customer home
     redirect("/");
   }
 }

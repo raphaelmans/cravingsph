@@ -11,6 +11,7 @@ export interface IProfileService {
   getOrCreateProfile(
     userId: string,
     fallbackEmail?: string | null,
+    portalPreference?: string,
   ): Promise<ProfileRecord>;
   updateProfile(
     userId: string,
@@ -36,6 +37,7 @@ export class ProfileService implements IProfileService {
   async getOrCreateProfile(
     userId: string,
     fallbackEmail?: string | null,
+    portalPreference?: string,
   ): Promise<ProfileRecord> {
     const existing = await this.profileRepository.findByUserId(userId);
     if (existing) {
@@ -56,6 +58,7 @@ export class ProfileService implements IProfileService {
         {
           userId,
           email: fallbackEmail ?? null,
+          portalPreference: portalPreference ?? null,
         },
         ctx,
       );

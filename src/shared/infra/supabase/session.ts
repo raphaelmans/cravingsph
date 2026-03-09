@@ -1,10 +1,11 @@
-import { cookies } from "next/headers";
 import type { CookieMethodsServer } from "@supabase/ssr";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { env } from "@/lib/env";
-import { createClient } from "@/shared/infra/supabase/create-client";
-import type { Session, UserRole } from "@/shared/kernel/auth";
+import { makeProfileRepository } from "@/modules/profile/factories/profile.factory";
 import { makeUserRoleRepository } from "@/modules/user-role/factories/user-role.factory";
+import { createClient } from "@/shared/infra/supabase/create-client";
+import type { PortalPreference, Session, UserRole } from "@/shared/kernel/auth";
 
 async function getServerSession(): Promise<Session | null> {
   const cookieStore = await cookies();
@@ -44,7 +45,16 @@ async function getServerSession(): Promise<Session | null> {
       role = "member";
     }
 
-    return { userId: user.id, email: user.email ?? "", role };
+    let portalPreference: PortalPreference | null = null;
+    try {
+      const profileRecord = await makeProfileRepository().findByUserId(user.id);
+      portalPreference =
+        (profileRecord?.portalPreference as PortalPreference) ?? null;
+    } catch {
+      portalPreference = null;
+    }
+
+    return { userId: user.id, email: user.email ?? "", role, portalPreference };
   } catch {
     return null;
   }

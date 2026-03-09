@@ -4,6 +4,7 @@ export const RegisterSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8).max(100),
   redirect: z.string().trim().min(1).optional(),
+  portalPreference: z.enum(["customer", "owner"]).optional(),
 });
 
 export type RegisterDTO = z.infer<typeof RegisterSchema>;

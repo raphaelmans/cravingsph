@@ -4,10 +4,11 @@ import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import { cookies } from "next/headers";
 import { getRequestOrigin } from "@/common/request-origin";
 import { env } from "@/lib/env";
+import { makeProfileRepository } from "@/modules/profile/factories/profile.factory";
 import { makeUserRoleRepository } from "@/modules/user-role/factories/user-role.factory";
 import { createRequestLogger } from "@/shared/infra/logger";
 import { createClient } from "@/shared/infra/supabase/create-client";
-import type { Session } from "@/shared/kernel/auth";
+import type { PortalPreference, Session } from "@/shared/kernel/auth";
 
 export interface Context {
   requestId: string;
@@ -70,10 +71,22 @@ export async function createContext({
         role = "member";
       }
 
+      let portalPreference: PortalPreference | null = null;
+      try {
+        const profileRecord = await makeProfileRepository().findByUserId(
+          user.id,
+        );
+        portalPreference =
+          (profileRecord?.portalPreference as PortalPreference) ?? null;
+      } catch {
+        portalPreference = null;
+      }
+
       session = {
         userId: user.id,
         email: user.email ?? "",
         role,
+        portalPreference,
       };
     }
   } catch {

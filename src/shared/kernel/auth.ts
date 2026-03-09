@@ -2,10 +2,13 @@
  * Session represents the currently authenticated user.
  * Extracted from Supabase auth and enriched with role from database.
  */
+export type PortalPreference = "customer" | "owner";
+
 export interface Session {
   userId: string;
   email: string;
   role: UserRole;
+  portalPreference: PortalPreference | null;
 }
 
 /**

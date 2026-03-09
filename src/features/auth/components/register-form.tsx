@@ -57,6 +57,7 @@ export function RegisterForm({ redirectParam }: RegisterFormProps = {}) {
       await registerMutation.mutateAsync({
         ...data,
         redirect: redirectUrl,
+        portalPreference: "customer",
       });
       setSuccess(true);
     } catch (error) {

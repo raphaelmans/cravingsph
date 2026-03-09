@@ -40,7 +40,11 @@ export class RegisterUserUseCase {
         { tx },
       );
     });
-    await this.profileService.getOrCreateProfile(user.id, user.email);
+    await this.profileService.getOrCreateProfile(
+      user.id,
+      user.email,
+      input.portalPreference,
+    );
 
     return {
       user: { id: user.id, email: user.email },

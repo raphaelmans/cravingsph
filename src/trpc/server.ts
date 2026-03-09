@@ -1,16 +1,17 @@
 import "server-only";
 
 import { randomUUID } from "node:crypto";
-import { cache } from "react";
-import { cookies } from "next/headers";
 import type { CookieMethodsServer } from "@supabase/ssr";
-import { appRouter } from "@/shared/infra/trpc/root";
-import { createCallerFactory } from "@/shared/infra/trpc/trpc";
+import { cookies } from "next/headers";
+import { cache } from "react";
+import { env } from "@/lib/env";
+import { makeProfileRepository } from "@/modules/profile/factories/profile.factory";
+import { makeUserRoleRepository } from "@/modules/user-role/factories/user-role.factory";
 import { createRequestLogger } from "@/shared/infra/logger";
 import { createClient } from "@/shared/infra/supabase/create-client";
-import { env } from "@/lib/env";
-import { makeUserRoleRepository } from "@/modules/user-role/factories/user-role.factory";
-import type { Session } from "@/shared/kernel/auth";
+import { appRouter } from "@/shared/infra/trpc/root";
+import { createCallerFactory } from "@/shared/infra/trpc/trpc";
+import type { PortalPreference, Session } from "@/shared/kernel/auth";
 
 const createCaller = createCallerFactory(appRouter);
 
@@ -56,7 +57,22 @@ export const api = cache(async () => {
       } catch {
         role = "member";
       }
-      session = { userId: user.id, email: user.email ?? "", role };
+      let portalPreference: PortalPreference | null = null;
+      try {
+        const profileRecord = await makeProfileRepository().findByUserId(
+          user.id,
+        );
+        portalPreference =
+          (profileRecord?.portalPreference as PortalPreference) ?? null;
+      } catch {
+        portalPreference = null;
+      }
+      session = {
+        userId: user.id,
+        email: user.email ?? "",
+        role,
+        portalPreference,
+      };
     }
   } catch {
     // No session

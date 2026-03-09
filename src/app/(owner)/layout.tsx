@@ -14,6 +14,11 @@ export default async function OwnerLayout({
 }) {
   const session = await requireSession();
 
+  // Portal separation: only owners (or legacy accounts with null preference) may access
+  if (session.portalPreference === "customer") {
+    redirect("/");
+  }
+
   const headerStore = await headers();
   const pathname = headerStore.get("x-pathname") ?? appRoutes.organization.base;
 
@@ -32,6 +37,7 @@ export default async function OwnerLayout({
     }
   }
 
+  // Legacy accounts with null portal_preference + org are treated as owners
   if (!hasOrganization && !isOnboardingRoute) {
     redirect(appRoutes.organization.getStarted);
   }
