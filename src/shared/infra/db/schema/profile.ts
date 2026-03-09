@@ -26,6 +26,7 @@ export const profile = pgTable(
     email: varchar("email", { length: 255 }),
     phoneNumber: varchar("phone_number", { length: 20 }),
     avatarUrl: text("avatar_url"),
+    portalPreference: varchar("portal_preference", { length: 20 }), // 'customer' | 'owner'
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),

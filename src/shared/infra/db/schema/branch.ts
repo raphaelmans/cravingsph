@@ -2,6 +2,7 @@ import {
   boolean,
   index,
   integer,
+  numeric,
   pgTable,
   text,
   timestamp,
@@ -33,7 +34,11 @@ export const branch = pgTable(
     coverUrl: text("cover_url"),
     isOrderingEnabled: boolean("is_ordering_enabled").default(true).notNull(),
     autoAcceptOrders: boolean("auto_accept_orders").default(false).notNull(),
-    paymentCountdownMinutes: integer("payment_countdown_minutes").default(15).notNull(),
+    paymentCountdownMinutes: integer("payment_countdown_minutes")
+      .default(15)
+      .notNull(),
+    latitude: numeric("latitude", { precision: 10, scale: 7 }),
+    longitude: numeric("longitude", { precision: 10, scale: 7 }),
     isActive: boolean("is_active").default(true).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
