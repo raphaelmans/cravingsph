@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
-import { inter, leagueSpartan, antonio, geistMono } from "@/lib/fonts";
 import { HealthCheck } from "@/components/health-check";
 import { Providers } from "@/components/providers";
+import { antonio, geistMono, inter, leagueSpartan } from "@/lib/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "CravingsPH",
   description:
     "Mobile-first restaurant menu and ordering platform for the Philippines.",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
+  ),
 };
 
 export default function RootLayout({
