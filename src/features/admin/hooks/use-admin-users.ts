@@ -1,7 +1,7 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { useMemo, useSyncExternalStore } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
 import type { AdminUserListItemRecord } from "@/modules/admin/repositories/admin.repository";
 import { useTRPC } from "@/trpc/client";
 
@@ -12,50 +12,10 @@ export interface AdminUserListItem extends AdminUserListItemRecord {
   isActive: boolean;
 }
 
-interface AdminUserAccessStore {
-  byUserId: Record<string, boolean>;
-}
-
 const RECENT_ACTIVITY_WINDOW_IN_DAYS = 30;
-
-let adminUserAccessStore: AdminUserAccessStore = {
-  byUserId: {},
-};
-
-const listeners = new Set<() => void>();
-
-function subscribe(listener: () => void) {
-  listeners.add(listener);
-  return () => listeners.delete(listener);
-}
-
-function getSnapshot() {
-  return adminUserAccessStore;
-}
-
-function emitChange() {
-  for (const listener of listeners) {
-    listener();
-  }
-}
-
-function setStore(next: AdminUserAccessStore) {
-  adminUserAccessStore = next;
-  emitChange();
-}
-
-export function setAdminUserActive(userId: string, isActive: boolean) {
-  setStore({
-    byUserId: {
-      ...adminUserAccessStore.byUserId,
-      [userId]: isActive,
-    },
-  });
-}
 
 export function useAdminUsers() {
   const trpc = useTRPC();
-  const snapshot = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
   const query = useQuery({
     ...trpc.admin.getUsers.queryOptions(),
     staleTime: 30 * 1000,
@@ -64,14 +24,28 @@ export function useAdminUsers() {
   const data = useMemo<AdminUserListItem[]>(() => {
     return (query.data ?? []).map((user) => ({
       ...user,
-      isActive: snapshot.byUserId[user.userId] ?? true,
+      isActive: !user.isSuspended,
     }));
-  }, [query.data, snapshot.byUserId]);
+  }, [query.data]);
 
   return {
     ...query,
     data,
   };
+}
+
+export function useSetUserActive() {
+  const trpc = useTRPC();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    ...trpc.admin.setUserActive.mutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: trpc.admin.getUsers.queryKey(),
+      });
+    },
+  });
 }
 
 function matchesSearch(user: AdminUserListItem, searchTerm: string) {

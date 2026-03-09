@@ -27,3 +27,8 @@ export const UpdateAdminVerificationStatusSchema = z.object({
   requestId: z.string().uuid(),
   status: z.enum(["approved", "rejected"]),
 });
+
+export const SetUserActiveSchema = z.object({
+  userId: z.string().uuid(),
+  isActive: z.boolean(),
+});

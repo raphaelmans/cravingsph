@@ -3,6 +3,7 @@ import { adminProcedure, router } from "@/shared/infra/trpc/trpc";
 import {
   GetAdminRestaurantSchema,
   GetAdminVerificationRequestSchema,
+  SetUserActiveSchema,
   UpdateAdminRestaurantSchema,
   UpdateAdminVerificationStatusSchema,
 } from "./dtos/admin.dto";
@@ -51,5 +52,11 @@ export const adminRouter = router({
         input.requestId,
         input.status,
       );
+    }),
+  setUserActive: adminProcedure
+    .input(SetUserActiveSchema)
+    .mutation(async ({ input }) => {
+      const adminService = makeAdminService();
+      return adminService.setUserActive(input.userId, input.isActive);
     }),
 });

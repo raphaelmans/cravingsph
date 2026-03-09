@@ -40,6 +40,11 @@ export interface IAdminService {
     status: "approved" | "rejected",
     ctx?: RequestContext,
   ): Promise<AdminVerificationRequestRecord>;
+  setUserActive(
+    userId: string,
+    isActive: boolean,
+    ctx?: RequestContext,
+  ): Promise<boolean>;
 }
 
 export class AdminService implements IAdminService {
@@ -126,5 +131,13 @@ export class AdminService implements IAdminService {
     }
 
     return this.getVerificationRequest(requestId, ctx);
+  }
+
+  async setUserActive(
+    userId: string,
+    isActive: boolean,
+    ctx?: RequestContext,
+  ): Promise<boolean> {
+    return this.adminRepository.setUserSuspended(userId, !isActive, ctx);
   }
 }

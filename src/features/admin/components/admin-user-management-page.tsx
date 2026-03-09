@@ -11,15 +11,8 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { appRoutes } from "@/common/app-routes";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -32,8 +25,8 @@ import {
   type AdminUserAccessFilter,
   type AdminUserRoleFilter,
   filterAdminUsers,
-  setAdminUserActive,
   useAdminUsers,
+  useSetUserActive,
 } from "../hooks/use-admin-users";
 import { AdminUserTable } from "./admin-user-table";
 
@@ -65,7 +58,6 @@ export function AdminUserManagementPage() {
 
   const adminCount = data.filter((user) => user.role === "admin").length;
   const activeCount = data.filter((user) => user.isActive).length;
-  const inactiveCount = data.length - activeCount;
   const recentCount = data.filter(
     (user) =>
       user.lastSignInAt &&
@@ -73,13 +65,21 @@ export function AdminUserManagementPage() {
         Date.now() - 30 * 24 * 60 * 60 * 1000,
   ).length;
 
-  function handleToggleAccess(userId: string, nextIsActive: boolean) {
-    setAdminUserActive(userId, nextIsActive);
+  const setUserActive = useSetUserActive();
 
-    toast.success(
-      nextIsActive
-        ? "User access restored in the admin scaffold"
-        : "User access removed in the admin scaffold",
+  function handleToggleAccess(userId: string, nextIsActive: boolean) {
+    setUserActive.mutate(
+      { userId, isActive: nextIsActive },
+      {
+        onSuccess: () => {
+          toast.success(
+            nextIsActive ? "User access restored" : "User access suspended",
+          );
+        },
+        onError: () => {
+          toast.error("Failed to update user access. Please try again.");
+        },
+      },
     );
   }
 
@@ -90,11 +90,7 @@ export function AdminUserManagementPage() {
           { label: "Admin", href: appRoutes.admin.base },
           { label: "Users" },
         ]}
-        actions={
-          <Badge variant="outline" className="hidden sm:inline-flex">
-            Auth suspension backend pending
-          </Badge>
-        }
+        actions={null}
       />
 
       <div className="flex-1 space-y-6 p-4 md:p-6">
@@ -102,8 +98,7 @@ export function AdminUserManagementPage() {
           <h1 className="text-2xl font-bold tracking-tight">User management</h1>
           <p className="max-w-3xl text-sm text-muted-foreground">
             Review all platform accounts with assigned roles, search by name or
-            contact details, and scaffold deactivate or reactivate actions from
-            the admin portal.
+            contact details, and manage user access from the admin portal.
           </p>
         </div>
 
@@ -172,25 +167,6 @@ export function AdminUserManagementPage() {
             </CardContent>
           </Card>
         </div>
-
-        <Card className="border-dashed">
-          <CardHeader>
-            <CardTitle>Current backend coverage</CardTitle>
-            <CardDescription>
-              Search, role review, and activity data come from real auth and
-              profile records. The deactivate action remains a local admin
-              scaffold until a persisted suspension field or Supabase admin
-              integration is added.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-            <Badge variant="outline">Real query data</Badge>
-            <Badge variant="outline">Local access toggle</Badge>
-            <span>
-              {inactiveCount} users currently marked inactive in this session.
-            </span>
-          </CardContent>
-        </Card>
 
         <div className="flex flex-col gap-3 rounded-xl border bg-card p-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-1 flex-col gap-3 sm:flex-row">

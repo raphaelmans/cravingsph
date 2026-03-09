@@ -1,4 +1,5 @@
 import {
+  boolean,
   index,
   pgTable,
   text,
@@ -27,6 +28,7 @@ export const profile = pgTable(
     phoneNumber: varchar("phone_number", { length: 20 }),
     avatarUrl: text("avatar_url"),
     portalPreference: varchar("portal_preference", { length: 20 }), // 'customer' | 'owner'
+    isSuspended: boolean("is_suspended").default(false).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),

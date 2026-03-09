@@ -75,8 +75,8 @@ export function AdminUserTable({
       <CardHeader>
         <CardTitle>Platform users</CardTitle>
         <CardDescription>
-          Search accounts, review their last sign-in activity, and scaffold
-          access changes until auth suspension support exists.
+          Search accounts, review their last sign-in activity, and manage access
+          status.
         </CardDescription>
       </CardHeader>
       <CardContent>

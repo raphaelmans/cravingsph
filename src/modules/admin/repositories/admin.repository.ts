@@ -37,6 +37,7 @@ export interface AdminUserListItemRecord {
   email: string | null;
   phone: string | null;
   avatarUrl: string | null;
+  isSuspended: boolean;
   emailConfirmedAt: Date | string | null;
   lastSignInAt: Date | string | null;
   createdAt: Date | string | null;
@@ -139,6 +140,11 @@ export interface IAdminRepository {
     status: RestaurantRecord["verificationStatus"],
     ctx?: RequestContext,
   ): Promise<RestaurantRecord | null>;
+  setUserSuspended(
+    userId: string,
+    isSuspended: boolean,
+    ctx?: RequestContext,
+  ): Promise<boolean>;
 }
 
 export class AdminRepository implements IAdminRepository {
@@ -204,6 +210,7 @@ export class AdminRepository implements IAdminRepository {
         authPhone: authUsers.phone,
         profilePhone: profile.phoneNumber,
         avatarUrl: profile.avatarUrl,
+        isSuspended: profile.isSuspended,
         emailConfirmedAt: authUsers.emailConfirmedAt,
         lastSignInAt: authUsers.lastSignInAt,
         createdAt: authUsers.createdAt,
@@ -222,6 +229,7 @@ export class AdminRepository implements IAdminRepository {
       email: row.profileEmail ?? row.authEmail ?? null,
       phone: row.profilePhone ?? row.authPhone ?? null,
       avatarUrl: row.avatarUrl,
+      isSuspended: row.isSuspended ?? false,
       emailConfirmedAt: row.emailConfirmedAt,
       lastSignInAt: row.lastSignInAt,
       createdAt: row.createdAt,
@@ -428,5 +436,24 @@ export class AdminRepository implements IAdminRepository {
       .returning();
 
     return result[0] ?? null;
+  }
+
+  async setUserSuspended(
+    userId: string,
+    isSuspended: boolean,
+    ctx?: RequestContext,
+  ): Promise<boolean> {
+    const client = this.getClient(ctx);
+
+    const result = await client
+      .update(profile)
+      .set({
+        isSuspended,
+        updatedAt: new Date(),
+      })
+      .where(eq(profile.userId, userId))
+      .returning({ id: profile.id });
+
+    return result.length > 0;
   }
 }
