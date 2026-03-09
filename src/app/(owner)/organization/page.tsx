@@ -1,75 +1,213 @@
 "use client";
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  ArrowRight,
+  ClipboardList,
+  CreditCard,
+  MapPin,
+  Plus,
+  ShoppingBag,
+  TrendingUp,
+  Users,
+  UtensilsCrossed,
+} from "lucide-react";
+import Link from "next/link";
+import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useLogout, useSession } from "@/features/auth";
+import {
+  useOrganization,
+  useRestaurants,
+} from "@/features/owner/hooks/use-owner-sidebar-data";
 
-export default function OwnerDashboardPage() {
-  const { data: user, isLoading } = useSession();
-  const logoutMutation = useLogout();
+// ---------------------------------------------------------------------------
+// Stat card component
+// ---------------------------------------------------------------------------
 
-  const handleLogout = async () => {
-    await logoutMutation.mutateAsync();
-    window.location.href = "/login";
-  };
-
-  if (isLoading) {
-    return (
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-6 w-32" />
-            <Skeleton className="h-4 w-48" />
-          </CardHeader>
-          <CardContent>
-            <Skeleton className="h-4 w-full" />
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
+function StatCard({
+  title,
+  value,
+  description,
+  icon: Icon,
+  isLoading,
+}: {
+  title: string;
+  value: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string }>;
+  isLoading?: boolean;
+}) {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <Card>
-        <CardHeader>
-          <CardTitle>Owner Dashboard</CardTitle>
-          <CardDescription>
-            Welcome back, {user?.email}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="text-muted-foreground text-sm">
-            <p>
-              <strong>User ID:</strong> {user?.id}
-            </p>
-            <p>
-              <strong>Role:</strong> {user?.role}
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+        <Icon className="size-4 text-muted-foreground" />
+      </CardHeader>
+      <CardContent>
+        {isLoading ? (
+          <div className="space-y-1">
+            <Skeleton className="h-7 w-16" />
+            <Skeleton className="h-4 w-24" />
+          </div>
+        ) : (
+          <>
+            <div className="text-2xl font-bold">{value}</div>
+            <p className="text-xs text-muted-foreground">{description}</p>
+          </>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Quick link component
+// ---------------------------------------------------------------------------
+
+function QuickLink({
+  title,
+  description,
+  href,
+  icon: Icon,
+}: {
+  title: string;
+  description: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+}) {
+  return (
+    <Link href={href}>
+      <Card className="group transition-colors hover:bg-accent">
+        <CardContent className="flex items-center gap-4 p-4">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <Icon className="size-5" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium">{title}</p>
+            <p className="text-xs text-muted-foreground truncate">
+              {description}
             </p>
           </div>
-          <Link
-            href="/account/profile"
-            className="text-primary text-sm hover:underline"
-          >
-            Edit Profile
-          </Link>
-          <Button
-            variant="outline"
-            onClick={handleLogout}
-            disabled={logoutMutation.isPending}
-          >
-            {logoutMutation.isPending ? "Signing out..." : "Sign Out"}
-          </Button>
+          <ArrowRight className="size-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
         </CardContent>
       </Card>
-    </div>
+    </Link>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Quick links config
+// ---------------------------------------------------------------------------
+
+const quickLinks = [
+  {
+    title: "Add Restaurant",
+    description: "Register a new restaurant to your organization",
+    href: "/organization/restaurants",
+    icon: Plus,
+  },
+  {
+    title: "Manage Menu",
+    description: "Update items, categories, and pricing",
+    href: "/organization/restaurants",
+    icon: UtensilsCrossed,
+  },
+  {
+    title: "View Orders",
+    description: "Review incoming and active orders",
+    href: "/organization/orders",
+    icon: ClipboardList,
+  },
+  {
+    title: "Team Members",
+    description: "Invite and manage your team",
+    href: "/organization/team",
+    icon: Users,
+  },
+  {
+    title: "Payment Settings",
+    description: "Configure payment methods and accounts",
+    href: "/organization/payments",
+    icon: CreditCard,
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Dashboard page
+// ---------------------------------------------------------------------------
+
+export default function OwnerDashboardPage() {
+  const { data: organization, isLoading: orgLoading } = useOrganization();
+  const { data: restaurants = [], isLoading: restaurantsLoading } =
+    useRestaurants(organization?.id);
+
+  const isLoading = orgLoading || restaurantsLoading;
+
+  // Derive branch count from loaded restaurants
+  // TODO: wire to actual branch count once we have a dedicated query
+  const branchCount = restaurants.length;
+
+  return (
+    <>
+      <DashboardNavbar breadcrumbs={[{ label: "Dashboard" }]} />
+
+      <div className="flex-1 space-y-6 p-4 md:p-6">
+        {/* Welcome header */}
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">
+            {orgLoading ? (
+              <Skeleton className="h-8 w-48 inline-block" />
+            ) : (
+              `Welcome back${organization?.name ? `, ${organization.name}` : ""}`
+            )}
+          </h1>
+          <p className="text-muted-foreground">
+            Here&apos;s an overview of your organization.
+          </p>
+        </div>
+
+        {/* Stat cards */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <StatCard
+            title="Orders Today"
+            value="--"
+            description="Awaiting backend integration"
+            icon={ShoppingBag}
+            isLoading={isLoading}
+          />
+          <StatCard
+            title="Pending Orders"
+            value="--"
+            description="Awaiting backend integration"
+            icon={ClipboardList}
+            isLoading={isLoading}
+          />
+          <StatCard
+            title="Active Locations"
+            value={String(branchCount)}
+            description={`${restaurants.length} restaurant${restaurants.length !== 1 ? "s" : ""} registered`}
+            icon={MapPin}
+            isLoading={isLoading}
+          />
+          <StatCard
+            title="Revenue Today"
+            value="--"
+            description="Awaiting backend integration"
+            icon={TrendingUp}
+            isLoading={isLoading}
+          />
+        </div>
+
+        {/* Quick links */}
+        <div>
+          <h2 className="mb-3 text-lg font-semibold">Quick Actions</h2>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {quickLinks.map((link) => (
+              <QuickLink key={link.title} {...link} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
