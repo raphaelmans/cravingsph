@@ -12,6 +12,10 @@ import {
   useCartItems,
   useCartTotal,
 } from "@/features/cart/stores/cart.store";
+import {
+  CheckoutSheet,
+  type CheckoutSubmitPayload,
+} from "@/features/checkout/components/checkout-sheet";
 import type {
   FullMenu,
   MenuItemWithDetails,
@@ -140,6 +144,10 @@ export function RestaurantMenu({ menu, branchSlug }: RestaurantMenuProps) {
   // Cart drawer state
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  // Checkout sheet state
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isCheckoutSubmitting, setIsCheckoutSubmitting] = useState(false);
+
   const handleCategorySelect = useCallback((categoryId: string) => {
     setActiveCategoryIdOverride(categoryId);
   }, []);
@@ -233,10 +241,29 @@ export function RestaurantMenu({ menu, branchSlug }: RestaurantMenuProps) {
   }, []);
 
   const handleCheckout = useCallback(() => {
-    // Will be implemented in checkout step
     setIsCartOpen(false);
-    toast.info("Checkout coming soon");
+    setIsCheckoutOpen(true);
   }, []);
+
+  const handleCheckoutSubmit = useCallback(
+    async (_payload: CheckoutSubmitPayload) => {
+      setIsCheckoutSubmitting(true);
+      try {
+        // TODO: Replace with order.create tRPC mutation when order module exists
+        await new Promise((resolve) => setTimeout(resolve, 1200));
+        const orderId = crypto.randomUUID().slice(0, 8).toUpperCase();
+
+        setIsCheckoutOpen(false);
+        clearCart();
+        toast.success(`Order #${orderId} placed!`);
+      } catch {
+        toast.error("Failed to place order. Please try again.");
+      } finally {
+        setIsCheckoutSubmitting(false);
+      }
+    },
+    [clearCart],
+  );
 
   return (
     <div data-slot="restaurant-menu">
@@ -289,6 +316,16 @@ export function RestaurantMenu({ menu, branchSlug }: RestaurantMenuProps) {
         onEdit={handleCartEdit}
         onCheckout={handleCheckout}
         onClearCart={clearCart}
+      />
+
+      <CheckoutSheet
+        open={isCheckoutOpen}
+        onOpenChange={setIsCheckoutOpen}
+        items={cartItems}
+        subtotal={cartTotal}
+        itemCount={cartItemCount}
+        onSubmit={handleCheckoutSubmit}
+        isSubmitting={isCheckoutSubmitting}
       />
     </div>
   );
