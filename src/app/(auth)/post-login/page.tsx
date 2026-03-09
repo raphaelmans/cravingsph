@@ -1,9 +1,13 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "@/shared/infra/supabase/session";
+import { api } from "@/trpc/server";
 
 /**
  * Post-login redirect handler.
- * Routes users to the correct portal based on their role.
+ * Routes users to the correct portal based on their role:
+ * - Admin → /admin
+ * - Owner (has org) → /organization
+ * - Customer (no org) → / (home)
  */
 export default async function PostLoginPage() {
   const session = await getServerSession();
@@ -16,7 +20,14 @@ export default async function PostLoginPage() {
     redirect("/admin");
   }
 
-  // TODO: Check if user has an organization to determine owner vs customer
-  // For now, redirect to organization dashboard
-  redirect("/organization");
+  // Check if user has an organization to determine owner vs customer
+  const caller = await api();
+  try {
+    await caller.organization.mine();
+    // Has an org → owner portal
+    redirect("/organization");
+  } catch {
+    // No org → customer home
+    redirect("/");
+  }
 }
