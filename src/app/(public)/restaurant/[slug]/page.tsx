@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { RestaurantHeader } from "@/features/menu/components/restaurant-header";
+import { RestaurantMenu } from "@/features/menu/components/restaurant-menu";
 import { NotFoundError } from "@/shared/kernel/errors";
 import { api } from "@/trpc/server";
 
@@ -15,6 +16,24 @@ async function getRestaurant(slug: string) {
   }
 }
 
+async function getMenuForRestaurant(restaurantId: string) {
+  const caller = await api();
+  const branches = await caller.branch.listPublicByRestaurant({
+    restaurantId,
+  });
+
+  const primaryBranch = branches[0];
+  if (!primaryBranch) {
+    return { branch: null, menu: [] };
+  }
+
+  const menu = await caller.menu.getPublicMenu({
+    branchId: primaryBranch.id,
+  });
+
+  return { branch: primaryBranch, menu };
+}
+
 export default async function RestaurantPage({
   params,
 }: {
@@ -22,12 +41,16 @@ export default async function RestaurantPage({
 }) {
   const { slug } = await params;
   const restaurant = await getRestaurant(slug);
+  const { branch, menu } = await getMenuForRestaurant(restaurant.id);
 
   return (
     <div data-slot="restaurant-page">
-      <RestaurantHeader restaurant={restaurant} />
+      <RestaurantHeader
+        restaurant={restaurant}
+        branchAddress={branch?.address}
+      />
 
-      {/* Menu content — populated in Steps 2b-2d */}
+      <RestaurantMenu menu={menu} />
     </div>
   );
 }
