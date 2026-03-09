@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { MapPin } from "lucide-react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -36,14 +37,55 @@ const BranchFormSchema = z.object({
 
 type BranchFormValues = z.infer<typeof BranchFormSchema>;
 
-interface BranchFormProps {
-  restaurantId: string;
-  onComplete: () => void;
+const EMPTY_BRANCH_FORM_VALUES: BranchFormValues = {
+  name: "",
+  address: "",
+  province: "",
+  city: "",
+  phone: "",
+};
+
+function getDefaultValues(
+  initialValues?: Partial<BranchFormValues>,
+): BranchFormValues {
+  return {
+    name: initialValues?.name ?? "",
+    address: initialValues?.address ?? "",
+    province: initialValues?.province ?? "",
+    city: initialValues?.city ?? "",
+    phone: initialValues?.phone ?? "",
+  };
 }
 
-export function BranchForm({ restaurantId, onComplete }: BranchFormProps) {
+interface BranchFormProps {
+  mode?: "create" | "edit";
+  restaurantId: string;
+  branchId?: string;
+  initialValues?: Partial<BranchFormValues>;
+  onComplete?: () => void;
+  title?: string;
+  description?: string;
+  submitLabel?: string;
+}
+
+export function BranchForm({
+  mode = "create",
+  restaurantId,
+  branchId,
+  initialValues,
+  onComplete,
+  title,
+  description,
+  submitLabel,
+}: BranchFormProps) {
   const trpc = useTRPC();
   const queryClient = getQueryClient();
+  const isEditMode = mode === "edit";
+
+  const form = useForm<BranchFormValues>({
+    resolver: zodResolver(BranchFormSchema),
+    defaultValues: getDefaultValues(initialValues),
+  });
 
   const createMutation = useMutation({
     ...trpc.branch.create.mutationOptions(),
@@ -53,22 +95,53 @@ export function BranchForm({ restaurantId, onComplete }: BranchFormProps) {
           restaurantId,
         }),
       });
-      onComplete();
+      form.reset(EMPTY_BRANCH_FORM_VALUES);
+      onComplete?.();
     },
   });
 
-  const form = useForm<BranchFormValues>({
-    resolver: zodResolver(BranchFormSchema),
-    defaultValues: {
-      name: "",
-      address: "",
-      province: "",
-      city: "",
-      phone: "",
+  const updateMutation = useMutation({
+    ...trpc.branch.update.mutationOptions(),
+    onSuccess: async (branch) => {
+      await queryClient.invalidateQueries({
+        queryKey: trpc.branch.listByRestaurant.queryKey({
+          restaurantId,
+        }),
+      });
+      form.reset(
+        getDefaultValues({
+          name: branch.name,
+          address: branch.address ?? "",
+          province: branch.province ?? "",
+          city: branch.city ?? "",
+          phone: branch.phone ?? "",
+        }),
+      );
+      onComplete?.();
     },
   });
+
+  useEffect(() => {
+    form.reset(getDefaultValues(initialValues));
+  }, [form, initialValues]);
 
   const onSubmit = (data: BranchFormValues) => {
+    if (isEditMode) {
+      if (!branchId) {
+        return;
+      }
+
+      updateMutation.mutate({
+        id: branchId,
+        name: data.name,
+        address: data.address || "",
+        province: data.province || "",
+        city: data.city || "",
+        phone: data.phone || "",
+      });
+      return;
+    }
+
     createMutation.mutate({
       restaurantId,
       name: data.name,
@@ -79,6 +152,16 @@ export function BranchForm({ restaurantId, onComplete }: BranchFormProps) {
     });
   };
 
+  const mutation = isEditMode ? updateMutation : createMutation;
+  const resolvedTitle = title ?? (isEditMode ? "Edit Branch" : "Add Branch");
+  const resolvedDescription =
+    description ??
+    (isEditMode
+      ? "Update branch contact details, address, and branch naming"
+      : "Set up your first branch location");
+  const resolvedSubmitLabel =
+    submitLabel ?? (isEditMode ? "Save Changes" : "Add Branch");
+
   return (
     <Card>
       <CardHeader>
@@ -87,17 +170,17 @@ export function BranchForm({ restaurantId, onComplete }: BranchFormProps) {
             <MapPin className="size-5 text-primary" />
           </div>
           <div>
-            <CardTitle className="text-base">Add Branch</CardTitle>
-            <CardDescription>Set up your first branch location</CardDescription>
+            <CardTitle className="text-base">{resolvedTitle}</CardTitle>
+            <CardDescription>{resolvedDescription}</CardDescription>
           </div>
         </div>
       </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
-            {createMutation.isError && (
+            {mutation.isError && (
               <div className="text-destructive text-sm">
-                {createMutation.error.message}
+                {mutation.error.message}
               </div>
             )}
 
@@ -196,8 +279,12 @@ export function BranchForm({ restaurantId, onComplete }: BranchFormProps) {
               )}
             />
 
-            <Button type="submit" disabled={createMutation.isPending}>
-              {createMutation.isPending ? "Creating..." : "Add Branch"}
+            <Button type="submit" disabled={mutation.isPending}>
+              {mutation.isPending
+                ? isEditMode
+                  ? "Saving..."
+                  : "Creating..."
+                : resolvedSubmitLabel}
             </Button>
           </CardContent>
         </form>

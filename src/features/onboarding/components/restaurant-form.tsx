@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Store } from "lucide-react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -42,42 +43,119 @@ const RestaurantFormSchema = z.object({
 
 type RestaurantFormValues = z.infer<typeof RestaurantFormSchema>;
 
+const EMPTY_RESTAURANT_FORM_VALUES: RestaurantFormValues = {
+  name: "",
+  description: "",
+  cuisineType: "",
+  phone: "",
+  email: "",
+};
+
+function getDefaultValues(
+  initialValues?: Partial<RestaurantFormValues>,
+): RestaurantFormValues {
+  return {
+    name: initialValues?.name ?? "",
+    description: initialValues?.description ?? "",
+    cuisineType: initialValues?.cuisineType ?? "",
+    phone: initialValues?.phone ?? "",
+    email: initialValues?.email ?? "",
+  };
+}
+
 interface RestaurantFormProps {
-  organizationId: string;
-  onComplete: () => void;
+  mode?: "create" | "edit";
+  organizationId?: string;
+  restaurantId?: string;
+  initialValues?: Partial<RestaurantFormValues>;
+  onComplete?: () => void;
+  title?: string;
+  description?: string;
+  submitLabel?: string;
 }
 
 export function RestaurantForm({
+  mode = "create",
   organizationId,
+  restaurantId,
+  initialValues,
   onComplete,
+  title,
+  description,
+  submitLabel,
 }: RestaurantFormProps) {
   const trpc = useTRPC();
   const queryClient = getQueryClient();
+  const isEditMode = mode === "edit";
+
+  const form = useForm<RestaurantFormValues>({
+    resolver: zodResolver(RestaurantFormSchema),
+    defaultValues: getDefaultValues(initialValues),
+  });
 
   const createMutation = useMutation({
     ...trpc.restaurant.create.mutationOptions(),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: trpc.restaurant.listByOrganization.queryKey({
-          organizationId,
-        }),
-      });
-      onComplete();
+      if (organizationId) {
+        await queryClient.invalidateQueries({
+          queryKey: trpc.restaurant.listByOrganization.queryKey({
+            organizationId,
+          }),
+        });
+      }
+      form.reset(EMPTY_RESTAURANT_FORM_VALUES);
+      onComplete?.();
     },
   });
 
-  const form = useForm<RestaurantFormValues>({
-    resolver: zodResolver(RestaurantFormSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-      cuisineType: "",
-      phone: "",
-      email: "",
+  const updateMutation = useMutation({
+    ...trpc.restaurant.update.mutationOptions(),
+    onSuccess: async (restaurant) => {
+      if (organizationId) {
+        await queryClient.invalidateQueries({
+          queryKey: trpc.restaurant.listByOrganization.queryKey({
+            organizationId,
+          }),
+        });
+      }
+      form.reset(
+        getDefaultValues({
+          name: restaurant.name,
+          description: restaurant.description ?? "",
+          cuisineType: restaurant.cuisineType ?? "",
+          phone: restaurant.phone ?? "",
+          email: restaurant.email ?? "",
+        }),
+      );
+      onComplete?.();
     },
   });
+
+  useEffect(() => {
+    form.reset(getDefaultValues(initialValues));
+  }, [form, initialValues]);
 
   const onSubmit = (data: RestaurantFormValues) => {
+    if (isEditMode) {
+      if (!restaurantId) {
+        return;
+      }
+
+      updateMutation.mutate({
+        id: restaurantId,
+        name: data.name,
+        description: data.description || "",
+        cuisineType: data.cuisineType || "",
+        phone: data.phone || "",
+        email: data.email || undefined,
+      });
+      return;
+    }
+
+    if (!organizationId) {
+      return;
+    }
+
     createMutation.mutate({
       organizationId,
       name: data.name,
@@ -88,6 +166,17 @@ export function RestaurantForm({
     });
   };
 
+  const mutation = isEditMode ? updateMutation : createMutation;
+  const resolvedTitle =
+    title ?? (isEditMode ? "Edit Restaurant" : "Add Restaurant");
+  const resolvedDescription =
+    description ??
+    (isEditMode
+      ? "Update your restaurant profile, contact details, and listing copy"
+      : "Add your first restaurant with its basic information");
+  const resolvedSubmitLabel =
+    submitLabel ?? (isEditMode ? "Save Changes" : "Add Restaurant");
+
   return (
     <Card>
       <CardHeader>
@@ -96,19 +185,17 @@ export function RestaurantForm({
             <Store className="size-5 text-primary" />
           </div>
           <div>
-            <CardTitle className="text-base">Add Restaurant</CardTitle>
-            <CardDescription>
-              Add your first restaurant with its basic information
-            </CardDescription>
+            <CardTitle className="text-base">{resolvedTitle}</CardTitle>
+            <CardDescription>{resolvedDescription}</CardDescription>
           </div>
         </div>
       </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
-            {createMutation.isError && (
+            {mutation.isError && (
               <div className="text-destructive text-sm">
-                {createMutation.error.message}
+                {mutation.error.message}
               </div>
             )}
 
@@ -216,8 +303,12 @@ export function RestaurantForm({
               />
             </div>
 
-            <Button type="submit" disabled={createMutation.isPending}>
-              {createMutation.isPending ? "Creating..." : "Add Restaurant"}
+            <Button type="submit" disabled={mutation.isPending}>
+              {mutation.isPending
+                ? isEditMode
+                  ? "Saving..."
+                  : "Creating..."
+                : resolvedSubmitLabel}
             </Button>
           </CardContent>
         </form>
