@@ -17,6 +17,7 @@ interface OrderConfirmationSheetProps {
   onOpenChange: (open: boolean) => void;
   orderId: string | null;
   branchSlug: string;
+  onPayment?: () => void;
 }
 
 export function OrderConfirmationSheet({
@@ -24,6 +25,7 @@ export function OrderConfirmationSheet({
   onOpenChange,
   orderId,
   branchSlug,
+  onPayment,
 }: OrderConfirmationSheetProps) {
   const router = useRouter();
 
@@ -32,6 +34,11 @@ export function OrderConfirmationSheet({
     onOpenChange(false);
     router.push(`/restaurant/${branchSlug}/order/${orderId}`);
   }, [orderId, branchSlug, onOpenChange, router]);
+
+  const handlePayment = useCallback(() => {
+    onOpenChange(false);
+    onPayment?.();
+  }, [onOpenChange, onPayment]);
 
   const handleDone = useCallback(() => {
     onOpenChange(false);
@@ -71,7 +78,17 @@ export function OrderConfirmationSheet({
         </div>
 
         <DrawerFooter className="gap-2">
-          <Button shape="pill" size="lg" onClick={handleViewStatus}>
+          {onPayment && (
+            <Button shape="pill" size="lg" onClick={handlePayment}>
+              Upload Payment Proof
+            </Button>
+          )}
+          <Button
+            shape="pill"
+            size="lg"
+            variant={onPayment ? "outline" : "default"}
+            onClick={handleViewStatus}
+          >
             View Order Status
           </Button>
           <Button shape="pill" size="lg" variant="ghost" onClick={handleDone}>

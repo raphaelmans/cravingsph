@@ -17,6 +17,8 @@ import {
   type CheckoutSubmitPayload,
 } from "@/features/checkout/components/checkout-sheet";
 import { OrderConfirmationSheet } from "@/features/checkout/components/order-confirmation-sheet";
+import type { OrderType } from "@/features/checkout/components/order-type-selector";
+import { PaymentSheet } from "@/features/payment/components/payment-sheet";
 import type {
   FullMenu,
   MenuItemWithDetails,
@@ -152,6 +154,11 @@ export function RestaurantMenu({ menu, branchSlug }: RestaurantMenuProps) {
   // Order confirmation state
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [confirmedOrderId, setConfirmedOrderId] = useState<string | null>(null);
+  const [confirmedOrderType, setConfirmedOrderType] =
+    useState<OrderType>("dine-in");
+
+  // Payment sheet state
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
 
   const handleCategorySelect = useCallback((categoryId: string) => {
     setActiveCategoryIdOverride(categoryId);
@@ -251,7 +258,7 @@ export function RestaurantMenu({ menu, branchSlug }: RestaurantMenuProps) {
   }, []);
 
   const handleCheckoutSubmit = useCallback(
-    async (_payload: CheckoutSubmitPayload) => {
+    async (payload: CheckoutSubmitPayload) => {
       setIsCheckoutSubmitting(true);
       try {
         // TODO: Replace with order.create tRPC mutation when order module exists
@@ -261,6 +268,7 @@ export function RestaurantMenu({ menu, branchSlug }: RestaurantMenuProps) {
         setIsCheckoutOpen(false);
         clearCart();
         setConfirmedOrderId(orderId);
+        setConfirmedOrderType(payload.orderType);
         setIsConfirmationOpen(true);
       } catch {
         toast.error("Failed to place order. Please try again.");
@@ -270,6 +278,11 @@ export function RestaurantMenu({ menu, branchSlug }: RestaurantMenuProps) {
     },
     [clearCart],
   );
+
+  const handlePayment = useCallback(() => {
+    setIsConfirmationOpen(false);
+    setIsPaymentOpen(true);
+  }, []);
 
   return (
     <div data-slot="restaurant-menu">
@@ -339,6 +352,14 @@ export function RestaurantMenu({ menu, branchSlug }: RestaurantMenuProps) {
         onOpenChange={setIsConfirmationOpen}
         orderId={confirmedOrderId}
         branchSlug={branchSlug}
+        onPayment={handlePayment}
+      />
+
+      <PaymentSheet
+        open={isPaymentOpen}
+        onOpenChange={setIsPaymentOpen}
+        orderType={confirmedOrderType}
+        orderId={confirmedOrderId}
       />
     </div>
   );
