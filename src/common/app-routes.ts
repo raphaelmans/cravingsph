@@ -99,6 +99,7 @@ export const appRoutes = {
     verificationRequest: (requestId: string) =>
       `/admin/verification/${requestId}`,
     restaurants: "/admin/restaurants",
+    restaurant: (id: string) => `/admin/restaurants/${id}`,
     users: "/admin/users",
   },
 } satisfies Record<string, RouteConfig | Record<string, unknown>>;

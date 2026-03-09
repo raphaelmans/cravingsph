@@ -1,5 +1,6 @@
 import { count, desc, eq } from "drizzle-orm";
 import {
+  branch,
   organization,
   profile,
   type RestaurantRecord,
@@ -55,10 +56,61 @@ export interface AdminVerificationRequestRecord
   updatedAt: Date | string;
 }
 
+export interface AdminRestaurantListItemRecord {
+  id: string;
+  restaurantId: string;
+  name: string;
+  slug: string;
+  organizationId: string;
+  organizationName: string;
+  ownerId: string;
+  ownerName: string | null;
+  ownerEmail: string | null;
+  cuisineType: string | null;
+  phone: string | null;
+  email: string | null;
+  verificationStatus: RestaurantRecord["verificationStatus"];
+  isFeatured: boolean;
+  isActive: boolean;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+}
+
+export interface AdminRestaurantDetailRecord
+  extends AdminRestaurantListItemRecord {
+  description: string | null;
+  logoUrl: string | null;
+  coverUrl: string | null;
+  branchCount: number;
+}
+
 export interface IAdminRepository {
   getDashboardOverview(
     ctx?: RequestContext,
   ): Promise<AdminDashboardOverviewRecord>;
+  getRestaurants(
+    ctx?: RequestContext,
+  ): Promise<AdminRestaurantListItemRecord[]>;
+  getRestaurantById(
+    id: string,
+    ctx?: RequestContext,
+  ): Promise<AdminRestaurantDetailRecord | null>;
+  updateRestaurant(
+    id: string,
+    data: Partial<
+      Pick<
+        RestaurantRecord,
+        | "name"
+        | "description"
+        | "cuisineType"
+        | "phone"
+        | "email"
+        | "isFeatured"
+        | "isActive"
+      >
+    >,
+    ctx?: RequestContext,
+  ): Promise<RestaurantRecord | null>;
   getVerificationQueue(
     ctx?: RequestContext,
   ): Promise<AdminVerificationQueueItemRecord[]>;
@@ -120,6 +172,119 @@ export class AdminRepository implements IAdminRepository {
       ordersToday: null,
       recentActivity,
     };
+  }
+
+  async getRestaurants(
+    ctx?: RequestContext,
+  ): Promise<AdminRestaurantListItemRecord[]> {
+    const client = this.getClient(ctx);
+
+    return client
+      .select({
+        id: restaurant.id,
+        restaurantId: restaurant.id,
+        name: restaurant.name,
+        slug: restaurant.slug,
+        organizationId: organization.id,
+        organizationName: organization.name,
+        ownerId: organization.ownerId,
+        ownerName: profile.displayName,
+        ownerEmail: profile.email,
+        cuisineType: restaurant.cuisineType,
+        phone: restaurant.phone,
+        email: restaurant.email,
+        verificationStatus: restaurant.verificationStatus,
+        isFeatured: restaurant.isFeatured,
+        isActive: restaurant.isActive,
+        createdAt: restaurant.createdAt,
+        updatedAt: restaurant.updatedAt,
+      })
+      .from(restaurant)
+      .innerJoin(organization, eq(restaurant.organizationId, organization.id))
+      .leftJoin(profile, eq(profile.userId, organization.ownerId))
+      .orderBy(desc(restaurant.updatedAt), desc(restaurant.createdAt));
+  }
+
+  async getRestaurantById(
+    id: string,
+    ctx?: RequestContext,
+  ): Promise<AdminRestaurantDetailRecord | null> {
+    const client = this.getClient(ctx);
+
+    const [restaurantResult, branchCountResult] = await Promise.all([
+      client
+        .select({
+          id: restaurant.id,
+          restaurantId: restaurant.id,
+          name: restaurant.name,
+          slug: restaurant.slug,
+          organizationId: organization.id,
+          organizationName: organization.name,
+          ownerId: organization.ownerId,
+          ownerName: profile.displayName,
+          ownerEmail: profile.email,
+          cuisineType: restaurant.cuisineType,
+          phone: restaurant.phone,
+          email: restaurant.email,
+          verificationStatus: restaurant.verificationStatus,
+          isFeatured: restaurant.isFeatured,
+          isActive: restaurant.isActive,
+          createdAt: restaurant.createdAt,
+          updatedAt: restaurant.updatedAt,
+          description: restaurant.description,
+          logoUrl: restaurant.logoUrl,
+          coverUrl: restaurant.coverUrl,
+        })
+        .from(restaurant)
+        .innerJoin(organization, eq(restaurant.organizationId, organization.id))
+        .leftJoin(profile, eq(profile.userId, organization.ownerId))
+        .where(eq(restaurant.id, id))
+        .limit(1),
+      client
+        .select({ count: count() })
+        .from(branch)
+        .where(eq(branch.restaurantId, id)),
+    ]);
+
+    const foundRestaurant = restaurantResult[0];
+    if (!foundRestaurant) {
+      return null;
+    }
+
+    return {
+      ...foundRestaurant,
+      branchCount: branchCountResult[0]?.count ?? 0,
+    };
+  }
+
+  async updateRestaurant(
+    id: string,
+    data: Partial<
+      Pick<
+        RestaurantRecord,
+        | "name"
+        | "description"
+        | "cuisineType"
+        | "phone"
+        | "email"
+        | "isFeatured"
+        | "isActive"
+      >
+    >,
+    ctx?: RequestContext,
+  ): Promise<RestaurantRecord | null> {
+    const client = this.getClient(ctx);
+
+    const result = await client
+      .update(restaurant)
+      .set({
+        ...data,
+        updatedAt: new Date(),
+      })
+      .where(eq(restaurant.id, id))
+      .returning();
+
+    return result[0] ?? null;
   }
 
   async getVerificationQueue(
