@@ -3,16 +3,13 @@
 import {
   Building2,
   ChevronRight,
-  ClipboardList,
   CreditCard,
   LayoutDashboard,
   LogOut,
   Rocket,
-  Settings,
   ShieldCheck,
   Store,
   User,
-  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -68,26 +65,20 @@ const overviewItems = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/organization" },
 ];
 
-const orderItems = [
-  { label: "Orders", icon: ClipboardList, href: "/organization/orders" },
-];
-
 const financeItems = [
   { label: "Payments", icon: CreditCard, href: "/organization/payments" },
 ];
 
 const orgItems = [
-  { label: "Team", icon: Users, href: "/organization/team" },
   {
     label: "Verification",
     icon: ShieldCheck,
     href: appRoutes.organization.verify,
   },
-  { label: "Settings", icon: Settings, href: "/organization/settings" },
 ];
 
 const accountItems = [
-  { label: "Profile", icon: User, href: "/organization/profile" },
+  { label: "Profile", icon: User, href: appRoutes.ownerAccount.base },
 ];
 
 // ---------------------------------------------------------------------------
@@ -153,7 +144,6 @@ export function OwnerSidebar() {
           pathname={pathname}
         />
 
-        <NavGroup items={orderItems} label="Orders" isActive={isActive} />
         <NavGroup items={financeItems} label="Finance" isActive={isActive} />
         <NavGroup items={orgItems} label="Organization" isActive={isActive} />
         <NavGroup items={accountItems} label="Account" isActive={isActive} />
@@ -390,7 +380,7 @@ function NavUser({ email }: { email: string }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent side="top" align="start" className="w-56">
         <DropdownMenuItem asChild>
-          <Link href="/organization/profile">
+          <Link href={appRoutes.ownerAccount.base}>
             <User className="mr-2 h-4 w-4" />
             Profile
           </Link>

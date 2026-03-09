@@ -8,7 +8,6 @@ import {
   Plus,
   ShoppingBag,
   TrendingUp,
-  Users,
   UtensilsCrossed,
 } from "lucide-react";
 import Link from "next/link";
@@ -111,18 +110,6 @@ const quickLinks = [
     description: "Update items, categories, and pricing",
     href: "/organization/restaurants",
     icon: UtensilsCrossed,
-  },
-  {
-    title: "View Orders",
-    description: "Review incoming and active orders",
-    href: "/organization/orders",
-    icon: ClipboardList,
-  },
-  {
-    title: "Team Members",
-    description: "Invite and manage your team",
-    href: "/organization/team",
-    icon: Users,
   },
   {
     title: "Payment Settings",
