@@ -4,6 +4,7 @@ import { branchRouter } from "@/modules/branch/branch.router";
 import { discoveryRouter } from "@/modules/discovery/discovery.router";
 import { healthRouter } from "@/modules/health/health.router";
 import { menuRouter } from "@/modules/menu/menu.router";
+import { orderRouter } from "@/modules/order/order.router";
 import { organizationRouter } from "@/modules/organization/organization.router";
 import { profileRouter } from "@/modules/profile/profile.router";
 import { restaurantRouter } from "@/modules/restaurant/restaurant.router";
@@ -24,6 +25,7 @@ export const appRouter = router({
   savedRestaurant: savedRestaurantRouter,
   branch: branchRouter,
   menu: menuRouter,
+  order: orderRouter,
 });
 
 /**
