@@ -39,7 +39,10 @@ import {
   ModifierNotFoundError,
   VariantNotFoundError,
 } from "../errors/menu.errors";
-import type { FullMenu, IMenuRepository } from "../repositories/menu.repository";
+import type {
+  FullMenu,
+  IMenuRepository,
+} from "../repositories/menu.repository";
 
 function nextSortOrder<T extends { sortOrder: number }>(records: T[]): number {
   if (records.length === 0) {
@@ -50,6 +53,7 @@ function nextSortOrder<T extends { sortOrder: number }>(records: T[]): number {
 }
 
 export interface IMenuService {
+  hasContent(branchId: string): Promise<boolean>;
   getPublicMenu(branchId: string): Promise<FullMenu>;
   getManagementMenu(userId: string, branchId: string): Promise<FullMenu>;
   createCategory(
@@ -106,6 +110,10 @@ export class MenuService implements IMenuService {
     private transactionManager: TransactionManager,
   ) {}
 
+  async hasContent(branchId: string): Promise<boolean> {
+    return this.menuRepository.hasContent(branchId);
+  }
+
   async getPublicMenu(branchId: string): Promise<FullMenu> {
     return this.menuRepository.findFullMenu(branchId);
   }
@@ -124,10 +132,8 @@ export class MenuService implements IMenuService {
     return this.transactionManager.run(async (tx) => {
       const ctx: RequestContext = { tx };
       await this.assertBranchOwnership(userId, data.branchId, ctx);
-      const existingCategories = await this.menuRepository.findCategoriesByBranch(
-        data.branchId,
-        ctx,
-      );
+      const existingCategories =
+        await this.menuRepository.findCategoriesByBranch(data.branchId, ctx);
 
       const created = await this.menuRepository.createCategory(
         {
@@ -223,10 +229,7 @@ export class MenuService implements IMenuService {
     });
   }
 
-  async deleteCategory(
-    userId: string,
-    id: string,
-  ): Promise<{ success: true }> {
+  async deleteCategory(userId: string, id: string): Promise<{ success: true }> {
     return this.transactionManager.run(async (tx) => {
       const ctx: RequestContext = { tx };
       await this.assertCategoryOwnership(userId, id, ctx);
@@ -386,10 +389,7 @@ export class MenuService implements IMenuService {
     });
   }
 
-  async deleteVariant(
-    userId: string,
-    id: string,
-  ): Promise<{ success: true }> {
+  async deleteVariant(userId: string, id: string): Promise<{ success: true }> {
     return this.transactionManager.run(async (tx) => {
       const ctx: RequestContext = { tx };
       await this.assertVariantOwnership(userId, id, ctx);
@@ -511,7 +511,11 @@ export class MenuService implements IMenuService {
   ): Promise<ModifierRecord> {
     return this.transactionManager.run(async (tx) => {
       const ctx: RequestContext = { tx };
-      await this.assertModifierGroupOwnership(userId, data.modifierGroupId, ctx);
+      await this.assertModifierGroupOwnership(
+        userId,
+        data.modifierGroupId,
+        ctx,
+      );
       const existingModifiers = await this.menuRepository.findModifiersByGroup(
         data.modifierGroupId,
         ctx,
@@ -568,10 +572,7 @@ export class MenuService implements IMenuService {
     });
   }
 
-  async deleteModifier(
-    userId: string,
-    id: string,
-  ): Promise<{ success: true }> {
+  async deleteModifier(userId: string, id: string): Promise<{ success: true }> {
     return this.transactionManager.run(async (tx) => {
       const ctx: RequestContext = { tx };
       await this.assertModifierOwnership(userId, id, ctx);
@@ -634,7 +635,10 @@ export class MenuService implements IMenuService {
     categoryId: string,
     ctx?: RequestContext,
   ): Promise<CategoryRecord> {
-    const category = await this.menuRepository.findCategoryById(categoryId, ctx);
+    const category = await this.menuRepository.findCategoryById(
+      categoryId,
+      ctx,
+    );
     if (!category) {
       throw new CategoryNotFoundError(categoryId);
     }
@@ -653,7 +657,10 @@ export class MenuService implements IMenuService {
       throw new MenuItemNotFoundError(menuItemId);
     }
 
-    const category = await this.menuRepository.findCategoryById(item.categoryId, ctx);
+    const category = await this.menuRepository.findCategoryById(
+      item.categoryId,
+      ctx,
+    );
     if (!category) {
       throw new CategoryNotFoundError(item.categoryId);
     }
@@ -698,12 +705,19 @@ export class MenuService implements IMenuService {
     modifierId: string,
     ctx?: RequestContext,
   ): Promise<ModifierRecord> {
-    const modifier = await this.menuRepository.findModifierById(modifierId, ctx);
+    const modifier = await this.menuRepository.findModifierById(
+      modifierId,
+      ctx,
+    );
     if (!modifier) {
       throw new ModifierNotFoundError(modifierId);
     }
 
-    await this.assertModifierGroupOwnership(userId, modifier.modifierGroupId, ctx);
+    await this.assertModifierGroupOwnership(
+      userId,
+      modifier.modifierGroupId,
+      ctx,
+    );
     return modifier;
   }
 

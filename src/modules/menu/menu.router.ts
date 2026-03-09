@@ -21,6 +21,13 @@ import { makeMenuService } from "./factories/menu.factory";
 const IdSchema = UpdateCategorySchema.pick({ id: true });
 
 export const menuRouter = router({
+  hasContent: protectedProcedure
+    .input(CreateCategorySchema.pick({ branchId: true }))
+    .query(async ({ input }) => {
+      const menuService = makeMenuService();
+      return menuService.hasContent(input.branchId);
+    }),
+
   getPublicMenu: publicProcedure
     .input(CreateCategorySchema.pick({ branchId: true }))
     .query(async ({ input }) => {

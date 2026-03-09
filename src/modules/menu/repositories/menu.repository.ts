@@ -1,20 +1,20 @@
 import { and, asc, eq, inArray } from "drizzle-orm";
 import {
   type CategoryRecord,
-  type InsertCategory,
-  type MenuItemRecord,
-  type InsertMenuItem,
-  type ItemVariantRecord,
-  type InsertItemVariant,
-  type ModifierGroupRecord,
-  type InsertModifierGroup,
-  type ModifierRecord,
-  type InsertModifier,
   category,
-  menuItem,
+  type InsertCategory,
+  type InsertItemVariant,
+  type InsertMenuItem,
+  type InsertModifier,
+  type InsertModifierGroup,
+  type ItemVariantRecord,
   itemVariant,
-  modifierGroup,
+  type MenuItemRecord,
+  type ModifierGroupRecord,
+  type ModifierRecord,
+  menuItem,
   modifier,
+  modifierGroup,
 } from "@/shared/infra/db/schema";
 import type { DbClient, DrizzleTransaction } from "@/shared/infra/db/types";
 import type { RequestContext } from "@/shared/kernel/context";
@@ -141,6 +141,9 @@ export interface IMenuRepository {
     ctx?: RequestContext,
   ): Promise<ModifierRecord>;
   deleteModifier(id: string, ctx?: RequestContext): Promise<void>;
+
+  // Existence check
+  hasContent(branchId: string): Promise<boolean>;
 
   // Full menu
   findFullMenu(
@@ -351,10 +354,7 @@ export class MenuRepository implements IMenuRepository {
     ctx?: RequestContext,
   ): Promise<ModifierGroupRecord> {
     const client = this.getClient(ctx);
-    const result = await client
-      .insert(modifierGroup)
-      .values(data)
-      .returning();
+    const result = await client.insert(modifierGroup).values(data).returning();
     return result[0];
   }
 
@@ -447,6 +447,18 @@ export class MenuRepository implements IMenuRepository {
   async deleteModifier(id: string, ctx?: RequestContext): Promise<void> {
     const client = this.getClient(ctx);
     await client.delete(modifier).where(eq(modifier.id, id));
+  }
+
+  // ─── Existence Check ────────────────────────────────────────
+
+  async hasContent(branchId: string): Promise<boolean> {
+    const result = await this.db
+      .select({ id: menuItem.id })
+      .from(menuItem)
+      .innerJoin(category, eq(menuItem.categoryId, category.id))
+      .where(eq(category.branchId, branchId))
+      .limit(1);
+    return result.length > 0;
   }
 
   // ─── Full Menu ──────────────────────────────────────────────

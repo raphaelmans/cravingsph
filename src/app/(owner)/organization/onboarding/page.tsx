@@ -15,8 +15,8 @@ import { PaymentMethodsStep } from "@/features/onboarding/components/payment-met
 import { RestaurantForm } from "@/features/onboarding/components/restaurant-form";
 import { VerificationStep } from "@/features/onboarding/components/verification-step";
 import { WizardProgress } from "@/features/onboarding/components/wizard-progress";
+import { useOnboardingStatus } from "@/features/onboarding/hooks/use-onboarding-status";
 import {
-  useBranches,
   useOrganization,
   useRestaurants,
 } from "@/features/owner/hooks/use-owner-sidebar-data";
@@ -28,24 +28,17 @@ function OnboardingWizardContent() {
   const searchParams = useSearchParams();
   const currentStep = Number(searchParams.get("step") || "1");
 
-  const { data: organization, isLoading: orgLoading } = useOrganization();
-  const { data: restaurants = [], isLoading: restaurantsLoading } =
-    useRestaurants(organization?.id);
+  const { data: organization } = useOrganization();
+  const { data: restaurants = [] } = useRestaurants(organization?.id);
   const firstRestaurant = restaurants[0];
-  const { data: branches = [], isLoading: branchesLoading } = useBranches(
-    firstRestaurant?.id,
+
+  const { steps, completedCount, totalSteps, isLoading, allComplete } =
+    useOnboardingStatus();
+
+  const completedSteps = useMemo(
+    () => steps.filter((s) => s.status === "complete").map((s) => s.id),
+    [steps],
   );
-
-  const isLoading = orgLoading || restaurantsLoading || branchesLoading;
-
-  const completedSteps = useMemo(() => {
-    const completed: number[] = [];
-    if (organization) completed.push(1);
-    if (restaurants.length > 0) completed.push(2);
-    if (branches.length > 0) completed.push(3);
-    // Steps 4-6 not trackable yet
-    return completed;
-  }, [organization, restaurants, branches]);
 
   const goToStep = (step: number) => {
     const clamped = Math.max(1, Math.min(step, TOTAL_STEPS));
@@ -121,7 +114,13 @@ function OnboardingWizardContent() {
         {currentStep === 6 && (
           <VerificationStep onComplete={handleStepComplete} />
         )}
-        {currentStep === 7 && <CompletionStep />}
+        {currentStep === 7 && (
+          <CompletionStep
+            allComplete={allComplete}
+            completedCount={completedCount}
+            totalSteps={totalSteps}
+          />
+        )}
       </div>
 
       {/* Navigation */}
