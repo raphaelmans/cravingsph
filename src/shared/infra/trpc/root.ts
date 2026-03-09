@@ -6,6 +6,7 @@ import { healthRouter } from "@/modules/health/health.router";
 import { menuRouter } from "@/modules/menu/menu.router";
 import { orderRouter } from "@/modules/order/order.router";
 import { organizationRouter } from "@/modules/organization/organization.router";
+import { paymentConfigRouter } from "@/modules/payment-config/payment-config.router";
 import { profileRouter } from "@/modules/profile/profile.router";
 import { restaurantRouter } from "@/modules/restaurant/restaurant.router";
 import { reviewRouter } from "@/modules/review/review.router";
@@ -27,6 +28,7 @@ export const appRouter = router({
   branch: branchRouter,
   menu: menuRouter,
   order: orderRouter,
+  paymentConfig: paymentConfigRouter,
   review: reviewRouter,
 });
 
