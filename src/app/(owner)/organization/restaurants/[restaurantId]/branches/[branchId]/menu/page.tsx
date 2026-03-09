@@ -1,15 +1,33 @@
 "use client";
 
-import { Plus, UtensilsCrossed } from "lucide-react";
+import { MoreHorizontal, Plus, Trash2, UtensilsCrossed } from "lucide-react";
 import { use, useState } from "react";
 import { toast } from "sonner";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
+import { AddCategoryDialog } from "@/features/menu-management/components/add-category-dialog";
 import { MenuItemManagementCard } from "@/features/menu-management/components/menu-item-card";
 import {
+  useDeleteCategory,
   useDeleteItem,
   useManagementMenu,
   useToggleAvailability,
@@ -27,8 +45,15 @@ export default function MenuManagementPage({
   const { data: menu, isLoading } = useManagementMenu(branchId);
   const toggleMutation = useToggleAvailability(branchId);
   const deleteMutation = useDeleteItem(branchId);
+  const deleteCategoryMutation = useDeleteCategory(branchId);
 
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
+  const [addCategoryOpen, setAddCategoryOpen] = useState(false);
+  const [deleteCategoryTarget, setDeleteCategoryTarget] = useState<{
+    id: string;
+    name: string;
+    itemCount: number;
+  } | null>(null);
 
   // Derive active category — show all if none selected
   const categories = menu ?? [];
@@ -61,6 +86,26 @@ export default function MenuManagementPage({
     );
   }
 
+  function handleDeleteCategory() {
+    if (!deleteCategoryTarget) return;
+    deleteCategoryMutation.mutate(
+      { id: deleteCategoryTarget.id },
+      {
+        onSuccess: () => {
+          toast.success(`"${deleteCategoryTarget.name}" deleted`);
+          if (activeCategoryId === deleteCategoryTarget.id) {
+            setActiveCategoryId(null);
+          }
+          setDeleteCategoryTarget(null);
+        },
+        onError: (err) => {
+          toast.error(err.message);
+          setDeleteCategoryTarget(null);
+        },
+      },
+    );
+  }
+
   // Placeholder handlers for dialogs (wired in subsequent tasks)
   function handleEdit(_item: ManagementMenuItem) {
     toast.info("Edit dialog coming soon");
@@ -86,7 +131,7 @@ export default function MenuManagementPage({
             <Button
               size="sm"
               variant="outline"
-              onClick={() => toast.info("Add category dialog coming soon")}
+              onClick={() => setAddCategoryOpen(true)}
             >
               <Plus className="mr-1.5 size-4" />
               Category
@@ -166,10 +211,7 @@ export default function MenuManagementPage({
               Start by adding a category, then add items to it. Your customers
               will see these on the public menu.
             </p>
-            <Button
-              className="mt-4"
-              onClick={() => toast.info("Add category dialog coming soon")}
-            >
+            <Button className="mt-4" onClick={() => setAddCategoryOpen(true)}>
               <Plus className="mr-1.5 size-4" />
               Add First Category
             </Button>
@@ -182,10 +224,35 @@ export default function MenuManagementPage({
                   <h2 className="text-base font-semibold">
                     {cat.category.name}
                   </h2>
-                  <span className="text-xs text-muted-foreground">
-                    {cat.items.length} item
-                    {cat.items.length !== 1 ? "s" : ""}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-muted-foreground">
+                      {cat.items.length} item
+                      {cat.items.length !== 1 ? "s" : ""}
+                    </span>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="size-7">
+                          <MoreHorizontal className="size-4" />
+                          <span className="sr-only">Category actions</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem
+                          className="text-destructive focus:text-destructive"
+                          onClick={() =>
+                            setDeleteCategoryTarget({
+                              id: cat.category.id,
+                              name: cat.category.name,
+                              itemCount: cat.items.length,
+                            })
+                          }
+                        >
+                          <Trash2 className="mr-2 size-4" />
+                          Delete Category
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
                 </div>
 
                 {cat.items.length === 0 ? (
@@ -213,6 +280,41 @@ export default function MenuManagementPage({
           </div>
         )}
       </div>
+
+      {/* Add Category Dialog */}
+      <AddCategoryDialog
+        branchId={branchId}
+        open={addCategoryOpen}
+        onOpenChange={setAddCategoryOpen}
+      />
+
+      {/* Delete Category Confirmation */}
+      <AlertDialog
+        open={deleteCategoryTarget !== null}
+        onOpenChange={(open) => {
+          if (!open) setDeleteCategoryTarget(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete category?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {deleteCategoryTarget?.itemCount
+                ? `"${deleteCategoryTarget.name}" has ${deleteCategoryTarget.itemCount} item${deleteCategoryTarget.itemCount !== 1 ? "s" : ""}. Deleting this category will also remove all its items.`
+                : `Are you sure you want to delete "${deleteCategoryTarget?.name}"?`}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteCategory}
+              className="bg-destructive text-white hover:bg-destructive/90"
+            >
+              {deleteCategoryMutation.isPending ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }

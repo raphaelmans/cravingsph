@@ -46,3 +46,35 @@ export function useDeleteItem(branchId: string) {
     },
   });
 }
+
+/**
+ * Creates a new category with cache invalidation.
+ */
+export function useCreateCategory(branchId: string) {
+  const trpc = useTRPC();
+  const queryClient = getQueryClient();
+  const queryKey = trpc.menu.getManagementMenu.queryKey({ branchId });
+
+  return useMutation({
+    ...trpc.menu.createCategory.mutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+}
+
+/**
+ * Deletes a category with cache invalidation.
+ */
+export function useDeleteCategory(branchId: string) {
+  const trpc = useTRPC();
+  const queryClient = getQueryClient();
+  const queryKey = trpc.menu.getManagementMenu.queryKey({ branchId });
+
+  return useMutation({
+    ...trpc.menu.deleteCategory.mutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+}
