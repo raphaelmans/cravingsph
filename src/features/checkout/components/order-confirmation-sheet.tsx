@@ -1,0 +1,84 @@
+"use client";
+
+import { CircleCheckBig } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useCallback } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+
+interface OrderConfirmationSheetProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  orderId: string | null;
+  branchSlug: string;
+}
+
+export function OrderConfirmationSheet({
+  open,
+  onOpenChange,
+  orderId,
+  branchSlug,
+}: OrderConfirmationSheetProps) {
+  const router = useRouter();
+
+  const handleViewStatus = useCallback(() => {
+    if (!orderId) return;
+    onOpenChange(false);
+    router.push(`/restaurant/${branchSlug}/order/${orderId}`);
+  }, [orderId, branchSlug, onOpenChange, router]);
+
+  const handleDone = useCallback(() => {
+    onOpenChange(false);
+  }, [onOpenChange]);
+
+  return (
+    <Drawer open={open} onOpenChange={onOpenChange}>
+      <DrawerContent>
+        <DrawerHeader className="sr-only">
+          <DrawerTitle>Order Confirmation</DrawerTitle>
+        </DrawerHeader>
+
+        <div className="flex flex-col items-center gap-4 px-6 py-8 text-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+            <CircleCheckBig className="h-8 w-8 text-green-600" />
+          </div>
+
+          <div className="space-y-1">
+            <h2 className="text-xl font-bold">Order Placed!</h2>
+            <p className="text-sm text-muted-foreground">
+              Your order has been sent to the restaurant.
+            </p>
+          </div>
+
+          {orderId && (
+            <div className="rounded-xl bg-muted px-4 py-3">
+              <p className="text-xs text-muted-foreground">Order ID</p>
+              <p className="font-mono text-lg font-semibold">#{orderId}</p>
+            </div>
+          )}
+
+          <p className="text-sm text-muted-foreground">
+            Please wait for the restaurant to confirm your order. You&apos;ll be
+            able to track your order status and complete payment on the next
+            screen.
+          </p>
+        </div>
+
+        <DrawerFooter className="gap-2">
+          <Button shape="pill" size="lg" onClick={handleViewStatus}>
+            View Order Status
+          </Button>
+          <Button shape="pill" size="lg" variant="ghost" onClick={handleDone}>
+            Back to Menu
+          </Button>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  );
+}

@@ -16,6 +16,7 @@ import {
   CheckoutSheet,
   type CheckoutSubmitPayload,
 } from "@/features/checkout/components/checkout-sheet";
+import { OrderConfirmationSheet } from "@/features/checkout/components/order-confirmation-sheet";
 import type {
   FullMenu,
   MenuItemWithDetails,
@@ -148,6 +149,10 @@ export function RestaurantMenu({ menu, branchSlug }: RestaurantMenuProps) {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isCheckoutSubmitting, setIsCheckoutSubmitting] = useState(false);
 
+  // Order confirmation state
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [confirmedOrderId, setConfirmedOrderId] = useState<string | null>(null);
+
   const handleCategorySelect = useCallback((categoryId: string) => {
     setActiveCategoryIdOverride(categoryId);
   }, []);
@@ -255,7 +260,8 @@ export function RestaurantMenu({ menu, branchSlug }: RestaurantMenuProps) {
 
         setIsCheckoutOpen(false);
         clearCart();
-        toast.success(`Order #${orderId} placed!`);
+        setConfirmedOrderId(orderId);
+        setIsConfirmationOpen(true);
       } catch {
         toast.error("Failed to place order. Please try again.");
       } finally {
@@ -326,6 +332,13 @@ export function RestaurantMenu({ menu, branchSlug }: RestaurantMenuProps) {
         itemCount={cartItemCount}
         onSubmit={handleCheckoutSubmit}
         isSubmitting={isCheckoutSubmitting}
+      />
+
+      <OrderConfirmationSheet
+        open={isConfirmationOpen}
+        onOpenChange={setIsConfirmationOpen}
+        orderId={confirmedOrderId}
+        branchSlug={branchSlug}
       />
     </div>
   );
