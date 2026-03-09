@@ -25,6 +25,8 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AddCategoryDialog } from "@/features/menu-management/components/add-category-dialog";
+import { AddItemDialog } from "@/features/menu-management/components/add-item-dialog";
+import { EditItemDialog } from "@/features/menu-management/components/edit-item-dialog";
 import { MenuItemManagementCard } from "@/features/menu-management/components/menu-item-card";
 import {
   useDeleteCategory,
@@ -49,6 +51,8 @@ export default function MenuManagementPage({
 
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
   const [addCategoryOpen, setAddCategoryOpen] = useState(false);
+  const [addItemOpen, setAddItemOpen] = useState(false);
+  const [editTarget, setEditTarget] = useState<ManagementMenuItem | null>(null);
   const [deleteCategoryTarget, setDeleteCategoryTarget] = useState<{
     id: string;
     name: string;
@@ -106,9 +110,8 @@ export default function MenuManagementPage({
     );
   }
 
-  // Placeholder handlers for dialogs (wired in subsequent tasks)
-  function handleEdit(_item: ManagementMenuItem) {
-    toast.info("Edit dialog coming soon");
+  function handleEdit(item: ManagementMenuItem) {
+    setEditTarget(item);
   }
 
   function handleManageVariants(_item: ManagementMenuItem) {
@@ -136,10 +139,7 @@ export default function MenuManagementPage({
               <Plus className="mr-1.5 size-4" />
               Category
             </Button>
-            <Button
-              size="sm"
-              onClick={() => toast.info("Add item dialog coming soon")}
-            >
+            <Button size="sm" onClick={() => setAddItemOpen(true)}>
               <Plus className="mr-1.5 size-4" />
               Item
             </Button>
@@ -286,6 +286,25 @@ export default function MenuManagementPage({
         branchId={branchId}
         open={addCategoryOpen}
         onOpenChange={setAddCategoryOpen}
+      />
+
+      {/* Add Item Dialog */}
+      <AddItemDialog
+        branchId={branchId}
+        categories={categories}
+        defaultCategoryId={activeCategoryId ?? undefined}
+        open={addItemOpen}
+        onOpenChange={setAddItemOpen}
+      />
+
+      {/* Edit Item Dialog */}
+      <EditItemDialog
+        branchId={branchId}
+        item={editTarget}
+        open={editTarget !== null}
+        onOpenChange={(open) => {
+          if (!open) setEditTarget(null);
+        }}
       />
 
       {/* Delete Category Confirmation */}

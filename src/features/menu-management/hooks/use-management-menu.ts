@@ -64,6 +64,38 @@ export function useCreateCategory(branchId: string) {
 }
 
 /**
+ * Creates a new menu item with cache invalidation.
+ */
+export function useCreateItem(branchId: string) {
+  const trpc = useTRPC();
+  const queryClient = getQueryClient();
+  const queryKey = trpc.menu.getManagementMenu.queryKey({ branchId });
+
+  return useMutation({
+    ...trpc.menu.createItem.mutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+}
+
+/**
+ * Updates a menu item with cache invalidation.
+ */
+export function useUpdateItem(branchId: string) {
+  const trpc = useTRPC();
+  const queryClient = getQueryClient();
+  const queryKey = trpc.menu.getManagementMenu.queryKey({ branchId });
+
+  return useMutation({
+    ...trpc.menu.updateItem.mutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+}
+
+/**
  * Deletes a category with cache invalidation.
  */
 export function useDeleteCategory(branchId: string) {
