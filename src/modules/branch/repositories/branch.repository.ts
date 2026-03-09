@@ -3,9 +3,12 @@ import {
   type BranchRecord,
   branch,
   type InsertBranch,
+  type OperatingHoursRecord,
+  operatingHours,
 } from "@/shared/infra/db/schema";
 import type { DbClient, DrizzleTransaction } from "@/shared/infra/db/types";
 import type { RequestContext } from "@/shared/kernel/context";
+import type { OperatingHourEntry } from "../dtos/branch.dto";
 
 export interface IBranchRepository {
   findById(id: string, ctx?: RequestContext): Promise<BranchRecord | null>;
@@ -24,6 +27,15 @@ export interface IBranchRepository {
     data: Partial<InsertBranch>,
     ctx?: RequestContext,
   ): Promise<BranchRecord>;
+  findOperatingHours(
+    branchId: string,
+    ctx?: RequestContext,
+  ): Promise<OperatingHoursRecord[]>;
+  upsertOperatingHours(
+    branchId: string,
+    hours: OperatingHourEntry[],
+    ctx?: RequestContext,
+  ): Promise<void>;
 }
 
 export class BranchRepository implements IBranchRepository {
@@ -95,5 +107,49 @@ export class BranchRepository implements IBranchRepository {
       .returning();
 
     return result[0];
+  }
+
+  async findOperatingHours(
+    branchId: string,
+    ctx?: RequestContext,
+  ): Promise<OperatingHoursRecord[]> {
+    const client = this.getClient(ctx);
+    return client
+      .select()
+      .from(operatingHours)
+      .where(eq(operatingHours.branchId, branchId))
+      .orderBy(operatingHours.dayOfWeek);
+  }
+
+  async upsertOperatingHours(
+    branchId: string,
+    hours: OperatingHourEntry[],
+    ctx?: RequestContext,
+  ): Promise<void> {
+    const client = this.getClient(ctx);
+    const now = new Date();
+
+    for (const entry of hours) {
+      await client
+        .insert(operatingHours)
+        .values({
+          branchId,
+          dayOfWeek: entry.dayOfWeek,
+          opensAt: entry.opensAt,
+          closesAt: entry.closesAt,
+          isClosed: entry.isClosed,
+          createdAt: now,
+          updatedAt: now,
+        })
+        .onConflictDoUpdate({
+          target: [operatingHours.branchId, operatingHours.dayOfWeek],
+          set: {
+            opensAt: entry.opensAt,
+            closesAt: entry.closesAt,
+            isClosed: entry.isClosed,
+            updatedAt: now,
+          },
+        });
+    }
   }
 }

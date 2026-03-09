@@ -25,6 +25,8 @@ interface WeeklyHoursEditorProps {
   ) => void;
   onApplyWeekdayTemplate: () => void;
   onReset: () => void;
+  onSave: () => void;
+  isSaving: boolean;
 }
 
 const TIME_OPTIONS = Array.from({ length: 48 }, (_, index) => {
@@ -41,6 +43,8 @@ export function WeeklyHoursEditor({
   onHourChange,
   onApplyWeekdayTemplate,
   onReset,
+  onSave,
+  isSaving,
 }: WeeklyHoursEditorProps) {
   return (
     <Card>
@@ -48,9 +52,8 @@ export function WeeklyHoursEditor({
         <div className="space-y-1">
           <CardTitle>Operating Hours</CardTitle>
           <p className="text-sm text-muted-foreground">
-            Set the storefront schedule your team plans to follow. Weekly hours
-            are stored locally for now until branch scheduling fields are added
-            to the backend.
+            Set the storefront schedule your team plans to follow. Changes are
+            saved when you press the save button below.
           </p>
         </div>
 
@@ -71,7 +74,7 @@ export function WeeklyHoursEditor({
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-4">
         {hours.map((day) => (
           <div
             key={day.dayKey}
@@ -153,6 +156,10 @@ export function WeeklyHoursEditor({
             </div>
           </div>
         ))}
+
+        <Button onClick={onSave} disabled={isSaving} className="w-full">
+          {isSaving ? "Saving..." : "Save operating hours"}
+        </Button>
       </CardContent>
     </Card>
   );

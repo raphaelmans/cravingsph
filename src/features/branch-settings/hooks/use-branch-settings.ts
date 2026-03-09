@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useMemo, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTRPC } from "@/trpc/client";
 import { getQueryClient } from "@/trpc/query-client";
 
@@ -25,9 +25,15 @@ export interface BranchOperatingHour {
   isClosed: boolean;
 }
 
-interface WeeklyHoursStore {
-  byBranchId: Record<string, BranchOperatingHour[]>;
-}
+const DAY_LABELS: Record<number, { dayKey: WeekDayKey; label: string }> = {
+  0: { dayKey: "monday", label: "Monday" },
+  1: { dayKey: "tuesday", label: "Tuesday" },
+  2: { dayKey: "wednesday", label: "Wednesday" },
+  3: { dayKey: "thursday", label: "Thursday" },
+  4: { dayKey: "friday", label: "Friday" },
+  5: { dayKey: "saturday", label: "Saturday" },
+  6: { dayKey: "sunday", label: "Sunday" },
+};
 
 const DEFAULT_WEEKLY_HOURS: BranchOperatingHour[] = [
   {
@@ -81,50 +87,41 @@ const DEFAULT_WEEKLY_HOURS: BranchOperatingHour[] = [
   },
 ];
 
-let weeklyHoursStore: WeeklyHoursStore = {
-  byBranchId: {},
-};
+function serverToClient(
+  serverHours: {
+    dayOfWeek: number;
+    opensAt: string;
+    closesAt: string;
+    isClosed: boolean;
+  }[],
+): BranchOperatingHour[] {
+  if (serverHours.length === 0)
+    return DEFAULT_WEEKLY_HOURS.map((d) => ({ ...d }));
 
-const weeklyHoursListeners = new Set<() => void>();
-
-function cloneDefaultWeeklyHours() {
-  return DEFAULT_WEEKLY_HOURS.map((day) => ({ ...day }));
+  return serverHours.map((h) => {
+    const meta = DAY_LABELS[h.dayOfWeek];
+    return {
+      dayKey: meta.dayKey,
+      label: meta.label,
+      opensAt: h.opensAt.slice(0, 5),
+      closesAt: h.closesAt.slice(0, 5),
+      isClosed: h.isClosed,
+    };
+  });
 }
 
-function subscribe(listener: () => void) {
-  weeklyHoursListeners.add(listener);
-  return () => weeklyHoursListeners.delete(listener);
-}
-
-function emitChange() {
-  for (const listener of weeklyHoursListeners) {
-    listener();
-  }
-}
-
-function getBranchHoursSnapshot(branchId: string) {
-  return weeklyHoursStore.byBranchId[branchId] ?? DEFAULT_WEEKLY_HOURS;
-}
-
-function setWeeklyHoursStore(next: WeeklyHoursStore) {
-  weeklyHoursStore = next;
-  emitChange();
-}
-
-function ensureBranchHours(branchId: string) {
-  if (weeklyHoursStore.byBranchId[branchId]) {
-    return weeklyHoursStore.byBranchId[branchId];
-  }
-
-  const next = cloneDefaultWeeklyHours();
-  weeklyHoursStore = {
-    byBranchId: {
-      ...weeklyHoursStore.byBranchId,
-      [branchId]: next,
-    },
-  };
-
-  return next;
+function clientToServer(hours: BranchOperatingHour[]): {
+  dayOfWeek: number;
+  opensAt: string;
+  closesAt: string;
+  isClosed: boolean;
+}[] {
+  return hours.map((h) => ({
+    dayOfWeek: WEEK_DAY_KEYS.indexOf(h.dayKey),
+    opensAt: h.opensAt,
+    closesAt: h.closesAt,
+    isClosed: h.isClosed,
+  }));
 }
 
 export interface BranchOrderSettingsInput {
@@ -158,6 +155,11 @@ export function useBranchSettings(restaurantId: string, branchId: string) {
     staleTime: 2 * 60 * 1000,
   });
 
+  const operatingHoursQuery = useQuery({
+    ...trpc.branch.getOperatingHours.queryOptions({ branchId }),
+    staleTime: 2 * 60 * 1000,
+  });
+
   const branch = useMemo(
     () => branchesQuery.data?.find((item) => item.id === branchId) ?? null,
     [branchId, branchesQuery.data],
@@ -169,11 +171,17 @@ export function useBranchSettings(restaurantId: string, branchId: string) {
     [restaurantId, restaurantsQuery.data],
   );
 
-  const weeklyHours = useSyncExternalStore(
-    subscribe,
-    () => getBranchHoursSnapshot(branchId),
-    () => getBranchHoursSnapshot(branchId),
+  const [hoursDraft, setHoursDraft] = useState<BranchOperatingHour[] | null>(
+    null,
   );
+
+  useEffect(() => {
+    if (operatingHoursQuery.data) {
+      setHoursDraft(serverToClient(operatingHoursQuery.data));
+    }
+  }, [operatingHoursQuery.data]);
+
+  const weeklyHours = hoursDraft ?? DEFAULT_WEEKLY_HOURS;
 
   const updateBranchMutation = useMutation({
     ...trpc.branch.update.mutationOptions(),
@@ -184,55 +192,55 @@ export function useBranchSettings(restaurantId: string, branchId: string) {
     },
   });
 
+  const updateHoursMutation = useMutation({
+    ...trpc.branch.updateOperatingHours.mutationOptions(),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: trpc.branch.getOperatingHours.queryKey({ branchId }),
+      });
+    },
+  });
+
   function updateWeeklyHour(
     dayKey: WeekDayKey,
     updates: Partial<BranchOperatingHour>,
   ) {
-    const hours = ensureBranchHours(branchId);
-    const next = hours.map((hour) =>
-      hour.dayKey === dayKey ? { ...hour, ...updates } : hour,
-    );
-
-    setWeeklyHoursStore({
-      byBranchId: {
-        ...weeklyHoursStore.byBranchId,
-        [branchId]: next,
-      },
+    setHoursDraft((prev) => {
+      const current = prev ?? DEFAULT_WEEKLY_HOURS.map((d) => ({ ...d }));
+      return current.map((hour) =>
+        hour.dayKey === dayKey ? { ...hour, ...updates } : hour,
+      );
     });
   }
 
   function applyWeekdayTemplate() {
-    const hours = ensureBranchHours(branchId);
-    const template =
-      hours.find((hour) => hour.dayKey === "monday") ?? DEFAULT_WEEKLY_HOURS[0];
-
-    const next = hours.map((hour) =>
-      ["monday", "tuesday", "wednesday", "thursday", "friday"].includes(
-        hour.dayKey,
-      )
-        ? {
-            ...hour,
-            opensAt: template.opensAt,
-            closesAt: template.closesAt,
-            isClosed: template.isClosed,
-          }
-        : hour,
-    );
-
-    setWeeklyHoursStore({
-      byBranchId: {
-        ...weeklyHoursStore.byBranchId,
-        [branchId]: next,
-      },
+    setHoursDraft((prev) => {
+      const current = prev ?? DEFAULT_WEEKLY_HOURS.map((d) => ({ ...d }));
+      const template =
+        current.find((h) => h.dayKey === "monday") ?? DEFAULT_WEEKLY_HOURS[0];
+      return current.map((hour) =>
+        ["monday", "tuesday", "wednesday", "thursday", "friday"].includes(
+          hour.dayKey,
+        )
+          ? {
+              ...hour,
+              opensAt: template.opensAt,
+              closesAt: template.closesAt,
+              isClosed: template.isClosed,
+            }
+          : hour,
+      );
     });
   }
 
   function resetWeeklyHours() {
-    setWeeklyHoursStore({
-      byBranchId: {
-        ...weeklyHoursStore.byBranchId,
-        [branchId]: cloneDefaultWeeklyHours(),
-      },
+    setHoursDraft(DEFAULT_WEEKLY_HOURS.map((d) => ({ ...d })));
+  }
+
+  async function saveWeeklyHours() {
+    await updateHoursMutation.mutateAsync({
+      branchId,
+      hours: clientToServer(weeklyHours),
     });
   }
 
@@ -253,11 +261,14 @@ export function useBranchSettings(restaurantId: string, branchId: string) {
     updateWeeklyHour,
     applyWeekdayTemplate,
     resetWeeklyHours,
+    saveWeeklyHours,
     saveOrderSettings,
     isLoading:
       organizationQuery.isLoading ||
       restaurantsQuery.isLoading ||
-      branchesQuery.isLoading,
+      branchesQuery.isLoading ||
+      operatingHoursQuery.isLoading,
     isSavingOrderSettings: updateBranchMutation.isPending,
+    isSavingWeeklyHours: updateHoursMutation.isPending,
   };
 }

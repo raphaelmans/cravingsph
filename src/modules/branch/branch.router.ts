@@ -4,7 +4,12 @@ import {
   publicProcedure,
   router,
 } from "@/shared/infra/trpc/trpc";
-import { CreateBranchSchema, UpdateBranchSchema } from "./dtos/branch.dto";
+import {
+  CreateBranchSchema,
+  GetOperatingHoursSchema,
+  UpdateBranchSchema,
+  UpdateOperatingHoursSchema,
+} from "./dtos/branch.dto";
 import { makeBranchService } from "./factories/branch.factory";
 
 export const branchRouter = router({
@@ -69,5 +74,29 @@ export const branchRouter = router({
     .mutation(async ({ input, ctx }) => {
       const branchService = makeBranchService();
       return branchService.update(ctx.userId, input.id, input);
+    }),
+
+  /**
+   * Get operating hours for a branch.
+   */
+  getOperatingHours: protectedProcedure
+    .input(GetOperatingHoursSchema)
+    .query(async ({ input, ctx }) => {
+      const branchService = makeBranchService();
+      return branchService.getOperatingHours(ctx.userId, input.branchId);
+    }),
+
+  /**
+   * Update operating hours for a branch (upserts all 7 days).
+   */
+  updateOperatingHours: protectedProcedure
+    .input(UpdateOperatingHoursSchema)
+    .mutation(async ({ input, ctx }) => {
+      const branchService = makeBranchService();
+      await branchService.updateOperatingHours(
+        ctx.userId,
+        input.branchId,
+        input.hours,
+      );
     }),
 });

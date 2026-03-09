@@ -7,7 +7,11 @@ import { logger } from "@/shared/infra/logger";
 import type { RequestContext } from "@/shared/kernel/context";
 import { AuthorizationError } from "@/shared/kernel/errors";
 import type { TransactionManager } from "@/shared/kernel/transaction";
-import type { CreateBranchDTO, UpdateBranchDTO } from "../dtos/branch.dto";
+import type {
+  CreateBranchDTO,
+  OperatingHourEntry,
+  UpdateBranchDTO,
+} from "../dtos/branch.dto";
 import { BranchNotFoundError } from "../errors/branch.errors";
 import type { IBranchRepository } from "../repositories/branch.repository";
 
@@ -38,6 +42,15 @@ export interface IBranchService {
     id: string,
     data: UpdateBranchDTO,
   ): Promise<BranchRecord>;
+  getOperatingHours(
+    userId: string,
+    branchId: string,
+  ): Promise<OperatingHourEntry[]>;
+  updateOperatingHours(
+    userId: string,
+    branchId: string,
+    hours: OperatingHourEntry[],
+  ): Promise<void>;
 }
 
 export class BranchService implements IBranchService {
@@ -145,6 +158,51 @@ export class BranchService implements IBranchService {
       );
 
       return updated;
+    });
+  }
+
+  async getOperatingHours(
+    userId: string,
+    branchId: string,
+  ): Promise<OperatingHourEntry[]> {
+    const existing = await this.branchRepository.findById(branchId);
+    if (!existing) {
+      throw new BranchNotFoundError(branchId);
+    }
+    await this.assertRestaurantOwnership(userId, existing.restaurantId);
+
+    const rows = await this.branchRepository.findOperatingHours(branchId);
+    return rows.map((r) => ({
+      dayOfWeek: r.dayOfWeek,
+      opensAt: r.opensAt,
+      closesAt: r.closesAt,
+      isClosed: r.isClosed,
+    }));
+  }
+
+  async updateOperatingHours(
+    userId: string,
+    branchId: string,
+    hours: OperatingHourEntry[],
+  ): Promise<void> {
+    return this.transactionManager.run(async (tx) => {
+      const ctx: RequestContext = { tx };
+
+      const existing = await this.branchRepository.findById(branchId, ctx);
+      if (!existing) {
+        throw new BranchNotFoundError(branchId);
+      }
+      await this.assertRestaurantOwnership(userId, existing.restaurantId, ctx);
+
+      await this.branchRepository.upsertOperatingHours(branchId, hours, ctx);
+
+      logger.info(
+        {
+          event: "branch.operating_hours.updated",
+          branchId,
+        },
+        "Operating hours updated",
+      );
     });
   }
 

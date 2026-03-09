@@ -43,9 +43,11 @@ export default function BranchSettingsPage({
     updateWeeklyHour,
     applyWeekdayTemplate,
     resetWeeklyHours,
+    saveWeeklyHours,
     saveOrderSettings,
     isLoading,
     isSavingOrderSettings,
+    isSavingWeeklyHours,
   } = useBranchSettings(restaurantId, branchId);
 
   const [draft, setDraft] = useState<OrderSettingsDraft>({
@@ -268,6 +270,19 @@ export default function BranchSettingsPage({
             onHourChange={updateWeeklyHour}
             onApplyWeekdayTemplate={applyWeekdayTemplate}
             onReset={resetWeeklyHours}
+            onSave={async () => {
+              try {
+                await saveWeeklyHours();
+                toast.success("Operating hours saved");
+              } catch (error) {
+                toast.error(
+                  error instanceof Error
+                    ? error.message
+                    : "Failed to save operating hours",
+                );
+              }
+            }}
+            isSaving={isSavingWeeklyHours}
           />
 
           <div className="space-y-6">
