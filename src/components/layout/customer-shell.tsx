@@ -1,8 +1,8 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 interface CustomerShellProps {
-  children: React.ReactNode
-  className?: string
+  children: React.ReactNode;
+  className?: string;
 }
 
 export function CustomerShell({ children, className }: CustomerShellProps) {
@@ -13,5 +13,5 @@ export function CustomerShell({ children, className }: CustomerShellProps) {
     >
       <main className="flex-1">{children}</main>
     </div>
-  )
+  );
 }

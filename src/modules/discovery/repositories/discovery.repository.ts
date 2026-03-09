@@ -75,6 +75,7 @@ export class DiscoveryRepository implements IDiscoveryRepository {
       .where(
         and(eq(restaurant.isFeatured, true), eq(restaurant.isActive, true)),
       )
+      .orderBy(restaurant.id)
       .limit(limit);
 
     return rows;
@@ -118,11 +119,11 @@ export class DiscoveryRepository implements IDiscoveryRepository {
           ))
         )
       )`;
-      return baseQuery.orderBy(distanceExpr).limit(limit);
+      return baseQuery.orderBy(restaurant.id, distanceExpr).limit(limit);
     }
 
-    // Fallback: newest first
-    return baseQuery.orderBy(restaurant.name).limit(limit);
+    // Fallback: alphabetical (DISTINCT ON requires restaurant.id first)
+    return baseQuery.orderBy(restaurant.id, restaurant.name).limit(limit);
   }
 
   /**
@@ -225,7 +226,10 @@ export class DiscoveryRepository implements IDiscoveryRepository {
         FROM menu_item mi
         JOIN category c ON c.id = mi.category_id
         JOIN branch b ON b.id = c.branch_id
-        WHERE b.restaurant_id = ANY(${restaurantIds})
+        WHERE b.restaurant_id IN (${sql.join(
+          restaurantIds.map((id) => sql`${id}::uuid`),
+          sql`, `,
+        )})
           AND mi.is_available = true
       ) sub
       WHERE sub.rn <= 3

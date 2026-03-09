@@ -1,9 +1,9 @@
-import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 interface RequiredBadgeProps {
-  label?: string
-  className?: string
+  label?: string;
+  className?: string;
 }
 
 export function RequiredBadge({
@@ -14,5 +14,5 @@ export function RequiredBadge({
     <Badge variant="default" className={cn("text-[10px]", className)}>
       {label}
     </Badge>
-  )
+  );
 }

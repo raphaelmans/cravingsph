@@ -1,19 +1,19 @@
-import Image from "next/image"
+import Image from "next/image";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 const aspectRatios = {
   square: "aspect-square",
   video: "aspect-video",
   "3:4": "aspect-[3/4]",
-} as const
+} as const;
 
 interface CoverImageProps {
-  src: string
-  alt: string
-  aspectRatio?: keyof typeof aspectRatios
-  priority?: boolean
-  className?: string
+  src: string;
+  alt: string;
+  aspectRatio?: keyof typeof aspectRatios;
+  priority?: boolean;
+  className?: string;
 }
 
 export function CoverImage({
@@ -29,7 +29,7 @@ export function CoverImage({
       className={cn(
         "relative w-full overflow-hidden bg-muted",
         aspectRatios[aspectRatio],
-        className
+        className,
       )}
     >
       <Image
@@ -41,5 +41,5 @@ export function CoverImage({
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
       />
     </div>
-  )
+  );
 }

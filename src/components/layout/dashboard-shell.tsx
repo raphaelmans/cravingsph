@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { cn } from "@/lib/utils"
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
 
 interface DashboardShellProps {
-  children: React.ReactNode
-  sidebar: React.ReactNode
-  defaultOpen?: boolean
-  className?: string
+  children: React.ReactNode;
+  sidebar: React.ReactNode;
+  defaultOpen?: boolean;
+  className?: string;
 }
 
 export function DashboardShell({
@@ -28,5 +28,5 @@ export function DashboardShell({
         </div>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

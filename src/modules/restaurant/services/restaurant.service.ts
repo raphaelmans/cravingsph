@@ -1,11 +1,14 @@
+import { OrganizationNotFoundError } from "@/modules/organization/errors/organization.errors";
+import type { IOrganizationRepository } from "@/modules/organization/repositories/organization.repository";
 import type { RestaurantRecord } from "@/shared/infra/db/schema";
 import { logger } from "@/shared/infra/logger";
 import type { RequestContext } from "@/shared/kernel/context";
 import { AuthorizationError } from "@/shared/kernel/errors";
 import type { TransactionManager } from "@/shared/kernel/transaction";
-import { OrganizationNotFoundError } from "@/modules/organization/errors/organization.errors";
-import type { IOrganizationRepository } from "@/modules/organization/repositories/organization.repository";
-import type { CreateRestaurantDTO, UpdateRestaurantDTO } from "../dtos/restaurant.dto";
+import type {
+  CreateRestaurantDTO,
+  UpdateRestaurantDTO,
+} from "../dtos/restaurant.dto";
 import {
   RestaurantNotFoundError,
   RestaurantSlugTakenError,
@@ -95,7 +98,10 @@ export class RestaurantService implements IRestaurantService {
       const existing = await this.restaurantRepository.findBySlug(slug, ctx);
       if (existing) {
         slug = `${slug}-${randomSuffix()}`;
-        const stillTaken = await this.restaurantRepository.findBySlug(slug, ctx);
+        const stillTaken = await this.restaurantRepository.findBySlug(
+          slug,
+          ctx,
+        );
         if (stillTaken) {
           throw new RestaurantSlugTakenError(slug);
         }

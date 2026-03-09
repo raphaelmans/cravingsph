@@ -1,5 +1,4 @@
-import { Inter, League_Spartan, Antonio } from "next/font/google";
-import { Geist_Mono } from "next/font/google";
+import { Antonio, Geist_Mono, Inter, League_Spartan } from "next/font/google";
 
 export const inter = Inter({
   variable: "--font-inter",

@@ -1,9 +1,9 @@
-import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 interface OptionalBadgeProps {
-  label?: string
-  className?: string
+  label?: string;
+  className?: string;
 }
 
 export function OptionalBadge({
@@ -17,5 +17,5 @@ export function OptionalBadge({
     >
       {label}
     </Badge>
-  )
+  );
 }

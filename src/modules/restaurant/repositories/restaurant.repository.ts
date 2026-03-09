@@ -8,10 +8,7 @@ import type { DbClient, DrizzleTransaction } from "@/shared/infra/db/types";
 import type { RequestContext } from "@/shared/kernel/context";
 
 export interface IRestaurantRepository {
-  findById(
-    id: string,
-    ctx?: RequestContext,
-  ): Promise<RestaurantRecord | null>;
+  findById(id: string, ctx?: RequestContext): Promise<RestaurantRecord | null>;
   findBySlug(
     slug: string,
     ctx?: RequestContext,

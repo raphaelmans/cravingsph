@@ -1,16 +1,12 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 interface PriceProps {
-  amount: number
-  currency?: string
-  className?: string
+  amount: number;
+  currency?: string;
+  className?: string;
 }
 
-export function Price({
-  amount,
-  currency = "₱",
-  className,
-}: PriceProps) {
+export function Price({ amount, currency = "₱", className }: PriceProps) {
   return (
     <span
       data-slot="price"
@@ -19,5 +15,5 @@ export function Price({
       {currency}
       {amount.toLocaleString("en-PH")}
     </span>
-  )
+  );
 }

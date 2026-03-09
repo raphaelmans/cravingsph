@@ -1,18 +1,17 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { ShoppingCart, User } from "lucide-react"
-
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Logo } from "@/components/brand/logo"
+import { ShoppingCart, User } from "lucide-react";
+import Link from "next/link";
+import { Logo } from "@/components/brand/logo";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface CustomerHeaderProps {
-  showCart?: boolean
-  showAuth?: boolean
-  cartCount?: number
-  onCartClick?: () => void
-  className?: string
+  showCart?: boolean;
+  showAuth?: boolean;
+  cartCount?: number;
+  onCartClick?: () => void;
+  className?: string;
 }
 
 export function CustomerHeader({
@@ -27,7 +26,7 @@ export function CustomerHeader({
       data-slot="customer-header"
       className={cn(
         "sticky top-0 z-40 flex h-14 items-center justify-between border-b bg-background px-4",
-        className
+        className,
       )}
     >
       <Link href="/" aria-label="Home">
@@ -62,5 +61,5 @@ export function CustomerHeader({
         )}
       </div>
     </header>
-  )
+  );
 }

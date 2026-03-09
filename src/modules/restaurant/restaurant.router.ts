@@ -1,9 +1,9 @@
+import { z } from "zod";
 import {
   protectedProcedure,
   publicProcedure,
   router,
 } from "@/shared/infra/trpc/trpc";
-import { z } from "zod";
 import {
   CreateRestaurantSchema,
   UpdateRestaurantSchema,

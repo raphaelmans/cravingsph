@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { ThemeProvider } from "next-themes";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { createTRPCClient, httpBatchLink } from "@trpc/client";
+import { ThemeProvider } from "next-themes";
+import { useState } from "react";
+import type { AppRouter } from "@/shared/infra/trpc/root";
 import { TRPCProvider } from "@/trpc/client";
 import { getQueryClient } from "@/trpc/query-client";
-import type { AppRouter } from "@/shared/infra/trpc/root";
 
 /**
  * Returns the base URL for tRPC requests.

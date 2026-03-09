@@ -85,10 +85,7 @@ export class OrganizationRepository implements IOrganizationRepository {
     ctx?: RequestContext,
   ): Promise<OrganizationRecord> {
     const client = this.getClient(ctx);
-    const result = await client
-      .insert(organization)
-      .values(data)
-      .returning();
+    const result = await client.insert(organization).values(data).returning();
     return result[0];
   }
 

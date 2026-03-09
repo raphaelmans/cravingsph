@@ -2,8 +2,10 @@ import type { OrganizationRecord } from "@/shared/infra/db/schema";
 import { logger } from "@/shared/infra/logger";
 import type { RequestContext } from "@/shared/kernel/context";
 import type { TransactionManager } from "@/shared/kernel/transaction";
-import type { CreateOrganizationDTO } from "../dtos/organization.dto";
-import type { UpdateOrganizationDTO } from "../dtos/organization.dto";
+import type {
+  CreateOrganizationDTO,
+  UpdateOrganizationDTO,
+} from "../dtos/organization.dto";
 import {
   OrganizationAlreadyExistsError,
   OrganizationNotFoundError,
@@ -17,10 +19,7 @@ export interface IOrganizationService {
     ownerId: string,
     data: CreateOrganizationDTO,
   ): Promise<OrganizationRecord>;
-  update(
-    id: string,
-    data: UpdateOrganizationDTO,
-  ): Promise<OrganizationRecord>;
+  update(id: string, data: UpdateOrganizationDTO): Promise<OrganizationRecord>;
 }
 
 /**
@@ -126,11 +125,7 @@ export class OrganizationService implements IOrganizationService {
         throw new OrganizationNotFoundError(id);
       }
 
-      const updated = await this.organizationRepository.update(
-        id,
-        data,
-        ctx,
-      );
+      const updated = await this.organizationRepository.update(id, data, ctx);
 
       logger.info(
         {

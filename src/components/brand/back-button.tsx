@@ -1,13 +1,12 @@
-"use client"
+"use client";
 
-import { ChevronLeft } from "lucide-react"
-
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { ChevronLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface BackButtonProps {
-  onClick?: () => void
-  className?: string
+  onClick?: () => void;
+  className?: string;
 }
 
 export function BackButton({ onClick, className }: BackButtonProps) {
@@ -22,5 +21,5 @@ export function BackButton({ onClick, className }: BackButtonProps) {
     >
       <ChevronLeft className="size-5" />
     </Button>
-  )
+  );
 }

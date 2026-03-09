@@ -1,17 +1,17 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 const sizes = {
   sm: "text-xl",
   default: "text-3xl",
   lg: "text-5xl",
   xl: "text-7xl",
-} as const
+} as const;
 
-type LogoSize = keyof typeof sizes
+type LogoSize = keyof typeof sizes;
 
 interface LogoProps {
-  size?: LogoSize
-  className?: string
+  size?: LogoSize;
+  className?: string;
 }
 
 export function Logo({ size = "default", className }: LogoProps) {
@@ -22,7 +22,7 @@ export function Logo({ size = "default", className }: LogoProps) {
       className={cn(
         "inline-flex items-baseline font-display font-bold tracking-tight text-primary select-none",
         sizes[size],
-        className
+        className,
       )}
     >
       crav
@@ -47,5 +47,5 @@ export function Logo({ size = "default", className }: LogoProps) {
       </span>
       ngs
     </span>
-  )
+  );
 }

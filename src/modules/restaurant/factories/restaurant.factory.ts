@@ -1,5 +1,5 @@
-import { getContainer } from "@/shared/infra/container";
 import { makeOrganizationRepository } from "@/modules/organization/factories/organization.factory";
+import { getContainer } from "@/shared/infra/container";
 import { RestaurantRepository } from "../repositories/restaurant.repository";
 import { RestaurantService } from "../services/restaurant.service";
 
