@@ -8,6 +8,7 @@ import type {
 } from "@/modules/menu/repositories/menu.repository";
 import { useCategoryObserver } from "../hooks/use-category-observer";
 import { CategoryTabs } from "./category-tabs";
+import { MenuItemSheet, type MenuItemSheetPayload } from "./menu-item-sheet";
 import { MenuSectionList } from "./menu-section-list";
 
 interface RestaurantMenuProps {
@@ -27,17 +28,31 @@ export function RestaurantMenu({ menu }: RestaurantMenuProps) {
 
   const [, setActiveCategoryIdOverride] = useState<string | null>(null);
 
+  // Menu item sheet state
+  const [selectedItem, setSelectedItem] = useState<MenuItemWithDetails | null>(
+    null,
+  );
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
   const handleCategorySelect = useCallback((categoryId: string) => {
     setActiveCategoryIdOverride(categoryId);
   }, []);
 
-  const handleItemSelect = useCallback((_item: MenuItemWithDetails) => {
-    // Will open MenuItemSheet in Step 2c
+  const handleItemSelect = useCallback((item: MenuItemWithDetails) => {
+    setSelectedItem(item);
+    setIsSheetOpen(true);
   }, []);
 
   const handleItemQuickAdd = useCallback((item: MenuItemWithDetails) => {
     // Will add to cart in Step 3
     toast.success(`${item.item.name} added`);
+  }, []);
+
+  const handleSheetSubmit = useCallback((payload: MenuItemSheetPayload) => {
+    // Will add to cart in Step 3
+    toast.success("Added to cart");
+    setIsSheetOpen(false);
+    console.log("Cart payload ready:", payload);
   }, []);
 
   const handleSearchOpen = useCallback(() => {
@@ -58,6 +73,13 @@ export function RestaurantMenu({ menu }: RestaurantMenuProps) {
         registerSection={registerSection}
         onItemSelect={handleItemSelect}
         onItemQuickAdd={handleItemQuickAdd}
+      />
+
+      <MenuItemSheet
+        item={selectedItem}
+        open={isSheetOpen}
+        onOpenChange={setIsSheetOpen}
+        onSubmit={handleSheetSubmit}
       />
     </div>
   );
