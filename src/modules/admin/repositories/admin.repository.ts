@@ -1,5 +1,6 @@
 import { count, desc, eq } from "drizzle-orm";
 import {
+  authUsers,
   branch,
   organization,
   profile,
@@ -26,6 +27,20 @@ export interface AdminDashboardOverviewRecord {
   totalUsers: number;
   ordersToday: number | null;
   recentActivity: AdminRecentActivityRecord[];
+}
+
+export interface AdminUserListItemRecord {
+  id: string;
+  userId: string;
+  role: string;
+  displayName: string | null;
+  email: string | null;
+  phone: string | null;
+  avatarUrl: string | null;
+  emailConfirmedAt: Date | string | null;
+  lastSignInAt: Date | string | null;
+  createdAt: Date | string | null;
+  updatedAt: Date | string | null;
 }
 
 export interface AdminVerificationQueueItemRecord {
@@ -88,6 +103,7 @@ export interface IAdminRepository {
   getDashboardOverview(
     ctx?: RequestContext,
   ): Promise<AdminDashboardOverviewRecord>;
+  getUsers(ctx?: RequestContext): Promise<AdminUserListItemRecord[]>;
   getRestaurants(
     ctx?: RequestContext,
   ): Promise<AdminRestaurantListItemRecord[]>;
@@ -172,6 +188,45 @@ export class AdminRepository implements IAdminRepository {
       ordersToday: null,
       recentActivity,
     };
+  }
+
+  async getUsers(ctx?: RequestContext): Promise<AdminUserListItemRecord[]> {
+    const client = this.getClient(ctx);
+
+    const rows = await client
+      .select({
+        id: authUsers.id,
+        userId: authUsers.id,
+        role: userRoles.role,
+        displayName: profile.displayName,
+        authEmail: authUsers.email,
+        profileEmail: profile.email,
+        authPhone: authUsers.phone,
+        profilePhone: profile.phoneNumber,
+        avatarUrl: profile.avatarUrl,
+        emailConfirmedAt: authUsers.emailConfirmedAt,
+        lastSignInAt: authUsers.lastSignInAt,
+        createdAt: authUsers.createdAt,
+        updatedAt: authUsers.updatedAt,
+      })
+      .from(userRoles)
+      .innerJoin(authUsers, eq(authUsers.id, userRoles.userId))
+      .leftJoin(profile, eq(profile.userId, authUsers.id))
+      .orderBy(desc(authUsers.lastSignInAt), desc(authUsers.createdAt));
+
+    return rows.map((row) => ({
+      id: row.id,
+      userId: row.userId,
+      role: row.role,
+      displayName: row.displayName,
+      email: row.profileEmail ?? row.authEmail ?? null,
+      phone: row.profilePhone ?? row.authPhone ?? null,
+      avatarUrl: row.avatarUrl,
+      emailConfirmedAt: row.emailConfirmedAt,
+      lastSignInAt: row.lastSignInAt,
+      createdAt: row.createdAt,
+      updatedAt: row.updatedAt,
+    }));
   }
 
   async getRestaurants(

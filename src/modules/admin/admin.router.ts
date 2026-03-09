@@ -12,6 +12,10 @@ export const adminRouter = router({
     const adminService = makeAdminService();
     return adminService.getDashboardOverview();
   }),
+  getUsers: adminProcedure.query(async () => {
+    const adminService = makeAdminService();
+    return adminService.getUsers();
+  }),
   getRestaurants: adminProcedure.query(async () => {
     const adminService = makeAdminService();
     return adminService.getRestaurants();

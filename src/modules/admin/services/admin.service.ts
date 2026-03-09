@@ -5,6 +5,7 @@ import type {
   AdminDashboardOverviewRecord,
   AdminRestaurantDetailRecord,
   AdminRestaurantListItemRecord,
+  AdminUserListItemRecord,
   AdminVerificationQueueItemRecord,
   AdminVerificationRequestRecord,
   IAdminRepository,
@@ -14,6 +15,7 @@ export interface IAdminService {
   getDashboardOverview(
     ctx?: RequestContext,
   ): Promise<AdminDashboardOverviewRecord>;
+  getUsers(ctx?: RequestContext): Promise<AdminUserListItemRecord[]>;
   getRestaurants(
     ctx?: RequestContext,
   ): Promise<AdminRestaurantListItemRecord[]>;
@@ -47,6 +49,10 @@ export class AdminService implements IAdminService {
     ctx?: RequestContext,
   ): Promise<AdminDashboardOverviewRecord> {
     return this.adminRepository.getDashboardOverview(ctx);
+  }
+
+  async getUsers(ctx?: RequestContext): Promise<AdminUserListItemRecord[]> {
+    return this.adminRepository.getUsers(ctx);
   }
 
   async getRestaurants(
