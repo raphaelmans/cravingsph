@@ -1,23 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { inter, leagueSpartan, antonio, geistMono } from "@/lib/fonts";
 import { HealthCheck } from "@/components/health-check";
 import { Providers } from "@/components/providers";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "Next16 Supabase Auth Boilerplate",
+  title: "CravingsPH",
   description:
-    "Auth-ready Next.js boilerplate with Supabase + Drizzle route guards and profile module.",
+    "Mobile-first restaurant menu and ordering platform for the Philippines.",
 };
 
 export default function RootLayout({
@@ -26,9 +16,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${leagueSpartan.variable} ${antonio.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
           {children}
