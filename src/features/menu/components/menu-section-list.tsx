@@ -13,6 +13,10 @@ interface MenuSectionListProps {
   registerSection: (id: string, el: HTMLElement | null) => void;
   onItemSelect: (item: MenuItemWithDetails) => void;
   onItemQuickAdd: (item: MenuItemWithDetails) => void;
+  /** Map of menuItemId → total quantity in cart */
+  cartQuantities?: Map<string, number>;
+  onItemIncrease?: (item: MenuItemWithDetails) => void;
+  onItemDecrease?: (item: MenuItemWithDetails) => void;
 }
 
 export function MenuSectionList({
@@ -20,6 +24,9 @@ export function MenuSectionList({
   registerSection,
   onItemSelect,
   onItemQuickAdd,
+  cartQuantities,
+  onItemIncrease,
+  onItemDecrease,
 }: MenuSectionListProps) {
   const sectionRef = useCallback(
     (categoryId: string) => (el: HTMLElement | null) => {
@@ -54,8 +61,11 @@ export function MenuSectionList({
                 <MenuItemCard
                   key={menuItem.item.id}
                   menuItem={menuItem}
+                  cartQuantity={cartQuantities?.get(menuItem.item.id) ?? 0}
                   onSelect={onItemSelect}
                   onQuickAdd={onItemQuickAdd}
+                  onIncrease={onItemIncrease}
+                  onDecrease={onItemDecrease}
                 />
               ))}
             </div>

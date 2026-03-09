@@ -3,12 +3,16 @@
 import Image from "next/image";
 import { Price } from "@/components/brand/price";
 import type { MenuItemWithDetails } from "@/modules/menu/repositories/menu.repository";
+import { InlineQuantityPicker } from "./inline-quantity-picker";
 import { QuickAddButton } from "./quick-add-button";
 
 interface MenuItemCardProps {
   menuItem: MenuItemWithDetails;
+  cartQuantity?: number;
   onSelect: (item: MenuItemWithDetails) => void;
   onQuickAdd: (item: MenuItemWithDetails) => void;
+  onIncrease?: (item: MenuItemWithDetails) => void;
+  onDecrease?: (item: MenuItemWithDetails) => void;
 }
 
 function getDisplayPrice(menuItem: MenuItemWithDetails): number {
@@ -25,8 +29,11 @@ function hasModifiers(menuItem: MenuItemWithDetails): boolean {
 
 export function MenuItemCard({
   menuItem,
+  cartQuantity = 0,
   onSelect,
   onQuickAdd,
+  onIncrease,
+  onDecrease,
 }: MenuItemCardProps) {
   const { item, variants } = menuItem;
   const price = getDisplayPrice(menuItem);
@@ -72,18 +79,25 @@ export function MenuItemCard({
         </div>
       </div>
 
-      {/* Quick add */}
+      {/* Quick add / inline quantity */}
       <div className="flex shrink-0 items-end pb-0.5">
-        <QuickAddButton
-          onClick={() => {
-            // Items with modifiers must be customized via the sheet
-            if (hasModifiers(menuItem) || variants.length > 0) {
-              onSelect(menuItem);
-            } else {
-              onQuickAdd(menuItem);
-            }
-          }}
-        />
+        {cartQuantity > 0 && onIncrease && onDecrease ? (
+          <InlineQuantityPicker
+            quantity={cartQuantity}
+            onIncrease={() => onIncrease(menuItem)}
+            onDecrease={() => onDecrease(menuItem)}
+          />
+        ) : (
+          <QuickAddButton
+            onClick={() => {
+              if (hasModifiers(menuItem) || variants.length > 0) {
+                onSelect(menuItem);
+              } else {
+                onQuickAdd(menuItem);
+              }
+            }}
+          />
+        )}
       </div>
     </button>
   );

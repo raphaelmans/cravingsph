@@ -50,7 +50,7 @@ export default async function RestaurantPage({
         branchAddress={branch?.address}
       />
 
-      <RestaurantMenu menu={menu} />
+      <RestaurantMenu menu={menu} branchSlug={slug} />
     </div>
   );
 }
