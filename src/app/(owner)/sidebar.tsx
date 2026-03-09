@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-
+import { appRoutes } from "@/common/app-routes";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Collapsible,
@@ -81,7 +81,7 @@ const orgItems = [
   {
     label: "Verification",
     icon: ShieldCheck,
-    href: "/organization/verification",
+    href: appRoutes.organization.verify,
   },
   { label: "Settings", icon: Settings, href: "/organization/settings" },
 ];
