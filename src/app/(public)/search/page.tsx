@@ -3,7 +3,7 @@
 import { ArrowLeft, Search, SearchX } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { type FormEvent, useMemo, useRef } from "react";
+import { type FormEvent, Suspense, useMemo, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { CuisineFilter } from "@/features/discovery/components/cuisine-filter";
 import { LocationFilter } from "@/features/discovery/components/location-filter";
@@ -136,7 +136,7 @@ function filterRestaurants(
 // Page
 // ---------------------------------------------------------------------------
 
-export default function SearchPage() {
+function SearchPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -241,5 +241,47 @@ export default function SearchPage() {
         )}
       </div>
     </main>
+  );
+}
+
+function SearchPageFallback() {
+  return (
+    <main className="flex min-h-dvh flex-col">
+      <div className="sticky top-0 z-30 border-b bg-background">
+        <div className="flex items-center gap-2 px-4 py-3">
+          <Link
+            href="/"
+            className="flex size-9 shrink-0 items-center justify-center rounded-full hover:bg-accent"
+            aria-label="Back to home"
+          >
+            <ArrowLeft className="size-5" />
+          </Link>
+
+          <div className="relative flex-1">
+            <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Search restaurants or dishes..."
+              shape="pill"
+              className="pl-10"
+              readOnly
+              value=""
+            />
+          </div>
+        </div>
+
+        <div className="px-4 pb-3 text-sm text-muted-foreground">
+          Loading search filters...
+        </div>
+      </div>
+    </main>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<SearchPageFallback />}>
+      <SearchPageContent />
+    </Suspense>
   );
 }
