@@ -1,4 +1,6 @@
 import { requireSession } from "@/shared/infra/supabase/session";
+import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { OwnerSidebar } from "./sidebar";
 
 export default async function OwnerLayout({
   children,
@@ -10,9 +12,5 @@ export default async function OwnerLayout({
   // TODO: Check if user has an organization, redirect to get-started if not
   // This will be wired up when the organization query is available in the layout
 
-  return (
-    <div className="min-h-screen bg-background">
-      {children}
-    </div>
-  );
+  return <DashboardShell sidebar={<OwnerSidebar />}>{children}</DashboardShell>;
 }

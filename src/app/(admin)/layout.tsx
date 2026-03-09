@@ -1,4 +1,6 @@
 import { requireAdminSession } from "@/shared/infra/supabase/session";
+import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { AdminSidebar } from "./sidebar";
 
 export default async function AdminLayout({
   children,
@@ -7,9 +9,5 @@ export default async function AdminLayout({
 }) {
   await requireAdminSession();
 
-  return (
-    <div className="min-h-screen bg-background">
-      {children}
-    </div>
-  );
+  return <DashboardShell sidebar={<AdminSidebar />}>{children}</DashboardShell>;
 }
