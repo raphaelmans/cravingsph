@@ -21,39 +21,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Textarea } from "@/components/ui/textarea";
 import { VerificationDocumentCard } from "@/features/verification/components/verification-document-card";
 import { VerificationRestaurantCard } from "@/features/verification/components/verification-restaurant-card";
 import {
   useOwnerVerification,
   VERIFICATION_STATUS_META,
 } from "@/features/verification/hooks/use-owner-verification";
-
-function formatTimestamp(value: string | null) {
-  if (!value) {
-    return "No submission yet";
-  }
-
-  return new Date(value).toLocaleString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  });
-}
+import { getSupabaseBrowserClient } from "@/shared/infra/supabase/browser-client";
 
 export default function OwnerVerificationPage() {
   const {
     organization,
     verificationItems,
     isLoading,
-    updateContactDetails,
     uploadDocument,
     removeDocument,
     submitVerification,
+    fetchStatus,
   } = useOwnerVerification();
   const [selectedRestaurantId, setSelectedRestaurantId] = useState("");
 
@@ -76,6 +61,11 @@ export default function OwnerVerificationPage() {
     [selectedRestaurantId, verificationItems],
   );
 
+  function handleSelectRestaurant(id: string) {
+    setSelectedRestaurantId(id);
+    fetchStatus(id);
+  }
+
   const approvedCount = verificationItems.filter(
     (item) => item.status === "approved",
   ).length;
@@ -95,6 +85,37 @@ export default function OwnerVerificationPage() {
 
     submitVerification(selectedRestaurant.restaurant.id);
     toast.success("Verification documents submitted for review");
+  }
+
+  async function handleFileUpload(
+    restaurantId: string,
+    documentType: string,
+    file: File,
+  ) {
+    const supabase = getSupabaseBrowserClient();
+    const ext = file.name.split(".").pop() ?? "bin";
+    const path = `${restaurantId}/${documentType}.${ext}`;
+
+    const { error } = await supabase.storage
+      .from("verification-docs")
+      .upload(path, file, { upsert: true });
+
+    if (error) {
+      toast.error(`Upload failed: ${error.message}`);
+      return;
+    }
+
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("verification-docs").getPublicUrl(path);
+
+    uploadDocument(
+      restaurantId,
+      documentType as Parameters<typeof uploadDocument>[1],
+      file.name,
+      publicUrl,
+    );
+    toast.success("Document uploaded");
   }
 
   if (isLoading) {
@@ -261,15 +282,13 @@ export default function OwnerVerificationPage() {
                 <CardHeader>
                   <CardTitle className="text-base">What we need</CardTitle>
                   <CardDescription>
-                    Each restaurant needs three documents plus an active point
-                    of contact.
+                    Each restaurant needs three documents to get verified.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm text-muted-foreground">
                   <p>1. Registration certificate</p>
                   <p>2. Representative government ID</p>
                   <p>3. Current business permit</p>
-                  <p>4. Contact details for clarifications</p>
                 </CardContent>
               </Card>
 
@@ -281,7 +300,7 @@ export default function OwnerVerificationPage() {
                     }
                     item={item}
                     key={item.restaurant.id}
-                    onSelect={() => setSelectedRestaurantId(item.restaurant.id)}
+                    onSelect={() => handleSelectRestaurant(item.restaurant.id)}
                   />
                 ))}
               </div>
@@ -304,15 +323,7 @@ export default function OwnerVerificationPage() {
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="grid gap-4 md:grid-cols-3">
-                  <div className="rounded-xl border bg-muted/30 p-4">
-                    <p className="text-sm font-medium text-muted-foreground">
-                      Last submission
-                    </p>
-                    <p className="mt-2 text-sm font-medium">
-                      {formatTimestamp(selectedRestaurant.draft.submittedAt)}
-                    </p>
-                  </div>
+                <CardContent className="grid gap-4 md:grid-cols-2">
                   <div className="rounded-xl border bg-muted/30 p-4">
                     <p className="text-sm font-medium text-muted-foreground">
                       Documents uploaded
@@ -331,60 +342,8 @@ export default function OwnerVerificationPage() {
                         ? "Submit for review"
                         : selectedRestaurant.status === "under_review"
                           ? "Wait for admin feedback"
-                          : "Complete missing fields"}
+                          : "Upload missing documents"}
                     </p>
-                  </div>
-
-                  {selectedRestaurant.draft.feedback ? (
-                    <div className="md:col-span-3 rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">
-                      {selectedRestaurant.draft.feedback}
-                    </div>
-                  ) : null}
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">Contact details</CardTitle>
-                  <CardDescription>
-                    Use someone who can respond quickly if the platform team
-                    needs a clearer scan or an updated permit.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium">Contact name</p>
-                    <Input
-                      onChange={(event) =>
-                        updateContactDetails(selectedRestaurant.restaurant.id, {
-                          contactName: event.target.value,
-                        })
-                      }
-                      value={selectedRestaurant.draft.contactName}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium">Contact email</p>
-                    <Input
-                      onChange={(event) =>
-                        updateContactDetails(selectedRestaurant.restaurant.id, {
-                          contactEmail: event.target.value,
-                        })
-                      }
-                      type="email"
-                      value={selectedRestaurant.draft.contactEmail}
-                    />
-                  </div>
-                  <div className="space-y-2 md:col-span-2">
-                    <p className="text-sm font-medium">Contact phone</p>
-                    <Input
-                      onChange={(event) =>
-                        updateContactDetails(selectedRestaurant.restaurant.id, {
-                          contactPhone: event.target.value,
-                        })
-                      }
-                      value={selectedRestaurant.draft.contactPhone}
-                    />
                   </div>
                 </CardContent>
               </Card>
@@ -400,61 +359,37 @@ export default function OwnerVerificationPage() {
                         document.type,
                       )
                     }
-                    onUpload={(fileName) => {
-                      uploadDocument(
+                    onUpload={(file) => {
+                      handleFileUpload(
                         selectedRestaurant.restaurant.id,
                         document.type,
-                        fileName,
+                        file,
                       );
-                      toast.success(`${document.label} uploaded`);
                     }}
                   />
                 ))}
               </div>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">
-                    Notes for reviewer
-                  </CardTitle>
-                  <CardDescription>
-                    Mention anything that helps the admin team reconcile your
-                    documents faster.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <Textarea
-                    onChange={(event) =>
-                      updateContactDetails(selectedRestaurant.restaurant.id, {
-                        notes: event.target.value,
-                      })
-                    }
-                    placeholder="Example: Business permit is under the parent company name, but this branch trades as Cravings PH BGC."
-                    value={selectedRestaurant.draft.notes}
-                  />
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-muted/30 p-4">
+                <div className="space-y-1">
+                  <p className="font-medium">Submission checklist</p>
+                  <p className="text-sm text-muted-foreground">
+                    Complete all required uploads, then send this package to the
+                    admin queue.
+                  </p>
+                </div>
 
-                  <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-muted/30 p-4">
-                    <div className="space-y-1">
-                      <p className="font-medium">Submission checklist</p>
-                      <p className="text-sm text-muted-foreground">
-                        Complete all required uploads, then send this package to
-                        the admin queue.
-                      </p>
-                    </div>
-
-                    <Button
-                      disabled={!selectedRestaurant.canSubmit}
-                      onClick={handleSubmit}
-                      type="button"
-                    >
-                      {selectedRestaurant.status === "rejected"
-                        ? "Resubmit for review"
-                        : "Submit package"}
-                      <ArrowRight className="size-4" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                <Button
+                  disabled={!selectedRestaurant.canSubmit}
+                  onClick={handleSubmit}
+                  type="button"
+                >
+                  {selectedRestaurant.status === "rejected"
+                    ? "Resubmit for review"
+                    : "Submit package"}
+                  <ArrowRight className="size-4" />
+                </Button>
+              </div>
             </div>
           </div>
         ) : null}

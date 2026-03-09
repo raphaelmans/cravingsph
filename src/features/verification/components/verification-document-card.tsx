@@ -16,7 +16,7 @@ import type { VerificationDocumentDraft } from "@/features/verification/hooks/us
 
 interface VerificationDocumentCardProps {
   document: VerificationDocumentDraft;
-  onUpload: (fileName: string) => void;
+  onUpload: (file: File) => void;
   onRemove: () => void;
 }
 
@@ -46,7 +46,7 @@ export function VerificationDocumentCard({
       return;
     }
 
-    onUpload(file.name);
+    onUpload(file);
     event.target.value = "";
   }
 

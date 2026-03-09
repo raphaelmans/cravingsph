@@ -1,7 +1,7 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { useMemo, useSyncExternalStore } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { useTRPC } from "@/trpc/client";
 
 export const REQUIRED_VERIFICATION_DOCUMENTS = [
@@ -69,37 +69,14 @@ export interface VerificationDocumentDraft {
   isUploaded: boolean;
 }
 
-interface VerificationDocumentStoreEntry {
-  fileName: string | null;
-  uploadedAt: string | null;
-}
-
-interface RestaurantVerificationDraft {
-  contactName: string;
-  contactEmail: string;
-  contactPhone: string;
-  notes: string;
-  submittedAt: string | null;
-  feedback: string | null;
-  statusOverride: OwnerVerificationStatus | null;
-  documents: Record<VerificationDocumentType, VerificationDocumentStoreEntry>;
-}
-
-interface VerificationStore {
-  byRestaurantId: Record<string, RestaurantVerificationDraft>;
-}
-
-interface RestaurantVerificationRecord {
-  id: string;
-  name: string;
-  verificationStatus: string;
-  email: string | null;
-  phone: string | null;
-}
-
 export interface OwnerVerificationRestaurantState {
-  restaurant: RestaurantVerificationRecord;
-  draft: RestaurantVerificationDraft;
+  restaurant: {
+    id: string;
+    name: string;
+    verificationStatus: string;
+    email: string | null;
+    phone: string | null;
+  };
   status: OwnerVerificationStatus;
   documents: VerificationDocumentDraft[];
   uploadedDocuments: number;
@@ -108,211 +85,20 @@ export interface OwnerVerificationRestaurantState {
   canSubmit: boolean;
 }
 
-const SEEDED_SUBMITTED_AT = "2026-03-06T09:00:00.000Z";
-
-let verificationStore: VerificationStore = {
-  byRestaurantId: {},
-};
-
-const listeners = new Set<() => void>();
-
-function subscribe(listener: () => void) {
-  listeners.add(listener);
-  return () => listeners.delete(listener);
-}
-
-function emitChange() {
-  for (const listener of listeners) {
-    listener();
-  }
-}
-
-function getSnapshot() {
-  return verificationStore;
-}
-
-function setStore(next: VerificationStore) {
-  verificationStore = next;
-  emitChange();
-}
-
-function createEmptyDocuments(): Record<
-  VerificationDocumentType,
-  VerificationDocumentStoreEntry
-> {
-  return {
-    business_registration: {
-      fileName: null,
-      uploadedAt: null,
-    },
-    valid_government_id: {
-      fileName: null,
-      uploadedAt: null,
-    },
-    business_permit: {
-      fileName: null,
-      uploadedAt: null,
-    },
-  };
-}
-
-function createUploadedDocuments(
-  restaurantName: string,
-): Record<VerificationDocumentType, VerificationDocumentStoreEntry> {
-  const normalizedName = restaurantName
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-
-  return {
-    business_registration: {
-      fileName: `${normalizedName || "restaurant"}-registration.pdf`,
-      uploadedAt: SEEDED_SUBMITTED_AT,
-    },
-    valid_government_id: {
-      fileName: `${normalizedName || "restaurant"}-owner-id.jpg`,
-      uploadedAt: SEEDED_SUBMITTED_AT,
-    },
-    business_permit: {
-      fileName: `${normalizedName || "restaurant"}-permit.pdf`,
-      uploadedAt: SEEDED_SUBMITTED_AT,
-    },
-  };
-}
-
-function createInitialDraft(
-  restaurant: RestaurantVerificationRecord,
-): RestaurantVerificationDraft {
-  const contactName = `${restaurant.name} Operations`;
-  const contactEmail =
-    restaurant.email ??
-    `${restaurant.name.toLowerCase().replace(/\s+/g, "")}@cravings.ph`;
-
-  if (restaurant.verificationStatus === "approved") {
-    return {
-      contactName,
-      contactEmail,
-      contactPhone: restaurant.phone ?? "",
-      notes: "Approved. Keep your permit and IDs current for yearly renewals.",
-      submittedAt: SEEDED_SUBMITTED_AT,
-      feedback: null,
-      statusOverride: null,
-      documents: createUploadedDocuments(restaurant.name),
-    };
-  }
-
-  if (restaurant.verificationStatus === "rejected") {
-    return {
-      contactName,
-      contactEmail,
-      contactPhone: restaurant.phone ?? "",
-      notes: "Updated permit copy is ready for re-review.",
-      submittedAt: SEEDED_SUBMITTED_AT,
-      feedback:
-        "Please replace the expired permit scan and ensure the document corners are fully visible.",
-      statusOverride: null,
-      documents: createUploadedDocuments(restaurant.name),
-    };
-  }
-
-  if (restaurant.verificationStatus === "pending") {
-    return {
-      contactName,
-      contactEmail,
-      contactPhone: restaurant.phone ?? "",
-      notes:
-        "Submitted through the owner portal. Waiting for the platform team to review the documents.",
-      submittedAt: SEEDED_SUBMITTED_AT,
-      feedback: null,
-      statusOverride: "under_review",
-      documents: createUploadedDocuments(restaurant.name),
-    };
-  }
-
-  return {
-    contactName,
-    contactEmail,
-    contactPhone: restaurant.phone ?? "",
-    notes: "",
-    submittedAt: null,
-    feedback: null,
-    statusOverride: null,
-    documents: createEmptyDocuments(),
-  };
-}
-
-function mergeDraft(
-  base: RestaurantVerificationDraft,
-  override?: RestaurantVerificationDraft,
-) {
-  if (!override) {
-    return base;
-  }
-
-  return {
-    ...base,
-    ...override,
-    documents: {
-      ...base.documents,
-      ...override.documents,
-    },
-  };
-}
-
-function buildDocuments(draft: RestaurantVerificationDraft) {
-  return REQUIRED_VERIFICATION_DOCUMENTS.map((document) => {
-    const entry = draft.documents[document.type];
-
-    return {
-      type: document.type,
-      label: document.label,
-      description: document.description,
-      fileName: entry.fileName,
-      uploadedAt: entry.uploadedAt,
-      isUploaded: Boolean(entry.fileName),
-    } satisfies VerificationDocumentDraft;
-  });
-}
-
 function resolveStatus(
-  restaurant: RestaurantVerificationRecord,
-  draft: RestaurantVerificationDraft,
-  uploadedDocuments: number,
-) {
-  if (restaurant.verificationStatus === "approved") {
-    return "approved" satisfies OwnerVerificationStatus;
-  }
-
-  if (restaurant.verificationStatus === "rejected") {
-    return draft.statusOverride === "under_review"
-      ? "under_review"
-      : "rejected";
-  }
-
-  if (
-    restaurant.verificationStatus === "pending" ||
-    draft.statusOverride === "under_review"
-  ) {
-    return "under_review" satisfies OwnerVerificationStatus;
-  }
-
-  const hasContactDetails =
-    draft.contactName.trim().length > 0 && draft.contactEmail.trim().length > 0;
-
-  if (
-    uploadedDocuments === REQUIRED_VERIFICATION_DOCUMENTS.length &&
-    hasContactDetails
-  ) {
-    return "ready" satisfies OwnerVerificationStatus;
-  }
-
-  return "draft" satisfies OwnerVerificationStatus;
+  verificationStatus: string,
+  uploadedCount: number,
+): OwnerVerificationStatus {
+  if (verificationStatus === "approved") return "approved";
+  if (verificationStatus === "rejected") return "rejected";
+  if (verificationStatus === "pending") return "under_review";
+  if (uploadedCount === REQUIRED_VERIFICATION_DOCUMENTS.length) return "ready";
+  return "draft";
 }
 
 export function useOwnerVerification() {
   const trpc = useTRPC();
-  const snapshot = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+  const queryClient = useQueryClient();
 
   const organizationQuery = useQuery({
     ...trpc.organization.mine.queryOptions(),
@@ -328,147 +114,152 @@ export function useOwnerVerification() {
     staleTime: 2 * 60 * 1000,
   });
 
-  const restaurants = useMemo<RestaurantVerificationRecord[]>(
-    () =>
-      (restaurantsQuery.data ?? []).map((restaurant) => ({
-        id: restaurant.id,
-        name: restaurant.name,
-        verificationStatus: restaurant.verificationStatus,
-        email: restaurant.email ?? null,
-        phone: restaurant.phone ?? null,
-      })),
-    [restaurantsQuery.data],
-  );
+  const restaurants = restaurantsQuery.data ?? [];
 
-  const restaurantMap = useMemo(
-    () => new Map(restaurants.map((restaurant) => [restaurant.id, restaurant])),
-    [restaurants],
-  );
+  // Fetch verification status for the first restaurant (most owners have one)
+  const firstRestaurantId = restaurants[0]?.id ?? "";
 
-  const verificationItems = useMemo<OwnerVerificationRestaurantState[]>(
-    () =>
-      restaurants.map((restaurant) => {
-        const draft = mergeDraft(
-          createInitialDraft(restaurant),
-          snapshot.byRestaurantId[restaurant.id],
-        );
-        const documents = buildDocuments(draft);
-        const uploadedDocuments = documents.filter(
-          (document) => document.isUploaded,
-        ).length;
-        const status = resolveStatus(restaurant, draft, uploadedDocuments);
-        const canSubmit =
-          status === "ready" ||
-          (status === "rejected" &&
-            uploadedDocuments === REQUIRED_VERIFICATION_DOCUMENTS.length);
+  const statusQuery = useQuery({
+    ...trpc.verification.getRestaurantStatus.queryOptions({
+      restaurantId: firstRestaurantId,
+    }),
+    enabled: Boolean(firstRestaurantId),
+    staleTime: 60 * 1000,
+  });
 
-        return {
-          restaurant,
-          draft,
-          status,
-          documents,
-          uploadedDocuments,
-          totalDocuments: REQUIRED_VERIFICATION_DOCUMENTS.length,
-          completionPercent:
-            (uploadedDocuments / REQUIRED_VERIFICATION_DOCUMENTS.length) * 100,
-          canSubmit,
-        };
+  // Build a map: restaurantId → status data
+  // For simplicity, query all statuses from the single endpoint per restaurant.
+  // We'll gather them all via individual queries per restaurant later if needed.
+  // For now, the verification page typically shows a single selected restaurant.
+
+  const verificationItems = useMemo<OwnerVerificationRestaurantState[]>(() => {
+    return restaurants.map((r) => {
+      const statusData =
+        statusQuery.data?.restaurantId === r.id ? statusQuery.data : undefined;
+      const uploadedCount = statusData?.uploadedCount ?? 0;
+      const verificationStatus =
+        statusData?.verificationStatus ?? r.verificationStatus;
+      const status = resolveStatus(verificationStatus, uploadedCount);
+
+      const documents: VerificationDocumentDraft[] =
+        REQUIRED_VERIFICATION_DOCUMENTS.map((doc) => {
+          const uploaded = statusData?.documents.find(
+            (d) => d.documentType === doc.type,
+          );
+          return {
+            type: doc.type,
+            label: doc.label,
+            description: doc.description,
+            fileName: uploaded?.fileName ?? null,
+            uploadedAt: uploaded?.uploadedAt ?? null,
+            isUploaded: Boolean(uploaded),
+          };
+        });
+
+      const canSubmit =
+        status === "ready" ||
+        (status === "rejected" &&
+          uploadedCount === REQUIRED_VERIFICATION_DOCUMENTS.length);
+
+      return {
+        restaurant: {
+          id: r.id,
+          name: r.name,
+          verificationStatus,
+          email: r.email ?? null,
+          phone: r.phone ?? null,
+        },
+        status,
+        documents,
+        uploadedDocuments: uploadedCount,
+        totalDocuments: REQUIRED_VERIFICATION_DOCUMENTS.length,
+        completionPercent:
+          (uploadedCount / REQUIRED_VERIFICATION_DOCUMENTS.length) * 100,
+        canSubmit,
+      };
+    });
+  }, [restaurants, statusQuery.data]);
+
+  function invalidateStatus(restaurantId: string) {
+    queryClient.invalidateQueries({
+      queryKey: trpc.verification.getRestaurantStatus.queryKey({
+        restaurantId,
       }),
-    [restaurants, snapshot.byRestaurantId],
-  );
-
-  function updateDraft(
-    restaurantId: string,
-    updater: (
-      draft: RestaurantVerificationDraft,
-    ) => RestaurantVerificationDraft,
-  ) {
-    const restaurant = restaurantMap.get(restaurantId);
-
-    if (!restaurant) {
-      return;
-    }
-
-    const currentDraft = mergeDraft(
-      createInitialDraft(restaurant),
-      verificationStore.byRestaurantId[restaurantId],
-    );
-
-    setStore({
-      byRestaurantId: {
-        ...verificationStore.byRestaurantId,
-        [restaurantId]: updater(currentDraft),
-      },
     });
   }
 
-  function updateContactDetails(
-    restaurantId: string,
-    updates: Partial<
-      Pick<
-        RestaurantVerificationDraft,
-        "contactName" | "contactEmail" | "contactPhone" | "notes"
-      >
-    >,
-  ) {
-    updateDraft(restaurantId, (draft) => ({
-      ...draft,
-      ...updates,
-    }));
-  }
+  const uploadMutation = useMutation({
+    ...trpc.verification.uploadDocument.mutationOptions(),
+    onSuccess: (_data, variables) => {
+      invalidateStatus(variables.restaurantId);
+    },
+  });
+
+  const removeMutation = useMutation({
+    ...trpc.verification.removeDocument.mutationOptions(),
+    onSuccess: (_data, variables) => {
+      invalidateStatus(variables.restaurantId);
+    },
+  });
+
+  const submitMutation = useMutation({
+    ...trpc.verification.submit.mutationOptions(),
+    onSuccess: (_data, variables) => {
+      invalidateStatus(variables.restaurantId);
+      queryClient.invalidateQueries({
+        queryKey: trpc.restaurant.listByOrganization.queryKey({
+          organizationId: organizationQuery.data?.id ?? "",
+        }),
+      });
+    },
+  });
 
   function uploadDocument(
     restaurantId: string,
     type: VerificationDocumentType,
     fileName: string,
+    fileUrl: string,
   ) {
-    updateDraft(restaurantId, (draft) => ({
-      ...draft,
-      statusOverride: null,
-      feedback: null,
-      documents: {
-        ...draft.documents,
-        [type]: {
-          fileName,
-          uploadedAt: new Date().toISOString(),
-        },
-      },
-    }));
+    uploadMutation.mutate({
+      restaurantId,
+      documentType: type,
+      fileName,
+      fileUrl,
+    });
   }
 
   function removeDocument(
     restaurantId: string,
     type: VerificationDocumentType,
   ) {
-    updateDraft(restaurantId, (draft) => ({
-      ...draft,
-      statusOverride: null,
-      documents: {
-        ...draft.documents,
-        [type]: {
-          fileName: null,
-          uploadedAt: null,
-        },
-      },
-    }));
+    removeMutation.mutate({
+      restaurantId,
+      documentType: type,
+    });
   }
 
   function submitVerification(restaurantId: string) {
-    updateDraft(restaurantId, (draft) => ({
-      ...draft,
-      submittedAt: new Date().toISOString(),
-      statusOverride: "under_review",
-      feedback: null,
-    }));
+    submitMutation.mutate({ restaurantId });
+  }
+
+  function fetchStatus(restaurantId: string) {
+    queryClient.prefetchQuery(
+      trpc.verification.getRestaurantStatus.queryOptions({
+        restaurantId,
+      }),
+    );
   }
 
   return {
     organization: organizationQuery.data ?? null,
     verificationItems,
-    isLoading: organizationQuery.isLoading || restaurantsQuery.isLoading,
-    updateContactDetails,
+    isLoading:
+      organizationQuery.isLoading ||
+      restaurantsQuery.isLoading ||
+      statusQuery.isLoading,
     uploadDocument,
     removeDocument,
     submitVerification,
+    fetchStatus,
   };
 }
