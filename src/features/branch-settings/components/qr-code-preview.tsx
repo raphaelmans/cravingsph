@@ -41,8 +41,8 @@ export function QRCodePreview({ branchName, publicUrl }: QRCodePreviewProps) {
           width: 320,
           margin: 1,
           color: {
-            dark: "#111827",
-            light: "#ffffff",
+            dark: "oklch(0.145 0 0)",
+            light: "oklch(1 0 0)",
           },
         });
 
@@ -198,7 +198,7 @@ export function QRCodePreview({ branchName, publicUrl }: QRCodePreviewProps) {
         </div>
 
         <div className="flex justify-center">
-          <div className="rounded-[2rem] border bg-white p-4 shadow-sm">
+          <div className="rounded-4xl border bg-background p-4 shadow-sm">
             {qrDataUrl ? (
               <Image
                 src={qrDataUrl}

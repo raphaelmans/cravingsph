@@ -1,9 +1,11 @@
 "use client";
 
-import { ArrowLeft, Heart, MapPinned, Sparkles } from "lucide-react";
+import { Heart, MapPinned, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { appRoutes } from "@/common/app-routes";
+import { useSetPageHeader } from "@/components/layout/page-header-context";
+import { Button } from "@/components/ui/button";
 import {
   Empty,
   EmptyContent,
@@ -18,6 +20,7 @@ import { useSavedRestaurants } from "../hooks/use-saved-restaurants";
 import { SavedRestaurantCard } from "./saved-restaurant-card";
 
 export function SavedRestaurantsPage() {
+  useSetPageHeader({ title: "Saved restaurants", label: "Retention" });
   const { data: profile } = useProfile();
   const { restaurants, stats, unsaveRestaurant, isLoading } =
     useSavedRestaurants();
@@ -28,30 +31,9 @@ export function SavedRestaurantsPage() {
   }
 
   return (
-    <main className="min-h-dvh bg-linear-to-b from-[#fff8f2] via-background to-background pb-24">
-      <header className="sticky top-0 z-20 border-b border-primary/10 bg-background/90 backdrop-blur">
-        <div className="mx-auto flex w-full max-w-4xl items-center gap-3 px-4 py-3">
-          <Link
-            href={appRoutes.index.base}
-            className="flex size-10 items-center justify-center rounded-full border border-primary/10 bg-background text-primary transition-colors hover:bg-primary/5"
-            aria-label="Back to home"
-          >
-            <ArrowLeft className="size-5" />
-          </Link>
-
-          <div>
-            <p className="text-xs font-medium uppercase tracking-[0.24em] text-primary">
-              Retention
-            </p>
-            <h1 className="font-heading text-xl font-bold">
-              Saved restaurants
-            </h1>
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-dvh bg-linear-to-b from-peach via-background to-background">
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 pt-6">
-        <section className="overflow-hidden rounded-[32px] border border-primary/15 bg-linear-to-br from-primary/[0.18] via-background to-background p-5 shadow-sm">
+        <section className="overflow-hidden rounded-4xl border border-primary/15 bg-linear-to-br from-primary/[0.18] via-background to-background p-5 shadow-sm">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-2">
               <p className="inline-flex items-center gap-2 rounded-full bg-background/85 px-3 py-1 text-xs font-medium uppercase tracking-[0.24em] text-primary">
@@ -73,19 +55,19 @@ export function SavedRestaurantsPage() {
             </div>
 
             <div className="grid gap-3 sm:min-w-72 sm:grid-cols-3 sm:self-stretch">
-              <div className="rounded-[24px] bg-background/85 p-4 shadow-sm">
+              <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
                 <p className="text-sm text-muted-foreground">Saved now</p>
                 <p className="mt-2 font-heading text-3xl font-bold">
                   {stats.totalSaved}
                 </p>
               </div>
-              <div className="rounded-[24px] bg-background/85 p-4 shadow-sm">
+              <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
                 <p className="text-sm text-muted-foreground">Cuisine mix</p>
                 <p className="mt-2 font-heading text-3xl font-bold">
                   {stats.cuisineCount}
                 </p>
               </div>
-              <div className="rounded-[24px] bg-background/85 p-4 shadow-sm">
+              <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
                 <p className="text-sm text-muted-foreground">Added this week</p>
                 <p className="mt-2 font-heading text-3xl font-bold">
                   {stats.recentlySavedCount}
@@ -124,12 +106,11 @@ export function SavedRestaurantsPage() {
               </EmptyDescription>
             </EmptyHeader>
             <EmptyContent className="flex flex-col items-center gap-3 sm:flex-row">
-              <Link
-                href={appRoutes.search.base}
-                className="inline-flex rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
-              >
-                Browse restaurants
-              </Link>
+              <Button asChild shape="pill">
+                <Link href={appRoutes.search.base}>
+                  Browse restaurants
+                </Link>
+              </Button>
               <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPinned className="size-4 text-primary" />
                 Start with discovery or scan a QR menu to save a new favorite.
@@ -138,6 +119,6 @@ export function SavedRestaurantsPage() {
           </Empty>
         )}
       </div>
-    </main>
+    </div>
   );
 }

@@ -35,7 +35,11 @@ Multiple interactive elements across the customer portal use touch targets small
 - Save heart button is 32px: [src/features/discovery/components/restaurant-card.tsx:126](src/features/discovery/components/restaurant-card.tsx#L126)
 - Review star buttons correctly use 44px: [src/features/orders/components/review-sheet.tsx:78](src/features/orders/components/review-sheet.tsx#L78)
 
-## Recommended fix
+## Decision
+
+Per requirements clarification (Q6 in `specs/customer-portal-navigation/requirements.md`): default to shadcn/ui sizing variations. Use existing component size variants (e.g., `size="lg"`) rather than custom sizing. No custom overrides. This is a conscious trade-off — shadcn's `size="icon"` is 36px, still below 44px. Revisit if user testing reveals tap accuracy issues on mobile.
+
+## Recommended fix (if revisited)
 
 1. Increase icon-only button minimum to `size-11` (44px) or add transparent padding to extend the hit area to 44×44px while keeping the visual size at 32px.
 2. For the quantity picker, increase button size to at least 44px — this is a high-frequency interaction during ordering.

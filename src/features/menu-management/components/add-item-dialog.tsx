@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImagePlus, Loader2, X } from "lucide-react";
-import Image from "next/image";
+
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -259,12 +259,10 @@ export function AddItemDialog({
               <div className="flex items-center gap-3">
                 {previewUrl ? (
                   <div className="relative size-20 shrink-0 overflow-hidden rounded-lg border bg-muted">
-                    <Image
+                    <img
                       src={previewUrl}
                       alt="Item preview"
-                      fill
-                      className="object-cover"
-                      sizes="80px"
+                      className="size-full object-cover"
                     />
                     <button
                       type="button"

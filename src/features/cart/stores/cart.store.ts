@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { useShallow } from "zustand/shallow";
 
 // --- Types ---
 
@@ -137,6 +138,10 @@ export const useCartStore = create<CartState & CartActions>()(
     }),
     {
       name: "cravings-cart",
+      partialize: (state) => ({
+        items: state.items,
+        branchSlug: state.branchSlug,
+      }),
     },
   ),
 );
@@ -158,13 +163,15 @@ export const useCartItemCount = () =>
 export const useCartBranch = () => useCartStore((s) => s.branchSlug);
 
 export const useCartActions = () =>
-  useCartStore((s) => ({
-    addItem: s.addItem,
-    removeItem: s.removeItem,
-    updateItem: s.updateItem,
-    updateQuantity: s.updateQuantity,
-    clearCart: s.clearCart,
-    setBranch: s.setBranch,
-  }));
+  useCartStore(
+    useShallow((s) => ({
+      addItem: s.addItem,
+      removeItem: s.removeItem,
+      updateItem: s.updateItem,
+      updateQuantity: s.updateQuantity,
+      clearCart: s.clearCart,
+      setBranch: s.setBranch,
+    })),
+  );
 
 export { computeUnitPrice };

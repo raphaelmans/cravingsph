@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart } from "lucide-react";
+import { Heart, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -18,6 +18,7 @@ export interface RestaurantPreview {
   logoUrl: string | null;
   cuisineTypes: string[];
   popularItems: string[];
+  branchCity: string | null;
 }
 
 interface RestaurantCardProps {
@@ -59,7 +60,7 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
           {restaurant.coverImageUrl ? (
             <Image
               src={restaurant.coverImageUrl}
-              alt=""
+              alt={`${restaurant.name} cover photo`}
               fill
               className="object-cover"
               sizes="(max-width: 640px) 75vw, 300px"
@@ -94,10 +95,18 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
             {restaurant.name}
           </h3>
 
+          {/* Location */}
+          {restaurant.branchCity && (
+            <p className="flex items-center gap-1 text-xs text-muted-foreground">
+              <MapPin className="size-3 shrink-0" />
+              {restaurant.branchCity}
+            </p>
+          )}
+
           {/* Cuisine tags */}
           {restaurant.cuisineTypes.length > 0 && (
             <div className="flex flex-wrap gap-1">
-              {restaurant.cuisineTypes.map((cuisine) => (
+              {restaurant.cuisineTypes.slice(0, 3).map((cuisine) => (
                 <Badge
                   key={cuisine}
                   variant="secondary"
@@ -112,7 +121,7 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
           {/* Popular items preview */}
           {restaurant.popularItems.length > 0 && (
             <p className="line-clamp-1 text-xs text-muted-foreground">
-              {restaurant.popularItems.join(" \u00b7 ")}
+              {restaurant.popularItems.join(" · ")}
             </p>
           )}
         </div>
@@ -128,7 +137,7 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
         <Heart
           className={cn(
             "size-4 transition-colors",
-            saved ? "fill-red-500 text-red-500" : "text-muted-foreground",
+            saved ? "fill-destructive text-destructive" : "text-muted-foreground",
           )}
         />
       </button>

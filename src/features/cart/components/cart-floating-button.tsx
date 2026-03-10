@@ -21,7 +21,7 @@ export function CartFloatingButton({
   return (
     <div
       data-slot="cart-floating-button"
-      className="fixed inset-x-0 bottom-0 z-40 p-4 pb-[max(1rem,env(safe-area-inset-bottom))]"
+      className="fixed inset-x-0 bottom-16 z-40 p-4"
     >
       <Button
         type="button"

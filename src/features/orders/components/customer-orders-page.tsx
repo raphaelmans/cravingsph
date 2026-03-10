@@ -1,11 +1,13 @@
 "use client";
 
-import { ArrowLeft, History, ReceiptText, Sparkles } from "lucide-react";
+import { History, ReceiptText, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { appRoutes } from "@/common/app-routes";
+import { useSetPageHeader } from "@/components/layout/page-header-context";
+import { Button } from "@/components/ui/button";
 import {
   Empty,
   EmptyContent,
@@ -20,6 +22,7 @@ import { OrderHistoryCard } from "./order-history-card";
 import { ReviewSheet } from "./review-sheet";
 
 export function CustomerOrdersPage() {
+  useSetPageHeader({ title: "Order history", label: "Retention" });
   const router = useRouter();
   const { data: profile } = useProfile();
   const { orders, reviewedOrderIds, reorderOrder, submitReview } =
@@ -95,28 +98,9 @@ export function CustomerOrdersPage() {
 
   return (
     <>
-      <main className="min-h-dvh bg-linear-to-b from-[#fff8f2] via-background to-background pb-24">
-        <header className="sticky top-0 z-20 border-b border-primary/10 bg-background/90 backdrop-blur">
-          <div className="mx-auto flex w-full max-w-3xl items-center gap-3 px-4 py-3">
-            <Link
-              href={appRoutes.index.base}
-              className="flex size-10 items-center justify-center rounded-full border border-primary/10 bg-background text-primary transition-colors hover:bg-primary/5"
-              aria-label="Back to home"
-            >
-              <ArrowLeft className="size-5" />
-            </Link>
-
-            <div>
-              <p className="text-xs font-medium uppercase tracking-[0.24em] text-primary">
-                Retention
-              </p>
-              <h1 className="font-heading text-xl font-bold">Order history</h1>
-            </div>
-          </div>
-        </header>
-
+      <div className="min-h-dvh bg-linear-to-b from-peach via-background to-background">
         <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 pt-6">
-          <section className="overflow-hidden rounded-[32px] border border-primary/15 bg-linear-to-br from-primary/[0.16] via-background to-background p-5 shadow-sm">
+          <section className="overflow-hidden rounded-4xl border border-primary/15 bg-linear-to-br from-primary/[0.16] via-background to-background p-5 shadow-sm">
             <div className="flex items-start justify-between gap-3">
               <div className="space-y-2">
                 <p className="inline-flex items-center gap-2 rounded-full bg-background/80 px-3 py-1 text-xs font-medium uppercase tracking-[0.24em] text-primary">
@@ -134,13 +118,13 @@ export function CustomerOrdersPage() {
                 </div>
               </div>
 
-              <div className="hidden rounded-[28px] border border-primary/15 bg-background/80 p-4 sm:block">
+              <div className="hidden rounded-4xl border border-primary/15 bg-background/80 p-4 sm:block">
                 <ReceiptText className="size-8 text-primary" />
               </div>
             </div>
 
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
-              <div className="rounded-[24px] bg-background/85 p-4 shadow-sm">
+              <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
                 <p className="text-sm text-muted-foreground">
                   Completed orders
                 </p>
@@ -148,7 +132,7 @@ export function CustomerOrdersPage() {
                   {stats.completed}
                 </p>
               </div>
-              <div className="rounded-[24px] bg-background/85 p-4 shadow-sm">
+              <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
                 <p className="text-sm text-muted-foreground">
                   Reviews submitted
                 </p>
@@ -156,7 +140,7 @@ export function CustomerOrdersPage() {
                   {stats.reviewed}
                 </p>
               </div>
-              <div className="rounded-[24px] bg-background/85 p-4 shadow-sm">
+              <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
                 <p className="text-sm text-muted-foreground">
                   Total tracked spend
                 </p>
@@ -192,17 +176,16 @@ export function CustomerOrdersPage() {
                 </EmptyDescription>
               </EmptyHeader>
               <EmptyContent>
-                <Link
-                  href={appRoutes.index.base}
-                  className="inline-flex rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
-                >
-                  Browse restaurants
-                </Link>
+                <Button asChild shape="pill">
+                  <Link href={appRoutes.index.base}>
+                    Browse restaurants
+                  </Link>
+                </Button>
               </EmptyContent>
             </Empty>
           )}
         </div>
-      </main>
+      </div>
 
       <ReviewSheet
         open={Boolean(selectedOrder)}

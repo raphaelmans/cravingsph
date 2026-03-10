@@ -1,26 +1,20 @@
 "use client";
 
-import { ShoppingCart, User } from "lucide-react";
+import { User } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useSession } from "@/features/auth/hooks/use-auth";
 import { cn } from "@/lib/utils";
 
 interface CustomerHeaderProps {
-  showCart?: boolean;
-  showAuth?: boolean;
-  cartCount?: number;
-  onCartClick?: () => void;
   className?: string;
 }
 
-export function CustomerHeader({
-  showCart = true,
-  showAuth = false,
-  cartCount = 0,
-  onCartClick,
-  className,
-}: CustomerHeaderProps) {
+export function CustomerHeader({ className }: CustomerHeaderProps) {
+  const { data: session, isLoading } = useSession();
+
   return (
     <header
       data-slot="customer-header"
@@ -34,29 +28,17 @@ export function CustomerHeader({
       </Link>
 
       <div className="flex items-center gap-2">
-        {showCart && (
-          <Button
-            variant="default"
-            size="sm"
-            shape="pill"
-            onClick={onCartClick}
-            className="relative gap-1.5"
-          >
-            <ShoppingCart className="size-4" />
-            <span>Cart</span>
-            {cartCount > 0 && (
-              <span className="flex size-5 items-center justify-center rounded-full bg-background text-xs font-semibold text-primary">
-                {cartCount}
-              </span>
-            )}
-          </Button>
-        )}
-
-        {showAuth && (
+        {isLoading ? (
+          <Skeleton className="size-9 rounded-full" />
+        ) : session ? (
           <Button variant="ghost" size="icon" shape="pill" asChild>
-            <Link href="/login" aria-label="Sign in">
+            <Link href="/account" aria-label="Account">
               <User className="size-5" />
             </Link>
+          </Button>
+        ) : (
+          <Button variant="outline" size="sm" shape="pill" asChild>
+            <Link href="/login">Sign in</Link>
           </Button>
         )}
       </div>

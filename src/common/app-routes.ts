@@ -71,7 +71,7 @@ export const appRoutes = {
   },
   postLogin: {
     base: "/post-login",
-    options: { type: "guest" as const },
+    options: { type: "protected" as const },
   },
 
   // Owner portal
@@ -117,13 +117,13 @@ const guestBases = [
   appRoutes.login.base,
   appRoutes.register.base,
   appRoutes.magicLink.base,
-  appRoutes.postLogin.base,
 ];
 
 const protectedBases = [
   appRoutes.orders.base,
   appRoutes.saved.base,
   appRoutes.customerAccount.base,
+  appRoutes.postLogin.base,
 ];
 
 const organizationBases = [

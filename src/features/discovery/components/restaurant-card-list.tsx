@@ -1,3 +1,6 @@
+import { MapPinned } from "lucide-react";
+import Link from "next/link";
+import { EmptyState } from "@/components/brand/empty-state";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { RestaurantCard, type RestaurantPreview } from "./restaurant-card";
 
@@ -5,20 +8,38 @@ interface RestaurantCardListProps {
   title: string;
   restaurants: RestaurantPreview[];
   direction?: "horizontal" | "vertical";
+  seeAllHref?: string;
 }
 
 export function RestaurantCardList({
   title,
   restaurants,
   direction = "vertical",
+  seeAllHref,
 }: RestaurantCardListProps) {
-  if (restaurants.length === 0) return null;
-
   return (
-    <section data-slot="restaurant-card-list" className="space-y-3">
-      <h2 className="px-4 text-lg font-semibold">{title}</h2>
+    <div data-slot="restaurant-card-list" className="space-y-3">
+      <div className="flex items-baseline justify-between px-4">
+        <h2 className="text-lg font-semibold">{title}</h2>
+        {seeAllHref && restaurants.length > 0 && (
+          <Link
+            href={seeAllHref}
+            className="text-sm font-medium text-primary hover:underline"
+          >
+            See all
+          </Link>
+        )}
+      </div>
 
-      {direction === "horizontal" ? (
+      {restaurants.length === 0 ? (
+        <div className="px-4">
+          <EmptyState
+            icon={<MapPinned />}
+            title="No restaurants found"
+            description="New restaurants are being added — check back soon."
+          />
+        </div>
+      ) : direction === "horizontal" ? (
         <ScrollArea className="w-full">
           <div className="flex gap-3 px-4 pb-4">
             {restaurants.map((restaurant) => (
@@ -36,6 +57,6 @@ export function RestaurantCardList({
           ))}
         </div>
       )}
-    </section>
+    </div>
   );
 }

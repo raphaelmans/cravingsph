@@ -31,14 +31,15 @@ export function RouteErrorState({
   className,
 }: RouteErrorStateProps) {
   return (
-    <main
+    <div
+      role="alert"
       aria-live="assertive"
       className={cn(
         "flex min-h-svh items-center justify-center bg-gradient-to-b from-peach/50 via-background to-background px-4 py-10",
         className,
       )}
     >
-      <Card className="w-full max-w-xl overflow-hidden border-white/60 bg-background/95 shadow-xl backdrop-blur">
+      <Card className="w-full max-w-xl overflow-hidden border-border bg-background/95 shadow-xl backdrop-blur">
         <CardHeader className="items-center gap-4 border-b bg-peach/40 text-center">
           <div className="flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary">
             <AlertTriangle className="size-6" />
@@ -74,6 +75,6 @@ export function RouteErrorState({
           </div>
         </CardContent>
       </Card>
-    </main>
+    </div>
   );
 }

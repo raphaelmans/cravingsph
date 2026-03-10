@@ -17,7 +17,7 @@ const STATUS_LABELS: Record<string, string> = {
 function getStatusIcon(toStatus: string) {
   switch (toStatus) {
     case "completed":
-      return <CheckCircle2 className="size-4 text-green-600" />;
+      return <CheckCircle2 className="size-4 text-success" />;
     case "cancelled":
       return <XCircle className="size-4 text-destructive" />;
     default:

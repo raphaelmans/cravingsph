@@ -28,8 +28,8 @@ export function CompletionStep({
       <Card>
         <CardHeader className="text-center">
           <div className="flex justify-center">
-            <div className="flex size-14 items-center justify-center rounded-full bg-green-100">
-              <PartyPopper className="size-7 text-green-600" />
+            <div className="flex size-14 items-center justify-center rounded-full bg-success/10">
+              <PartyPopper className="size-7 text-success" />
             </div>
           </div>
           <CardTitle className="text-xl">You&apos;re All Set!</CardTitle>
@@ -53,8 +53,8 @@ export function CompletionStep({
     <Card>
       <CardHeader className="text-center">
         <div className="flex justify-center">
-          <div className="flex size-14 items-center justify-center rounded-full bg-amber-100">
-            <AlertTriangle className="size-7 text-amber-600" />
+          <div className="flex size-14 items-center justify-center rounded-full bg-warning/10">
+            <AlertTriangle className="size-7 text-warning" />
           </div>
         </div>
         <CardTitle className="text-xl">Partial Setup Complete</CardTitle>

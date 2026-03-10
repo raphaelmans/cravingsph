@@ -52,8 +52,8 @@ export function OrderConfirmationSheet({
         </DrawerHeader>
 
         <div className="flex flex-col items-center gap-4 px-6 py-8 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-            <CircleCheckBig className="h-8 w-8 text-green-600" />
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-success/10">
+            <CircleCheckBig className="h-8 w-8 text-success" />
           </div>
 
           <div className="space-y-1">

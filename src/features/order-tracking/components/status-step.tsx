@@ -25,7 +25,7 @@ export function StatusStep({
         <div
           className={cn(
             "flex size-7 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
-            state === "completed" && "border-green-600 bg-green-600 text-white",
+            state === "completed" && "border-success bg-success text-success-foreground",
             state === "current" && "border-primary bg-primary/10 text-primary",
             state === "upcoming" &&
               "border-muted-foreground/30 bg-muted text-muted-foreground/30",
@@ -45,7 +45,7 @@ export function StatusStep({
           <div
             className={cn(
               "mt-1 w-0.5 flex-1 min-h-6 transition-colors",
-              state === "completed" ? "bg-green-600" : "bg-muted",
+              state === "completed" ? "bg-success" : "bg-muted",
             )}
           />
         )}
@@ -56,7 +56,7 @@ export function StatusStep({
         <p
           className={cn(
             "text-sm font-medium leading-7",
-            state === "completed" && "text-green-700",
+            state === "completed" && "text-success",
             state === "current" && "text-foreground",
             state === "upcoming" && "text-muted-foreground",
           )}

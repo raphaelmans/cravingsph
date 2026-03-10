@@ -76,8 +76,8 @@ export function OrganizationForm({
       <Card>
         <CardHeader>
           <div className="flex items-center gap-3">
-            <div className="flex size-10 items-center justify-center rounded-full bg-green-100">
-              <Check className="size-5 text-green-600" />
+            <div className="flex size-10 items-center justify-center rounded-full bg-success/10">
+              <Check className="size-5 text-success" />
             </div>
             <div>
               <CardTitle className="text-base">Organization Created</CardTitle>

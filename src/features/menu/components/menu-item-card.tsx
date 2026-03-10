@@ -42,11 +42,18 @@ export function MenuItemCard({
   const [imgError, setImgError] = useState(false);
 
   return (
-    <button
-      type="button"
+    <div
+      role="button"
+      tabIndex={0}
       data-slot="menu-item-card"
-      className="flex w-full gap-3 rounded-lg p-2 text-left transition-colors hover:bg-muted/50 active:bg-muted"
+      className="flex w-full gap-3 rounded-lg p-2 text-left transition-colors hover:bg-muted/50 active:bg-muted cursor-pointer"
       onClick={() => onSelect(menuItem)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onSelect(menuItem);
+        }
+      }}
     >
       {/* Thumbnail */}
       {item.imageUrl && !imgError ? (
@@ -103,6 +110,6 @@ export function MenuItemCard({
           />
         )}
       </div>
-    </button>
+    </div>
   );
 }

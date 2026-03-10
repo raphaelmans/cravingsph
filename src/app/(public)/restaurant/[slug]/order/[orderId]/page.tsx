@@ -118,7 +118,7 @@ export default function OrderTrackingPage() {
         </h1>
       </header>
 
-      <main className="space-y-6 p-4">
+      <div className="space-y-6 p-4">
         {/* Order status timeline */}
         <section>
           <h2 className="mb-3 text-lg font-bold">Order Status</h2>
@@ -155,7 +155,7 @@ export default function OrderTrackingPage() {
             Upload Payment Proof
           </Button>
         )}
-      </main>
+      </div>
 
       {/* Payment sheet */}
       <PaymentSheet

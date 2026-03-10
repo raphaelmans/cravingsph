@@ -158,7 +158,7 @@ export function QrScannerModal({ open, onOpenChange }: QrScannerModalProps) {
 
           {state.status === "success" && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/70 text-white">
-              <div className="rounded-full bg-green-500 p-3">
+              <div className="rounded-full bg-success p-3">
                 <ScanLine className="size-6" />
               </div>
               <p className="text-sm font-medium">Found it! Redirecting...</p>
@@ -209,7 +209,7 @@ export function QrScannerModal({ open, onOpenChange }: QrScannerModalProps) {
           )}
 
           {state.status === "success" && (
-            <p className="text-center text-sm text-green-600 font-medium">
+            <p className="text-center text-sm text-success font-medium">
               Restaurant found! Opening menu...
             </p>
           )}

@@ -27,7 +27,7 @@ export function CopyContactButton({ value, label }: CopyContactButtonProps) {
       data-slot="copy-contact-button"
     >
       {copied ? (
-        <Check className="size-3.5 text-green-600" />
+        <Check className="size-3.5 text-success" />
       ) : (
         <Copy className="size-3.5" />
       )}

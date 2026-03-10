@@ -1,7 +1,8 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import {
-  ArrowLeft,
+  ArrowRightLeft,
   Heart,
   History,
   LogOut,
@@ -13,9 +14,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { appRoutes } from "@/common/app-routes";
+import { useSetPageHeader } from "@/components/layout/page-header-context";
 import { Button } from "@/components/ui/button";
 import { useLogout, useSession } from "@/features/auth/hooks";
 import { useProfile } from "@/features/profile";
+import { useTRPC } from "@/trpc/client";
 import { CustomerProfileForm } from "./customer-profile-form";
 
 function formatMemberSince(createdAt?: string | Date | null) {
@@ -52,10 +55,16 @@ function getAccountLabel(
 }
 
 export function CustomerAccountPage() {
+  useSetPageHeader({ title: "Profile settings", label: "Account" });
   const router = useRouter();
+  const trpc = useTRPC();
   const { data: profile } = useProfile();
   const { data: session } = useSession();
   const logout = useLogout();
+  const { data: organization } = useQuery({
+    ...trpc.organization.mine.queryOptions(),
+    retry: false,
+  });
 
   function handleLogout() {
     logout.mutate(undefined, {
@@ -80,28 +89,9 @@ export function CustomerAccountPage() {
   const memberSince = formatMemberSince(profile?.createdAt);
 
   return (
-    <main className="min-h-dvh bg-linear-to-b from-[#fff8f2] via-background to-background pb-24">
-      <header className="sticky top-0 z-20 border-b border-primary/10 bg-background/90 backdrop-blur">
-        <div className="mx-auto flex w-full max-w-4xl items-center gap-3 px-4 py-3">
-          <Link
-            href={appRoutes.index.base}
-            className="flex size-10 items-center justify-center rounded-full border border-primary/10 bg-background text-primary transition-colors hover:bg-primary/5"
-            aria-label="Back to home"
-          >
-            <ArrowLeft className="size-5" />
-          </Link>
-
-          <div>
-            <p className="text-xs font-medium uppercase tracking-[0.24em] text-primary">
-              Account
-            </p>
-            <h1 className="font-heading text-xl font-bold">Profile settings</h1>
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-dvh bg-linear-to-b from-peach via-background to-background">
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 pt-6">
-        <section className="overflow-hidden rounded-[32px] border border-primary/15 bg-linear-to-br from-primary/[0.18] via-background to-background p-5 shadow-sm">
+        <section className="overflow-hidden rounded-4xl border border-primary/15 bg-linear-to-br from-primary/[0.18] via-background to-background p-5 shadow-sm">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-2">
               <p className="inline-flex items-center gap-2 rounded-full bg-background/85 px-3 py-1 text-xs font-medium uppercase tracking-[0.24em] text-primary">
@@ -125,17 +115,17 @@ export function CustomerAccountPage() {
           </div>
 
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-[24px] bg-background/85 p-4 shadow-sm">
+            <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
               <p className="text-sm text-muted-foreground">Member since</p>
               <p className="mt-2 font-heading text-3xl font-bold">
                 {memberSince}
               </p>
             </div>
-            <div className="rounded-[24px] bg-background/85 p-4 shadow-sm">
+            <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
               <p className="text-sm text-muted-foreground">Quick return</p>
               <p className="mt-2 font-heading text-3xl font-bold">Saved</p>
             </div>
-            <div className="rounded-[24px] bg-background/85 p-4 shadow-sm">
+            <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
               <p className="text-sm text-muted-foreground">Best next step</p>
               <p className="mt-2 font-heading text-3xl font-bold">Reorder</p>
             </div>
@@ -146,7 +136,7 @@ export function CustomerAccountPage() {
           <CustomerProfileForm />
 
           <div className="space-y-4">
-            <section className="rounded-[32px] border border-primary/15 bg-background p-5 shadow-sm">
+            <section className="rounded-4xl border border-primary/15 bg-background p-5 shadow-sm">
               <div className="space-y-1">
                 <h2 className="font-heading text-2xl font-bold">
                   Stay close to your favorites
@@ -159,7 +149,7 @@ export function CustomerAccountPage() {
               <div className="mt-5 space-y-3">
                 <Link
                   href={appRoutes.saved.base}
-                  className="flex items-center justify-between rounded-[24px] border border-primary/10 px-4 py-4 transition-colors hover:bg-primary/5"
+                  className="flex items-center justify-between rounded-3xl border border-primary/10 px-4 py-4 transition-colors hover:bg-primary/5"
                 >
                   <span className="inline-flex items-center gap-3">
                     <span className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -179,7 +169,7 @@ export function CustomerAccountPage() {
 
                 <Link
                   href={appRoutes.orders.base}
-                  className="flex items-center justify-between rounded-[24px] border border-primary/10 px-4 py-4 transition-colors hover:bg-primary/5"
+                  className="flex items-center justify-between rounded-3xl border border-primary/10 px-4 py-4 transition-colors hover:bg-primary/5"
                 >
                   <span className="inline-flex items-center gap-3">
                     <span className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -197,7 +187,29 @@ export function CustomerAccountPage() {
               </div>
             </section>
 
-            <section className="rounded-[32px] border border-primary/15 bg-background p-5 shadow-sm">
+            {organization && (
+              <Link
+                href={appRoutes.organization.base}
+                className="flex items-center justify-between rounded-4xl border border-primary/15 bg-background p-5 shadow-sm transition-colors hover:bg-primary/5"
+              >
+                <span className="inline-flex items-center gap-3">
+                  <span className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <ArrowRightLeft className="size-4" />
+                  </span>
+                  <span>
+                    <span className="block font-medium">
+                      Switch to Owner Portal
+                    </span>
+                    <span className="text-sm text-muted-foreground">
+                      Manage your restaurant from the owner dashboard.
+                    </span>
+                  </span>
+                </span>
+                <span className="text-sm font-medium text-primary">Open</span>
+              </Link>
+            )}
+
+            <section className="rounded-4xl border border-primary/15 bg-background p-5 shadow-sm">
               <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-primary">
                 <ShieldCheck className="size-3.5" />
                 Session
@@ -226,6 +238,6 @@ export function CustomerAccountPage() {
           </div>
         </section>
       </div>
-    </main>
+    </div>
   );
 }

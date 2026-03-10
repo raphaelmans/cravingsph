@@ -59,7 +59,7 @@ function SearchPageContent() {
   const hasFilters = query || cuisine || location;
 
   return (
-    <main className="flex min-h-dvh flex-col">
+    <div className="flex min-h-dvh flex-col">
       {/* Header + search bar */}
       <div className="sticky top-0 z-30 border-b bg-background">
         <div className="flex items-center gap-2 px-4 py-3">
@@ -141,13 +141,13 @@ function SearchPageContent() {
           </>
         )}
       </div>
-    </main>
+    </div>
   );
 }
 
 function SearchPageFallback() {
   return (
-    <main className="flex min-h-dvh flex-col">
+    <div className="flex min-h-dvh flex-col">
       <div className="sticky top-0 z-30 border-b bg-background">
         <div className="flex items-center gap-2 px-4 py-3">
           <Link
@@ -175,7 +175,7 @@ function SearchPageFallback() {
           Loading search filters...
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 

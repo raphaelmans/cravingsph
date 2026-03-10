@@ -33,6 +33,7 @@ export interface RestaurantPreviewDTO {
   logoUrl: string | null;
   cuisineTypes: string[];
   popularItems: string[];
+  branchCity: string | null;
 }
 
 export interface LocationDTO {

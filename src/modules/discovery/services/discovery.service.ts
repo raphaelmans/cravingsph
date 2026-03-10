@@ -89,6 +89,7 @@ export class DiscoveryService implements IDiscoveryService {
         ? r.cuisineType.split(",").map((s) => s.trim())
         : [],
       popularItems: popularMap.get(r.id) ?? [],
+      branchCity: r.branchCity,
     }));
   }
 }

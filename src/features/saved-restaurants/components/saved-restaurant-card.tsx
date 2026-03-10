@@ -92,7 +92,7 @@ export function SavedRestaurantCard({
 
       <CardContent className="space-y-4 pt-5">
         {restaurant.note && (
-          <div className="rounded-[28px] border border-dashed border-primary/20 bg-muted/20 p-4">
+          <div className="rounded-4xl border border-dashed border-primary/20 bg-muted/20 p-4">
             <p className="text-sm font-medium text-foreground">
               Why you saved it
             </p>

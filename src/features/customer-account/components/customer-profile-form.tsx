@@ -91,7 +91,7 @@ export function CustomerProfileForm() {
 
   if (isLoading && !profile) {
     return (
-      <section className="rounded-[32px] border border-primary/15 bg-background p-5 shadow-sm">
+      <section className="rounded-4xl border border-primary/15 bg-background p-5 shadow-sm">
         <div className="space-y-3">
           <Skeleton className="h-6 w-40 rounded-full" />
           <Skeleton className="h-4 w-72 rounded-full" />
@@ -112,7 +112,7 @@ export function CustomerProfileForm() {
     isSubmitting || !form.formState.isDirty || !form.formState.isValid;
 
   return (
-    <section className="rounded-[32px] border border-primary/15 bg-background p-5 shadow-sm">
+    <section className="rounded-4xl border border-primary/15 bg-background p-5 shadow-sm">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-1">
           <h2 className="font-heading text-2xl font-bold">Profile details</h2>
@@ -131,7 +131,7 @@ export function CustomerProfileForm() {
       <Form {...form}>
         <form className="mt-5 space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           {form.formState.errors.root ? (
-            <div className="rounded-[24px] border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+            <div className="rounded-3xl border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-destructive">
               {form.formState.errors.root.message}
             </div>
           ) : null}

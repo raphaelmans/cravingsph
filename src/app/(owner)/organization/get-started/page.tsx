@@ -20,8 +20,8 @@ export default function GetStartedPage() {
       {/* Header */}
       <div className="space-y-2">
         <div className="flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-full bg-orange-100">
-            <Rocket className="size-5 text-orange-600" />
+          <div className="flex size-10 items-center justify-center rounded-full bg-primary/10">
+            <Rocket className="size-5 text-primary" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight">
             Set Up Your Restaurant

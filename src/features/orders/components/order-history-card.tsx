@@ -24,12 +24,12 @@ const STATUS_COPY = {
   completed: {
     label: "Completed",
     className:
-      "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-300",
+      "border-success/20 bg-success/10 text-success",
   },
   cancelled: {
     label: "Cancelled",
     className:
-      "border-rose-200 bg-rose-50 text-rose-700 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-300",
+      "border-destructive/20 bg-destructive/10 text-destructive",
   },
 } as const;
 
