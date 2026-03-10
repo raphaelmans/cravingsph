@@ -1,11 +1,11 @@
 # Session Handoff
 
-_Generated: 2026-03-09 16:14:42 UTC_
+_Generated: 2026-03-10 02:46:40 UTC_
 
 ## Git Context
 
 - **Branch:** `main`
-- **HEAD:** 2dea6c1: chore: auto-commit before merge (loop primary)
+- **HEAD:** af81b54: chore: auto-commit before merge (loop primary)
 
 ## Tasks
 
@@ -60,6 +60,24 @@ _Generated: 2026-03-09 16:14:42 UTC_
 - [x] Step 16: Polish pass
 - [x] Implement seed runner, fixture data, and package.json wiring
 - [x] Verify seed script passes typecheck and lint
+- [x] Step 1: Database migration — 8 new schema files + profile/branch column additions + db:push
+- [x] Step 2: Storage infrastructure — buckets, upload utilities
+- [x] Step 3: Portal separation — portal_preference enforcement
+- [x] Step 4: Discovery backend — featured, nearby, search, locations
+- [x] Step 5: Saved restaurants — backend integration
+- [x] Step 6: Order system — full lifecycle
+- [x] Step 7: Reviews — create and display
+- [x] Step 8: Payment config — org-scoped persistence
+- [x] Step 9: Verification — real document uploads
+- [x] Step 10: Operating hours — backend persistence
+- [x] Step 11: Admin user access — persisted toggle
+- [x] Step 12: Onboarding wizard — honest completion
+- [x] Step 13: Owner nav — fix dead links
+- [x] Step 14: Component fixes — breadcrumb, dialog, image upload
+- [x] Step 15: QR scanner — browser camera
+- [x] Step 16: Discovery UI — save-for-later polish
+- [x] Step 17: Seed data — Cebu City restaurants
+- [x] Step 18: E2E verification — Playwright tests
 
 
 ## Key Files
@@ -67,15 +85,15 @@ _Generated: 2026-03-09 16:14:42 UTC_
 Recently modified:
 
 - `.gitignore`
-- `.playwright-cli/console-2026-03-09T16-00-07-099Z.log`
-- `.playwright-cli/console-2026-03-09T16-04-44-058Z.log`
-- `.playwright-cli/console-2026-03-09T16-05-10-212Z.log`
-- `.playwright-cli/console-2026-03-09T16-05-25-988Z.log`
-- `.playwright-cli/console-2026-03-09T16-10-14-493Z.log`
-- `.playwright-cli/console-2026-03-09T16-10-27-137Z.log`
-- `.playwright-cli/console-2026-03-09T16-10-32-793Z.log`
-- `.playwright-cli/console-2026-03-09T16-10-39-713Z.log`
-- `.playwright-cli/console-2026-03-09T16-11-00-893Z.log`
+- `.playwright-cli/console-2026-03-09T16-14-48-165Z.log`
+- `.playwright-cli/console-2026-03-09T16-15-15-165Z.log`
+- `.playwright-cli/console-2026-03-09T16-15-31-745Z.log`
+- `.playwright-cli/console-2026-03-09T16-15-39-114Z.log`
+- `.playwright-cli/console-2026-03-09T16-17-11-234Z.log`
+- `.playwright-cli/console-2026-03-09T16-18-19-555Z.log`
+- `.playwright-cli/console-2026-03-09T16-20-25-028Z.log`
+- `.playwright-cli/page-2026-03-09T16-14-50-551Z.yml`
+- `.playwright-cli/page-2026-03-09T16-15-16-306Z.yml`
 
 ## Next Session
 
@@ -84,16 +102,14 @@ Session completed successfully. No pending work.
 **Original objective:**
 
 ```
-# CravingsPH Database Seeds
+# CravingsPH UI Audit Resolution — Production Readiness
 
 ## Objective
 
-Implement the database seed workflow described in `specs/database-seeds/` for CravingsPH.
-
-Add a local-development seed command that creates one realistic demo restaurant/menu hierarchy using the current Drizzle schema and the seed style established in the reference boilerplate repo.
+Resolve all 18 issues from the initial UI audit (`issues/init/`) to make CravingsPH production-ready. Replace all stub data and local stores with real Supabase-backed persistence, enforce portal separation, add file upload infrastructure, implement QR scanning, and fix component-level bugs.
 
 ## Key Requirements
 
-1. Follow the design and plan in `specs/database-seeds/`.
-2. Add a TypeScript seed runner under `scripts/` and keep fixture data separate from runner ...
+1. Follow the design and plan in `specs/ui-audit-resolution/`.
+2. Apply schema changes with `pnpm db:push` (Drizz...
 ```
