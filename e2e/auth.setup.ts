@@ -1,9 +1,9 @@
+import { mkdirSync, writeFileSync } from "node:fs";
 import { test as setup } from "@playwright/test";
 import { createClient } from "@supabase/supabase-js";
-import { writeFileSync } from "node:fs";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const serviceKey = process.env.SUPABASE_SECRET_KEY!;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+const serviceKey = process.env.SUPABASE_SECRET_KEY ?? "";
 
 const TEST_CUSTOMER = {
   email: "e2e-customer@test.cravings.ph",
@@ -24,28 +24,33 @@ const TEST_ADMIN = {
   role: "admin",
 };
 
-function createSupabase() {
+function createAdminSupabase() {
   return createClient(supabaseUrl, serviceKey, {
     auth: { autoRefreshToken: false, persistSession: false },
   });
 }
 
 async function isSupabaseReachable(): Promise<boolean> {
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 5_000);
-    const res = await fetch(`${supabaseUrl}/auth/v1/health`, {
-      signal: controller.signal,
-    });
-    clearTimeout(timeout);
-    return res.ok;
-  } catch {
-    return false;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10_000);
+      const res = await fetch(`${supabaseUrl}/auth/v1/health`, {
+        signal: controller.signal,
+        headers: { apikey: serviceKey },
+      });
+      clearTimeout(timeout);
+      if (res.ok) return true;
+    } catch {
+      // Retry
+    }
+    if (attempt < 2) await new Promise((r) => setTimeout(r, 1_000));
   }
+  return false;
 }
 
 async function ensureUser(email: string, password: string) {
-  const supabase = createSupabase();
+  const supabase = createAdminSupabase();
   const { data: existingUsers } = await supabase.auth.admin.listUsers();
   const existing = existingUsers?.users?.find((u) => u.email === email);
   if (existing) return existing.id;
@@ -61,7 +66,7 @@ async function ensureUser(email: string, password: string) {
 }
 
 async function setUserRole(userId: string, role: string) {
-  const supabase = createSupabase();
+  const supabase = createAdminSupabase();
   const { data: existing } = await supabase
     .from("user_roles")
     .select("id")
@@ -76,7 +81,7 @@ async function setUserRole(userId: string, role: string) {
 }
 
 async function setPortalPreference(userId: string, preference: string) {
-  const supabase = createSupabase();
+  const supabase = createAdminSupabase();
   const { data: existing } = await supabase
     .from("profiles")
     .select("id")
@@ -95,31 +100,55 @@ async function setPortalPreference(userId: string, preference: string) {
   }
 }
 
-async function loginViaForm(
+/**
+ * Sign in by calling the tRPC login endpoint via fetch in the browser context.
+ * This bypasses the form entirely (which may not be hydrated in time)
+ * and directly triggers the server-side Supabase session cookie creation.
+ */
+async function loginAndSaveState(
   page: import("@playwright/test").Page,
   email: string,
   password: string,
   storagePath: string,
 ) {
-  await page.goto("/login");
-  await page.waitForLoadState("networkidle");
+  // Navigate to the app to establish the browser context on localhost
+  await page.goto("/");
+  await page.waitForLoadState("domcontentloaded");
 
-  await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Password").fill(password);
-  await page.getByRole("button", { name: "Sign In" }).click();
+  // Call the tRPC login endpoint directly via fetch in the browser context.
+  // tRPC v11 with httpBatchLink accepts raw JSON input for mutations.
+  // This sets httpOnly auth cookies via the server response.
+  const result = await page.evaluate(
+    async ({ email, password }) => {
+      const res = await fetch("/api/trpc/auth.login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const body = await res.json();
+      return { status: res.status, body };
+    },
+    { email, password },
+  );
 
-  // Wait for navigation away from login
-  await page.waitForURL((url) => !url.pathname.includes("/login"), {
-    timeout: 15_000,
-  });
+  if (result.status !== 200 || result.body?.error) {
+    throw new Error(
+      `Login failed for ${email}: ${JSON.stringify(result.body?.error ?? result.body)}`,
+    );
+  }
 
-  await page.waitForLoadState("networkidle");
+  // Reload to confirm auth cookies are active
+  await page.reload();
+  await page.waitForLoadState("domcontentloaded");
   await page.context().storageState({ path: storagePath });
 }
 
 function writeEmptyAuthState(path: string) {
   writeFileSync(path, JSON.stringify({ cookies: [], origins: [] }));
 }
+
+// Ensure .auth directory exists
+mkdirSync("e2e/.auth", { recursive: true });
 
 setup("authenticate as customer", async ({ page }) => {
   const reachable = await isSupabaseReachable();
@@ -132,7 +161,7 @@ setup("authenticate as customer", async ({ page }) => {
 
   const userId = await ensureUser(TEST_CUSTOMER.email, TEST_CUSTOMER.password);
   await setPortalPreference(userId, TEST_CUSTOMER.portalPreference);
-  await loginViaForm(
+  await loginAndSaveState(
     page,
     TEST_CUSTOMER.email,
     TEST_CUSTOMER.password,
@@ -151,7 +180,7 @@ setup("authenticate as owner", async ({ page }) => {
 
   const userId = await ensureUser(TEST_OWNER.email, TEST_OWNER.password);
   await setPortalPreference(userId, TEST_OWNER.portalPreference);
-  await loginViaForm(
+  await loginAndSaveState(
     page,
     TEST_OWNER.email,
     TEST_OWNER.password,
@@ -171,7 +200,7 @@ setup("authenticate as admin", async ({ page }) => {
   const userId = await ensureUser(TEST_ADMIN.email, TEST_ADMIN.password);
   await setUserRole(userId, "admin");
   await setPortalPreference(userId, TEST_ADMIN.portalPreference);
-  await loginViaForm(
+  await loginAndSaveState(
     page,
     TEST_ADMIN.email,
     TEST_ADMIN.password,

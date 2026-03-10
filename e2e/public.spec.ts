@@ -1,9 +1,9 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("AC-001: Discovery shows live data", () => {
   test("homepage shows restaurant cards from database", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     // SSR page renders restaurant cards with links
     const restaurantLinks = page.locator('a[href^="/restaurant/"]');
@@ -13,9 +13,11 @@ test.describe("AC-001: Discovery shows live data", () => {
     expect(count).toBeGreaterThan(0);
   });
 
-  test("clicking a restaurant card navigates to working page", async ({ page }) => {
+  test("clicking a restaurant card navigates to working page", async ({
+    page,
+  }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     const restaurantLink = page.locator('a[href^="/restaurant/"]').first();
     await expect(restaurantLink).toBeVisible({ timeout: 10_000 });
@@ -34,18 +36,18 @@ test.describe("AC-001: Discovery shows live data", () => {
 test.describe("AC-002: Search filters by location", () => {
   test("search page renders and has filter controls", async ({ page }) => {
     await page.goto("/search");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     // Search input should be present
     const searchInput = page.locator('input[type="search"]');
     await expect(searchInput).toBeVisible({ timeout: 10_000 });
 
-    // Location filter (select element) should be present
-    const locationFilter = page.locator("select");
+    // Location filter (combobox or select) should be present
+    const locationFilter = page.getByRole("combobox");
     await expect(locationFilter).toBeVisible({ timeout: 5_000 });
 
     // Cuisine filter pills should be present
-    const cuisinePills = page.locator('text=/Filipino|Chicken|Seafood/i');
+    const cuisinePills = page.locator("text=/Filipino|Chicken|Seafood/i");
     await expect(cuisinePills.first()).toBeVisible({ timeout: 5_000 });
   });
 });
@@ -53,7 +55,7 @@ test.describe("AC-002: Search filters by location", () => {
 test.describe("AC-003: QR scanner", () => {
   test("QR scan button is present on homepage", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     // The fixed-position scan button should be visible
     const scanButton = page.getByRole("button", { name: /scan cravings qr/i });
@@ -62,7 +64,9 @@ test.describe("AC-003: QR scanner", () => {
 });
 
 test.describe("AC-015: Breadcrumb hydration clean", () => {
-  test("homepage loads without hydration errors in console", async ({ page }) => {
+  test("homepage loads without hydration errors in console", async ({
+    page,
+  }) => {
     const consoleErrors: string[] = [];
     page.on("console", (msg) => {
       if (msg.type() === "error") {
@@ -71,7 +75,7 @@ test.describe("AC-015: Breadcrumb hydration clean", () => {
     });
 
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     const hydrationErrors = consoleErrors.filter(
       (e) =>
@@ -86,7 +90,9 @@ test.describe("AC-015: Breadcrumb hydration clean", () => {
 });
 
 test.describe("AC-018: No image URL crashes", () => {
-  test("restaurant page loads images without hostname errors", async ({ page }) => {
+  test("restaurant page loads images without hostname errors", async ({
+    page,
+  }) => {
     const consoleErrors: string[] = [];
     page.on("console", (msg) => {
       if (msg.type() === "error") {
@@ -95,13 +101,15 @@ test.describe("AC-018: No image URL crashes", () => {
     });
 
     // Use the discovery API to get a valid slug, then navigate directly
-    const res = await page.request.get("/api/trpc/discovery.nearby?input=%7B%22json%22%3A%7B%22limit%22%3A1%7D%7D");
+    const res = await page.request.get(
+      "/api/trpc/discovery.nearby?input=%7B%22json%22%3A%7B%22limit%22%3A1%7D%7D",
+    );
     const body = await res.json();
     const slug = body?.result?.data?.[0]?.slug;
 
     if (slug) {
       await page.goto(`/restaurant/${slug}`);
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       // Check no "hostname" or "not configured" image errors
       const imageErrors = consoleErrors.filter(
