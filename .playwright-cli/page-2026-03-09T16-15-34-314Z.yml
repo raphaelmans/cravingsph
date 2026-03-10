@@ -1,0 +1,173 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: Setup
+          - list [ref=e16]:
+            - listitem [ref=e17]:
+              - link "Get Started" [ref=e18] [cursor=pointer]:
+                - /url: /organization/get-started
+                - img [ref=e19]
+                - generic [ref=e24]: Get Started
+        - generic [ref=e25]:
+          - generic [ref=e26]: Overview
+          - list [ref=e28]:
+            - listitem [ref=e29]:
+              - link "Dashboard" [ref=e30] [cursor=pointer]:
+                - /url: /organization
+                - img [ref=e31]
+                - generic [ref=e36]: Dashboard
+        - generic [ref=e37]:
+          - generic [ref=e38]: Restaurants
+          - list [ref=e40]:
+            - listitem [ref=e42]:
+              - link "Restaurants" [ref=e43] [cursor=pointer]:
+                - /url: /organization/restaurants
+                - img [ref=e44]
+                - generic [ref=e48]: Restaurants
+        - generic [ref=e49]:
+          - generic [ref=e50]: Orders
+          - list [ref=e52]:
+            - listitem [ref=e53]:
+              - link "Orders" [ref=e54] [cursor=pointer]:
+                - /url: /organization/orders
+                - img [ref=e55]
+                - generic [ref=e58]: Orders
+        - generic [ref=e59]:
+          - generic [ref=e60]: Finance
+          - list [ref=e62]:
+            - listitem [ref=e63]:
+              - link "Payments" [ref=e64] [cursor=pointer]:
+                - /url: /organization/payments
+                - img [ref=e65]
+                - generic [ref=e67]: Payments
+        - generic [ref=e68]:
+          - generic [ref=e69]: Organization
+          - list [ref=e71]:
+            - listitem [ref=e72]:
+              - link "Team" [ref=e73] [cursor=pointer]:
+                - /url: /organization/team
+                - img [ref=e74]
+                - generic [ref=e79]: Team
+            - listitem [ref=e80]:
+              - link "Verification" [ref=e81] [cursor=pointer]:
+                - /url: /organization/verify
+                - img [ref=e82]
+                - generic [ref=e85]: Verification
+            - listitem [ref=e86]:
+              - link "Settings" [ref=e87] [cursor=pointer]:
+                - /url: /organization/settings
+                - img [ref=e88]
+                - generic [ref=e91]: Settings
+        - generic [ref=e92]:
+          - generic [ref=e93]: Account
+          - list [ref=e95]:
+            - listitem [ref=e96]:
+              - link "Profile" [ref=e97] [cursor=pointer]:
+                - /url: /organization/profile
+                - img [ref=e98]
+                - generic [ref=e101]: Profile
+      - button "Toggle Sidebar" [ref=e103]
+    - main [ref=e104]:
+      - generic [ref=e105]:
+        - generic [ref=e106]:
+          - button "Toggle Sidebar" [ref=e107]:
+            - img
+            - generic [ref=e108]: Toggle Sidebar
+          - navigation "breadcrumb" [ref=e109]:
+            - list [ref=e110]:
+              - listitem [ref=e111]:
+                - link "Dashboard" [ref=e112] [cursor=pointer]:
+                  - /url: /organization
+              - listitem
+              - listitem [ref=e113]:
+                - img [ref=e114]
+              - link "Payments" [disabled] [ref=e116]
+          - button "Add payment method" [ref=e118]:
+            - img
+            - text: Add payment method
+        - generic [ref=e119]:
+          - generic [ref=e120]:
+            - generic [ref=e121]:
+              - heading "Payment Methods" [level=1] [ref=e122]
+              - generic [ref=e123]: 3 configured
+            - paragraph [ref=e124]: Configure the wallets and bank accounts customers can use for manual transfers. The default method is shown first across checkout and payment proof review flows.
+          - generic [ref=e125]:
+            - generic [ref=e126]:
+              - generic [ref=e128]: Accepted methods
+              - generic [ref=e129]:
+                - img [ref=e131]
+                - generic [ref=e135]:
+                  - paragraph [ref=e136]: "3"
+                  - paragraph [ref=e137]: Wallets and bank accounts ready for checkout
+            - generic [ref=e138]:
+              - generic [ref=e140]: Checkout default
+              - generic [ref=e141]:
+                - img [ref=e143]
+                - generic [ref=e146]:
+                  - paragraph [ref=e147]: GCash
+                  - paragraph [ref=e148]: Preferred option shown first to customers
+            - generic [ref=e149]:
+              - generic [ref=e151]: Coverage
+              - generic [ref=e152]:
+                - img [ref=e154]
+                - generic [ref=e156]:
+                  - generic [ref=e157]: GCash
+                  - generic [ref=e158]: Maya
+                  - generic [ref=e159]: Bank Transfer
+          - generic [ref=e160]:
+            - generic [ref=e162]:
+              - heading "Configured accounts" [level=2] [ref=e163]
+              - paragraph [ref=e164]: Edit details, pick a default, or remove methods you no longer accept.
+            - generic [ref=e165]:
+              - generic [ref=e167]:
+                - img [ref=e169]
+                - generic [ref=e171]:
+                  - generic [ref=e172]:
+                    - paragraph [ref=e173]: GCash
+                    - generic [ref=e174]: GCash
+                    - generic [ref=e175]: Default
+                  - generic [ref=e176]:
+                    - paragraph [ref=e177]: Account name
+                    - paragraph [ref=e178]: Cravings PH
+                  - generic [ref=e179]:
+                    - paragraph [ref=e180]: Account number
+                    - paragraph [ref=e181]: 0917 123 4567
+                - button "Manage GCash payment method" [ref=e182]:
+                  - img
+              - generic [ref=e184]:
+                - img [ref=e186]
+                - generic [ref=e189]:
+                  - generic [ref=e190]:
+                    - paragraph [ref=e191]: Maya
+                    - generic [ref=e192]: Maya
+                  - generic [ref=e193]:
+                    - paragraph [ref=e194]: Account name
+                    - paragraph [ref=e195]: Cravings PH
+                  - generic [ref=e196]:
+                    - paragraph [ref=e197]: Account number
+                    - paragraph [ref=e198]: 0918 765 4321
+                - button "Manage Maya payment method" [ref=e199]:
+                  - img
+              - generic [ref=e201]:
+                - img [ref=e203]
+                - generic [ref=e205]:
+                  - generic [ref=e206]:
+                    - paragraph [ref=e207]: BDO
+                    - generic [ref=e208]: Bank Transfer
+                  - generic [ref=e209]:
+                    - paragraph [ref=e210]: Account name
+                    - paragraph [ref=e211]: Cravings PH Inc.
+                  - generic [ref=e212]:
+                    - paragraph [ref=e213]: Account number
+                    - paragraph [ref=e214]: 1234 5678 9012
+                  - generic [ref=e215]:
+                    - img [ref=e216]
+                    - generic [ref=e218]: Deposits routed to BDO
+                - button "Manage BDO payment method" [ref=e219]:
+                  - img
+  - generic [ref=e220]: Checking health...
+  - button "Open Next.js Dev Tools" [ref=e226] [cursor=pointer]:
+    - img [ref=e227]
+  - alert [ref=e230]

@@ -9,3 +9,7 @@
 2026-03-09T16:14:42.659565Z  INFO ralph::loop_runner: Completion event LOOP_COMPLETE detected.
 2026-03-09T16:14:42.659734Z  INFO ralph_core::event_loop: Wrapping up: completed. 1 iterations in 5m 19s. reason=completed iterations=1 duration=5m 19s
 2026-03-09T16:14:42.698504Z  INFO ralph_core::landing: Beginning landing sequence loop_id=primary
+2026-03-09T16:14:42.875168Z  INFO ralph_core::landing: Auto-committed changes during landing loop_id=primary commit=Some("2dea6c102aafd2a2ca9f7e04a0686e606303b4ce") files=80
+2026-03-09T16:14:42.983001Z  INFO ralph_core::landing: Generated handoff file loop_id=primary path=/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/handoff.md completed=49 open=0
+2026-03-09T16:14:43.008371Z  INFO ralph_core::loop_completion: Landing completed with auto-commit commit=Some("2dea6c102aafd2a2ca9f7e04a0686e606303b4ce") handoff=/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/handoff.md
+2026-03-09T16:14:43.008402Z  INFO ralph::loop_runner: Primary loop landed successfully committed=true handoff=/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/handoff.md open_tasks=0

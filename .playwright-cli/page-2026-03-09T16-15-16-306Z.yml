@@ -1,0 +1,108 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: Setup
+          - list [ref=e16]:
+            - listitem [ref=e17]:
+              - link "Get Started" [ref=e18] [cursor=pointer]:
+                - /url: /organization/get-started
+                - img [ref=e19]
+                - generic [ref=e24]: Get Started
+        - generic [ref=e25]:
+          - generic [ref=e26]: Overview
+          - list [ref=e28]:
+            - listitem [ref=e29]:
+              - link "Dashboard" [ref=e30] [cursor=pointer]:
+                - /url: /organization
+                - img [ref=e31]
+                - generic [ref=e36]: Dashboard
+        - generic [ref=e37]:
+          - generic [ref=e38]: Restaurants
+          - list [ref=e40]:
+            - listitem [ref=e42]:
+              - link "Restaurants" [ref=e43] [cursor=pointer]:
+                - /url: /organization/restaurants
+                - img [ref=e44]
+                - generic [ref=e48]: Restaurants
+              - list [ref=e50]
+        - generic [ref=e51]:
+          - generic [ref=e52]: Orders
+          - list [ref=e54]:
+            - listitem [ref=e55]:
+              - link "Orders" [ref=e56] [cursor=pointer]:
+                - /url: /organization/orders
+                - img [ref=e57]
+                - generic [ref=e60]: Orders
+        - generic [ref=e61]:
+          - generic [ref=e62]: Finance
+          - list [ref=e64]:
+            - listitem [ref=e65]:
+              - link "Payments" [ref=e66] [cursor=pointer]:
+                - /url: /organization/payments
+                - img [ref=e67]
+                - generic [ref=e69]: Payments
+        - generic [ref=e70]:
+          - generic [ref=e71]: Organization
+          - list [ref=e73]:
+            - listitem [ref=e74]:
+              - link "Team" [ref=e75] [cursor=pointer]:
+                - /url: /organization/team
+                - img [ref=e76]
+                - generic [ref=e81]: Team
+            - listitem [ref=e82]:
+              - link "Verification" [ref=e83] [cursor=pointer]:
+                - /url: /organization/verify
+                - img [ref=e84]
+                - generic [ref=e87]: Verification
+            - listitem [ref=e88]:
+              - link "Settings" [ref=e89] [cursor=pointer]:
+                - /url: /organization/settings
+                - img [ref=e90]
+                - generic [ref=e93]: Settings
+        - generic [ref=e94]:
+          - generic [ref=e95]: Account
+          - list [ref=e97]:
+            - listitem [ref=e98]:
+              - link "Profile" [ref=e99] [cursor=pointer]:
+                - /url: /organization/profile
+                - img [ref=e100]
+                - generic [ref=e103]: Profile
+      - button "Toggle Sidebar" [ref=e105]
+    - main [ref=e106]:
+      - generic [ref=e108]:
+        - button "Toggle Sidebar" [ref=e109]:
+          - img
+          - generic [ref=e110]: Toggle Sidebar
+        - navigation "breadcrumb" [ref=e111]:
+          - list [ref=e112]:
+            - listitem [ref=e113]:
+              - link "Restaurants" [ref=e114] [cursor=pointer]:
+                - /url: /organization/restaurants
+            - listitem
+            - listitem [ref=e115]:
+              - img [ref=e116]
+            - link "Menu" [disabled] [ref=e118]
+        - generic [ref=e119]:
+          - button "Category" [ref=e120]:
+            - img
+            - text: Category
+          - button "Item" [ref=e121]:
+            - img
+            - text: Item
+  - generic [ref=e135]: Checking health...
+  - generic [ref=e140] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e141]:
+      - img [ref=e142]
+    - generic [ref=e145]:
+      - button "Open issues overlay" [ref=e146]:
+        - generic [ref=e147]:
+          - generic [ref=e148]: "1"
+          - generic [ref=e149]: "2"
+        - generic [ref=e150]:
+          - text: Issue
+          - generic [ref=e151]: s
+      - button "Collapse issues badge" [ref=e152]:
+        - img [ref=e153]
+  - alert [ref=e155]

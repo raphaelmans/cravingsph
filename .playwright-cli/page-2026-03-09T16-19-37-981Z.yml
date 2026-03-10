@@ -1,0 +1,210 @@
+- generic:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - img
+              - generic:
+                - paragraph: Codex QA Org 1773072231
+                - paragraph: member
+          - generic:
+            - generic:
+              - generic: Setup
+              - generic:
+                - list:
+                  - listitem:
+                    - link:
+                      - /url: /organization/get-started
+                      - img
+                      - generic: Get Started
+            - generic:
+              - generic: Overview
+              - generic:
+                - list:
+                  - listitem:
+                    - link:
+                      - /url: /organization
+                      - img
+                      - generic: Dashboard
+            - generic:
+              - generic: Restaurants
+              - generic:
+                - list:
+                  - generic:
+                    - listitem:
+                      - link:
+                        - /url: /organization/restaurants
+                        - img
+                        - generic: Restaurants
+                      - button [expanded]:
+                        - img
+                      - generic:
+                        - list:
+                          - generic:
+                            - listitem:
+                              - link:
+                                - /url: /organization/restaurants/36fe405f-6aef-4065-93a7-c9fd40aa4c49
+                                - generic: QA Test Kitchen 1773072231
+                              - button [expanded]:
+                                - img
+                              - generic:
+                                - list:
+                                  - listitem:
+                                    - link:
+                                      - /url: /organization/restaurants/36fe405f-6aef-4065-93a7-c9fd40aa4c49/branches/dd9297ad-5ec0-44d7-8f44-b9e2b3705898/menu
+                                      - generic: Main Branch
+            - generic:
+              - generic: Orders
+              - generic:
+                - list:
+                  - listitem:
+                    - link:
+                      - /url: /organization/orders
+                      - img
+                      - generic: Orders
+            - generic:
+              - generic: Finance
+              - generic:
+                - list:
+                  - listitem:
+                    - link:
+                      - /url: /organization/payments
+                      - img
+                      - generic: Payments
+            - generic:
+              - generic: Organization
+              - generic:
+                - list:
+                  - listitem:
+                    - link:
+                      - /url: /organization/team
+                      - img
+                      - generic: Team
+                  - listitem:
+                    - link:
+                      - /url: /organization/verify
+                      - img
+                      - generic: Verification
+                  - listitem:
+                    - link:
+                      - /url: /organization/settings
+                      - img
+                      - generic: Settings
+            - generic:
+              - generic: Account
+              - generic:
+                - list:
+                  - listitem:
+                    - link:
+                      - /url: /organization/profile
+                      - img
+                      - generic: Profile
+          - generic:
+            - button:
+              - generic:
+                - generic: C
+              - generic:
+                - paragraph: codex+1773072231@example.com
+          - button
+    - main:
+      - generic:
+        - generic:
+          - button:
+            - img
+            - generic: Toggle Sidebar
+          - navigation:
+            - list:
+              - listitem:
+                - link:
+                  - /url: /organization/restaurants
+                  - text: Restaurants
+              - listitem:
+                - listitem:
+                  - img
+                - link [disabled]: Menu
+          - generic:
+            - button:
+              - img
+              - text: Category
+            - button:
+              - img
+              - text: Item
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - button:
+                    - text: All
+                    - generic: "0"
+                  - button:
+                    - text: Meals
+                    - generic: "0"
+          - generic:
+            - generic:
+              - generic:
+                - heading [level=2]: Meals
+                - generic:
+                  - generic: 0 items
+                  - button:
+                    - img
+                    - generic: Category actions
+              - paragraph: No items in this category yet
+  - generic:
+    - generic: "Server: ok"
+    - generic: "Uptime: 1531s"
+  - generic [ref=e140] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e141]:
+      - img [ref=e142]
+    - generic [ref=e200]:
+      - button "Open issues overlay" [ref=e201]:
+        - generic [ref=e202]:
+          - generic [ref=e203]: "2"
+          - generic [ref=e204]: "3"
+        - generic [ref=e205]:
+          - text: Issue
+          - generic [ref=e206]: s
+      - button "Collapse issues badge" [ref=e207]:
+        - img [ref=e208]
+  - alert
+  - dialog "Add Item" [ref=e241]:
+    - generic [ref=e242]:
+      - heading "Add Item" [level=2] [ref=e243]
+      - paragraph [ref=e244]: Add a new menu item to a category.
+    - generic [ref=e245]:
+      - generic [ref=e246]:
+        - generic [ref=e247]: Category
+        - combobox "Category" [ref=e248]:
+          - generic: Select a category
+          - img
+        - combobox [ref=e249]
+        - paragraph [ref=e267]: Invalid UUID
+      - generic [ref=e250]:
+        - generic [ref=e251]: Name
+        - textbox "Name" [ref=e252]:
+          - /placeholder: e.g. Iced Coffee, Chicken Adobo
+          - text: Chicken Bowl
+      - generic [ref=e253]:
+        - generic [ref=e254]: Description (optional)
+        - textbox "Description (optional)" [ref=e255]:
+          - /placeholder: Brief description of the item
+          - text: Grilled chicken with rice
+      - generic [ref=e256]:
+        - generic [ref=e257]: Base Price
+        - textbox "Base Price" [ref=e258]:
+          - /placeholder: "0.00"
+          - text: "199"
+      - generic [ref=e259]:
+        - generic [ref=e260]: Image URL (optional)
+        - textbox "Image URL (optional)" [active] [ref=e261]:
+          - /placeholder: https://example.com/image.jpg
+        - paragraph [ref=e268]: Invalid URL
+      - generic [ref=e262]:
+        - button "Cancel" [ref=e263]
+        - button "Add Item" [ref=e264]
+    - button "Close" [ref=e265]:
+      - img
+      - generic [ref=e266]: Close

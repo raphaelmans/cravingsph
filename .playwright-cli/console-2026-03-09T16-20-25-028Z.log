@@ -1,0 +1,198 @@
+[    1589ms] [ERROR] The result of getSnapshot should be cached to avoid an infinite loop @ http://localhost:3000/_next/static/chunks/03e60_next_dist_63589985._.js:3127
+[    1622ms] [ERROR] %o
+
+%s Error: Invalid src prop (https://example.com/chicken.jpg) on `next/image`, hostname "example.com" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at defaultLoader (http://localhost:3000/_next/static/chunks/03e60_next_d76eb739._.js:2770:49)
+    at http://localhost:3000/_next/static/chunks/03e60_next_d76eb739._.js:456:39
+    at Array.map (<anonymous>)
+    at generateImgAttrs (http://localhost:3000/_next/static/chunks/03e60_next_d76eb739._.js:456:24)
+    at getImgProps (http://localhost:3000/_next/static/chunks/03e60_next_d76eb739._.js:869:27)
+    at http://localhost:3000/_next/static/chunks/03e60_next_d76eb739._.js:3180:82
+    at Object.react_stack_bottom_frame (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-dom_07fe1108._.js:14826:24)
+    at renderWithHooks (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-dom_07fe1108._.js:4651:24)
+    at updateForwardRef (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-dom_07fe1108._.js:5939:21)
+    at beginWork (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-dom_07fe1108._.js:6783:24)
+    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-dom_07fe1108._.js:965:74)
+    at performUnitOfWork (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-dom_07fe1108._.js:9562:97)
+    at workLoopConcurrentByScheduler (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-dom_07fe1108._.js:9558:58)
+    at renderRootConcurrent (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-dom_07fe1108._.js:9541:71)
+    at performWorkOnRoot (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-dom_07fe1108._.js:9068:150)
+    at performWorkOnRootViaSchedulerTask (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-dom_07fe1108._.js:10230:9)
+    at MessagePort.performWorkUntilDeadline (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:2647:64) The above error occurred in the <Unknown> component. It was handled by the <ErrorBoundaryHandler> error boundary. @ http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:1342
+[  466552ms] Error: Switched to client rendering because the server rendering errored:
+
+Invalid src prop (https://example.com/chicken.jpg) on `next/image`, hostname "example.com" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at defaultLoader (/Users/raphaelm/Documents/Coding/startups/cravingsph/.next/dev/server/chunks/ssr/fa784__pnpm_5d3fb58c._.js:19784:49)
+    at /Users/raphaelm/Documents/Coding/startups/cravingsph/.next/dev/server/chunks/ssr/fa784__pnpm_5d3fb58c._.js:17537:39
+    at Array.map (<anonymous>)
+    at generateImgAttrs (/Users/raphaelm/Documents/Coding/startups/cravingsph/.next/dev/server/chunks/ssr/fa784__pnpm_5d3fb58c._.js:17537:24)
+    at getImgProps (/Users/raphaelm/Documents/Coding/startups/cravingsph/.next/dev/server/chunks/ssr/fa784__pnpm_5d3fb58c._.js:17930:27)
+    at /Users/raphaelm/Documents/Coding/startups/cravingsph/.next/dev/server/chunks/ssr/fa784__pnpm_5d3fb58c._.js:20120:82
+    at Object.react_stack_bottom_frame (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:308269)
+    at renderWithHooks (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:117637)
+    at renderElement (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:191644)
+    at retryNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:201217)
+    at renderNodeDestructive (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:200452)
+    at renderNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:212370)
+    at renderElement (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:181071)
+    at retryNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:201217)
+    at renderNodeDestructive (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:200452)
+    at renderNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:212370)
+    at renderChildrenArray (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:206931)
+    at retryNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:201694)
+    at renderNodeDestructive (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:200452)
+    at renderNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:212370)
+    at renderElement (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:181071)
+    at retryNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:201217)
+    at renderNodeDestructive (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:200452)
+    at finishFunctionComponent (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:118647)
+    at renderElement (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:133818)
+    at retryNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:201217)
+    at renderNodeDestructive (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:200452)
+    at renderNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:212370)
+    at renderChildrenArray (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:206931)
+    at retryNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:201694)
+    at renderNodeDestructive (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:200452)
+    at renderNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:212370)
+    at renderElement (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:181071)
+    at retryNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:201217)
+    at renderNodeDestructive (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:200452)
+    at renderNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:212370)
+    at renderChildrenArray (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:206931)
+    at retryNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:201694)
+    at renderNodeDestructive (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:200452)
+    at renderNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:212370)
+    at renderElement (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:181071)
+    at retryNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:201217)
+    at renderNodeDestructive (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:200452)
+    at renderNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:212370)
+    at renderChildrenArray (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:206931)
+    at retryNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:201694)
+    at renderNodeDestructive (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:200452)
+    at renderNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:212370)
+    at renderElement (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:181071)
+    at retryNode (/Users/raphaelm/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js:2:201217)
+[10920349ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ http://localhost:3000/_next/static/chunks/03e60_next_dist_63589985._.js:2297
+[10923371ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ http://localhost:3000/_next/static/chunks/03e60_next_dist_63589985._.js:2297
+[10942154ms] Error: Module [project]/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_@playwright+test@1.58.2_babel-plugin-react-compiler@1.0._66d95276898233b26966b20fd294418a/node_modules/next/dist/client/components/builtin/global-error.js [app-client] (ecmascript) was instantiated because it was required from module [project]/Documents/Coding/startups/cravingsph/node_modules/.pnpm/next@16.1.0_@babel+core@7.29.0_babel-plugin-react-compiler@1.0.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/react-server-dom-turbopack/cjs/react-server-dom-turbopack-client.browser.development.js [app-client] (ecmascript), but the module factory is not available. It might have been deleted in an HMR update.
+    at instantiateModule (http://localhost:3000/_next/static/chunks/turbopack-Documents_Coding_startups_cravingsph_94449511._.js:845:15)
+    at getOrInstantiateModuleFromParent (http://localhost:3000/_next/static/chunks/turbopack-Documents_Coding_startups_cravingsph_94449511._.js:830:12)
+    at DevContext.commonJsRequire [as r] (http://localhost:3000/_next/static/chunks/turbopack-Documents_Coding_startups_cravingsph_94449511._.js:259:12)
+    at requireModule (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:85:84)
+    at initializeModuleChunk (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:1078:25)
+    at getOutlinedModel (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:1375:17)
+    at parseModelString (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:1602:50)
+    at Array.<anonymous> (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:2472:51)
+    at JSON.parse (<anonymous>)
+    at initializeModelChunk (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:1053:30)
+    at resolveModelChunk (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:958:43)
+    at processFullStringRow (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:2428:126)
+    at processFullBinaryRow (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:2348:9)
+    at processBinaryChunk (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:2457:221)
+    at progress (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_react-server-dom-turbopack_6656e566._.js:2625:13)
+[11329892ms] Error: Internal Next.js error: Router action dispatched before initialization.
+    at dispatchAppRouterAction (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:1464:37)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9437:61
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at Object.hmrRefresh (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9436:40)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11618:64
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at processMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11617:44)
+    at WebSocket.handleMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:10912:52)
+[11329900ms] Error: Internal Next.js error: Router action dispatched before initialization.
+    at dispatchAppRouterAction (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:1464:37)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9437:61
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at Object.hmrRefresh (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9436:40)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11618:64
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at processMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11617:44)
+    at WebSocket.handleMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:10912:52)
+[11339219ms] Error: Internal Next.js error: Router action dispatched before initialization.
+    at dispatchAppRouterAction (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:1464:37)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9437:61
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at Object.hmrRefresh (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9436:40)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11618:64
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at processMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11617:44)
+    at WebSocket.handleMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:10912:52)
+[11339226ms] Error: Internal Next.js error: Router action dispatched before initialization.
+    at dispatchAppRouterAction (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:1464:37)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9437:61
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at Object.hmrRefresh (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9436:40)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11618:64
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at processMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11617:44)
+    at WebSocket.handleMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:10912:52)
+[11354928ms] Error: Internal Next.js error: Router action dispatched before initialization.
+    at dispatchAppRouterAction (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:1464:37)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9437:61
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at Object.hmrRefresh (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9436:40)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11618:64
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at processMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11617:44)
+    at WebSocket.handleMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:10912:52)
+[11354935ms] Error: Internal Next.js error: Router action dispatched before initialization.
+    at dispatchAppRouterAction (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:1464:37)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9437:61
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at Object.hmrRefresh (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9436:40)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11618:64
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at processMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11617:44)
+    at WebSocket.handleMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:10912:52)
+[11372128ms] Error: Internal Next.js error: Router action dispatched before initialization.
+    at dispatchAppRouterAction (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:1464:37)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9437:61
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at Object.hmrRefresh (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9436:40)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11618:64
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at processMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11617:44)
+    at WebSocket.handleMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:10912:52)
+[11372131ms] Error: Internal Next.js error: Router action dispatched before initialization.
+    at dispatchAppRouterAction (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:1464:37)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9437:61
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at Object.hmrRefresh (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9436:40)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11618:64
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at processMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11617:44)
+    at WebSocket.handleMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:10912:52)
+[11388651ms] Error: Internal Next.js error: Router action dispatched before initialization.
+    at dispatchAppRouterAction (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:1464:37)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9437:61
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at Object.hmrRefresh (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9436:40)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11618:64
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at processMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11617:44)
+    at WebSocket.handleMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:10912:52)
+[11388654ms] Error: Internal Next.js error: Router action dispatched before initialization.
+    at dispatchAppRouterAction (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:1464:37)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9437:61
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at Object.hmrRefresh (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:9436:40)
+    at http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11618:64
+    at startTransition (http://localhost:3000/_next/static/chunks/03e60_next_dist_compiled_9cd9ee03._.js:1279:31)
+    at processMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:11617:44)
+    at WebSocket.handleMessage (http://localhost:3000/_next/static/chunks/03e60_next_dist_client_49172731._.js:10912:52)

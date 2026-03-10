@@ -2,6 +2,50 @@
 
 ## Patterns
 
+### mem-1773082151-2d89
+> Onboarding wizard uses useOnboardingStatus hook as single source of truth for both hub (get-started) and wizard pages. Steps 4-6 now query real backends: menu.hasContent (checks if branch has ≥1 menu item via category join), paymentConfig.has (checks org has ≥1 active method), verification.isSubmitted (checks restaurant docs submitted). CompletionStep accepts allComplete prop — shows 'Partial Setup Complete' with amber warning when steps remain incomplete, or 'You're All Set\!' with green party popper when all 6 required steps are done. allComplete = completedCount >= TOTAL_STEPS - 1 (steps 1-6 all complete; step 7 is the completion step itself).
+<!-- tags: onboarding, trpc, frontend | created: 2026-03-09 -->
+
+### mem-1773081787-f578
+> Admin user suspension persists via profile.is_suspended boolean column (default false). Admin router has setUserActive procedure that flips isSuspended. Frontend hook (use-admin-users.ts) replaced useSyncExternalStore with useQuery for getUsers (includes isSuspended field) + useSetUserActive mutation with queryKey invalidation. AdminUserListItem.isActive = !isSuspended. Scaffold labels and backend-coverage card removed from management page.
+<!-- tags: admin, trpc, frontend | created: 2026-03-09 -->
+
+### mem-1773081335-12fa
+> Operating hours persist via branch router extensions (getOperatingHours, updateOperatingHours). Repository uses upsert with onConflictDoUpdate on (branchId, dayOfWeek) unique index. Frontend hook (use-branch-settings.ts) replaced useSyncExternalStore with useQuery+useMutation, uses local useState draft for immediate updates. WeeklyHoursEditor has Save button. dayOfWeek 0=Mon...6=Sun mapped to dayKey strings via DAY_LABELS lookup.
+<!-- tags: operating-hours, branch, trpc, frontend | created: 2026-03-09 -->
+
+### mem-1773080881-626d
+> Verification module (src/modules/verification/) has 5 protected procedures: getRestaurantStatus (returns docs + status per restaurant), uploadDocument (upserts to verification_document with onConflictDoUpdate on restaurantId+documentType), removeDocument (hard delete), submit (validates 3/3 docs then sets restaurant.verificationStatus=pending), isSubmitted. Ownership validated via restaurant→organization join. Frontend hook (use-owner-verification.ts) fetches status per selected restaurant, mutations invalidate queryKey. Document card uploads files to verification-docs Storage bucket via browser Supabase client (src/shared/infra/supabase/browser-client.ts) then records metadata via tRPC mutation.
+<!-- tags: verification, trpc, frontend, storage | created: 2026-03-09 -->
+
+### mem-1773080358-e26c
+> Payment-config module (src/modules/payment-config/) has 6 protected procedures: list (all active methods for user's org), add (auto-default if first method), update, remove (soft-delete via isActive=false, promotes next if default removed), setDefault (clearDefault + set), has (boolean for onboarding). Resolves org via findOrgIdByOwnerId. Frontend hook (use-payment-config.ts) uses useQuery+useMutation with identical exported API surface — zero component changes needed.
+<!-- tags: payment-config, trpc, frontend | created: 2026-03-09 -->
+
+### mem-1773080006-621b
+> Review module (src/modules/review/) has 2 procedures: create (protectedProcedure — validates order ownership, completed status, uniqueness via hasReview check before insert) and listByRestaurant (publicProcedure — joins review→restaurant by slug, returns ReviewDTO[] with avg rating and total count via parallel Promise.all). Frontend hooks in use-customer-orders.ts: submitReview uses useMutation with review.create + invalidates order.listMine on success; useRestaurantReviews uses useQuery with review.listByRestaurant. CustomerReview interface kept in use-customer-orders.ts for backward compat. Zero component changes needed.
+<!-- tags: review, trpc, frontend | created: 2026-03-09 -->
+
+### mem-1773079662-8cf6
+> Order module (src/modules/order/) has 11 protected procedures: customer (create, listMine, getDetail, reorder) and owner (listByBranch, accept, reject, updateStatus, confirmPayment, rejectPayment, getTimeline). Status machine validates transitions via VALID_TRANSITIONS map. BranchChecker verifies isOrderingEnabled before order creation. Frontend hooks (use-order-management.ts, use-customer-orders.ts) rewritten from useSyncExternalStore to tRPC with identical exported API surface — zero component changes needed. Review submission (submitReview) is a stub until Step 7 (review module). useRestaurantReviews returns empty state until Step 7.
+<!-- tags: order, trpc, frontend | created: 2026-03-09 -->
+
+### mem-1773079101-e7e2
+> Saved-restaurant module (src/modules/saved-restaurant/) has 3 protected procedures: list (joins saved_restaurant→restaurant→branch, hydrates with popular items), toggle (save/unsave idempotent via onConflictDoNothing), isSaved. Frontend hook (use-saved-restaurants.ts) uses useQuery+useMutation with queryKey invalidation on toggle. SavedRestaurantDTO has slug, name, coverImageUrl, logoUrl, cuisineTypes, popularItems, locationLabel, savedAt, note — no order-related fields until Step 6.
+<!-- tags: saved-restaurants, trpc, frontend | created: 2026-03-09 -->
+
+### mem-1773078752-a6ce
+> Discovery module (src/modules/discovery/) is read-only with 4 public procedures: featured (is_featured+is_active), nearby (optional Haversine sort), search (ILIKE name/cuisine + city filter), locations (DISTINCT city with counts). Service hydrates DiscoveryRow→RestaurantPreviewDTO by splitting cuisineType CSV into array and enriching with top-3 popular items via window-function subquery. Landing page is async SSR via server caller; search page uses useTRPC client hooks. LocationFilter now accepts dynamic locations prop.
+<!-- tags: discovery, trpc, frontend | created: 2026-03-09 -->
+
+### mem-1773078253-1c2b
+> Portal separation uses profile.portal_preference ('customer'|'owner'|null). Session loading (tRPC context, SSR session, server caller) queries profile table to populate session.portalPreference. Owner layout and org.create reject portalPreference==='customer'. Null portal_preference preserves backward compat for legacy accounts with existing orgs.
+<!-- tags: auth, portal-separation, session | created: 2026-03-09 -->
+
+### mem-1773077892-8fc1
+> Storage module follows singleton factory pattern (like restaurant module). StorageService validates file size/type per bucket, generates UUID-based paths, and delegates to shared/infra/supabase/storage.ts wrapper. Admin Supabase client (service key) used for all storage ops. Bucket seed uses raw SQL INSERT INTO storage.buckets with text[] cast for allowed_mime_types (not jsonb).
+<!-- tags: storage, supabase, infrastructure | created: 2026-03-09 -->
+
 ### mem-1773070457-499a
 > Pattern: use shared feedback primitives plus route-group loading.tsx and error.tsx files for cross-cutting polish, while page-specific loading files stay only where a route needs a more tailored skeleton than the generic public/auth/dashboard fallback.
 <!-- tags: nextjs, frontend, error-handling | created: 2026-03-09 -->

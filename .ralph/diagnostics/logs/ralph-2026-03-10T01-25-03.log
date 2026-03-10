@@ -1,0 +1,133 @@
+2026-03-09T17:25:03.830469Z  WARN ralph::preflight: Config file "presets/pdd-to-code-assist.yml" not found, using defaults
+2026-03-09T17:25:03.945808Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T17:25:03.945860Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T17:25:03.948741Z  INFO ralph_core::event_loop: Successfully loaded 28 memories from store
+2026-03-09T17:25:03.948773Z  INFO ralph_core::event_loop: Injecting 28 memories (9512 chars) into prompt
+2026-03-09T17:25:03.949247Z  INFO ralph_core::event_loop: Injecting ready tasks (0 ready, 0 open, 49 closed) into prompt
+2026-03-09T17:32:00.612818Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T17:32:00.613790Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T17:32:00.615165Z  INFO ralph_core::event_loop: Successfully loaded 28 memories from store
+2026-03-09T17:32:00.615204Z  INFO ralph_core::event_loop: Injecting 28 memories (9512 chars) into prompt
+2026-03-09T17:32:00.615369Z  INFO ralph_core::event_loop: Injecting scratchpad (1227 chars) into prompt
+2026-03-09T17:32:00.616046Z  INFO ralph_core::event_loop: Injecting ready tasks (17 ready, 17 open, 50 closed) into prompt
+2026-03-09T17:38:43.540240Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T17:38:43.541346Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T17:38:43.542759Z  INFO ralph_core::event_loop: Successfully loaded 29 memories from store
+2026-03-09T17:38:43.542952Z  INFO ralph_core::event_loop: Injecting 29 memories (9992 chars) into prompt
+2026-03-09T17:38:43.543439Z  INFO ralph_core::event_loop: Injecting scratchpad (2058 chars) into prompt
+2026-03-09T17:38:43.544060Z  INFO ralph_core::event_loop: Injecting ready tasks (16 ready, 16 open, 51 closed) into prompt
+2026-03-09T17:44:22.285079Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T17:44:22.285911Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T17:44:22.288482Z  INFO ralph_core::event_loop: Successfully loaded 30 memories from store
+2026-03-09T17:44:22.288738Z  INFO ralph_core::event_loop: Injecting 30 memories (10439 chars) into prompt
+2026-03-09T17:44:22.289388Z  INFO ralph_core::event_loop: Injecting scratchpad (3092 chars) into prompt
+2026-03-09T17:44:22.289743Z  INFO ralph_core::event_loop: Injecting ready tasks (15 ready, 15 open, 52 closed) into prompt
+2026-03-09T17:52:44.021134Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T17:52:44.021934Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T17:52:44.023193Z  INFO ralph_core::event_loop: Successfully loaded 31 memories from store
+2026-03-09T17:52:44.023225Z  INFO ralph_core::event_loop: Injecting 31 memories (11057 chars) into prompt
+2026-03-09T17:52:44.023513Z  INFO ralph_core::event_loop: Injecting scratchpad (4799 chars) into prompt
+2026-03-09T17:52:44.023829Z  INFO ralph_core::event_loop: Injecting ready tasks (14 ready, 14 open, 53 closed) into prompt
+2026-03-09T17:58:33.864628Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T17:58:33.865262Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T17:58:33.866437Z  INFO ralph_core::event_loop: Successfully loaded 32 memories from store
+2026-03-09T17:58:33.866464Z  INFO ralph_core::event_loop: Injecting 32 memories (11650 chars) into prompt
+2026-03-09T17:58:33.866748Z  INFO ralph_core::event_loop: Injecting scratchpad (6280 chars) into prompt
+2026-03-09T17:58:33.866979Z  INFO ralph_core::event_loop: Injecting ready tasks (13 ready, 13 open, 54 closed) into prompt
+2026-03-09T18:08:18.594258Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T18:08:18.595114Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T18:08:18.596556Z  INFO ralph_core::event_loop: Successfully loaded 33 memories from store
+2026-03-09T18:08:18.596592Z  INFO ralph_core::event_loop: Injecting 33 memories (12383 chars) into prompt
+2026-03-09T18:08:18.596895Z  INFO ralph_core::event_loop: Injecting scratchpad (8151 chars) into prompt
+2026-03-09T18:08:18.597665Z  INFO ralph_core::event_loop: Injecting ready tasks (12 ready, 12 open, 55 closed) into prompt
+2026-03-09T18:13:56.902066Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T18:13:56.902189Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T18:13:56.902519Z  INFO ralph_core::event_loop: Successfully loaded 34 memories from store
+2026-03-09T18:13:56.905578Z  INFO ralph_core::event_loop: Injecting 34 memories (13107 chars) into prompt
+2026-03-09T18:13:56.905761Z  INFO ralph_core::event_loop: Injecting scratchpad (9602 chars) into prompt
+2026-03-09T18:13:56.906403Z  INFO ralph_core::event_loop: Injecting ready tasks (11 ready, 11 open, 56 closed) into prompt
+2026-03-09T18:19:32.075401Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T18:19:32.075981Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T18:19:32.077211Z  INFO ralph_core::event_loop: Successfully loaded 35 memories from store
+2026-03-09T18:19:32.077253Z  INFO ralph_core::event_loop: Injecting 35 memories (13678 chars) into prompt
+2026-03-09T18:19:32.077534Z  INFO ralph_core::event_loop: Injecting scratchpad (10985 chars) into prompt
+2026-03-09T18:19:32.077978Z  INFO ralph_core::event_loop: Injecting ready tasks (10 ready, 10 open, 57 closed) into prompt
+2026-03-09T18:28:16.788425Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T18:28:16.789239Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T18:28:16.790540Z  INFO ralph_core::event_loop: Successfully loaded 36 memories from store
+2026-03-09T18:28:16.790582Z  INFO ralph_core::event_loop: Injecting 36 memories (14488 chars) into prompt
+2026-03-09T18:28:16.790901Z  INFO ralph_core::event_loop: Injecting scratchpad (12903 chars) into prompt
+2026-03-09T18:28:16.791184Z  INFO ralph_core::event_loop: Injecting ready tasks (9 ready, 9 open, 58 closed) into prompt
+2026-03-09T18:35:55.221633Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T18:35:55.222437Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T18:35:55.223805Z  INFO ralph_core::event_loop: Successfully loaded 37 memories from store
+2026-03-09T18:35:55.223835Z  INFO ralph_core::event_loop: Injecting 37 memories (15026 chars) into prompt
+2026-03-09T18:35:55.224100Z  INFO ralph_core::event_loop: Injecting scratchpad (14456 chars) into prompt
+2026-03-09T18:35:55.224438Z  INFO ralph_core::event_loop: Injecting ready tasks (8 ready, 8 open, 59 closed) into prompt
+2026-03-09T18:43:46.451608Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T18:43:46.452235Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T18:43:46.453601Z  INFO ralph_core::event_loop: Successfully loaded 38 memories from store
+2026-03-09T18:43:46.453640Z  INFO ralph_core::event_loop: Injecting 38 memories (15557 chars) into prompt
+2026-03-09T18:43:46.453945Z  INFO ralph_core::event_loop: Injecting scratchpad (15702 chars) into prompt
+2026-03-09T18:43:46.454300Z  INFO ralph_core::event_loop: Injecting ready tasks (7 ready, 7 open, 60 closed) into prompt
+2026-03-09T18:49:40.610089Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T18:49:40.610921Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T18:49:40.612215Z  INFO ralph_core::event_loop: Successfully loaded 39 memories from store
+2026-03-09T18:49:40.612268Z  INFO ralph_core::event_loop: Injecting 39 memories (16309 chars) into prompt
+2026-03-09T18:49:40.612506Z  INFO ralph_core::event_loop: Injecting scratchpad (16128 chars) into prompt
+2026-03-09T18:49:40.612934Z  INFO ralph_core::event_loop: Injecting ready tasks (6 ready, 6 open, 61 closed) into prompt
+2026-03-09T18:57:34.418830Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T18:57:34.422040Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T18:57:34.423500Z  INFO ralph_core::event_loop: Successfully loaded 39 memories from store
+2026-03-09T18:57:34.423532Z  INFO ralph_core::event_loop: Injecting 39 memories (16309 chars) into prompt
+2026-03-09T18:57:34.423839Z  INFO ralph_core::event_loop: Injecting scratchpad (16156 chars) into prompt
+2026-03-09T18:57:34.424303Z  INFO ralph_core::event_loop: Injecting ready tasks (5 ready, 5 open, 62 closed) into prompt
+2026-03-09T19:04:28.134694Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T19:04:28.136516Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T19:04:28.139559Z  INFO ralph_core::event_loop: Successfully loaded 39 memories from store
+2026-03-09T19:04:28.139717Z  INFO ralph_core::event_loop: Injecting 39 memories (16309 chars) into prompt
+2026-03-09T19:04:28.140526Z  INFO ralph_core::event_loop: Injecting scratchpad (16192 chars) into prompt
+2026-03-09T19:04:28.141212Z  INFO ralph_core::event_loop: Injecting ready tasks (4 ready, 4 open, 63 closed) into prompt
+2026-03-09T19:08:09.156001Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T19:08:09.156607Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T19:08:09.157940Z  INFO ralph_core::event_loop: Successfully loaded 39 memories from store
+2026-03-09T19:08:09.158028Z  INFO ralph_core::event_loop: Injecting 39 memories (16309 chars) into prompt
+2026-03-09T19:08:09.158269Z  INFO ralph_core::event_loop: Injecting scratchpad (16189 chars) into prompt
+2026-03-09T19:08:09.158608Z  INFO ralph_core::event_loop: Injecting ready tasks (3 ready, 3 open, 64 closed) into prompt
+2026-03-09T19:12:28.587014Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T19:12:28.587619Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T19:12:28.588875Z  INFO ralph_core::event_loop: Successfully loaded 39 memories from store
+2026-03-09T19:12:28.588915Z  INFO ralph_core::event_loop: Injecting 39 memories (16309 chars) into prompt
+2026-03-09T19:12:28.589157Z  INFO ralph_core::event_loop: Injecting scratchpad (16242 chars) into prompt
+2026-03-09T19:12:28.589485Z  INFO ralph_core::event_loop: Injecting ready tasks (2 ready, 2 open, 65 closed) into prompt
+2026-03-09T19:17:20.113609Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T19:17:20.114194Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T19:17:20.115541Z  INFO ralph_core::event_loop: Successfully loaded 39 memories from store
+2026-03-09T19:17:20.115579Z  INFO ralph_core::event_loop: Injecting 39 memories (16309 chars) into prompt
+2026-03-09T19:17:20.115783Z  INFO ralph_core::event_loop: Injecting scratchpad (16304 chars) into prompt
+2026-03-09T19:17:20.115996Z  INFO ralph_core::event_loop: Injecting ready tasks (1 ready, 1 open, 66 closed) into prompt
+2026-03-09T19:47:55.881813Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T19:47:55.882675Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T19:47:55.884436Z  INFO ralph_core::event_loop: Successfully loaded 39 memories from store
+2026-03-09T19:47:55.884488Z  INFO ralph_core::event_loop: Injecting 39 memories (16309 chars) into prompt
+2026-03-09T19:47:55.884910Z  INFO ralph_core::event_loop: Injecting scratchpad (16304 chars) into prompt
+2026-03-09T19:47:55.885573Z  INFO ralph_core::event_loop: Injecting ready tasks (1 ready, 1 open, 66 closed) into prompt
+2026-03-09T19:48:06.592294Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T19:48:06.592994Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T19:48:06.593683Z  INFO ralph_core::event_loop: Successfully loaded 39 memories from store
+2026-03-09T19:48:06.593749Z  INFO ralph_core::event_loop: Injecting 39 memories (16309 chars) into prompt
+2026-03-09T19:48:06.594298Z  INFO ralph_core::event_loop: Injecting scratchpad (16304 chars) into prompt
+2026-03-09T19:48:06.594728Z  INFO ralph_core::event_loop: Injecting ready tasks (1 ready, 1 open, 66 closed) into prompt
+2026-03-09T19:48:10.743869Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T19:48:10.743942Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T19:48:10.744985Z  INFO ralph_core::event_loop: Successfully loaded 39 memories from store
+2026-03-09T19:48:10.745066Z  INFO ralph_core::event_loop: Injecting 39 memories (16309 chars) into prompt
+2026-03-09T19:48:10.745262Z  INFO ralph_core::event_loop: Injecting scratchpad (16304 chars) into prompt
+2026-03-09T19:48:10.745774Z  INFO ralph_core::event_loop: Injecting ready tasks (1 ready, 1 open, 66 closed) into prompt
+2026-03-09T19:48:43.813025Z  INFO ralph_core::event_loop: Memory injection check: enabled=true, inject=Auto, workspace_root="/Users/raphaelm/Documents/Coding/startups/cravingsph"
+2026-03-09T19:48:43.813412Z  INFO ralph_core::event_loop: Looking for memories at: "/Users/raphaelm/Documents/Coding/startups/cravingsph/.ralph/agent/memories.md" (exists: true)
+2026-03-09T19:48:43.814042Z  INFO ralph_core::event_loop: Successfully loaded 39 memories from store
+2026-03-09T19:48:43.814118Z  INFO ralph_core::event_loop: Injecting 39 memories (16309 chars) into prompt
+2026-03-09T19:48:43.814426Z  INFO ralph_core::event_loop: Injecting scratchpad (16304 chars) into prompt
+2026-03-09T19:48:43.814802Z  INFO ralph_core::event_loop: Injecting ready tasks (1 ready, 1 open, 66 closed) into prompt
+2026-03-09T19:49:51.133920Z  INFO ralph_core::event_loop: Wrapping up: consecutive_failures. 22 iterations in 2h 24m 47s. reason=consecutive_failures iterations=22 duration=2h 24m 47s

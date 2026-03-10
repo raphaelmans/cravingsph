@@ -1,0 +1,139 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - img [ref=e146]
+        - generic [ref=e9]:
+          - paragraph [ref=e150]: Codex QA Org 1773072231
+          - paragraph [ref=e151]: member
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: Setup
+          - list [ref=e16]:
+            - listitem [ref=e17]:
+              - link "Get Started" [ref=e18] [cursor=pointer]:
+                - /url: /organization/get-started
+                - img [ref=e19]
+                - generic [ref=e24]: Get Started
+        - generic [ref=e25]:
+          - generic [ref=e26]: Overview
+          - list [ref=e28]:
+            - listitem [ref=e29]:
+              - link "Dashboard" [ref=e30] [cursor=pointer]:
+                - /url: /organization
+                - img [ref=e31]
+                - generic [ref=e36]: Dashboard
+        - generic [ref=e37]:
+          - generic [ref=e38]: Restaurants
+          - list [ref=e40]:
+            - listitem [ref=e42]:
+              - link "Restaurants" [ref=e43] [cursor=pointer]:
+                - /url: /organization/restaurants
+                - img [ref=e44]
+                - generic [ref=e48]: Restaurants
+              - button [expanded] [ref=e152]:
+                - img [ref=e153]
+              - list [ref=e50]:
+                - listitem [ref=e156]:
+                  - link "QA Test Kitchen 1773072231" [ref=e157] [cursor=pointer]:
+                    - /url: /organization/restaurants/36fe405f-6aef-4065-93a7-c9fd40aa4c49
+                    - generic [ref=e158]: QA Test Kitchen 1773072231
+                  - button [expanded] [ref=e159]:
+                    - img [ref=e160]
+                  - list [ref=e163]:
+                    - listitem [ref=e164]:
+                      - link "Main Branch" [ref=e165] [cursor=pointer]:
+                        - /url: /organization/restaurants/36fe405f-6aef-4065-93a7-c9fd40aa4c49/branches/dd9297ad-5ec0-44d7-8f44-b9e2b3705898/menu
+                        - generic [ref=e166]: Main Branch
+        - generic [ref=e51]:
+          - generic [ref=e52]: Orders
+          - list [ref=e54]:
+            - listitem [ref=e55]:
+              - link "Orders" [ref=e56] [cursor=pointer]:
+                - /url: /organization/orders
+                - img [ref=e57]
+                - generic [ref=e60]: Orders
+        - generic [ref=e61]:
+          - generic [ref=e62]: Finance
+          - list [ref=e64]:
+            - listitem [ref=e65]:
+              - link "Payments" [ref=e66] [cursor=pointer]:
+                - /url: /organization/payments
+                - img [ref=e67]
+                - generic [ref=e69]: Payments
+        - generic [ref=e70]:
+          - generic [ref=e71]: Organization
+          - list [ref=e73]:
+            - listitem [ref=e74]:
+              - link "Team" [ref=e75] [cursor=pointer]:
+                - /url: /organization/team
+                - img [ref=e76]
+                - generic [ref=e81]: Team
+            - listitem [ref=e82]:
+              - link "Verification" [ref=e83] [cursor=pointer]:
+                - /url: /organization/verify
+                - img [ref=e84]
+                - generic [ref=e87]: Verification
+            - listitem [ref=e88]:
+              - link "Settings" [ref=e89] [cursor=pointer]:
+                - /url: /organization/settings
+                - img [ref=e90]
+                - generic [ref=e93]: Settings
+        - generic [ref=e94]:
+          - generic [ref=e95]: Account
+          - list [ref=e97]:
+            - listitem [ref=e98]:
+              - link "Profile" [ref=e99] [cursor=pointer]:
+                - /url: /organization/profile
+                - img [ref=e100]
+                - generic [ref=e103]: Profile
+      - button "C codex+1773072231@example.com" [ref=e167]:
+        - generic [ref=e169]: C
+        - paragraph [ref=e171]: codex+1773072231@example.com
+      - button "Toggle Sidebar" [ref=e105]
+    - main [ref=e106]:
+      - generic [ref=e107]:
+        - generic [ref=e172]:
+          - button "Toggle Sidebar" [ref=e173]:
+            - img
+            - generic [ref=e174]: Toggle Sidebar
+          - navigation "breadcrumb" [ref=e175]:
+            - list [ref=e176]:
+              - listitem [ref=e177]:
+                - link "Restaurants" [ref=e178] [cursor=pointer]:
+                  - /url: /organization/restaurants
+              - listitem [ref=e179]:
+                - listitem [ref=e180]:
+                  - img [ref=e181]
+                - link "Menu" [disabled] [ref=e183]
+          - generic [ref=e184]:
+            - button "Category" [ref=e185]:
+              - img
+              - text: Category
+            - button "Item" [ref=e186]:
+              - img
+              - text: Item
+        - generic [ref=e188]:
+          - img [ref=e190]
+          - heading "No menu items yet" [level=2] [ref=e195]
+          - paragraph [ref=e196]: Start by adding a category, then add items to it. Your customers will see these on the public menu.
+          - button "Add First Category" [ref=e197]:
+            - img
+            - text: Add First Category
+  - generic [ref=e135]:
+    - generic [ref=e198]: "Server: ok"
+    - generic [ref=e199]: "Uptime: 1531s"
+  - generic [ref=e140] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e141]:
+      - img [ref=e142]
+    - generic [ref=e200]:
+      - button "Open issues overlay" [ref=e201]:
+        - generic [ref=e202]:
+          - generic [ref=e203]: "2"
+          - generic [ref=e204]: "3"
+        - generic [ref=e205]:
+          - text: Issue
+          - generic [ref=e206]: s
+      - button "Collapse issues badge" [ref=e207]:
+        - img [ref=e208]
+  - alert [ref=e145]

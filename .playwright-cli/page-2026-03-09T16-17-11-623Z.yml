@@ -1,0 +1,14 @@
+- generic [active] [ref=e1]:
+  - main [ref=e3]:
+    - img "cravings" [ref=e6]:
+      - text: crav
+      - generic [ref=e7]:
+        - text: ı
+        - img [ref=e8]
+      - text: ngs
+  - generic [ref=e15]:
+    - generic [ref=e16]: "Server: ok"
+    - generic [ref=e17]: "Uptime: 1462s"
+  - button "Open Next.js Dev Tools" [ref=e23] [cursor=pointer]:
+    - img [ref=e24]
+  - alert [ref=e27]
