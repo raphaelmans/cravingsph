@@ -91,12 +91,12 @@ export function CustomerProfileForm() {
 
   if (isLoading && !profile) {
     return (
-      <section className="rounded-4xl border border-primary/15 bg-background p-5 shadow-sm">
-        <div className="space-y-3">
+      <section className="rounded-4xl border border-primary/15 bg-background p-6 shadow-sm">
+        <div className="space-y-4">
           <Skeleton className="h-6 w-40 rounded-full" />
           <Skeleton className="h-4 w-72 rounded-full" />
         </div>
-        <div className="mt-5 space-y-4">
+        <div className="mt-6 space-y-4">
           <Skeleton className="h-14 w-full rounded-full" />
           <Skeleton className="h-14 w-full rounded-full" />
           <Skeleton className="h-14 w-full rounded-full" />
@@ -112,8 +112,8 @@ export function CustomerProfileForm() {
     isSubmitting || !form.formState.isDirty || !form.formState.isValid;
 
   return (
-    <section className="rounded-4xl border border-primary/15 bg-background p-5 shadow-sm">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+    <section className="rounded-4xl border border-primary/15 bg-background p-6 shadow-sm">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-1">
           <h2 className="font-heading text-2xl font-bold">Profile details</h2>
           <p className="text-sm leading-6 text-muted-foreground">
@@ -129,9 +129,9 @@ export function CustomerProfileForm() {
       </div>
 
       <Form {...form}>
-        <form className="mt-5 space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+        <form className="mt-6 space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           {form.formState.errors.root ? (
-            <div className="rounded-3xl border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+            <div className="rounded-3xl border border-destructive/20 bg-destructive/5 px-4 py-4 text-sm text-destructive">
               {form.formState.errors.root.message}
             </div>
           ) : null}
@@ -204,7 +204,7 @@ export function CustomerProfileForm() {
             )}
           />
 
-          <div className="flex flex-col gap-3 border-t border-primary/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-4 border-t border-primary/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-muted-foreground">
               Changes apply to your signed-in customer experience immediately.
             </p>

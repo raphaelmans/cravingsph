@@ -76,7 +76,7 @@ export function OrderDetails({
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-4">
         {/* Item list */}
         <ul className="space-y-2">
           {items.map((item, index) => (

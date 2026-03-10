@@ -180,7 +180,7 @@ export function RestaurantForm({
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <div className="flex size-10 items-center justify-center rounded-full bg-primary/10">
             <Store className="size-5 text-primary" />
           </div>

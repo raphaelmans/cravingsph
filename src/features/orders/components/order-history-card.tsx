@@ -23,13 +23,11 @@ interface OrderHistoryCardProps {
 const STATUS_COPY = {
   completed: {
     label: "Completed",
-    className:
-      "border-success/20 bg-success/10 text-success",
+    className: "border-success/20 bg-success/10 text-success",
   },
   cancelled: {
     label: "Cancelled",
-    className:
-      "border-destructive/20 bg-destructive/10 text-destructive",
+    className: "border-destructive/20 bg-destructive/10 text-destructive",
   },
 } as const;
 
@@ -54,7 +52,7 @@ export function OrderHistoryCard({
   return (
     <Card className="overflow-hidden border-primary/10 bg-background/95 shadow-sm">
       <CardHeader className="gap-4 border-b border-primary/10 bg-linear-to-br from-primary/10 via-primary/5 to-transparent">
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start justify-between gap-2">
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Store className="size-4 text-primary" />
@@ -82,12 +80,12 @@ export function OrderHistoryCard({
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4 pt-5">
+      <CardContent className="space-y-4 pt-6">
         <div className="space-y-2">
           {previewItems.map((item) => (
             <div
               key={`${order.id}-${item.menuItemId}-${item.variantId ?? "base"}`}
-              className="flex items-start justify-between gap-3 rounded-2xl bg-muted/40 px-3 py-2"
+              className="flex items-start justify-between gap-4 rounded-2xl bg-muted/40 px-4 py-2"
             >
               <div className="space-y-1">
                 <p className="text-sm font-medium">
@@ -117,7 +115,7 @@ export function OrderHistoryCard({
           ) : null}
         </div>
 
-        <div className="flex items-center justify-between rounded-2xl border border-dashed border-primary/20 px-3 py-2">
+        <div className="flex items-center justify-between rounded-2xl border border-dashed border-primary/20 px-4 py-2">
           <span className="text-sm text-muted-foreground">Total paid</span>
           <Price amount={order.totalAmount} className="text-base" />
         </div>

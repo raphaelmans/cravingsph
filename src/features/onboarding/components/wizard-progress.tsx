@@ -33,7 +33,7 @@ export function WizardProgress({
           return (
             <li
               key={stepNumber}
-              className="flex flex-1 flex-col items-center gap-1.5"
+              className="flex flex-1 flex-col items-center gap-2"
             >
               <div className="flex w-full items-center">
                 {index > 0 && (
@@ -71,7 +71,7 @@ export function WizardProgress({
               </div>
               <span
                 className={cn(
-                  "text-[10px] leading-tight text-center hidden sm:block",
+                  "text-xs leading-tight text-center hidden sm:block",
                   isCurrent
                     ? "font-medium text-foreground"
                     : "text-muted-foreground",

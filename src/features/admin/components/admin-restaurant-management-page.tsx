@@ -70,7 +70,7 @@ export function AdminRestaurantManagementPage() {
 
         <div className="grid gap-4 md:grid-cols-4">
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-6">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Store className="size-5" />
               </div>
@@ -86,7 +86,7 @@ export function AdminRestaurantManagementPage() {
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-6">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <CircleCheckBig className="size-5" />
               </div>
@@ -102,7 +102,7 @@ export function AdminRestaurantManagementPage() {
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-6">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Star className="size-5" />
               </div>
@@ -118,7 +118,7 @@ export function AdminRestaurantManagementPage() {
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-6">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <ShieldAlert className="size-5" />
               </div>
@@ -134,7 +134,7 @@ export function AdminRestaurantManagementPage() {
           </Card>
         </div>
 
-        <div className="flex flex-col gap-3 rounded-xl border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 rounded-xl border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-medium">Filter listings</p>
             <p className="text-sm text-muted-foreground">

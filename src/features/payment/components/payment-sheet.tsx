@@ -126,7 +126,7 @@ export function PaymentSheet({
 
             {orderType === "dine-in" && (
               <>
-                <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Separator className="flex-1" />
                   <span>or</span>
                   <Separator className="flex-1" />

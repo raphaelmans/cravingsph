@@ -100,7 +100,7 @@ Base class hierarchy in `src/shared/kernel/errors.ts`:
 - Semantic tokens: `primary`, `destructive`, `success`, `warning`, `muted`, `accent`, `peach`
 - Brand primary: `#f86006` (warm orange) — the only hex color in the system
 - Border radius: use token scale (`rounded-sm` through `rounded-4xl`), never raw pixel values
-- Fonts: Inter (sans), League Spartan (display/headings), Geist Mono (mono)
+- Fonts: Inter (sans), Plus Jakarta Sans (headings), Geist Mono (mono)
 - Customer portal uses pill shapes (`rounded-full` for buttons/badges, `rounded-4xl` for large cards)
 
 ### Logging

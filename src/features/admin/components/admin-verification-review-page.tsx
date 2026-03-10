@@ -156,7 +156,7 @@ export function AdminVerificationReviewPage({
       />
 
       <div className="flex-1 space-y-6 p-4 md:p-6">
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-4">
           <h1 className="text-2xl font-bold tracking-tight">
             {data.restaurantName}
           </h1>
@@ -173,7 +173,7 @@ export function AdminVerificationReviewPage({
           <div className="space-y-4">
             <div className="grid gap-4 md:grid-cols-3">
               <Card>
-                <CardContent className="space-y-2 p-5">
+                <CardContent className="space-y-2 p-6">
                   <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                     <Store className="size-4 text-primary" />
                     Restaurant
@@ -186,7 +186,7 @@ export function AdminVerificationReviewPage({
               </Card>
 
               <Card>
-                <CardContent className="space-y-2 p-5">
+                <CardContent className="space-y-2 p-6">
                   <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                     <Building2 className="size-4 text-primary" />
                     Organization
@@ -201,7 +201,7 @@ export function AdminVerificationReviewPage({
               </Card>
 
               <Card>
-                <CardContent className="space-y-2 p-5">
+                <CardContent className="space-y-2 p-6">
                   <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                     <UserRound className="size-4 text-primary" />
                     Owner
@@ -225,8 +225,8 @@ export function AdminVerificationReviewPage({
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid gap-3 md:grid-cols-2">
-                  <div className="flex items-center gap-2 rounded-lg border bg-muted/30 px-3 py-2 text-sm">
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="flex items-center gap-2 rounded-lg border bg-muted/30 px-4 py-2 text-sm">
                     <Mail className="size-4 text-primary" />
                     <span>
                       {data.ownerEmail ??
@@ -234,7 +234,7 @@ export function AdminVerificationReviewPage({
                         "No email on file"}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 rounded-lg border bg-muted/30 px-3 py-2 text-sm">
+                  <div className="flex items-center gap-2 rounded-lg border bg-muted/30 px-4 py-2 text-sm">
                     <Phone className="size-4 text-primary" />
                     <span>
                       {data.ownerPhone ??
@@ -297,7 +297,7 @@ export function AdminVerificationReviewPage({
 
                 <Separator />
 
-                <div className="space-y-3 text-sm text-muted-foreground">
+                <div className="space-y-4 text-sm text-muted-foreground">
                   <div className="flex items-start gap-2">
                     <MapPinned className="mt-0.5 size-4 text-primary" />
                     <span>

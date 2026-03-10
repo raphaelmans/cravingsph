@@ -75,7 +75,7 @@ export function OrganizationForm({
     return (
       <Card>
         <CardHeader>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <div className="flex size-10 items-center justify-center rounded-full bg-success/10">
               <Check className="size-5 text-success" />
             </div>
@@ -95,7 +95,7 @@ export function OrganizationForm({
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <div className="flex size-10 items-center justify-center rounded-full bg-primary/10">
             <Building2 className="size-5 text-primary" />
           </div>

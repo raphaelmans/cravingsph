@@ -18,7 +18,7 @@ export function CuisinePill({ cuisine }: CuisinePillProps) {
       variant="outline"
       shape="pill"
       size="sm"
-      className="shrink-0 gap-1.5"
+      className="shrink-0 gap-2"
     >
       <Link href={`/search?cuisine=${encodeURIComponent(cuisine.slug)}`}>
         <span aria-hidden="true">{cuisine.emoji}</span>

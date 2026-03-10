@@ -45,7 +45,7 @@ function ShellInner({
       ) : null}
 
       {/* Main content with bottom padding for the nav bar */}
-      <main id="main-content" className="flex-1 pb-20">
+      <main id="main-content" className="flex-1 pb-20 touch-manipulation">
         {children}
       </main>
 

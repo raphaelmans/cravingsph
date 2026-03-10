@@ -91,8 +91,8 @@ export function CustomerAccountPage() {
   return (
     <div className="min-h-dvh bg-linear-to-b from-peach via-background to-background">
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 pt-6">
-        <section className="overflow-hidden rounded-4xl border border-primary/15 bg-linear-to-br from-primary/[0.18] via-background to-background p-5 shadow-sm">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+        <section className="overflow-hidden rounded-4xl border border-primary/15 bg-linear-to-br from-primary/[0.18] via-background to-background p-6 shadow-sm">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-2">
               <p className="inline-flex items-center gap-2 rounded-full bg-background/85 px-3 py-1 text-xs font-medium uppercase tracking-[0.24em] text-primary">
                 <Sparkles className="size-3.5" />
@@ -114,7 +114,7 @@ export function CustomerAccountPage() {
             </div>
           </div>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
             <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
               <p className="text-sm text-muted-foreground">Member since</p>
               <p className="mt-2 font-heading text-3xl font-bold">
@@ -136,7 +136,7 @@ export function CustomerAccountPage() {
           <CustomerProfileForm />
 
           <div className="space-y-4">
-            <section className="rounded-4xl border border-primary/15 bg-background p-5 shadow-sm">
+            <section className="rounded-4xl border border-primary/15 bg-background p-6 shadow-sm">
               <div className="space-y-1">
                 <h2 className="font-heading text-2xl font-bold">
                   Stay close to your favorites
@@ -146,12 +146,12 @@ export function CustomerAccountPage() {
                 </p>
               </div>
 
-              <div className="mt-5 space-y-3">
+              <div className="mt-6 space-y-4">
                 <Link
                   href={appRoutes.saved.base}
                   className="flex items-center justify-between rounded-3xl border border-primary/10 px-4 py-4 transition-colors hover:bg-primary/5"
                 >
-                  <span className="inline-flex items-center gap-3">
+                  <span className="inline-flex items-center gap-4">
                     <span className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
                       <Heart className="size-4" />
                     </span>
@@ -171,7 +171,7 @@ export function CustomerAccountPage() {
                   href={appRoutes.orders.base}
                   className="flex items-center justify-between rounded-3xl border border-primary/10 px-4 py-4 transition-colors hover:bg-primary/5"
                 >
-                  <span className="inline-flex items-center gap-3">
+                  <span className="inline-flex items-center gap-4">
                     <span className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
                       <History className="size-4" />
                     </span>
@@ -190,9 +190,9 @@ export function CustomerAccountPage() {
             {organization && (
               <Link
                 href={appRoutes.organization.base}
-                className="flex items-center justify-between rounded-4xl border border-primary/15 bg-background p-5 shadow-sm transition-colors hover:bg-primary/5"
+                className="flex items-center justify-between rounded-4xl border border-primary/15 bg-background p-6 shadow-sm transition-colors hover:bg-primary/5"
               >
-                <span className="inline-flex items-center gap-3">
+                <span className="inline-flex items-center gap-4">
                   <span className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <ArrowRightLeft className="size-4" />
                   </span>
@@ -209,7 +209,7 @@ export function CustomerAccountPage() {
               </Link>
             )}
 
-            <section className="rounded-4xl border border-primary/15 bg-background p-5 shadow-sm">
+            <section className="rounded-4xl border border-primary/15 bg-background p-6 shadow-sm">
               <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-primary">
                 <ShieldCheck className="size-3.5" />
                 Session
@@ -227,7 +227,7 @@ export function CustomerAccountPage() {
                 type="button"
                 shape="pill"
                 variant="outline"
-                className="mt-5 w-full justify-center border-primary/20 text-primary hover:bg-primary/5 hover:text-primary"
+                className="mt-6 w-full justify-center border-primary/20 text-primary hover:bg-primary/5 hover:text-primary"
                 onClick={handleLogout}
                 disabled={logout.isPending}
               >

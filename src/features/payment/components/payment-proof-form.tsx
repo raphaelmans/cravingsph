@@ -113,7 +113,7 @@ export function PaymentProofForm({
           </p>
 
           {proofImage ? (
-            <div className="flex items-center gap-3 rounded-xl border bg-card p-3">
+            <div className="flex items-center gap-4 rounded-xl border bg-card p-4">
               <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <ImagePlus className="size-5" />
               </div>

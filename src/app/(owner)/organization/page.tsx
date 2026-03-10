@@ -187,8 +187,8 @@ export default function OwnerDashboardPage() {
 
         {/* Quick links */}
         <div>
-          <h2 className="mb-3 text-lg font-semibold">Quick Actions</h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <h2 className="mb-4 text-lg font-semibold">Quick Actions</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {quickLinks.map((link) => (
               <QuickLink key={link.title} {...link} />
             ))}

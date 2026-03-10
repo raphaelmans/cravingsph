@@ -144,7 +144,7 @@ export function ModifierGroupDialog({
               return (
                 <div key={mg.group.id} className="rounded-md border">
                   {/* Group header */}
-                  <div className="flex items-center gap-2 px-3 py-2">
+                  <div className="flex items-center gap-2 px-4 py-2">
                     <Button
                       variant="ghost"
                       size="icon"
@@ -165,15 +165,12 @@ export function ModifierGroupDialog({
                     {mg.group.isRequired && (
                       <Badge
                         variant="secondary"
-                        className="text-[10px] px-1.5 py-0"
+                        className="text-xs px-1.5 py-0"
                       >
                         Required
                       </Badge>
                     )}
-                    <Badge
-                      variant="outline"
-                      className="text-[10px] px-1.5 py-0"
-                    >
+                    <Badge variant="outline" className="text-xs px-2 py-0">
                       {mg.modifiers.length} option
                       {mg.modifiers.length !== 1 ? "s" : ""}
                     </Badge>
@@ -191,7 +188,7 @@ export function ModifierGroupDialog({
 
                   {/* Expanded: group settings + modifiers */}
                   {isExpanded && (
-                    <div className="border-t px-3 py-3 space-y-3">
+                    <div className="border-t px-4 py-4 space-y-4">
                       {/* Required toggle */}
                       <div className="flex items-center gap-2">
                         <Switch

@@ -50,7 +50,7 @@ export function ModifierGroup({
   );
 
   return (
-    <div data-slot="modifier-group" className="space-y-3">
+    <div data-slot="modifier-group" className="space-y-4">
       {/* Group header */}
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold">{group.name}</h3>
@@ -103,7 +103,7 @@ function ModifierRadioOption({ modifier }: { modifier: ModifierRecord }) {
       htmlFor={modifier.id}
       className="flex cursor-pointer items-center justify-between py-2.5 font-normal"
     >
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         <RadioGroupItem value={modifier.id} id={modifier.id} />
         <span className="text-sm">{modifier.name}</span>
       </div>
@@ -134,7 +134,7 @@ function ModifierCheckboxOption({
       htmlFor={modifier.id}
       className="flex cursor-pointer items-center justify-between py-2.5 font-normal"
     >
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         <Checkbox
           id={modifier.id}
           checked={checked}

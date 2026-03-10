@@ -229,7 +229,7 @@ export default function OwnerVerificationPage() {
 
         <div className="grid gap-4 md:grid-cols-3">
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Building2 className="size-5" />
               </div>
@@ -245,7 +245,7 @@ export default function OwnerVerificationPage() {
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <ShieldCheck className="size-5" />
               </div>
@@ -259,7 +259,7 @@ export default function OwnerVerificationPage() {
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <FileText className="size-5" />
               </div>
@@ -285,14 +285,14 @@ export default function OwnerVerificationPage() {
                     Each restaurant needs three documents to get verified.
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                <CardContent className="space-y-4 text-sm text-muted-foreground">
                   <p>1. Registration certificate</p>
                   <p>2. Representative government ID</p>
                   <p>3. Current business permit</p>
                 </CardContent>
               </Card>
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {verificationItems.map((item) => (
                   <VerificationRestaurantCard
                     isSelected={
@@ -309,7 +309,7 @@ export default function OwnerVerificationPage() {
             <div className="space-y-4">
               <Card>
                 <CardHeader>
-                  <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex flex-wrap items-center justify-between gap-4">
                     <div>
                       <CardTitle>
                         {selectedRestaurant.restaurant.name}
@@ -370,7 +370,7 @@ export default function OwnerVerificationPage() {
                 ))}
               </div>
 
-              <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-muted/30 p-4">
+              <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border bg-muted/30 p-4">
                 <div className="space-y-1">
                   <p className="font-medium">Submission checklist</p>
                   <p className="text-sm text-muted-foreground">

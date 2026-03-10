@@ -34,7 +34,7 @@ export function AcceptRejectActions({
 
   return (
     <>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         <Button
           size="sm"
           disabled={isAccepting || isRejecting}

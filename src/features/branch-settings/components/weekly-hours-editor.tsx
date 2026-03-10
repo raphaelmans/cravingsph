@@ -78,9 +78,9 @@ export function WeeklyHoursEditor({
         {hours.map((day) => (
           <div
             key={day.dayKey}
-            className="flex flex-col gap-3 rounded-xl border p-4 lg:flex-row lg:items-center"
+            className="flex flex-col gap-4 rounded-xl border p-4 lg:flex-row lg:items-center"
           >
-            <div className="flex min-w-0 flex-1 items-center justify-between gap-3">
+            <div className="flex min-w-0 flex-1 items-center justify-between gap-4">
               <div>
                 <p className="font-medium">{day.label}</p>
                 <p className="text-sm text-muted-foreground">
@@ -94,8 +94,8 @@ export function WeeklyHoursEditor({
               </Badge>
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <div className="flex items-center gap-3 rounded-lg border bg-muted/30 px-3 py-2">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+              <div className="flex items-center gap-4 rounded-lg border bg-muted/30 px-4 py-2">
                 <Switch
                   checked={!day.isClosed}
                   onCheckedChange={(checked) =>

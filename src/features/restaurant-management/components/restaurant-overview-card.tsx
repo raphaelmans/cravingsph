@@ -52,8 +52,8 @@ export function RestaurantOverviewCard({
 }: RestaurantOverviewCardProps) {
   return (
     <Card className="h-full">
-      <CardHeader className="space-y-3">
-        <div className="flex items-start justify-between gap-3">
+      <CardHeader className="space-y-4">
+        <div className="flex items-start justify-between gap-4">
           <div className="space-y-1">
             <CardTitle className="text-lg">{restaurant.name}</CardTitle>
             <p className="text-sm text-muted-foreground">
@@ -81,8 +81,8 @@ export function RestaurantOverviewCard({
       </CardHeader>
 
       <CardContent className="space-y-4">
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div className="rounded-xl border bg-muted/30 p-3">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="rounded-xl border bg-muted/30 p-4">
             <div className="mb-2 flex items-center gap-2 text-sm font-medium">
               <Store className="size-4 text-primary" />
               Profile
@@ -93,7 +93,7 @@ export function RestaurantOverviewCard({
             </div>
           </div>
 
-          <div className="rounded-xl border bg-muted/30 p-3">
+          <div className="rounded-xl border bg-muted/30 p-4">
             <div className="mb-2 flex items-center gap-2 text-sm font-medium">
               <UtensilsCrossed className="size-4 text-primary" />
               Contact
@@ -105,7 +105,7 @@ export function RestaurantOverviewCard({
           </div>
         </div>
 
-        <div className="rounded-xl border border-dashed p-3 text-sm text-muted-foreground">
+        <div className="rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
           <div className="mb-2 flex items-center gap-2 font-medium text-foreground">
             <Verified className="size-4 text-primary" />
             Owner workflow

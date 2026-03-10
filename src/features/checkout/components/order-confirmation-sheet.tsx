@@ -64,7 +64,7 @@ export function OrderConfirmationSheet({
           </div>
 
           {orderId && (
-            <div className="rounded-xl bg-muted px-4 py-3">
+            <div className="rounded-xl bg-muted px-4 py-4">
               <p className="text-xs text-muted-foreground">Order ID</p>
               <p className="font-mono text-lg font-semibold">#{orderId}</p>
             </div>

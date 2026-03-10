@@ -104,7 +104,7 @@ export function AdminUserManagementPage() {
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-6">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Users className="size-5" />
               </div>
@@ -120,7 +120,7 @@ export function AdminUserManagementPage() {
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-6">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <ShieldCheck className="size-5" />
               </div>
@@ -136,7 +136,7 @@ export function AdminUserManagementPage() {
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-6">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <UserRoundCheck className="size-5" />
               </div>
@@ -152,7 +152,7 @@ export function AdminUserManagementPage() {
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-6">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Activity className="size-5" />
               </div>
@@ -168,8 +168,8 @@ export function AdminUserManagementPage() {
           </Card>
         </div>
 
-        <div className="flex flex-col gap-3 rounded-xl border bg-card p-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-1 flex-col gap-3 sm:flex-row">
+        <div className="flex flex-col gap-4 rounded-xl border bg-card p-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-1 flex-col gap-4 sm:flex-row">
             <div className="relative flex-1">
               <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <Input

@@ -50,8 +50,8 @@ export function BranchOverviewCard({
 
   return (
     <Card className="h-full">
-      <CardHeader className="space-y-3">
-        <div className="flex items-start justify-between gap-3">
+      <CardHeader className="space-y-4">
+        <div className="flex items-start justify-between gap-4">
           <div className="space-y-1">
             <CardTitle className="text-lg">{branch.name}</CardTitle>
             <p className="text-sm text-muted-foreground">
@@ -72,8 +72,8 @@ export function BranchOverviewCard({
       </CardHeader>
 
       <CardContent className="space-y-4">
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div className="rounded-xl border bg-muted/30 p-3">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="rounded-xl border bg-muted/30 p-4">
             <div className="mb-2 flex items-center gap-2 text-sm font-medium">
               <MapPin className="size-4 text-primary" />
               Address
@@ -84,7 +84,7 @@ export function BranchOverviewCard({
             </div>
           </div>
 
-          <div className="rounded-xl border bg-muted/30 p-3">
+          <div className="rounded-xl border bg-muted/30 p-4">
             <div className="mb-2 flex items-center gap-2 text-sm font-medium">
               <Clock3 className="size-4 text-primary" />
               Order rules
@@ -100,7 +100,7 @@ export function BranchOverviewCard({
           </div>
         </div>
 
-        <div className="rounded-xl border border-dashed p-3 text-sm text-muted-foreground">
+        <div className="rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
           Branch slug:{" "}
           <span className="font-medium text-foreground">{branch.slug}</span>
         </div>

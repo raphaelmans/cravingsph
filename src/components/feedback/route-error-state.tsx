@@ -54,7 +54,7 @@ export function RouteErrorState({
             {description}
           </p>
 
-          <div className="flex flex-col justify-center gap-3 sm:flex-row">
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Button onClick={retry} shape={shape}>
               <RotateCcw className="size-4" />
               Try again

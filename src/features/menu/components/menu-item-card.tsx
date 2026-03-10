@@ -46,7 +46,7 @@ export function MenuItemCard({
       role="button"
       tabIndex={0}
       data-slot="menu-item-card"
-      className="flex w-full gap-3 rounded-lg p-2 text-left transition-colors hover:bg-muted/50 active:bg-muted cursor-pointer"
+      className="flex w-full gap-4 rounded-lg p-2 text-left transition-colors hover:bg-muted/50 active:bg-muted cursor-pointer"
       onClick={() => onSelect(menuItem)}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {

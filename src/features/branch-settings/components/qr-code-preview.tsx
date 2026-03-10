@@ -150,7 +150,7 @@ export function QRCodePreview({ branchName, publicUrl }: QRCodePreviewProps) {
 
   return (
     <Card className="overflow-hidden">
-      <CardHeader className="space-y-3">
+      <CardHeader className="space-y-4">
         <div className="flex flex-wrap items-center gap-2">
           <CardTitle>QR Code</CardTitle>
           <Badge variant="secondary">Customer-facing</Badge>
@@ -209,12 +209,12 @@ export function QRCodePreview({ branchName, publicUrl }: QRCodePreviewProps) {
                 unoptimized
               />
             ) : errorMessage ? (
-              <div className="flex size-48 flex-col items-center justify-center gap-3 rounded-2xl bg-muted/40 text-center text-muted-foreground">
+              <div className="flex size-48 flex-col items-center justify-center gap-4 rounded-2xl bg-muted/40 text-center text-muted-foreground">
                 <QrCode className="size-9" />
                 <p className="max-w-32 text-sm">QR preview unavailable</p>
               </div>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <Skeleton className="size-48 rounded-2xl" />
                 <Skeleton className="h-4 w-32 rounded-full" />
               </div>

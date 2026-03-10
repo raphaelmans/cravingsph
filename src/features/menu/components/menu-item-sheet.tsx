@@ -230,7 +230,7 @@ export function MenuItemSheet({
           {/* Variant selector */}
           {variants.length > 0 && (
             <>
-              <div className="space-y-3 px-4">
+              <div className="space-y-4 px-4">
                 <h3 className="text-sm font-semibold">Size</h3>
                 <RadioGroup
                   value={selectedVariantId ?? ""}
@@ -245,7 +245,7 @@ export function MenuItemSheet({
                         htmlFor={variant.id}
                         className="flex cursor-pointer items-center justify-between py-2.5 font-normal"
                       >
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-4">
                           <RadioGroupItem value={variant.id} id={variant.id} />
                           <span className="text-sm">{variant.name}</span>
                         </div>

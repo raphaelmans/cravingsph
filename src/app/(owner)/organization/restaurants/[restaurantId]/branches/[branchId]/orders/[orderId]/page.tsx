@@ -96,7 +96,7 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
         ) : (
           <div className="mx-auto max-w-2xl space-y-4">
             {/* Actions bar */}
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <h1 className="text-xl font-semibold">
                 Order #{order.orderNumber}
               </h1>

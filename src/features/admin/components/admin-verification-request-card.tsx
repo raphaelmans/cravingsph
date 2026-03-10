@@ -38,7 +38,7 @@ export function AdminVerificationRequestCard({
   return (
     <Card>
       <CardHeader className="gap-4">
-        <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="space-y-1">
             <CardTitle className="text-lg">{item.restaurantName}</CardTitle>
             <CardDescription>{item.organizationName}</CardDescription>
@@ -47,8 +47,8 @@ export function AdminVerificationRequestCard({
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-5">
-        <div className="grid gap-3 text-sm text-muted-foreground sm:grid-cols-2 xl:grid-cols-4">
+      <CardContent className="space-y-6">
+        <div className="grid gap-4 text-sm text-muted-foreground sm:grid-cols-2 xl:grid-cols-4">
           <div className="flex items-start gap-2">
             <Store className="mt-0.5 size-4 text-primary" />
             <div>
@@ -82,14 +82,14 @@ export function AdminVerificationRequestCard({
           </div>
         </div>
 
-        <div className="grid gap-3 text-sm text-muted-foreground sm:grid-cols-2">
-          <div className="flex items-center gap-2 rounded-lg border bg-muted/30 px-3 py-2">
+        <div className="grid gap-4 text-sm text-muted-foreground sm:grid-cols-2">
+          <div className="flex items-center gap-2 rounded-lg border bg-muted/30 px-4 py-2">
             <Mail className="size-4 text-primary" />
             <span>
               {item.ownerEmail ?? item.restaurantEmail ?? "No email on file"}
             </span>
           </div>
-          <div className="flex items-center gap-2 rounded-lg border bg-muted/30 px-3 py-2">
+          <div className="flex items-center gap-2 rounded-lg border bg-muted/30 px-4 py-2">
             <Phone className="size-4 text-primary" />
             <span>
               {item.ownerPhone ?? item.restaurantPhone ?? "No phone on file"}
@@ -97,7 +97,7 @@ export function AdminVerificationRequestCard({
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
             Review uploaded business registration, government ID, and business
             permit before changing the restaurant status.

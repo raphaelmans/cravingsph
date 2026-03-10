@@ -19,7 +19,7 @@ export default function GetStartedPage() {
     <div className="flex flex-1 flex-col gap-8 p-6 md:p-8 max-w-3xl mx-auto">
       {/* Header */}
       <div className="space-y-2">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <div className="flex size-10 items-center justify-center rounded-full bg-primary/10">
             <Rocket className="size-5 text-primary" />
           </div>
@@ -54,7 +54,7 @@ export default function GetStartedPage() {
       </div>
 
       {/* Setup cards grid */}
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2">
         {isLoading
           ? [
               "org",

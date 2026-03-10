@@ -20,7 +20,7 @@ export function EmptyState({
     <div
       data-slot="empty-state"
       className={cn(
-        "flex flex-col items-center justify-center gap-3 rounded-xl bg-peach p-8 text-center",
+        "flex flex-col items-center justify-center gap-4 rounded-xl bg-peach p-8 text-center",
         className,
       )}
     >

@@ -52,7 +52,6 @@ export default async function HomePage() {
           seeAllHref="/search"
         />
       </section>
-
     </div>
   );
 }

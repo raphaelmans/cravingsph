@@ -110,7 +110,7 @@ export default function OwnerPaymentsPage() {
                 Accepted methods
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex items-center gap-3">
+            <CardContent className="flex items-center gap-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <WalletCards className="size-5" />
               </div>
@@ -129,7 +129,7 @@ export default function OwnerPaymentsPage() {
                 Checkout default
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex items-center gap-3">
+            <CardContent className="flex items-center gap-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <CheckCircle2 className="size-5" />
               </div>
@@ -148,7 +148,7 @@ export default function OwnerPaymentsPage() {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium">Coverage</CardTitle>
             </CardHeader>
-            <CardContent className="flex items-center gap-3">
+            <CardContent className="flex items-center gap-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <CreditCard className="size-5" />
               </div>
@@ -173,7 +173,7 @@ export default function OwnerPaymentsPage() {
           </Card>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-lg font-semibold">Configured accounts</h2>

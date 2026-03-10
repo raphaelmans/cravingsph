@@ -106,7 +106,7 @@ export function MenuSearchSheet({
         <DrawerTitle className="sr-only">Search menu</DrawerTitle>
 
         {/* Search header */}
-        <div className="flex items-center gap-2.5 px-4 py-3">
+        <div className="flex items-center gap-2.5 px-4 py-2">
           <DrawerClose asChild>
             <Button
               type="button"

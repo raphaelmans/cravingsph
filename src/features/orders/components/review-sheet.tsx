@@ -54,7 +54,7 @@ export function ReviewSheet({
           </DrawerDescription>
         </DrawerHeader>
 
-        <div className="space-y-5 px-4 pb-2">
+        <div className="space-y-6 px-4 pb-2">
           <div className="rounded-3xl border border-primary/15 bg-primary/5 p-4">
             <p className="text-sm font-medium text-foreground">
               How was everything?

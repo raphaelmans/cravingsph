@@ -63,7 +63,7 @@ export default function OwnerBranchDetailPage({ params }: BranchPageProps) {
         />
         <div className="flex-1 p-4 md:p-6">
           <Card className="border-dashed">
-            <CardContent className="flex flex-col items-center gap-3 py-16 text-center">
+            <CardContent className="flex flex-col items-center gap-4 py-16 text-center">
               <div className="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground">
                 <Store className="size-6" />
               </div>
@@ -168,8 +168,8 @@ export default function OwnerBranchDetailPage({ params }: BranchPageProps) {
               <CardHeader>
                 <CardTitle className="text-base">Branch Snapshot</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3 text-sm text-muted-foreground">
-                <div className="rounded-xl border bg-muted/30 p-3">
+              <CardContent className="space-y-4 text-sm text-muted-foreground">
+                <div className="rounded-xl border bg-muted/30 p-4">
                   <p className="font-medium text-foreground">Location</p>
                   <p>{branch.address || "Address not added"}</p>
                   <p>
@@ -180,7 +180,7 @@ export default function OwnerBranchDetailPage({ params }: BranchPageProps) {
                         "City and province not added"}
                   </p>
                 </div>
-                <div className="rounded-xl border bg-muted/30 p-3">
+                <div className="rounded-xl border bg-muted/30 p-4">
                   <p className="font-medium text-foreground">Ordering policy</p>
                   <p>
                     {branch.autoAcceptOrders
@@ -191,7 +191,7 @@ export default function OwnerBranchDetailPage({ params }: BranchPageProps) {
                     {branch.paymentCountdownMinutes} minute payment countdown
                   </p>
                 </div>
-                <div className="rounded-xl border bg-muted/30 p-3">
+                <div className="rounded-xl border bg-muted/30 p-4">
                   <p className="font-medium text-foreground">Contact</p>
                   <p>{branch.phone || "Phone not added"}</p>
                   <p>Slug: {branch.slug}</p>

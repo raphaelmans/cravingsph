@@ -11,7 +11,7 @@ export function RequiredBadge({
   className,
 }: RequiredBadgeProps) {
   return (
-    <Badge variant="default" className={cn("text-[10px]", className)}>
+    <Badge variant="default" className={cn("text-xs", className)}>
       {label}
     </Badge>
   );

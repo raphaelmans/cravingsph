@@ -118,12 +118,12 @@ export function MenuItemManagementCard({
           <div className="flex items-center gap-2 mt-auto">
             <Price amount={Number(menuItem.basePrice)} />
             {variants.length > 0 && (
-              <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+              <Badge variant="secondary" className="text-xs px-1.5 py-0">
                 {variants.length} variant{variants.length !== 1 ? "s" : ""}
               </Badge>
             )}
             {modifierGroups.length > 0 && (
-              <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+              <Badge variant="secondary" className="text-xs px-1.5 py-0">
                 {modifierGroups.length} modifier group
                 {modifierGroups.length !== 1 ? "s" : ""}
               </Badge>

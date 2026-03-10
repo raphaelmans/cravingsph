@@ -157,8 +157,8 @@ export function QrScannerModal({ open, onOpenChange }: QrScannerModalProps) {
           />
 
           {state.status === "success" && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/70 text-white">
-              <div className="rounded-full bg-success p-3">
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/70 text-white">
+              <div className="rounded-full bg-success p-4">
                 <ScanLine className="size-6" />
               </div>
               <p className="text-sm font-medium">Found it! Redirecting...</p>
@@ -168,8 +168,8 @@ export function QrScannerModal({ open, onOpenChange }: QrScannerModalProps) {
 
         <div className="px-6 py-4">
           {state.status === "denied" && (
-            <div className="flex flex-col items-center gap-3 py-4 text-center">
-              <div className="rounded-full bg-muted p-3">
+            <div className="flex flex-col items-center gap-4 py-4 text-center">
+              <div className="rounded-full bg-muted p-4">
                 <CameraOff className="size-6 text-muted-foreground" />
               </div>
               <div className="space-y-1">
@@ -190,7 +190,7 @@ export function QrScannerModal({ open, onOpenChange }: QrScannerModalProps) {
           )}
 
           {state.status === "error" && (
-            <div className="flex flex-col items-center gap-3 py-4 text-center">
+            <div className="flex flex-col items-center gap-4 py-4 text-center">
               <p className="text-sm text-muted-foreground">{state.message}</p>
               <Button
                 variant="outline"

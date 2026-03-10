@@ -16,7 +16,7 @@ export function OrderTypeSelector({ value, onChange }: OrderTypeSelectorProps) {
     <RadioGroup
       value={value}
       onValueChange={(v) => onChange(v as OrderType)}
-      className="grid grid-cols-2 gap-3"
+      className="grid grid-cols-2 gap-4"
     >
       <Label
         htmlFor="order-type-dine-in"

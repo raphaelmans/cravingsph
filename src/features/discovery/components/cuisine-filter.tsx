@@ -28,7 +28,7 @@ export function CuisineFilter({ value, onChange }: CuisineFilterProps) {
             variant={value === cuisine.slug ? "default" : "outline"}
             shape="pill"
             size="sm"
-            className="shrink-0 gap-1.5"
+            className="shrink-0 gap-2"
             onClick={() => onChange(value === cuisine.slug ? "" : cuisine.slug)}
           >
             <span aria-hidden="true">{cuisine.emoji}</span>

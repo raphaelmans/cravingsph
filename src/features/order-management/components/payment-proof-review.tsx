@@ -103,7 +103,7 @@ export function PaymentProofReview({
                   className="h-48 w-full object-cover transition-opacity group-hover:opacity-80"
                 />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
-                  <span className="rounded-md bg-background/80 px-3 py-1.5 text-sm font-medium">
+                  <span className="rounded-md bg-background/80 px-4 py-1.5 text-sm font-medium">
                     View full image
                   </span>
                 </div>

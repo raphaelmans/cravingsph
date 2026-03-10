@@ -96,7 +96,7 @@ export function VariantsDialog({
                 {variants.map((v) => (
                   <div
                     key={v.id}
-                    className="flex items-center gap-2 rounded-md border px-3 py-2"
+                    className="flex items-center gap-2 rounded-md border px-4 py-2"
                   >
                     <span className="flex-1 text-sm font-medium">{v.name}</span>
                     <span className="text-sm text-muted-foreground">

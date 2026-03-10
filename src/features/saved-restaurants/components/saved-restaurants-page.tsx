@@ -33,8 +33,8 @@ export function SavedRestaurantsPage() {
   return (
     <div className="min-h-dvh bg-linear-to-b from-peach via-background to-background">
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 pt-6">
-        <section className="overflow-hidden rounded-4xl border border-primary/15 bg-linear-to-br from-primary/[0.18] via-background to-background p-5 shadow-sm">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+        <section className="overflow-hidden rounded-4xl border border-primary/15 bg-linear-to-br from-primary/[0.18] via-background to-background p-6 shadow-sm">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-2">
               <p className="inline-flex items-center gap-2 rounded-full bg-background/85 px-3 py-1 text-xs font-medium uppercase tracking-[0.24em] text-primary">
                 <Sparkles className="size-3.5" />
@@ -54,7 +54,7 @@ export function SavedRestaurantsPage() {
               </div>
             </div>
 
-            <div className="grid gap-3 sm:min-w-72 sm:grid-cols-3 sm:self-stretch">
+            <div className="grid gap-4 sm:min-w-72 sm:grid-cols-3 sm:self-stretch">
               <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
                 <p className="text-sm text-muted-foreground">Saved now</p>
                 <p className="mt-2 font-heading text-3xl font-bold">
@@ -105,11 +105,9 @@ export function SavedRestaurantsPage() {
                 return visits and easier repeat ordering.
               </EmptyDescription>
             </EmptyHeader>
-            <EmptyContent className="flex flex-col items-center gap-3 sm:flex-row">
+            <EmptyContent className="flex flex-col items-center gap-4 sm:flex-row">
               <Button asChild shape="pill">
-                <Link href={appRoutes.search.base}>
-                  Browse restaurants
-                </Link>
+                <Link href={appRoutes.search.base}>Browse restaurants</Link>
               </Button>
               <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPinned className="size-4 text-primary" />

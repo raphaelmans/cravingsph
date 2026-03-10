@@ -46,7 +46,7 @@ export function CustomerBottomNav() {
                   <span className="flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg">
                     <ScanLine className="size-5" />
                   </span>
-                  <span className="text-[10px] font-medium text-primary">
+                  <span className="text-xs font-medium text-primary">
                     {tab.label}
                   </span>
                 </button>
@@ -69,7 +69,7 @@ export function CustomerBottomNav() {
                 )}
               >
                 <Icon className="size-5" />
-                <span className="text-[10px] font-medium">{tab.label}</span>
+                <span className="text-xs font-medium">{tab.label}</span>
               </Link>
             );
           })}

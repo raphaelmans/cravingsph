@@ -46,8 +46,8 @@ export function AdminVerificationDocumentCard({
         document.status === "flagged" ? "border-destructive/40" : undefined
       }
     >
-      <CardHeader className="space-y-3">
-        <div className="flex items-start justify-between gap-3">
+      <CardHeader className="space-y-4">
+        <div className="flex items-start justify-between gap-4">
           <div className="space-y-1">
             <CardTitle className="text-base">{document.label}</CardTitle>
             <CardDescription>{document.description}</CardDescription>
@@ -57,7 +57,7 @@ export function AdminVerificationDocumentCard({
       </CardHeader>
 
       <CardContent className="space-y-4 text-sm">
-        <div className="rounded-xl border bg-muted/30 p-3">
+        <div className="rounded-xl border bg-muted/30 p-4">
           <div className="flex items-center gap-2 font-medium">
             <StatusIcon className="size-4 text-primary" />
             <span>{document.fileName}</span>

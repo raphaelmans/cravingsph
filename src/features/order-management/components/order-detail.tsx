@@ -53,7 +53,7 @@ export function OrderDetail({ order }: OrderDetailProps) {
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <CardTitle className="text-lg">
                 Order #{order.orderNumber}
               </CardTitle>
@@ -69,7 +69,7 @@ export function OrderDetail({ order }: OrderDetailProps) {
         <CardContent className="space-y-4">
           {/* Customer info */}
           <div className="flex flex-wrap gap-4 text-sm">
-            <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-2">
               {order.orderType === "dine-in" ? (
                 <Armchair className="size-4 text-muted-foreground" />
               ) : (
@@ -84,14 +84,14 @@ export function OrderDetail({ order }: OrderDetailProps) {
             </span>
 
             {order.customerName && (
-              <span className="inline-flex items-center gap-1.5">
+              <span className="inline-flex items-center gap-2">
                 <User className="size-4 text-muted-foreground" />
                 {order.customerName}
               </span>
             )}
 
             {order.customerPhone && (
-              <span className="inline-flex items-center gap-1.5">
+              <span className="inline-flex items-center gap-2">
                 <Phone className="size-4 text-muted-foreground" />
                 {order.customerPhone}
               </span>
@@ -101,7 +101,7 @@ export function OrderDetail({ order }: OrderDetailProps) {
           <Separator />
 
           {/* Items */}
-          <div className="space-y-3">
+          <div className="space-y-2">
             <h3 className="text-sm font-medium">Items</h3>
             {order.items.map((item, idx) => (
               <div
@@ -139,7 +139,7 @@ export function OrderDetail({ order }: OrderDetailProps) {
                 <h3 className="mb-1 text-sm font-medium">
                   Special Instructions
                 </h3>
-                <p className="rounded-md bg-muted px-3 py-2 text-sm text-muted-foreground">
+                <p className="rounded-md bg-muted px-4 py-2 text-sm text-muted-foreground">
                   {order.specialInstructions}
                 </p>
               </div>

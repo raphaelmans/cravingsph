@@ -18,14 +18,15 @@ export function StatusStep({
   isLast = false,
 }: StatusStepProps) {
   return (
-    <div data-slot="status-step" className="flex gap-3">
+    <div data-slot="status-step" className="flex gap-4">
       {/* Indicator column: circle + connecting line */}
       <div className="flex flex-col items-center">
         {/* Circle indicator */}
         <div
           className={cn(
             "flex size-7 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
-            state === "completed" && "border-success bg-success text-success-foreground",
+            state === "completed" &&
+              "border-success bg-success text-success-foreground",
             state === "current" && "border-primary bg-primary/10 text-primary",
             state === "upcoming" &&
               "border-muted-foreground/30 bg-muted text-muted-foreground/30",

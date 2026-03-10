@@ -204,7 +204,7 @@ export function EditItemDialog({
             {/* Image upload */}
             <FormItem>
               <FormLabel>Image (optional)</FormLabel>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-4">
                 {previewUrl ? (
                   <div className="relative size-20 shrink-0 overflow-hidden rounded-lg border bg-muted">
                     <img

@@ -100,7 +100,7 @@ export default function OwnerRestaurantsPage() {
 
         <div className="grid gap-4 md:grid-cols-3">
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Store className="size-5" />
               </div>
@@ -114,7 +114,7 @@ export default function OwnerRestaurantsPage() {
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Building2 className="size-5" />
               </div>
@@ -128,7 +128,7 @@ export default function OwnerRestaurantsPage() {
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <CircleCheckBig className="size-5" />
               </div>
@@ -144,7 +144,7 @@ export default function OwnerRestaurantsPage() {
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.65fr)_minmax(320px,0.85fr)]">
           <section className="space-y-4">
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center justify-between gap-4">
               <div>
                 <h2 className="text-lg font-semibold">Your restaurants</h2>
                 <p className="text-sm text-muted-foreground">

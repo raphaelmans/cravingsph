@@ -48,7 +48,7 @@ export function PaymentMethodCard({ method }: PaymentMethodCardProps) {
   return (
     <div
       data-slot="payment-method-card"
-      className="flex items-center gap-3 rounded-xl border bg-card p-3"
+      className="flex items-center gap-4 rounded-xl border bg-card p-4"
     >
       <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
         <Icon className="size-5" />
@@ -62,7 +62,7 @@ export function PaymentMethodCard({ method }: PaymentMethodCardProps) {
               : label}
           </p>
           {method.isDefault && (
-            <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+            <Badge variant="secondary" className="text-xs px-1.5 py-0">
               Default
             </Badge>
           )}

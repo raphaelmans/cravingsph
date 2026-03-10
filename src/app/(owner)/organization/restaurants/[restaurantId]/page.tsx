@@ -57,7 +57,7 @@ export default function OwnerRestaurantDetailPage({
         />
         <div className="flex-1 p-4 md:p-6">
           <Card className="border-dashed">
-            <CardContent className="flex flex-col items-center gap-3 py-16 text-center">
+            <CardContent className="flex flex-col items-center gap-4 py-16 text-center">
               <div className="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground">
                 <Store className="size-6" />
               </div>
@@ -162,19 +162,19 @@ export default function OwnerRestaurantDetailPage({
               <CardHeader>
                 <CardTitle className="text-base">Restaurant Snapshot</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3 text-sm text-muted-foreground">
-                <div className="rounded-xl border bg-muted/30 p-3">
+              <CardContent className="space-y-4 text-sm text-muted-foreground">
+                <div className="rounded-xl border bg-muted/30 p-4">
                   <p className="font-medium text-foreground">Customer URL</p>
                   <p>/restaurant/{restaurant.slug}</p>
                 </div>
-                <div className="rounded-xl border bg-muted/30 p-3">
+                <div className="rounded-xl border bg-muted/30 p-4">
                   <p className="font-medium text-foreground">Branches</p>
                   <p>
                     {branches.length} configured branch
                     {branches.length === 1 ? "" : "es"}
                   </p>
                 </div>
-                <div className="rounded-xl border bg-muted/30 p-3">
+                <div className="rounded-xl border bg-muted/30 p-4">
                   <p className="font-medium text-foreground">Contact</p>
                   <p>{restaurant.phone || "Phone not added"}</p>
                   <p>{restaurant.email || "Email not added"}</p>

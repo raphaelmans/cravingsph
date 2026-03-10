@@ -18,7 +18,7 @@ export function RestaurantCardList({
   seeAllHref,
 }: RestaurantCardListProps) {
   return (
-    <div data-slot="restaurant-card-list" className="space-y-3">
+    <div data-slot="restaurant-card-list" className="space-y-4">
       <div className="flex items-baseline justify-between px-4">
         <h2 className="text-lg font-semibold">{title}</h2>
         {seeAllHref && restaurants.length > 0 && (
@@ -41,7 +41,7 @@ export function RestaurantCardList({
         </div>
       ) : direction === "horizontal" ? (
         <ScrollArea className="w-full">
-          <div className="flex gap-3 px-4 pb-4">
+          <div className="flex gap-4 px-4 pb-4">
             {restaurants.map((restaurant) => (
               <div key={restaurant.slug} className="w-[260px] shrink-0">
                 <RestaurantCard restaurant={restaurant} />
@@ -51,7 +51,7 @@ export function RestaurantCardList({
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       ) : (
-        <div className="grid gap-3 px-4 sm:grid-cols-2">
+        <div className="grid gap-4 px-4 sm:grid-cols-2">
           {restaurants.map((restaurant) => (
             <RestaurantCard key={restaurant.slug} restaurant={restaurant} />
           ))}

@@ -13,12 +13,12 @@ const cuisinePillKeys = [
 const horizontalCardKeys = ["h-card-1", "h-card-2", "h-card-3"];
 const verticalCardKeys = ["v-card-1", "v-card-2", "v-card-3", "v-card-4"];
 
-/** Matches RestaurantCard: h-32 cover + compact p-3 pt-2 content */
+/** Matches RestaurantCard: aspect-[3/2] cover + p-4 content */
 function CardSkeleton() {
   return (
     <div className="overflow-hidden rounded-lg border-0 bg-card shadow-sm">
-      <Skeleton className="h-32 w-full rounded-none" />
-      <div className="space-y-1.5 p-3 pt-2">
+      <Skeleton className="aspect-[3/2] w-full rounded-none" />
+      <div className="space-y-2 p-4">
         <Skeleton className="h-4 w-3/4 rounded" />
         <Skeleton className="h-3 w-1/3 rounded" />
         <div className="flex gap-1">
@@ -38,7 +38,7 @@ export function PublicPageLoading() {
       className="min-h-svh bg-background"
     >
       {/* Hero — matches HeroSection: centered, solid bg-peach, px-6 pb-8 pt-12 */}
-      <section className="flex flex-col items-center gap-3 bg-peach px-6 pb-8 pt-12">
+      <section className="flex flex-col items-center gap-4 bg-peach px-6 pb-8 pt-12">
         <Logo size="lg" />
         <div className="space-y-1 text-center">
           <Skeleton className="mx-auto h-6 w-52 rounded-full bg-background/80" />
@@ -57,11 +57,11 @@ export function PublicPageLoading() {
       </section>
 
       {/* Featured section — horizontal scroll like RestaurantCardList direction="horizontal" */}
-      <section className="space-y-3 py-2">
+      <section className="space-y-4 py-2">
         <div className="px-4">
           <Skeleton className="h-5 w-36 rounded" />
         </div>
-        <div className="flex gap-3 overflow-hidden px-4">
+        <div className="flex gap-4 overflow-hidden px-4">
           {horizontalCardKeys.map((key) => (
             <div key={key} className="w-[260px] shrink-0">
               <CardSkeleton />
@@ -71,11 +71,11 @@ export function PublicPageLoading() {
       </section>
 
       {/* Nearby section — vertical grid like RestaurantCardList direction="vertical" sm:grid-cols-2 */}
-      <section className="space-y-3 py-4">
+      <section className="space-y-4 py-4">
         <div className="px-4">
           <Skeleton className="h-5 w-40 rounded" />
         </div>
-        <div className="grid gap-3 px-4 sm:grid-cols-2">
+        <div className="grid gap-4 px-4 sm:grid-cols-2">
           {verticalCardKeys.map((key) => (
             <CardSkeleton key={key} />
           ))}

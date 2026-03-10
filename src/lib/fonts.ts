@@ -1,4 +1,9 @@
-import { Antonio, Geist_Mono, Inter, League_Spartan } from "next/font/google";
+import {
+  Antonio,
+  Geist_Mono,
+  Inter,
+  Plus_Jakarta_Sans,
+} from "next/font/google";
 
 export const inter = Inter({
   variable: "--font-inter",
@@ -6,9 +11,10 @@ export const inter = Inter({
   display: "swap",
 });
 
-export const leagueSpartan = League_Spartan({
-  variable: "--font-league-spartan",
+export const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta-sans",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
   display: "swap",
 });
 

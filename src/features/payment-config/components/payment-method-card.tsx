@@ -62,12 +62,12 @@ export function PaymentMethodCard({
 
   return (
     <Card>
-      <CardContent className="flex flex-col gap-4 p-5 sm:flex-row sm:items-start">
+      <CardContent className="flex flex-col gap-4 p-6 sm:flex-row sm:items-start">
         <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
           <Icon className="size-5" />
         </div>
 
-        <div className="min-w-0 flex-1 space-y-3">
+        <div className="min-w-0 flex-1 space-y-4">
           <div className="flex flex-wrap items-center gap-2">
             <p className="text-sm font-semibold">{methodLabel}</p>
             <Badge variant="outline">{methodLabels[method.type]}</Badge>

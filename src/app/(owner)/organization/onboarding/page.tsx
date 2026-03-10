@@ -65,7 +65,7 @@ function OnboardingWizardContent() {
   return (
     <div className="flex flex-1 flex-col gap-6 p-6 md:p-8 max-w-2xl mx-auto">
       {/* Header */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         <Button asChild variant="ghost" size="icon-sm">
           <Link href={appRoutes.organization.getStarted}>
             <ArrowLeft className="size-4" />

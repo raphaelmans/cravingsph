@@ -21,7 +21,7 @@ export function SubpageHeader({ title, label, className }: SubpageHeaderProps) {
         className,
       )}
     >
-      <div className="mx-auto flex w-full max-w-4xl items-center gap-3 px-4 py-3">
+      <div className="mx-auto flex w-full max-w-4xl items-center gap-4 px-4 py-2">
         <button
           type="button"
           onClick={() => router.back()}

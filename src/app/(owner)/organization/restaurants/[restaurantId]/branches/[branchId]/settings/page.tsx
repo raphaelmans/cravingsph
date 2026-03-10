@@ -158,7 +158,7 @@ export default function BranchSettingsPage({
 
         <div className="flex-1 p-4 md:p-6">
           <Card className="border-dashed">
-            <CardContent className="flex flex-col items-center justify-center gap-3 py-16 text-center">
+            <CardContent className="flex flex-col items-center justify-center gap-4 py-16 text-center">
               <div className="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground">
                 <Settings2 className="size-6" />
               </div>
@@ -216,7 +216,7 @@ export default function BranchSettingsPage({
 
         <div className="grid gap-4 md:grid-cols-3">
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Store className="size-5" />
               </div>
@@ -232,7 +232,7 @@ export default function BranchSettingsPage({
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Zap className="size-5" />
               </div>
@@ -248,7 +248,7 @@ export default function BranchSettingsPage({
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Clock3 className="size-5" />
               </div>
@@ -295,7 +295,7 @@ export default function BranchSettingsPage({
                   branch record.
                 </p>
               </CardHeader>
-              <CardContent className="space-y-5">
+              <CardContent className="space-y-4">
                 <div className="flex items-start justify-between gap-4 rounded-xl border p-4">
                   <div className="space-y-1">
                     <p className="font-medium">Enable online ordering</p>

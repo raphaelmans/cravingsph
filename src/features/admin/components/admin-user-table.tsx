@@ -81,7 +81,7 @@ export function AdminUserTable({
       </CardHeader>
       <CardContent>
         {isLoading ? (
-          <div className="space-y-3">
+          <div className="space-y-4">
             <Skeleton className="h-12 rounded-lg" />
             <Skeleton className="h-14 rounded-lg" />
             <Skeleton className="h-14 rounded-lg" />
@@ -114,7 +114,7 @@ export function AdminUserTable({
                 return (
                   <TableRow key={user.userId}>
                     <TableCell className="whitespace-normal">
-                      <div className="flex min-w-[220px] items-center gap-3">
+                      <div className="flex min-w-[220px] items-center gap-4">
                         <Avatar className="size-10">
                           <AvatarImage
                             alt={user.displayName ?? user.email ?? "User"}

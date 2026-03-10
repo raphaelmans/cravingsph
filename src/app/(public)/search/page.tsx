@@ -62,7 +62,7 @@ function SearchPageContent() {
     <div className="flex min-h-dvh flex-col">
       {/* Header + search bar */}
       <div className="sticky top-0 z-30 border-b bg-background">
-        <div className="flex items-center gap-2 px-4 py-3">
+        <div className="flex items-center gap-2 px-4 py-2">
           <Link
             href="/"
             className="flex size-9 shrink-0 items-center justify-center rounded-full hover:bg-accent"
@@ -86,7 +86,7 @@ function SearchPageContent() {
         </div>
 
         {/* Filter bar */}
-        <div className="flex items-center gap-2 px-4 pb-3">
+        <div className="flex items-center gap-2 px-4 pb-2">
           <LocationFilter
             value={location || "all"}
             onChange={(v) => updateParams({ location: v === "all" ? "" : v })}
@@ -117,7 +117,7 @@ function SearchPageContent() {
             ) : null}
 
             {results.length > 0 ? (
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 {results.map((restaurant) => (
                   <RestaurantCard
                     key={restaurant.slug}
@@ -126,7 +126,7 @@ function SearchPageContent() {
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center gap-3 py-20 text-center">
+              <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
                 <div className="flex size-16 items-center justify-center rounded-full bg-muted">
                   <SearchX className="size-7 text-muted-foreground" />
                 </div>
@@ -149,7 +149,7 @@ function SearchPageFallback() {
   return (
     <div className="flex min-h-dvh flex-col">
       <div className="sticky top-0 z-30 border-b bg-background">
-        <div className="flex items-center gap-2 px-4 py-3">
+        <div className="flex items-center gap-2 px-4 py-2">
           <Link
             href="/"
             className="flex size-9 shrink-0 items-center justify-center rounded-full hover:bg-accent"

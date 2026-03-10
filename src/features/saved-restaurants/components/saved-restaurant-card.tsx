@@ -34,9 +34,9 @@ export function SavedRestaurantCard({
   onUnsave,
 }: SavedRestaurantCardProps) {
   return (
-    <Card className="overflow-hidden border-primary/10 bg-background/95 shadow-sm">
+    <Card className="overflow-hidden border-primary/10 bg-background/95 shadow-sm hover:shadow-md cursor-pointer">
       <CardHeader className="gap-4 border-b border-primary/10 bg-linear-to-br from-primary/12 via-background to-background">
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start justify-between gap-4">
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-2">
               <Badge
@@ -90,7 +90,7 @@ export function SavedRestaurantCard({
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4 pt-5">
+      <CardContent className="space-y-4 pt-6">
         {restaurant.note && (
           <div className="rounded-4xl border border-dashed border-primary/20 bg-muted/20 p-4">
             <p className="text-sm font-medium text-foreground">

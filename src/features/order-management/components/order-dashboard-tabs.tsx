@@ -46,12 +46,12 @@ export function OrderDashboardTabs({
         {TABS.map((tab) => {
           const count = filterByTab(orders, tab.value).length;
           return (
-            <TabsTrigger key={tab.value} value={tab.value} className="gap-1.5">
+            <TabsTrigger key={tab.value} value={tab.value} className="gap-2">
               {tab.label}
               {count > 0 && (
                 <Badge
                   variant={tab.value === "inbox" ? "default" : "secondary"}
-                  className="h-5 min-w-5 px-1.5 text-[10px]"
+                  className="h-5 min-w-5 px-1.5 text-xs"
                 >
                   {count}
                 </Badge>

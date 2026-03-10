@@ -29,7 +29,7 @@ export function RestaurantReviews({
 
   return (
     <section className="space-y-4 border-t border-primary/10 px-4 py-8">
-      <div className="flex items-end justify-between gap-3">
+      <div className="flex items-end justify-between gap-4">
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.24em] text-primary">
             Customer reviews
@@ -47,11 +47,11 @@ export function RestaurantReviews({
       </div>
 
       {reviews.length > 0 ? (
-        <div className="grid gap-3">
+        <div className="grid gap-4">
           {reviews.map((review) => (
             <Card key={review.id} className="border-primary/10 shadow-sm">
-              <CardHeader className="flex flex-row items-start justify-between gap-3 space-y-0">
-                <div className="flex items-center gap-3">
+              <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
+                <div className="flex items-center gap-4">
                   <Avatar className="size-11 border border-primary/10">
                     <AvatarFallback className="bg-primary/10 font-medium text-primary">
                       {renderInitials(review.authorName)}
@@ -90,7 +90,7 @@ export function RestaurantReviews({
           ))}
         </div>
       ) : (
-        <div className="rounded-3xl border border-dashed border-primary/20 bg-primary/5 px-5 py-6">
+        <div className="rounded-3xl border border-dashed border-primary/20 bg-primary/5 px-6 py-6">
           <p className="font-medium">No reviews yet</p>
           <p className="mt-1 text-sm text-muted-foreground">
             Completed customers can leave a review from their order history.

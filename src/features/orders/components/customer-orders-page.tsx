@@ -100,8 +100,8 @@ export function CustomerOrdersPage() {
     <>
       <div className="min-h-dvh bg-linear-to-b from-peach via-background to-background">
         <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 pt-6">
-          <section className="overflow-hidden rounded-4xl border border-primary/15 bg-linear-to-br from-primary/[0.16] via-background to-background p-5 shadow-sm">
-            <div className="flex items-start justify-between gap-3">
+          <section className="overflow-hidden rounded-4xl border border-primary/15 bg-linear-to-br from-primary/[0.16] via-background to-background p-6 shadow-sm">
+            <div className="flex items-start justify-between gap-4">
               <div className="space-y-2">
                 <p className="inline-flex items-center gap-2 rounded-full bg-background/80 px-3 py-1 text-xs font-medium uppercase tracking-[0.24em] text-primary">
                   <Sparkles className="size-3.5" />
@@ -123,7 +123,7 @@ export function CustomerOrdersPage() {
               </div>
             </div>
 
-            <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            <div className="mt-6 grid gap-4 sm:grid-cols-3">
               <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
                 <p className="text-sm text-muted-foreground">
                   Completed orders
@@ -177,9 +177,7 @@ export function CustomerOrdersPage() {
               </EmptyHeader>
               <EmptyContent>
                 <Button asChild shape="pill">
-                  <Link href={appRoutes.index.base}>
-                    Browse restaurants
-                  </Link>
+                  <Link href={appRoutes.index.base}>Browse restaurants</Link>
                 </Button>
               </EmptyContent>
             </Empty>

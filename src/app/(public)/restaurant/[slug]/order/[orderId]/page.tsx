@@ -94,7 +94,7 @@ export default function OrderTrackingPage() {
   return (
     <div data-slot="order-tracking-page" className="min-h-dvh bg-background">
       {/* Compact restaurant header */}
-      <header className="sticky top-0 z-10 flex items-center gap-3 border-b bg-background px-4 py-3">
+      <header className="sticky top-0 z-10 flex items-center gap-4 border-b bg-background px-4 py-2">
         <Link
           href={`/restaurant/${params.slug}`}
           className="flex size-8 items-center justify-center rounded-full hover:bg-muted"

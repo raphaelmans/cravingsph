@@ -12,7 +12,7 @@ export function CartSummary({ subtotal, itemCount }: CartSummaryProps) {
   return (
     <div data-slot="cart-summary">
       <Separator />
-      <div className="flex items-center justify-between px-4 py-3">
+      <div className="flex items-center justify-between px-4 py-4">
         <div className="text-sm text-muted-foreground">
           Subtotal ({itemCount} {itemLabel})
         </div>

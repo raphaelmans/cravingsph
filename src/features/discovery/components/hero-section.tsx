@@ -23,7 +23,7 @@ export function HeroSection() {
   return (
     <section
       data-slot="hero-section"
-      className="flex flex-col items-center gap-3 bg-peach px-6 pb-8 pt-12"
+      className="flex flex-col items-center gap-4 bg-peach px-6 pb-8 pt-12"
     >
       <Logo size="lg" />
       <div className="space-y-1 text-center">

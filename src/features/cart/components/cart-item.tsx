@@ -33,7 +33,7 @@ export function CartItem({
   const lineTotal = item.unitPrice * item.quantity;
 
   return (
-    <div data-slot="cart-item" className="flex gap-3 py-3">
+    <div data-slot="cart-item" className="flex gap-4 py-4">
       {/* Thumbnail */}
       <button
         type="button"

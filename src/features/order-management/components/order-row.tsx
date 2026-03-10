@@ -58,7 +58,7 @@ export function OrderRow({
           <Badge variant={badge.variant}>{badge.label}</Badge>
         </div>
 
-        <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
+        <div className="mt-1 flex items-center gap-4 text-xs text-muted-foreground">
           {/* Order type */}
           <span className="inline-flex items-center gap-1">
             {order.orderType === "dine-in" ? (

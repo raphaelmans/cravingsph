@@ -40,7 +40,7 @@ export function AdminVerificationQueuePage() {
 
         <div className="grid gap-4 md:grid-cols-3">
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-6">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Inbox className="size-5" />
               </div>
@@ -56,7 +56,7 @@ export function AdminVerificationQueuePage() {
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-6">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Building2 className="size-5" />
               </div>
@@ -72,7 +72,7 @@ export function AdminVerificationQueuePage() {
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-6">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <ShieldCheck className="size-5" />
               </div>

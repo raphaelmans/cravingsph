@@ -54,8 +54,8 @@ export function VerificationDocumentCard({
     <Card
       className={document.isUploaded ? "border-primary/30" : "border-dashed"}
     >
-      <CardHeader className="space-y-3">
-        <div className="flex items-start justify-between gap-3">
+      <CardHeader className="space-y-4">
+        <div className="flex items-start justify-between gap-4">
           <div className="space-y-1">
             <CardTitle className="text-base">{document.label}</CardTitle>
             <CardDescription>{document.description}</CardDescription>
@@ -67,7 +67,7 @@ export function VerificationDocumentCard({
       </CardHeader>
 
       <CardContent className="space-y-4">
-        <div className="rounded-xl border bg-muted/40 p-3 text-sm">
+        <div className="rounded-xl border bg-muted/40 p-4 text-sm">
           <div className="flex items-center gap-2 font-medium">
             {document.isUploaded ? (
               <FileCheck2 className="size-4 text-primary" />
@@ -87,7 +87,7 @@ export function VerificationDocumentCard({
           type="file"
         />
 
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
             Accepted formats: PDF, PNG, JPG.
           </p>

@@ -1,10 +1,15 @@
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function AuthPageLoading() {
   return (
     <Card aria-busy="true" aria-live="polite" className="w-full max-w-md">
-      <CardHeader className="space-y-3">
+      <CardHeader className="space-y-2">
         <Skeleton className="h-6 w-32 rounded-full" />
         <Skeleton className="h-4 w-56 rounded-full" />
       </CardHeader>

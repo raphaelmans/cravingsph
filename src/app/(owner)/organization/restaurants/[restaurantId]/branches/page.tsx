@@ -68,7 +68,7 @@ export default function OwnerRestaurantBranchesPage({
         />
         <div className="flex-1 p-4 md:p-6">
           <Card className="border-dashed">
-            <CardContent className="flex flex-col items-center gap-3 py-16 text-center">
+            <CardContent className="flex flex-col items-center gap-4 py-16 text-center">
               <div className="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground">
                 <Waypoints className="size-6" />
               </div>
@@ -124,7 +124,7 @@ export default function OwnerRestaurantBranchesPage({
 
         <div className="grid gap-4 md:grid-cols-3">
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Waypoints className="size-5" />
               </div>
@@ -138,7 +138,7 @@ export default function OwnerRestaurantBranchesPage({
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Zap className="size-5" />
               </div>
@@ -152,7 +152,7 @@ export default function OwnerRestaurantBranchesPage({
           </Card>
 
           <Card>
-            <CardContent className="flex items-center gap-3 p-5">
+            <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <CheckCircle2 className="size-5" />
               </div>

@@ -199,7 +199,7 @@ export default function MenuManagementPage({
 
         {/* Menu items by category */}
         {isLoading ? (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <Skeleton className="h-28 rounded-lg" />
             <Skeleton className="h-28 rounded-lg" />
             <Skeleton className="h-28 rounded-lg" />
@@ -226,7 +226,7 @@ export default function MenuManagementPage({
           <div className="space-y-6">
             {filteredCategories.map((cat) => (
               <section key={cat.category.id}>
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between mb-4">
                   <h2 className="text-base font-semibold">
                     {cat.category.name}
                   </h2>
@@ -266,7 +266,7 @@ export default function MenuManagementPage({
                     No items in this category yet
                   </p>
                 ) : (
-                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {cat.items.map((menuItemWithDetails) => (
                       <MenuItemManagementCard
                         key={menuItemWithDetails.item.id}

@@ -250,8 +250,8 @@ export function AdminRestaurantDetailPage({
               <CardHeader>
                 <CardTitle>Record snapshot</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3 text-sm text-muted-foreground">
-                <div className="rounded-xl border bg-muted/30 p-3">
+              <CardContent className="space-y-4 text-sm text-muted-foreground">
+                <div className="rounded-xl border bg-muted/30 p-4">
                   <div className="mb-2 flex items-center gap-2 font-medium text-foreground">
                     <Building2 className="size-4 text-primary" />
                     Organization
@@ -260,7 +260,7 @@ export function AdminRestaurantDetailPage({
                   <p>{data.branchCount} branch records</p>
                 </div>
 
-                <div className="rounded-xl border bg-muted/30 p-3">
+                <div className="rounded-xl border bg-muted/30 p-4">
                   <div className="mb-2 flex items-center gap-2 font-medium text-foreground">
                     <UserRound className="size-4 text-primary" />
                     Owner
@@ -269,7 +269,7 @@ export function AdminRestaurantDetailPage({
                   <p>{data.ownerEmail || "Owner email not added"}</p>
                 </div>
 
-                <div className="rounded-xl border bg-muted/30 p-3">
+                <div className="rounded-xl border bg-muted/30 p-4">
                   <div className="mb-2 flex items-center gap-2 font-medium text-foreground">
                     <Mail className="size-4 text-primary" />
                     Listing
@@ -278,7 +278,7 @@ export function AdminRestaurantDetailPage({
                   <p>{data.email || data.phone || "No contact info"}</p>
                 </div>
 
-                <div className="rounded-xl border border-dashed p-3">
+                <div className="rounded-xl border border-dashed p-4">
                   Last synced {formatDateTime(data.updatedAt)}.
                 </div>
               </CardContent>

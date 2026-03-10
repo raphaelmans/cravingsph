@@ -32,7 +32,7 @@ export function CartFloatingButton({
       >
         <div className="relative mr-1">
           <ShoppingCart className="size-5" />
-          <Badge className="absolute -top-2 -right-2.5 size-4 p-0 text-[10px]">
+          <Badge className="absolute -top-2 -right-2.5 size-4 p-0 text-xs">
             {itemCount}
           </Badge>
         </div>

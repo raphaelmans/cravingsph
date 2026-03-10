@@ -13,7 +13,7 @@ export function OptionalBadge({
   return (
     <Badge
       variant="outline"
-      className={cn("border-primary text-primary text-[10px]", className)}
+      className={cn("border-primary text-primary text-xs", className)}
     >
       {label}
     </Badge>

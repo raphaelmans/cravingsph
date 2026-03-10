@@ -47,7 +47,7 @@ export function VerificationRestaurantCard({
     >
       <button className="w-full text-left" onClick={onSelect} type="button">
         <CardContent className="space-y-4 p-4">
-          <div className="flex items-start justify-between gap-3">
+          <div className="flex items-start justify-between gap-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <div className="flex size-9 items-center justify-center rounded-2xl bg-primary/10 text-primary">

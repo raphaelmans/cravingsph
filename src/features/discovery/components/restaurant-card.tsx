@@ -49,14 +49,14 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
   return (
     <Card
       data-slot="restaurant-card"
-      className="relative overflow-hidden border-0 shadow-sm"
+      className="relative overflow-hidden border-0 shadow-sm hover:shadow-md cursor-pointer"
     >
       <Link
         href={`/restaurant/${restaurant.slug}`}
         className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       >
         {/* Cover image */}
-        <div className="relative h-32 w-full bg-muted">
+        <div className="relative aspect-[3/2] w-full bg-muted">
           {restaurant.coverImageUrl ? (
             <Image
               src={restaurant.coverImageUrl}
@@ -88,7 +88,7 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
         </div>
 
         {/* Content */}
-        <div className="space-y-1.5 p-3 pt-2">
+        <div className="space-y-2 p-4">
           <h3
             className={`text-sm font-semibold leading-tight ${restaurant.logoUrl ? "mt-2" : ""}`}
           >
@@ -107,11 +107,7 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
           {restaurant.cuisineTypes.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {restaurant.cuisineTypes.slice(0, 3).map((cuisine) => (
-                <Badge
-                  key={cuisine}
-                  variant="secondary"
-                  className="text-[10px] font-normal px-1.5 py-0"
-                >
+                <Badge key={cuisine} variant="chip">
                   {cuisine}
                 </Badge>
               ))}
@@ -132,12 +128,14 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
         type="button"
         onClick={handleSave}
         aria-label={saved ? "Unsave restaurant" : "Save restaurant"}
-        className="absolute right-2 top-2 flex size-8 items-center justify-center rounded-full bg-background/80 backdrop-blur-sm transition-colors hover:bg-background"
+        className="absolute right-2 top-2 flex size-10 items-center justify-center rounded-full bg-background/80 backdrop-blur-sm transition-colors hover:bg-background"
       >
         <Heart
           className={cn(
             "size-4 transition-colors",
-            saved ? "fill-destructive text-destructive" : "text-muted-foreground",
+            saved
+              ? "fill-destructive text-destructive"
+              : "text-muted-foreground",
           )}
         />
       </button>

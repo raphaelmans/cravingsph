@@ -37,7 +37,7 @@ export function CompletionStep({
             Your restaurant is ready to start accepting orders on cravıngs.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col items-center gap-3">
+        <CardContent className="flex flex-col items-center gap-4">
           <Button asChild size="lg">
             <Link href={appRoutes.organization.base}>
               Go to Dashboard
@@ -63,7 +63,7 @@ export function CompletionStep({
           steps. Finish the remaining steps to start accepting orders.
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col items-center gap-3">
+      <CardContent className="flex flex-col items-center gap-4">
         <Button asChild size="lg">
           <Link href={appRoutes.organization.base}>
             Go to Dashboard
