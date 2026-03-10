@@ -212,8 +212,7 @@ async function main() {
           ? `WITH CHECK (${policy.expression})`
           : `USING (${policy.expression})`;
 
-      const toRole =
-        policy.role === "public" ? "" : `TO ${policy.role}`;
+      const toRole = policy.role === "public" ? "" : `TO ${policy.role}`;
 
       const statement = `
         DO $$ BEGIN
@@ -250,10 +249,10 @@ async function main() {
       }
     }
 
+    console.log(`\n--- Summary ---`);
     console.log(
-      `\n--- Summary ---`,
+      `Buckets:  ${bucketsCreated} created, ${bucketsSkipped} skipped`,
     );
-    console.log(`Buckets:  ${bucketsCreated} created, ${bucketsSkipped} skipped`);
     console.log(`Policies: ${policiesCreated} ensured`);
     console.log("\nStorage seed completed successfully.");
   } catch (error) {

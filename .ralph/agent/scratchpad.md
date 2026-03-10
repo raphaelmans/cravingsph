@@ -1,11 +1,26 @@
-## Iteration — Verification & Completion
+# Design System Hard Cutover — Scratchpad
 
-### Assessment
-All 18 steps from the UI audit resolution are complete per the handoff document.
-- TypeScript: passes clean (no errors)
-- Biome: 23 errors all in pre-existing shadcn/ui library files, not project code
-- Git log confirms all features committed: E2E tests, QR scanner, save-for-later, seed data, breadcrumb fixes, onboarding wizard, admin user suspension, operating hours, verification, payment config, discovery, order system, reviews, portal separation, storage infrastructure
-- No open tasks remain
+## Iteration 1
 
-### Decision
-Confidence: 95 — All work is done, verification passes. Emitting LOOP_COMPLETE.
+### Completed
+- Phase 1 (Foundation): Steps 1-8 implemented
+  - Token alignment (globals.css → OKLCH, accent=primary, ring=primary)
+  - Font overhaul (League Spartan → Plus Jakarta Sans, heading scale utilities)
+  - Button polish (hover:brightness, active:scale, cursor-pointer, secondary dual behavior)
+  - Card hover elevation + restaurant card 3:2 image ratio
+  - Badge chip variant + input padding fix
+  - Accent hover migration (all UI components → bg-primary/5)
+  - Motion system (sheet timing 250ms/200ms, prefers-reduced-motion)
+  - Hardcoded cleanup (text-[10px]→text-xs, hex→oklch, touch targets)
+- Phase 2 (Spacing): Steps 10-13 implemented
+  - Card padding normalized (24px→16px)
+  - 8px grid enforcement across src/features/ (~30 files)
+  - 8px grid enforcement across src/app/ and src/components/ (~25 files)
+  - Skeleton loading screens updated to match new card layouts
+  - Arbitrary value removal verified
+
+### Remaining
+- Phase 3 (Admin Overhaul): Steps 15-20
+  - Requires dedicated PDD planning session (Step 15)
+  - Involves: dnd-kit, sort_order schema, live preview, inline editing
+  - This is new feature development, not a design system alignment task
