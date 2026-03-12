@@ -18,7 +18,7 @@ function getBaseUrl() {
     return "";
   }
   // SSR should use localhost
-  return `http://localhost:${process.env.PORT ?? 3000}`;
+  return `http://localhost:${process.env.PORT ?? 3443}`;
 }
 
 /**

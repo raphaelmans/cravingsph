@@ -8,7 +8,7 @@ process.env.SUPABASE_SECRET_KEY ??= "test-supabase-secret-key";
 process.env.NEXT_PUBLIC_SUPABASE_URL ??= "https://example.supabase.co";
 process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??=
   "test-supabase-publishable-key";
-process.env.NEXT_PUBLIC_APP_URL ??= "http://localhost:3000";
+process.env.NEXT_PUBLIC_APP_URL ??= "http://localhost:3443";
 
 afterEach(() => {
   cleanup();

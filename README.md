@@ -38,8 +38,8 @@ In Supabase Dashboard:
 
 1. Enable Email provider.
 2. Enable Google provider (if you need Google login).
-3. Set Site URL to your app URL (for local: `http://localhost:3000`).
-4. Add redirect URL: `http://localhost:3000/auth/callback` (and your production callback URL).
+3. Set Site URL to your app URL (for local: `http://localhost:3443`).
+4. Add redirect URL: `http://localhost:3443/auth/callback` (and your production callback URL).
 
 ## 4. Create/Sync Database Tables
 
