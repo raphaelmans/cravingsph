@@ -101,10 +101,10 @@ export function OwnerSidebar() {
       <SidebarHeader className="border-b">
         {orgLoading ? (
           <div className="flex items-center gap-2 p-2">
-            <div className="flex h-8 w-8 animate-pulse items-center justify-center rounded-md bg-muted" />
+            <div className="flex h-8 w-8 animate-skeleton items-center justify-center rounded-md bg-muted" />
             <div className="flex-1 space-y-1.5">
-              <div className="h-3.5 w-24 animate-pulse rounded bg-muted" />
-              <div className="h-3 w-14 animate-pulse rounded bg-muted" />
+              <div className="h-3.5 w-24 animate-skeleton rounded bg-muted" />
+              <div className="h-3 w-14 animate-skeleton rounded bg-muted" />
             </div>
           </div>
         ) : organization ? (

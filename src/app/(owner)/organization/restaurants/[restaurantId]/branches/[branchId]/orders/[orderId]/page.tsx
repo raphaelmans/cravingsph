@@ -145,10 +145,10 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
 function OrderDetailSkeleton() {
   return (
     <div className="mx-auto max-w-2xl space-y-4">
-      <div className="h-8 w-48 animate-pulse rounded-md bg-muted" />
-      <div className="h-64 animate-pulse rounded-lg bg-muted" />
-      <div className="h-32 animate-pulse rounded-lg bg-muted" />
-      <div className="h-48 animate-pulse rounded-lg bg-muted" />
+      <div className="h-8 w-48 animate-skeleton rounded-md bg-muted" />
+      <div className="h-64 animate-skeleton rounded-lg bg-muted" />
+      <div className="h-32 animate-skeleton rounded-lg bg-muted" />
+      <div className="h-48 animate-skeleton rounded-lg bg-muted" />
     </div>
   );
 }
