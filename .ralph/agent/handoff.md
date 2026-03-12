@@ -1,11 +1,11 @@
 # Session Handoff
 
-_Generated: 2026-03-10 19:17:40 UTC_
+_Generated: 2026-03-12 12:30:01 UTC_
 
 ## Git Context
 
 - **Branch:** `main`
-- **HEAD:** 3872f87: chore: auto-commit before merge (loop primary)
+- **HEAD:** a01cbbf: chore: auto-commit before merge (loop primary)
 
 ## Tasks
 
@@ -102,5 +102,14 @@ Session completed successfully. No pending work.
 **Original objective:**
 
 ```
-Implement fully the design system hard cutover following ./agents/planning/2026-03-11-design-system-hardcutover/implementation/plan.md
+# CravingsPH UI Audit Resolution — Production Readiness
+
+## Objective
+
+Resolve all 18 issues from the initial UI audit (`issues/init/`) to make CravingsPH production-ready. Replace all stub data and local stores with real Supabase-backed persistence, enforce portal separation, add file upload infrastructure, implement QR scanning, and fix component-level bugs.
+
+## Key Requirements
+
+1. Follow the design and plan in `specs/ui-audit-resolution/`.
+2. Apply schema changes with `pnpm db:push` (Drizz...
 ```
