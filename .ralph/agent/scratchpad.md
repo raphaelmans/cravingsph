@@ -1,26 +1,33 @@
-# Design System Hard Cutover — Scratchpad
+# Scratchpad — UI Audit Resolution
 
-## Iteration 1
+## 2026-03-12: Verification Iteration
 
-### Completed
-- Phase 1 (Foundation): Steps 1-8 implemented
-  - Token alignment (globals.css → OKLCH, accent=primary, ring=primary)
-  - Font overhaul (League Spartan → Plus Jakarta Sans, heading scale utilities)
-  - Button polish (hover:brightness, active:scale, cursor-pointer, secondary dual behavior)
-  - Card hover elevation + restaurant card 3:2 image ratio
-  - Badge chip variant + input padding fix
-  - Accent hover migration (all UI components → bg-primary/5)
-  - Motion system (sheet timing 250ms/200ms, prefers-reduced-motion)
-  - Hardcoded cleanup (text-[10px]→text-xs, hex→oklch, touch targets)
-- Phase 2 (Spacing): Steps 10-13 implemented
-  - Card padding normalized (24px→16px)
-  - 8px grid enforcement across src/features/ (~30 files)
-  - 8px grid enforcement across src/app/ and src/components/ (~25 files)
-  - Skeleton loading screens updated to match new card layouts
-  - Arbitrary value removal verified
+### Assessment
+All 18 steps from the UI audit resolution plan are verified complete:
 
-### Remaining
-- Phase 3 (Admin Overhaul): Steps 15-20
-  - Requires dedicated PDD planning session (Step 15)
-  - Involves: dnd-kit, sort_order schema, live preview, inline editing
-  - This is new feature development, not a design system alignment task
+1. **Database schemas** — 8 new tables + profile/branch column additions ✓
+2. **Storage infrastructure** — buckets, upload service, seed script ✓
+3. **Portal separation** — portal_preference enforcement ✓
+4. **Discovery backend** — featured, nearby, search, locations ✓
+5. **Saved restaurants** — full backend integration ✓
+6. **Order system** — full lifecycle with status machine ✓
+7. **Reviews** — create + display tied to real orders ✓
+8. **Payment config** — org-scoped persistence ✓
+9. **Verification** — real document uploads ✓
+10. **Operating hours** — backend persistence ✓
+11. **Admin user access** — persisted toggle ✓
+12. **Onboarding wizard** — honest completion state ✓
+13. **Owner nav** — no dead links ✓
+14. **Component fixes** — breadcrumb, dialog, image upload ✓
+15. **QR scanner** — browser camera implementation ✓
+16. **Discovery UI** — save-for-later polish ✓
+17. **Seed data** — Cebu City restaurants ✓
+18. **E2E verification** — Playwright tests ✓
+
+### Build Health
+- `pnpm build` ✓ — all routes compile and render
+- `npx tsc --noEmit` ✓ — zero type errors
+- `pnpm lint` — 28 errors, all in pre-existing shadcn/ui components or minor import sorting; none from audit resolution work
+
+### Conclusion
+Objective is fully complete. Emitting LOOP_COMPLETE.
