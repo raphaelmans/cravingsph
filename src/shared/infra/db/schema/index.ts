@@ -4,6 +4,7 @@
  */
 
 export * from "./branch";
+export * from "./branch-table";
 export * from "./category";
 export * from "./invitation";
 export * from "./item-variant";
@@ -20,5 +21,6 @@ export * from "./profile";
 export * from "./restaurant";
 export * from "./review";
 export * from "./saved-restaurant";
+export * from "./table-session";
 export * from "./user-roles";
 export * from "./verification-document";

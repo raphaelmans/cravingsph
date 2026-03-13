@@ -98,6 +98,7 @@ Base class hierarchy in `src/shared/kernel/errors.ts`:
 - Icons: lucide-react exclusively
 - Colors: OKLCH tokens in `src/app/globals.css` — never use hardcoded Tailwind color classes (red-500, green-600, etc.)
 - Semantic tokens: `primary`, `destructive`, `success`, `warning`, `muted`, `accent`, `peach`
+- **Note**: The design system doc defines `--accent` as orange (same as primary), but in the codebase `--accent` is a neutral gray because shadcn/ui uses `accent` for component hover states (dropdowns, menus, cards). Orange hover backgrounds break usability. The codebase value is correct.
 - Brand primary: `#f86006` (warm orange) — the only hex color in the system
 - Border radius: use token scale (`rounded-sm` through `rounded-4xl`), never raw pixel values
 - Fonts: Inter (sans), Plus Jakarta Sans (headings), Geist Mono (mono)
@@ -207,3 +208,46 @@ Read and follow for any server-side work:
 | DI container | `src/shared/infra/container.ts` |
 | Design tokens | `src/app/globals.css` |
 | Env validation | `src/lib/env/` |
+| Design system doc | `~/Downloads/Design System.docx` |
+
+## Design Context
+
+### Users
+
+**Customers** — Mobile-first users discovering restaurants and ordering food in the Philippines. They're browsing on-the-go, often hungry, and need to find what they want fast. The job: scan, pick, order, done.
+
+**Restaurant owners** — Non-technical business operators managing menus, branches, and orders. They need speed of editing and clarity of structure, not technical complexity. The job: keep the menu accurate and orders flowing.
+
+### Brand Personality
+
+**Warm, Effortless, Appetizing.** Cravings Orange (`#f86006`) represents appetite, energy, and warmth. The brand feels friendly and modern — never corporate, never cluttered, never over-designed. Food and restaurant content take center stage; the UI gets out of the way.
+
+### Aesthetic Direction
+
+**Apple-style minimal.** Clean, light, refined. Generous white space reduces cognitive load. Content-forward — food images, restaurant info, and prices are the visual focus, not the chrome around them.
+
+- **Customer portal**: Pill shapes (`rounded-full` buttons, `rounded-4xl` cards), peach accents for hero/celebratory moments, emoji cuisine filters, floating cart — playful and discovery-driven
+- **Owner portal**: Like Notion/Linear/Stripe — structured, efficient, scannable. Standard `rounded-lg`, data-dense cards, inline editing, live previews. Professional but still warm (not cold SaaS)
+- **Theme**: Light + dark mode, OKLCH tokens throughout, never hardcoded Tailwind color classes
+- **Anti-references**: GrabFood/FoodPanda (cluttered, promo-heavy), generic SaaS dashboards (cold, no personality), over-designed apps (animation over usability)
+
+### Motion
+
+Subtle, purposeful, fast. Animations complete in 150-250ms with ease-out curves. Motion communicates state changes (hover, selection, loading) — never decorative. Skeleton loaders for async content. Slight scale (1.02-1.04) on button hover, gentle elevation on card hover.
+
+### Design Principles
+
+1. **Content is king** — Food images, names, and prices are the hero. UI chrome should be invisible. Reduce decoration; increase clarity.
+2. **Scan, don't read** — Users should understand key information instantly. Strong hierarchy, consistent spacing (8px grid), and clear typography enable quick scanning.
+3. **Mobile-first, always** — Design for small screens first. Pill shapes and large touch targets on customer-facing UI. Layouts expand for desktop, not the reverse.
+4. **Two tones, one brand** — Customer portal is warm and playful; owner portal is structured and efficient. Both share the orange brand color, the same font stack, and the same spacing system. The warmth carries through even in the admin side.
+5. **Feedback, not flash** — Every interaction gets immediate, lightweight feedback (press, hover, loading). No gratuitous animation. `prefers-reduced-motion` is respected.
+
+### Accessibility
+
+- Target: **WCAG 2.1 AA**
+- Touch targets: 44x44px minimum on mobile
+- Focus rings on all interactive elements (using `--ring` token)
+- `prefers-reduced-motion: reduce` disables all animations
+- Semantic HTML and ARIA attributes for screen readers
+- Color is never the sole indicator of state (always paired with icons, text, or patterns)

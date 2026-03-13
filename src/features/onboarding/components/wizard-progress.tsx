@@ -31,6 +31,7 @@ export function WizardProgress({
           return (
             <li
               key={stepNumber}
+              aria-current={isCurrent ? "step" : undefined}
               className="flex flex-1 flex-col items-center gap-2"
             >
               <div className="flex w-full items-center">

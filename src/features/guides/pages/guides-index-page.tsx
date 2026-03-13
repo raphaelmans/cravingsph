@@ -179,9 +179,9 @@ export function GuidesIndexPage({ guides }: { guides: GuideEntry[] }) {
             How CravingsPH works — for customers, owners, and admins
           </h1>
           <p className="text-base leading-7 text-muted-foreground md:text-lg">
-            Step-by-step guides for finding restaurants, setting up your venue,
-            ordering dine-in, managing operations, and administering the
-            platform.
+            Step-by-step guides for finding restaurants, scanning QR codes to
+            order dine-in, setting up your venue with tables, managing
+            operations, and administering the platform.
           </p>
           <div className="flex flex-wrap gap-3">
             <Button asChild className="font-heading">

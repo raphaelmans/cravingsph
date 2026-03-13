@@ -2,10 +2,10 @@ import type { DemoSeed } from "./demo-restaurant";
 
 export const sugboMercadoGrill: DemoSeed = {
   organization: {
-    name: "Sugbo Mercado Grill",
-    slug: "sugbo-mercado-grill",
+    name: "Demo Food Group",
+    slug: "demo-food-group",
     description:
-      "Grilled seafood and street food inspired by the Sugbo Mercado night market.",
+      "Multi-brand restaurant group for development and testing.",
   },
 
   restaurant: {

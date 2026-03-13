@@ -44,6 +44,19 @@ export type DemoCategory = {
   items: DemoItem[];
 };
 
+export type DemoTable = {
+  label: string;
+  code: string;
+  isActive?: boolean;
+  sortOrder: number;
+};
+
+export type DemoTableSession = {
+  tableCode: string;
+  status: "active" | "closed";
+  note?: string;
+};
+
 export type DemoSeed = {
   organization: { name: string; slug: string; description?: string };
   restaurant: {
@@ -63,14 +76,16 @@ export type DemoSeed = {
     longitude?: string;
   };
   categories: DemoCategory[];
+  tables?: DemoTable[];
+  tableSessions?: DemoTableSession[];
 };
 
 export const demoRestaurant: DemoSeed = {
   organization: {
-    name: "Kusina ni Aling Rosa",
-    slug: "kusina-ni-aling-rosa",
+    name: "Demo Food Group",
+    slug: "demo-food-group",
     description:
-      "A family-owned Filipino comfort food business since 1998. Known for classic home-cooked dishes and warm hospitality.",
+      "Multi-brand restaurant group for development and testing.",
   },
 
   restaurant: {

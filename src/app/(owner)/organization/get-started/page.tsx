@@ -13,10 +13,11 @@ export default function GetStartedPage() {
   const { steps, completedCount, totalSteps, isLoading } =
     useOnboardingStatus();
 
-  const progressPercent = Math.round((completedCount / totalSteps) * 100);
+  const progressPercent =
+    totalSteps > 0 ? Math.round((completedCount / totalSteps) * 100) : 0;
 
   return (
-    <div className="flex flex-1 flex-col gap-8 p-6 md:p-8 max-w-3xl mx-auto">
+    <div className="flex w-full flex-1 flex-col gap-8 p-6 md:p-8">
       {/* Header */}
       <div className="space-y-2">
         <div className="flex items-center gap-4">

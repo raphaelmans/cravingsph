@@ -100,7 +100,7 @@ export const GUIDE_ENTRIES: GuideEntry[] = [
     publishedAt: GUIDE_PUBLISHED_AT,
     updatedAt: GUIDE_PUBLISHED_AT,
     intro:
-      "After accepting your invitation link, the 5-step onboarding wizard walks you through creating an organization, registering your restaurant, adding a branch, and building your first menu item. A completion summary shows your progress and links to anything still outstanding. Your dashboard displays a setup checklist until all steps are done.",
+      "After accepting your invitation link, the 5-step onboarding wizard walks you through creating an organization, registering your restaurant, adding a branch, and building your first menu item. A completion summary shows your progress and links to anything still outstanding. Your dashboard displays a setup checklist until all steps are done. Once your branch is set up, you can add tables and generate QR codes so customers can scan and order directly from their seat.",
     sections: [],
     faqs: [
       {
@@ -119,14 +119,19 @@ export const GUIDE_ENTRIES: GuideEntry[] = [
           'The completion step shows "Almost There" with a list of what still needs to be done. Your dashboard also shows a setup checklist banner with a progress bar and links to incomplete steps. You can finish at your own pace.',
       },
       {
+        question: "How do I set up tables for QR ordering?",
+        answer:
+          "After creating a branch, add tables from the branch settings. Each table gets a label (e.g., Table 1), a short code (e.g., T-01), and a sort order. You can also add bar seats or any seating arrangement. Once tables are added, generate QR codes to print and place on each table.",
+      },
+      {
         question: "Can I manage multiple restaurants?",
         answer:
-          "Yes. An organization can have multiple restaurants, each with its own branches, menus, and settings.",
+          "Yes. An organization can have multiple restaurants, each with its own branches, menus, tables, and settings.",
       },
       {
         question: "What happens after I complete setup?",
         answer:
-          "Your restaurant appears in search results and on the home page. Customers can browse your menu, add items to their cart, and submit dine-in orders. Your dashboard shows stats like Orders Today, Pending Orders, Active Locations, and Revenue Today.",
+          "Your restaurant appears in search results and on the home page. Customers can scan the QR code at their table to open a session and order directly, or browse your menu through search. Your dashboard shows stats like Orders Today, Pending Orders, Active Locations, and Revenue Today.",
       },
     ],
     relatedLinks: [
@@ -146,13 +151,23 @@ export const GUIDE_ENTRIES: GuideEntry[] = [
     publishedAt: GUIDE_PUBLISHED_AT,
     updatedAt: GUIDE_PUBLISHED_AT,
     intro:
-      "To order dine-in, find the restaurant, browse the menu, add items to your cart with any variant or modifier customisations, review your cart, enter your table number, and submit the order. You can track the order status in real time from the order tracking page.",
+      "To order dine-in, scan the QR code on your table — it identifies the branch and table, opens a table session, and takes you straight to the menu. Browse items, add them to your cart with any variant or modifier customisations, review your cart, and submit the order. Your table is already pre-filled from the QR code so there is nothing extra to enter. You can track the order status in real time from the order tracking page.",
     sections: [],
     faqs: [
       {
         question: "Do I need an account to order?",
         answer:
           "You can browse menus without an account, but you need to sign in before submitting an order so the restaurant knows who placed it.",
+      },
+      {
+        question: "What does scanning the QR code do?",
+        answer:
+          "Each table has a unique QR code. Scanning it opens a table session that links your visit to that specific table. The restaurant sees which table your order is for, and you skip the step of manually entering a table number.",
+      },
+      {
+        question: "Can I order without scanning a QR code?",
+        answer:
+          "Yes. You can find the restaurant through search and browse the menu. At checkout you will need to enter your table number manually if you did not scan a QR code.",
       },
       {
         question: "Can I order for pickup?",
@@ -162,7 +177,7 @@ export const GUIDE_ENTRIES: GuideEntry[] = [
       {
         question: "How do I customise my order?",
         answer:
-          "Tap a menu item to open its detail sheet. Select a variant (e.g., size) and toggle any modifiers (e.g., extra rice, no onions) before adding to cart.",
+          "Tap a menu item to open its detail sheet. Select a variant (e.g., size) and toggle any modifiers (e.g., extra rice, no onions) before adding to cart. Required modifiers like steak temperature must be selected before you can add the item.",
       },
       {
         question: "What happens after I submit my order?",
@@ -188,13 +203,18 @@ export const GUIDE_ENTRIES: GuideEntry[] = [
     publishedAt: GUIDE_PUBLISHED_AT,
     updatedAt: GUIDE_PUBLISHED_AT,
     intro:
-      "When a customer submits an order, it appears in your order queue as a new order. Accept or reject it, then update the status as you prepare and serve it. Between orders, use the dashboard quick actions — Add Restaurant, Manage Menu, and Set Operating Hours — to manage your setup from the owner portal.",
+      "When a customer scans a QR code, a table session opens for that table. When they submit an order, it appears in your order queue as a new order linked to the table. Accept or reject it, then update the status as you prepare and serve it. Between orders, use the dashboard quick actions — Add Restaurant, Manage Menu, and Set Operating Hours — to manage your setup from the owner portal.",
     sections: [],
     faqs: [
       {
         question: "How do I know when a new order comes in?",
         answer:
-          "New orders appear in the Inbox tab of your order queue. The tab shows a count badge so you can see at a glance if anything needs attention.",
+          "New orders appear in the Inbox tab of your order queue. The tab shows a count badge so you can see at a glance if anything needs attention. Each order shows the table it came from.",
+      },
+      {
+        question: "What are table sessions?",
+        answer:
+          "A table session starts when a customer scans the QR code at a table. It stays active until the table is closed out. Sessions let you see which tables are occupied and track all orders placed during a visit.",
       },
       {
         question: "Can I edit my menu while orders are coming in?",
@@ -205,6 +225,11 @@ export const GUIDE_ENTRIES: GuideEntry[] = [
         question: "What order statuses are available?",
         answer:
           "Orders move through: New → Accepted → Preparing → Ready → Completed. You can also reject an order or mark it as cancelled.",
+      },
+      {
+        question: "Can I deactivate a table?",
+        answer:
+          "Yes. Each table has an active toggle. Deactivated tables stop accepting QR scans but existing sessions are unaffected.",
       },
       {
         question: "Can I temporarily disable ordering?",

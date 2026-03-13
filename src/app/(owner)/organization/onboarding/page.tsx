@@ -1,11 +1,18 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
+import { AlertTriangle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useMemo } from "react";
 import { appRoutes } from "@/common/app-routes";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BranchForm } from "@/features/onboarding/components/branch-form";
 import { CompletionStep } from "@/features/onboarding/components/completion-step";
@@ -22,10 +29,41 @@ import {
 
 const TOTAL_STEPS = 5;
 
+function StepPrerequisite({
+  message,
+  onGoBack,
+}: {
+  message: string;
+  onGoBack: () => void;
+}) {
+  return (
+    <Card>
+      <CardHeader className="text-center">
+        <div className="flex justify-center">
+          <div className="flex size-10 items-center justify-center rounded-full bg-warning/10">
+            <AlertTriangle className="size-5 text-warning" />
+          </div>
+        </div>
+        <CardTitle className="text-base">Previous step required</CardTitle>
+        <CardDescription>{message}</CardDescription>
+      </CardHeader>
+      <CardContent className="flex justify-center">
+        <Button onClick={onGoBack}>
+          <ArrowLeft className="mr-1 size-3.5" />
+          Go Back
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
 function OnboardingWizardContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const currentStep = Number(searchParams.get("step") || "1");
+  const rawStep = Number(searchParams.get("step") || "1");
+  const currentStep = Number.isFinite(rawStep)
+    ? Math.max(1, Math.min(Math.round(rawStep), TOTAL_STEPS))
+    : 1;
 
   const { data: organization } = useOrganization();
   const { data: restaurants = [] } = useRestaurants(organization?.id);
@@ -56,7 +94,7 @@ function OnboardingWizardContent() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-1 flex-col gap-6 p-6 md:p-8 max-w-2xl mx-auto">
+      <div className="flex w-full flex-1 flex-col gap-6 p-6 md:p-8">
         <Skeleton className="h-10 w-full" />
         <Skeleton className="h-64 w-full rounded-xl" />
       </div>
@@ -64,10 +102,10 @@ function OnboardingWizardContent() {
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-6 p-6 md:p-8 max-w-2xl mx-auto">
+    <div className="flex w-full flex-1 flex-col gap-6 p-6 md:p-8">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Button asChild variant="ghost" size="icon-sm">
+        <Button asChild variant="ghost" size="icon">
           <Link href={appRoutes.organization.getStarted}>
             <ArrowLeft className="size-4" />
             <span className="sr-only">Back to setup hub</span>
@@ -94,25 +132,43 @@ function OnboardingWizardContent() {
             onComplete={handleStepComplete}
           />
         )}
-        {currentStep === 2 && organization && (
-          <RestaurantForm
-            organizationId={organization.id}
-            onComplete={handleStepComplete}
-          />
-        )}
-        {currentStep === 3 && firstRestaurant && (
-          <BranchForm
-            restaurantId={firstRestaurant.id}
-            restaurantName={firstRestaurant.name}
-            onComplete={handleStepComplete}
-          />
-        )}
-        {currentStep === 4 && firstBranch && (
-          <MenuBuilderStep
-            branchId={firstBranch.id}
-            onComplete={handleStepComplete}
-          />
-        )}
+        {currentStep === 2 &&
+          (organization ? (
+            <RestaurantForm
+              organizationId={organization.id}
+              onComplete={handleStepComplete}
+            />
+          ) : (
+            <StepPrerequisite
+              message="Please complete the organization step first."
+              onGoBack={() => goToStep(1)}
+            />
+          ))}
+        {currentStep === 3 &&
+          (firstRestaurant ? (
+            <BranchForm
+              restaurantId={firstRestaurant.id}
+              restaurantName={firstRestaurant.name}
+              onComplete={handleStepComplete}
+            />
+          ) : (
+            <StepPrerequisite
+              message="Please add a restaurant first."
+              onGoBack={() => goToStep(2)}
+            />
+          ))}
+        {currentStep === 4 &&
+          (firstBranch ? (
+            <MenuBuilderStep
+              branchId={firstBranch.id}
+              onComplete={handleStepComplete}
+            />
+          ) : (
+            <StepPrerequisite
+              message="Please add a branch location first."
+              onGoBack={() => goToStep(3)}
+            />
+          ))}
         {currentStep === 5 && (
           <CompletionStep
             allComplete={allComplete}
@@ -126,7 +182,7 @@ function OnboardingWizardContent() {
       {/* Navigation */}
       {currentStep > 1 && currentStep < TOTAL_STEPS && (
         <div className="flex justify-start">
-          <Button variant="ghost" size="sm" onClick={handleBack}>
+          <Button variant="ghost" onClick={handleBack}>
             <ArrowLeft className="mr-1 size-3.5" />
             Back
           </Button>
@@ -140,7 +196,7 @@ export default function OnboardingPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex flex-1 flex-col gap-6 p-6 md:p-8 max-w-2xl mx-auto">
+        <div className="flex w-full flex-1 flex-col gap-6 p-6 md:p-8">
           <Skeleton className="h-10 w-full" />
           <Skeleton className="h-64 w-full rounded-xl" />
         </div>

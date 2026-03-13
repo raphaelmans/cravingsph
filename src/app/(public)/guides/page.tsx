@@ -6,7 +6,7 @@ const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://cravings.ph";
 
 const title = "Guides — CravingsPH";
 const description =
-  "Step-by-step guides for finding restaurants, setting up your venue, ordering dine-in, managing operations, and administering the platform.";
+  "Step-by-step guides for finding restaurants, scanning QR codes to order dine-in, setting up your venue with tables, managing operations, and administering the platform.";
 
 export const metadata: Metadata = {
   title,

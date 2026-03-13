@@ -2,10 +2,10 @@ import type { DemoSeed } from "./demo-restaurant";
 
 export const cafeCebuano: DemoSeed = {
   organization: {
-    name: "Cafe Cebuano",
-    slug: "cafe-cebuano",
+    name: "Demo Food Group",
+    slug: "demo-food-group",
     description:
-      "Specialty coffee shop and bakery in the heart of Cebu IT Park.",
+      "Multi-brand restaurant group for development and testing.",
   },
 
   restaurant: {

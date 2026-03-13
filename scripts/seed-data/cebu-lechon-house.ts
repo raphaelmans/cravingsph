@@ -2,10 +2,10 @@ import type { DemoSeed } from "./demo-restaurant";
 
 export const cebuLechonHouse: DemoSeed = {
   organization: {
-    name: "Cebu Lechon House",
-    slug: "cebu-lechon-house",
+    name: "Demo Food Group",
+    slug: "demo-food-group",
     description:
-      "Home of the crispiest lechon in Cebu since 1985. Charcoal-roasted whole pig with a secret spice rub.",
+      "Multi-brand restaurant group for development and testing.",
   },
 
   restaurant: {

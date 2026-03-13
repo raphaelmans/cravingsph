@@ -22,7 +22,9 @@ type EntityName =
   | "menu_item"
   | "item_variant"
   | "modifier_group"
-  | "modifier";
+  | "modifier"
+  | "branch_table"
+  | "table_session";
 
 function createTracker() {
   const counts: Record<EntityName, { created: number; skipped: number }> = {
@@ -36,6 +38,8 @@ function createTracker() {
     item_variant: { created: 0, skipped: 0 },
     modifier_group: { created: 0, skipped: 0 },
     modifier: { created: 0, skipped: 0 },
+    branch_table: { created: 0, skipped: 0 },
+    table_session: { created: 0, skipped: 0 },
   };
 
   return {
@@ -291,6 +295,69 @@ export async function seedRestaurant(
             }
           }
         }
+      }
+    }
+  }
+
+  // 7. Seed branch tables
+  if (fixture.tables) {
+    for (const tableData of fixture.tables) {
+      const existingTable = await db.query.branchTable.findFirst({
+        where: and(
+          eq(schema.branchTable.branchId, existingBranch.id),
+          eq(schema.branchTable.code, tableData.code),
+        ),
+      });
+
+      if (existingTable) {
+        track("branch_table", "skipped");
+      } else {
+        await db.insert(schema.branchTable).values({
+          branchId: existingBranch.id,
+          label: tableData.label,
+          code: tableData.code,
+          isActive: tableData.isActive ?? true,
+          sortOrder: tableData.sortOrder,
+        });
+        track("branch_table", "created");
+      }
+    }
+  }
+
+  // 8. Seed table sessions
+  if (fixture.tableSessions) {
+    for (const sessionData of fixture.tableSessions) {
+      const table = await db.query.branchTable.findFirst({
+        where: and(
+          eq(schema.branchTable.branchId, existingBranch.id),
+          eq(schema.branchTable.code, sessionData.tableCode),
+        ),
+      });
+
+      if (!table) {
+        console.warn(
+          `  WARN: table code "${sessionData.tableCode}" not found — skipping session`,
+        );
+        continue;
+      }
+
+      const existingSession = await db.query.tableSession.findFirst({
+        where: and(
+          eq(schema.tableSession.branchTableId, table.id),
+          eq(schema.tableSession.status, sessionData.status),
+        ),
+      });
+
+      if (existingSession) {
+        track("table_session", "skipped");
+      } else {
+        await db.insert(schema.tableSession).values({
+          branchTableId: table.id,
+          status: sessionData.status,
+          openedBy: ownerUserId,
+          note: sessionData.note,
+        });
+        track("table_session", "created");
       }
     }
   }

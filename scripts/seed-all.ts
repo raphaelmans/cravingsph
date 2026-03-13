@@ -16,6 +16,7 @@ import * as schema from "../src/shared/infra/db/schema";
 import { cafeCebuano } from "./seed-data/cafe-cebuano";
 import { cebuLechonHouse } from "./seed-data/cebu-lechon-house";
 import { demoRestaurant } from "./seed-data/demo-restaurant";
+import { lePetitBistro } from "./seed-data/le-petit-bistro";
 import { pocheroDecebu } from "./seed-data/pochero-de-cebu";
 import { sugboMercadoGrill } from "./seed-data/sugbo-mercado-grill";
 import { seedRestaurant } from "./seed-restaurant";
@@ -26,6 +27,7 @@ const ALL_FIXTURES = [
   sugboMercadoGrill,
   cafeCebuano,
   pocheroDecebu,
+  lePetitBistro,
 ];
 
 function requireEnv(name: string): string {

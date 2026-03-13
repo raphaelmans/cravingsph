@@ -15,6 +15,13 @@
       "when": 1773327515010,
       "tag": "0001_curved_forgotten_one",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773407440336,
+      "tag": "0002_tense_crystal",
+      "breakpoints": true
     }
   ]
 }

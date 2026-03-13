@@ -2,10 +2,10 @@ import type { DemoSeed } from "./demo-restaurant";
 
 export const pocheroDecebu: DemoSeed = {
   organization: {
-    name: "Pochero de Cebu",
-    slug: "pochero-de-cebu",
+    name: "Demo Food Group",
+    slug: "demo-food-group",
     description:
-      "Cebuano soup house specializing in pochero and other traditional broths.",
+      "Multi-brand restaurant group for development and testing.",
   },
 
   restaurant: {
