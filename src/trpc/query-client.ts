@@ -10,6 +10,9 @@ function makeQueryClient() {
         // With SSR, we usually want to set some default staleTime
         // above 0 to avoid refetching immediately on the client
         staleTime: 60 * 1000,
+        // Prevent skeleton flash on tab refocus — data refreshes
+        // silently via mutations and staleTime expiry instead
+        refetchOnWindowFocus: false,
       },
     },
   });
