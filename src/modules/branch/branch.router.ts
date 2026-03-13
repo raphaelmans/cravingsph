@@ -87,7 +87,7 @@ export const branchRouter = router({
     }),
 
   /**
-   * Update operating hours for a branch (upserts all 7 days).
+   * Update operating hours for a branch (supports multiple time slots per day).
    */
   updateOperatingHours: protectedProcedure
     .input(UpdateOperatingHoursSchema)

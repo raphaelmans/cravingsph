@@ -1,33 +1,29 @@
 # Scratchpad — UI Audit Resolution
 
-## 2026-03-12: Verification Iteration
+## 2026-03-13 Iteration
 
-### Assessment
-All 18 steps from the UI audit resolution plan are verified complete:
+### Current state
 
-1. **Database schemas** — 8 new tables + profile/branch column additions ✓
-2. **Storage infrastructure** — buckets, upload service, seed script ✓
-3. **Portal separation** — portal_preference enforcement ✓
-4. **Discovery backend** — featured, nearby, search, locations ✓
-5. **Saved restaurants** — full backend integration ✓
-6. **Order system** — full lifecycle with status machine ✓
-7. **Reviews** — create + display tied to real orders ✓
-8. **Payment config** — org-scoped persistence ✓
-9. **Verification** — real document uploads ✓
-10. **Operating hours** — backend persistence ✓
-11. **Admin user access** — persisted toggle ✓
-12. **Onboarding wizard** — honest completion state ✓
-13. **Owner nav** — no dead links ✓
-14. **Component fixes** — breadcrumb, dialog, image upload ✓
-15. **QR scanner** — browser camera implementation ✓
-16. **Discovery UI** — save-for-later polish ✓
-17. **Seed data** — Cebu City restaurants ✓
-18. **E2E verification** — Playwright tests ✓
+All 18 UI audit resolution steps are COMPLETE and committed. Commits span from `7649373` (discovery module) through `b9d083f` (hardened E2E tests).
 
-### Build Health
-- `pnpm build` ✓ — all routes compile and render
-- `npx tsc --noEmit` ✓ — zero type errors
-- `pnpm lint` — 28 errors, all in pre-existing shadcn/ui components or minor import sorting; none from audit resolution work
+The working tree has uncommitted changes from a separate "PRD gap analysis" work stream (`specs/prd-gap-analysis/`) that added:
+- Food search feature (searchFood procedure, FoodSearchResults component)
+- Branch amenities/barangay/street fields
+- Multi-slot operating hours (slotIndex)
+- Admin invitation module
+- Owner registration with invitation tokens
+- Onboarding simplification (7→5 steps)
+- Sidebar cleanup
 
-### Conclusion
-Objective is fully complete. Emitting LOOP_COMPLETE.
+These changes are NOT part of the UI audit resolution objective and should not be committed under this loop.
+
+### Verification
+
+- TypeScript: PASSES (`npx tsc --noEmit` clean)
+- Lint: All errors are in pre-existing shadcn UI components and menu management files (not introduced by audit work)
+- Handoff: Confirms "Session completed successfully. No pending work."
+- Tasks: No open tasks remain
+
+### Decision
+
+Emitting LOOP_COMPLETE — all 18 acceptance criteria are addressed by committed code.

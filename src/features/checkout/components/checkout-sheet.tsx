@@ -25,44 +25,21 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import type { CartItem } from "@/features/cart/stores/cart.store";
-import { type OrderType, OrderTypeSelector } from "./order-type-selector";
 
 // --- Schema ---
 
-const checkoutSchema = z
-  .object({
-    orderType: z.enum(["dine-in", "pickup"]),
-    tableNumber: z.string().optional(),
-    customerName: z.string().optional(),
-    customerPhone: z.string().optional(),
-    specialInstructions: z.string().optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (data.orderType === "pickup") {
-      if (!data.customerName?.trim()) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Name is required for pickup orders",
-          path: ["customerName"],
-        });
-      }
-      if (!data.customerPhone?.trim()) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Phone number is required for pickup orders",
-          path: ["customerPhone"],
-        });
-      }
-    }
-  });
+const checkoutSchema = z.object({
+  tableNumber: z.string().optional(),
+  specialInstructions: z.string().optional(),
+});
 
 export type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 
 export interface CheckoutSubmitPayload {
-  orderType: OrderType;
+  orderType: "dine-in";
   tableNumber: string | null;
-  customerName: string | null;
-  customerPhone: string | null;
+  customerName: null;
+  customerPhone: null;
   specialInstructions: string | null;
   items: CartItem[];
   subtotal: number;
@@ -92,15 +69,10 @@ export function CheckoutSheet({
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
-      orderType: "dine-in",
       tableNumber: "",
-      customerName: "",
-      customerPhone: "",
       specialInstructions: "",
     },
   });
-
-  const orderType = form.watch("orderType");
 
   const itemSummary = useMemo(
     () =>
@@ -115,10 +87,10 @@ export function CheckoutSheet({
   const handleSubmit = useCallback(
     (values: CheckoutFormValues) => {
       onSubmit({
-        orderType: values.orderType,
+        orderType: "dine-in",
         tableNumber: values.tableNumber?.trim() || null,
-        customerName: values.customerName?.trim() || null,
-        customerPhone: values.customerPhone?.trim() || null,
+        customerName: null,
+        customerPhone: null,
         specialInstructions: values.specialInstructions?.trim() || null,
         items,
         subtotal,
@@ -151,83 +123,22 @@ export function CheckoutSheet({
               onSubmit={form.handleSubmit(handleSubmit)}
               className="space-y-6"
             >
-              {/* Order type */}
+              {/* Table number */}
               <FormField
                 control={form.control}
-                name="orderType"
+                name="tableNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Order type</FormLabel>
+                    <FormLabel>Table number</FormLabel>
                     <FormControl>
-                      <OrderTypeSelector
-                        value={field.value as OrderType}
-                        onChange={field.onChange}
-                      />
+                      <Input shape="pill" placeholder="e.g. 5" {...field} />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
 
               <Separator />
-
-              {/* Dine-in: table number */}
-              {orderType === "dine-in" && (
-                <FormField
-                  control={form.control}
-                  name="tableNumber"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Table number</FormLabel>
-                      <FormControl>
-                        <Input shape="pill" placeholder="e.g. 5" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )}
-
-              {/* Pickup: name + phone */}
-              {orderType === "pickup" && (
-                <>
-                  <FormField
-                    control={form.control}
-                    name="customerName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Your name</FormLabel>
-                        <FormControl>
-                          <Input
-                            shape="pill"
-                            placeholder="Juan dela Cruz"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="customerPhone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Phone number</FormLabel>
-                        <FormControl>
-                          <Input
-                            shape="pill"
-                            type="tel"
-                            placeholder="09XX XXX XXXX"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </>
-              )}
 
               {/* Special instructions */}
               <FormField

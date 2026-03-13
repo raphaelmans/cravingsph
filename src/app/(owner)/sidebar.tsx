@@ -3,11 +3,9 @@
 import {
   Building2,
   ChevronRight,
-  CreditCard,
   LayoutDashboard,
   LogOut,
   Rocket,
-  ShieldCheck,
   Store,
   User,
 } from "lucide-react";
@@ -63,18 +61,6 @@ const setupItems = [
 
 const overviewItems = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/organization" },
-];
-
-const financeItems = [
-  { label: "Payments", icon: CreditCard, href: "/organization/payments" },
-];
-
-const orgItems = [
-  {
-    label: "Verification",
-    icon: ShieldCheck,
-    href: appRoutes.organization.verify,
-  },
 ];
 
 const accountItems = [
@@ -144,8 +130,6 @@ export function OwnerSidebar() {
           pathname={pathname}
         />
 
-        <NavGroup items={financeItems} label="Finance" isActive={isActive} />
-        <NavGroup items={orgItems} label="Organization" isActive={isActive} />
         <NavGroup items={accountItems} label="Account" isActive={isActive} />
       </SidebarContent>
 

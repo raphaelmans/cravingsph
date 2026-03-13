@@ -15,7 +15,7 @@ import { branch } from "./branch";
  * OperatingHours table.
  * Weekly operating schedule for each branch.
  * dayOfWeek: 0=Monday ... 6=Sunday.
- * One row per branch per day.
+ * Multiple time slots per day supported via slotIndex.
  */
 export const operatingHours = pgTable(
   "operating_hours",
@@ -25,6 +25,7 @@ export const operatingHours = pgTable(
       .notNull()
       .references(() => branch.id, { onDelete: "cascade" }),
     dayOfWeek: integer("day_of_week").notNull(), // 0=Monday ... 6=Sunday
+    slotIndex: integer("slot_index").notNull().default(0),
     opensAt: time("opens_at").notNull(),
     closesAt: time("closes_at").notNull(),
     isClosed: boolean("is_closed").notNull().default(false),
@@ -36,7 +37,11 @@ export const operatingHours = pgTable(
       .notNull(),
   },
   (t) => [
-    uniqueIndex("idx_operating_hours_branch_day").on(t.branchId, t.dayOfWeek),
+    uniqueIndex("idx_operating_hours_branch_day_slot").on(
+      t.branchId,
+      t.dayOfWeek,
+      t.slotIndex,
+    ),
   ],
 );
 

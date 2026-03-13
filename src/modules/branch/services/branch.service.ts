@@ -174,6 +174,7 @@ export class BranchService implements IBranchService {
     const rows = await this.branchRepository.findOperatingHours(branchId);
     return rows.map((r) => ({
       dayOfWeek: r.dayOfWeek,
+      slotIndex: r.slotIndex,
       opensAt: r.opensAt,
       closesAt: r.closesAt,
       isClosed: r.isClosed,

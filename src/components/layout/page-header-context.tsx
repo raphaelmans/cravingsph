@@ -3,10 +3,11 @@
 import { usePathname } from "next/navigation";
 import {
   createContext,
+  type ReactNode,
   useContext,
   useEffect,
+  useMemo,
   useState,
-  type ReactNode,
 } from "react";
 
 // ---------------------------------------------------------------------------
@@ -50,11 +51,14 @@ export function usePageHeader() {
 
 export function useSetPageHeader(config: PageHeaderConfig) {
   const { setConfig } = useContext(PageHeaderContext);
+  const stableConfig = useMemo(
+    () => ({ title: config.title, label: config.label }),
+    [config.title, config.label],
+  );
   useEffect(() => {
-    setConfig(config);
+    setConfig(stableConfig);
     return () => setConfig(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [config.title, config.label, setConfig]);
+  }, [stableConfig, setConfig]);
 }
 
 // ---------------------------------------------------------------------------

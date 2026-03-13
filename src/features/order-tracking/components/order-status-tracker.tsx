@@ -12,7 +12,7 @@ export type OrderStatus =
   | "completed";
 
 const STATUS_STEPS: { status: OrderStatus; label: string }[] = [
-  { status: "placed", label: "Order Placed" },
+  { status: "placed", label: "Submitted" },
   { status: "accepted", label: "Accepted" },
   { status: "preparing", label: "Preparing" },
   { status: "ready", label: "Ready for Pickup" },

@@ -1,6 +1,11 @@
-import type { LocationDTO, RestaurantPreviewDTO } from "../dtos/discovery.dto";
+import type {
+  FoodSearchResultDTO,
+  LocationDTO,
+  RestaurantPreviewDTO,
+} from "../dtos/discovery.dto";
 import type {
   DiscoveryRow,
+  FoodSearchRow,
   IDiscoveryRepository,
 } from "../repositories/discovery.repository";
 
@@ -19,8 +24,14 @@ export interface IDiscoveryService {
     query?: string;
     cuisine?: string;
     city?: string;
+    barangay?: string;
     limit: number;
   }): Promise<RestaurantPreviewDTO[]>;
+  searchFood(opts: {
+    query: string;
+    barangay?: string;
+    limit?: number;
+  }): Promise<FoodSearchResultDTO[]>;
   listLocations(): Promise<LocationDTO[]>;
 }
 
@@ -49,10 +60,20 @@ export class DiscoveryService implements IDiscoveryService {
     query?: string;
     cuisine?: string;
     city?: string;
+    barangay?: string;
     limit: number;
   }): Promise<RestaurantPreviewDTO[]> {
     const rows = await this.repository.search(opts);
     return this.hydrate(rows);
+  }
+
+  async searchFood(opts: {
+    query: string;
+    barangay?: string;
+    limit?: number;
+  }): Promise<FoodSearchResultDTO[]> {
+    const rows = await this.repository.searchFood(opts);
+    return this.groupFoodResults(rows);
   }
 
   async listLocations(): Promise<LocationDTO[]> {
@@ -68,6 +89,41 @@ export class DiscoveryService implements IDiscoveryService {
   // ---------------------------------------------------------------------------
   // Private
   // ---------------------------------------------------------------------------
+
+  /**
+   * Group flat food search rows by restaurant, collecting matched items.
+   */
+  private groupFoodResults(rows: FoodSearchRow[]): FoodSearchResultDTO[] {
+    const map = new Map<string, FoodSearchResultDTO>();
+
+    for (const row of rows) {
+      let entry = map.get(row.restaurantId);
+      if (!entry) {
+        entry = {
+          id: row.restaurantId,
+          slug: row.restaurantSlug,
+          name: row.restaurantName,
+          logoUrl: row.logoUrl,
+          coverUrl: row.coverUrl,
+          cuisineTypes: row.cuisineType
+            ? row.cuisineType.split(",").map((s) => s.trim())
+            : [],
+          branchCity: row.branchCity,
+          branchBarangay: row.branchBarangay,
+          matchedItems: [],
+        };
+        map.set(row.restaurantId, entry);
+      }
+
+      entry.matchedItems.push({
+        name: row.itemName,
+        basePrice: row.itemBasePrice,
+        imageUrl: row.itemImageUrl,
+      });
+    }
+
+    return Array.from(map.values());
+  }
 
   /**
    * Transform raw DB rows into RestaurantPreviewDTO[],

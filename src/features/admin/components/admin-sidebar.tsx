@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard, ShieldCheck, Store, Users } from "lucide-react";
+import { LayoutDashboard, Store, UserPlus, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { appRoutes } from "@/common/app-routes";
@@ -26,9 +26,9 @@ const navItems = [
     href: appRoutes.admin.base,
   },
   {
-    label: "Verification",
-    icon: ShieldCheck,
-    href: appRoutes.admin.verification,
+    label: "Invitations",
+    icon: UserPlus,
+    href: appRoutes.admin.invitations,
   },
   {
     label: "Restaurants",
@@ -60,7 +60,7 @@ export function AdminSidebar() {
             <SidebarMenu>
               {navItems.map((item) => {
                 const isDashboard = item.href === appRoutes.admin.base;
-                const showBadge = item.href === appRoutes.admin.verification;
+                const showBadge = false;
 
                 return (
                   <SidebarMenuItem key={item.href}>

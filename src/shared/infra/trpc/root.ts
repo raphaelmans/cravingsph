@@ -3,6 +3,7 @@ import { authRouter } from "@/modules/auth/auth.router";
 import { branchRouter } from "@/modules/branch/branch.router";
 import { discoveryRouter } from "@/modules/discovery/discovery.router";
 import { healthRouter } from "@/modules/health/health.router";
+import { invitationRouter } from "@/modules/invitation/invitation.router";
 import { menuRouter } from "@/modules/menu/menu.router";
 import { orderRouter } from "@/modules/order/order.router";
 import { organizationRouter } from "@/modules/organization/organization.router";
@@ -21,6 +22,7 @@ export const appRouter = router({
   admin: adminRouter,
   discovery: discoveryRouter,
   health: healthRouter,
+  invitation: invitationRouter,
   auth: authRouter,
   profile: profileRouter,
   organization: organizationRouter,

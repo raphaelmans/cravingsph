@@ -213,6 +213,7 @@ export default function OwnerRestaurantBranchesPage({
           <div className="xl:sticky xl:top-6 xl:self-start">
             <BranchForm
               restaurantId={restaurant.id}
+              restaurantName={restaurant.name}
               title="Add Branch"
               description="Create a branch location so you can configure menus, order acceptance, and QR setup."
               onComplete={() => {

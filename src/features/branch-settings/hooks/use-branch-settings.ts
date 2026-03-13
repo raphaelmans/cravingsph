@@ -20,10 +20,13 @@ export type WeekDayKey = (typeof WEEK_DAY_KEYS)[number];
 export interface BranchOperatingHour {
   dayKey: WeekDayKey;
   label: string;
+  slotIndex: number;
   opensAt: string;
   closesAt: string;
   isClosed: boolean;
 }
+
+const MAX_SLOTS_PER_DAY = 4;
 
 const DAY_LABELS: Record<number, { dayKey: WeekDayKey; label: string }> = {
   0: { dayKey: "monday", label: "Monday" },
@@ -39,6 +42,7 @@ const DEFAULT_WEEKLY_HOURS: BranchOperatingHour[] = [
   {
     dayKey: "monday",
     label: "Monday",
+    slotIndex: 0,
     opensAt: "09:00",
     closesAt: "21:00",
     isClosed: false,
@@ -46,6 +50,7 @@ const DEFAULT_WEEKLY_HOURS: BranchOperatingHour[] = [
   {
     dayKey: "tuesday",
     label: "Tuesday",
+    slotIndex: 0,
     opensAt: "09:00",
     closesAt: "21:00",
     isClosed: false,
@@ -53,6 +58,7 @@ const DEFAULT_WEEKLY_HOURS: BranchOperatingHour[] = [
   {
     dayKey: "wednesday",
     label: "Wednesday",
+    slotIndex: 0,
     opensAt: "09:00",
     closesAt: "21:00",
     isClosed: false,
@@ -60,6 +66,7 @@ const DEFAULT_WEEKLY_HOURS: BranchOperatingHour[] = [
   {
     dayKey: "thursday",
     label: "Thursday",
+    slotIndex: 0,
     opensAt: "09:00",
     closesAt: "21:00",
     isClosed: false,
@@ -67,6 +74,7 @@ const DEFAULT_WEEKLY_HOURS: BranchOperatingHour[] = [
   {
     dayKey: "friday",
     label: "Friday",
+    slotIndex: 0,
     opensAt: "09:00",
     closesAt: "22:00",
     isClosed: false,
@@ -74,6 +82,7 @@ const DEFAULT_WEEKLY_HOURS: BranchOperatingHour[] = [
   {
     dayKey: "saturday",
     label: "Saturday",
+    slotIndex: 0,
     opensAt: "10:00",
     closesAt: "22:00",
     isClosed: false,
@@ -81,6 +90,7 @@ const DEFAULT_WEEKLY_HOURS: BranchOperatingHour[] = [
   {
     dayKey: "sunday",
     label: "Sunday",
+    slotIndex: 0,
     opensAt: "10:00",
     closesAt: "20:00",
     isClosed: true,
@@ -90,6 +100,7 @@ const DEFAULT_WEEKLY_HOURS: BranchOperatingHour[] = [
 function serverToClient(
   serverHours: {
     dayOfWeek: number;
+    slotIndex: number;
     opensAt: string;
     closesAt: string;
     isClosed: boolean;
@@ -98,26 +109,36 @@ function serverToClient(
   if (serverHours.length === 0)
     return DEFAULT_WEEKLY_HOURS.map((d) => ({ ...d }));
 
-  return serverHours.map((h) => {
-    const meta = DAY_LABELS[h.dayOfWeek];
-    return {
-      dayKey: meta.dayKey,
-      label: meta.label,
-      opensAt: h.opensAt.slice(0, 5),
-      closesAt: h.closesAt.slice(0, 5),
-      isClosed: h.isClosed,
-    };
-  });
+  return serverHours
+    .map((h) => {
+      const meta = DAY_LABELS[h.dayOfWeek];
+      return {
+        dayKey: meta.dayKey,
+        label: meta.label,
+        slotIndex: h.slotIndex,
+        opensAt: h.opensAt.slice(0, 5),
+        closesAt: h.closesAt.slice(0, 5),
+        isClosed: h.isClosed,
+      };
+    })
+    .sort((a, b) => {
+      const dayA = WEEK_DAY_KEYS.indexOf(a.dayKey);
+      const dayB = WEEK_DAY_KEYS.indexOf(b.dayKey);
+      if (dayA !== dayB) return dayA - dayB;
+      return a.slotIndex - b.slotIndex;
+    });
 }
 
 function clientToServer(hours: BranchOperatingHour[]): {
   dayOfWeek: number;
+  slotIndex: number;
   opensAt: string;
   closesAt: string;
   isClosed: boolean;
 }[] {
   return hours.map((h) => ({
     dayOfWeek: WEEK_DAY_KEYS.indexOf(h.dayKey),
+    slotIndex: h.slotIndex,
     opensAt: h.opensAt,
     closesAt: h.closesAt,
     isClosed: h.isClosed,
@@ -126,8 +147,6 @@ function clientToServer(hours: BranchOperatingHour[]): {
 
 export interface BranchOrderSettingsInput {
   isOrderingEnabled: boolean;
-  autoAcceptOrders: boolean;
-  paymentCountdownMinutes: number;
 }
 
 export function useBranchSettings(restaurantId: string, branchId: string) {
@@ -203,12 +222,58 @@ export function useBranchSettings(restaurantId: string, branchId: string) {
 
   function updateWeeklyHour(
     dayKey: WeekDayKey,
+    slotIndex: number,
     updates: Partial<BranchOperatingHour>,
   ) {
     setHoursDraft((prev) => {
       const current = prev ?? DEFAULT_WEEKLY_HOURS.map((d) => ({ ...d }));
       return current.map((hour) =>
-        hour.dayKey === dayKey ? { ...hour, ...updates } : hour,
+        hour.dayKey === dayKey && hour.slotIndex === slotIndex
+          ? { ...hour, ...updates }
+          : hour,
+      );
+    });
+  }
+
+  function addTimeSlot(dayKey: WeekDayKey) {
+    setHoursDraft((prev) => {
+      const current = prev ?? DEFAULT_WEEKLY_HOURS.map((d) => ({ ...d }));
+      const daySlotsCount = current.filter((h) => h.dayKey === dayKey).length;
+
+      if (daySlotsCount >= MAX_SLOTS_PER_DAY) return current;
+
+      const maxSlotIndex = current
+        .filter((h) => h.dayKey === dayKey)
+        .reduce((max, h) => Math.max(max, h.slotIndex), -1);
+
+      const meta = DAY_LABELS[WEEK_DAY_KEYS.indexOf(dayKey)];
+      const newSlot: BranchOperatingHour = {
+        dayKey,
+        label: meta.label,
+        slotIndex: maxSlotIndex + 1,
+        opensAt: "12:00",
+        closesAt: "18:00",
+        isClosed: false,
+      };
+
+      // Insert the new slot right after the last slot for this day
+      const lastDaySlotIdx = current.findLastIndex((h) => h.dayKey === dayKey);
+      const result = [...current];
+      result.splice(lastDaySlotIdx + 1, 0, newSlot);
+      return result;
+    });
+  }
+
+  function removeTimeSlot(dayKey: WeekDayKey, slotIndex: number) {
+    setHoursDraft((prev) => {
+      const current = prev ?? DEFAULT_WEEKLY_HOURS.map((d) => ({ ...d }));
+      const daySlotsCount = current.filter((h) => h.dayKey === dayKey).length;
+
+      // Must keep at least 1 slot per day
+      if (daySlotsCount <= 1) return current;
+
+      return current.filter(
+        (h) => !(h.dayKey === dayKey && h.slotIndex === slotIndex),
       );
     });
   }
@@ -216,20 +281,36 @@ export function useBranchSettings(restaurantId: string, branchId: string) {
   function applyWeekdayTemplate() {
     setHoursDraft((prev) => {
       const current = prev ?? DEFAULT_WEEKLY_HOURS.map((d) => ({ ...d }));
-      const template =
-        current.find((h) => h.dayKey === "monday") ?? DEFAULT_WEEKLY_HOURS[0];
-      return current.map((hour) =>
-        ["monday", "tuesday", "wednesday", "thursday", "friday"].includes(
-          hour.dayKey,
-        )
-          ? {
-              ...hour,
-              opensAt: template.opensAt,
-              closesAt: template.closesAt,
-              isClosed: template.isClosed,
-            }
-          : hour,
-      );
+
+      // Get all Monday slots as the template
+      const mondaySlots = current.filter((h) => h.dayKey === "monday");
+
+      const weekdays: WeekDayKey[] = [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+      ];
+
+      // Remove all weekday slots, then add template-based slots for each weekday
+      const weekendSlots = current.filter((h) => !weekdays.includes(h.dayKey));
+
+      const newWeekdaySlots = weekdays.flatMap((dayKey) => {
+        const meta = DAY_LABELS[WEEK_DAY_KEYS.indexOf(dayKey)];
+        return mondaySlots.map((template) => ({
+          ...template,
+          dayKey,
+          label: meta.label,
+        }));
+      });
+
+      return [...newWeekdaySlots, ...weekendSlots].sort((a, b) => {
+        const dayA = WEEK_DAY_KEYS.indexOf(a.dayKey);
+        const dayB = WEEK_DAY_KEYS.indexOf(b.dayKey);
+        if (dayA !== dayB) return dayA - dayB;
+        return a.slotIndex - b.slotIndex;
+      });
     });
   }
 
@@ -248,8 +329,6 @@ export function useBranchSettings(restaurantId: string, branchId: string) {
     await updateBranchMutation.mutateAsync({
       id: branchId,
       isOrderingEnabled: input.isOrderingEnabled,
-      autoAcceptOrders: input.autoAcceptOrders,
-      paymentCountdownMinutes: input.paymentCountdownMinutes,
     });
   }
 
@@ -259,6 +338,8 @@ export function useBranchSettings(restaurantId: string, branchId: string) {
     branch,
     weeklyHours,
     updateWeeklyHour,
+    addTimeSlot,
+    removeTimeSlot,
     applyWeekdayTemplate,
     resetWeeklyHours,
     saveWeeklyHours,

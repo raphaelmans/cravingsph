@@ -1,8 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { appRoutes } from "@/common/app-routes";
@@ -26,6 +28,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { RegisterSchema } from "@/modules/auth/dtos";
+import { useTRPC } from "@/trpc/client";
 import { useLoginWithGoogle, useRegister } from "../hooks/use-auth";
 import { GoogleSignInButton } from "./google-sign-in-button";
 
@@ -42,10 +45,29 @@ type OwnerRegisterDTO = z.infer<typeof OwnerRegisterSchema>;
 const ONBOARDING_REDIRECT = appRoutes.organization.getStarted;
 const ORG_NAME_STORAGE_KEY = "cravings:pending-org-name";
 
-export function OwnerRegisterForm() {
+interface OwnerRegisterFormProps {
+  token?: string;
+}
+
+export function OwnerRegisterForm({ token }: OwnerRegisterFormProps) {
+  const trpc = useTRPC();
   const [success, setSuccess] = useState(false);
   const registerMutation = useRegister();
   const googleLoginMutation = useLoginWithGoogle();
+
+  const acceptInvitationMutation = useMutation(
+    trpc.invitation.accept.mutationOptions(),
+  );
+
+  const {
+    data: invitation,
+    isLoading: isValidating,
+    error: validationError,
+  } = useQuery({
+    ...trpc.invitation.validate.queryOptions({ token: token ?? "" }),
+    enabled: !!token,
+    retry: false,
+  });
 
   const form = useForm<OwnerRegisterDTO>({
     resolver: zodResolver(OwnerRegisterSchema),
@@ -55,6 +77,18 @@ export function OwnerRegisterForm() {
       organizationName: "",
     },
   });
+
+  // Pre-fill email and organization name from invitation
+  useEffect(() => {
+    if (invitation) {
+      if (invitation.email) {
+        form.setValue("email", invitation.email);
+      }
+      if (invitation.restaurantName) {
+        form.setValue("organizationName", invitation.restaurantName);
+      }
+    }
+  }, [invitation, form]);
 
   const onSubmit = async (data: OwnerRegisterDTO) => {
     try {
@@ -67,6 +101,12 @@ export function OwnerRegisterForm() {
         redirect: ONBOARDING_REDIRECT,
         portalPreference: "owner",
       });
+
+      // Mark invitation as accepted after successful registration
+      if (token) {
+        await acceptInvitationMutation.mutateAsync({ token });
+      }
+
       setSuccess(true);
     } catch (error) {
       if (error instanceof Error) {
@@ -85,6 +125,11 @@ export function OwnerRegisterForm() {
         localStorage.setItem(ORG_NAME_STORAGE_KEY, orgName);
       }
 
+      // Store token for post-login acceptance
+      if (token) {
+        localStorage.setItem("cravings:pending-invite-token", token);
+      }
+
       const result = await googleLoginMutation.mutateAsync({
         redirect: ONBOARDING_REDIRECT,
       });
@@ -97,6 +142,63 @@ export function OwnerRegisterForm() {
       }
     }
   };
+
+  // No token provided — invitation required
+  if (!token) {
+    return (
+      <Card className="w-full max-w-md">
+        <CardHeader className="items-center text-center">
+          <div className="flex size-12 items-center justify-center rounded-full bg-destructive/10 text-destructive">
+            <AlertCircle className="size-6" />
+          </div>
+          <CardTitle>Invitation Required</CardTitle>
+          <CardDescription>
+            Registration requires an invitation link. Contact CravingsPH to get
+            started.
+          </CardDescription>
+        </CardHeader>
+        <CardFooter className="justify-center">
+          <Link href={appRoutes.index.base}>
+            <Button variant="outline">Back to home</Button>
+          </Link>
+        </CardFooter>
+      </Card>
+    );
+  }
+
+  // Validating token
+  if (isValidating) {
+    return (
+      <Card className="w-full max-w-md">
+        <CardContent className="flex items-center justify-center py-16">
+          <Loader2 className="size-6 animate-spin text-muted-foreground" />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Token is invalid or expired
+  if (validationError) {
+    return (
+      <Card className="w-full max-w-md">
+        <CardHeader className="items-center text-center">
+          <div className="flex size-12 items-center justify-center rounded-full bg-destructive/10 text-destructive">
+            <AlertCircle className="size-6" />
+          </div>
+          <CardTitle>Invalid Invitation</CardTitle>
+          <CardDescription>
+            This invitation link is invalid or has expired. Contact CravingsPH
+            to request a new one.
+          </CardDescription>
+        </CardHeader>
+        <CardFooter className="justify-center">
+          <Link href={appRoutes.index.base}>
+            <Button variant="outline">Back to home</Button>
+          </Link>
+        </CardFooter>
+      </Card>
+    );
+  }
 
   if (success) {
     return (
@@ -124,7 +226,7 @@ export function OwnerRegisterForm() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle>Register Your Restaurant</CardTitle>
+        <CardTitle>You&apos;ve been invited to join CravingsPH</CardTitle>
         <CardDescription>
           Create an owner account to manage your restaurant on CravingsPH
         </CardDescription>
@@ -209,9 +311,11 @@ export function OwnerRegisterForm() {
             <Button
               type="submit"
               className="w-full"
-              disabled={registerMutation.isPending}
+              disabled={
+                registerMutation.isPending || acceptInvitationMutation.isPending
+              }
             >
-              {registerMutation.isPending
+              {registerMutation.isPending || acceptInvitationMutation.isPending
                 ? "Creating account..."
                 : "Create Owner Account"}
             </Button>

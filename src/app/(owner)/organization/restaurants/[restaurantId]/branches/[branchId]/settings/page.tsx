@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Clock3,
-  ExternalLink,
-  QrCode,
-  Settings2,
-  Store,
-  Zap,
-} from "lucide-react";
+import { ExternalLink, QrCode, Settings2, Store } from "lucide-react";
 import { use, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { appRoutes } from "@/common/app-routes";
@@ -15,7 +8,6 @@ import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { QRCodePreview } from "@/features/branch-settings/components/qr-code-preview";
@@ -28,8 +20,6 @@ interface BranchSettingsPageProps {
 
 interface OrderSettingsDraft {
   isOrderingEnabled: boolean;
-  autoAcceptOrders: boolean;
-  paymentCountdownMinutes: number;
 }
 
 export default function BranchSettingsPage({
@@ -41,6 +31,8 @@ export default function BranchSettingsPage({
     branch,
     weeklyHours,
     updateWeeklyHour,
+    addTimeSlot,
+    removeTimeSlot,
     applyWeekdayTemplate,
     resetWeeklyHours,
     saveWeeklyHours,
@@ -52,8 +44,6 @@ export default function BranchSettingsPage({
 
   const [draft, setDraft] = useState<OrderSettingsDraft>({
     isOrderingEnabled: true,
-    autoAcceptOrders: false,
-    paymentCountdownMinutes: 15,
   });
 
   useEffect(() => {
@@ -63,16 +53,11 @@ export default function BranchSettingsPage({
 
     setDraft({
       isOrderingEnabled: branch.isOrderingEnabled,
-      autoAcceptOrders: branch.autoAcceptOrders,
-      paymentCountdownMinutes: branch.paymentCountdownMinutes,
     });
   }, [branch]);
 
   const hasOrderChanges = Boolean(
-    branch &&
-      (branch.isOrderingEnabled !== draft.isOrderingEnabled ||
-        branch.autoAcceptOrders !== draft.autoAcceptOrders ||
-        branch.paymentCountdownMinutes !== draft.paymentCountdownMinutes),
+    branch && branch.isOrderingEnabled !== draft.isOrderingEnabled,
   );
 
   const publicPath = restaurant
@@ -92,18 +77,9 @@ export default function BranchSettingsPage({
       return;
     }
 
-    const paymentCountdownMinutes = Math.max(
-      1,
-      Number.isFinite(draft.paymentCountdownMinutes)
-        ? draft.paymentCountdownMinutes
-        : 15,
-    );
-
     try {
       await saveOrderSettings({
         isOrderingEnabled: draft.isOrderingEnabled,
-        autoAcceptOrders: draft.autoAcceptOrders,
-        paymentCountdownMinutes,
       });
       toast.success("Branch order settings saved");
     } catch (error) {
@@ -133,11 +109,7 @@ export default function BranchSettingsPage({
             <Skeleton className="h-4 w-96 max-w-full" />
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
-            <Skeleton className="h-32 rounded-xl" />
-            <Skeleton className="h-32 rounded-xl" />
-            <Skeleton className="h-32 rounded-xl" />
-          </div>
+          <Skeleton className="h-32 rounded-xl" />
 
           <Skeleton className="h-96 rounded-xl" />
           <Skeleton className="h-80 rounded-xl" />
@@ -214,7 +186,7 @@ export default function BranchSettingsPage({
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-1">
           <Card>
             <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
@@ -230,44 +202,14 @@ export default function BranchSettingsPage({
               </div>
             </CardContent>
           </Card>
-
-          <Card>
-            <CardContent className="flex items-center gap-4 p-4">
-              <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                <Zap className="size-5" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Acceptance mode
-                </p>
-                <p className="text-2xl font-semibold">
-                  {draft.autoAcceptOrders ? "Auto" : "Manual"}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="flex items-center gap-4 p-4">
-              <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                <Clock3 className="size-5" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Payment countdown
-                </p>
-                <p className="text-2xl font-semibold">
-                  {draft.paymentCountdownMinutes} min
-                </p>
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
           <WeeklyHoursEditor
             hours={weeklyHours}
             onHourChange={updateWeeklyHour}
+            onAddTimeSlot={addTimeSlot}
+            onRemoveTimeSlot={removeTimeSlot}
             onApplyWeekdayTemplate={applyWeekdayTemplate}
             onReset={resetWeeklyHours}
             onSave={async () => {
@@ -313,49 +255,6 @@ export default function BranchSettingsPage({
                       }))
                     }
                     aria-label="Toggle online ordering"
-                  />
-                </div>
-
-                <div className="flex items-start justify-between gap-4 rounded-xl border p-4">
-                  <div className="space-y-1">
-                    <p className="font-medium">Auto-accept orders</p>
-                    <p className="text-sm text-muted-foreground">
-                      Skip manual approval for this branch when new orders land
-                      in the inbox.
-                    </p>
-                  </div>
-                  <Switch
-                    checked={draft.autoAcceptOrders}
-                    onCheckedChange={(checked) =>
-                      setDraft((current) => ({
-                        ...current,
-                        autoAcceptOrders: checked,
-                      }))
-                    }
-                    aria-label="Toggle auto-accept"
-                  />
-                </div>
-
-                <div className="space-y-2 rounded-xl border p-4">
-                  <label htmlFor="payment-countdown" className="font-medium">
-                    Payment countdown (minutes)
-                  </label>
-                  <p className="text-sm text-muted-foreground">
-                    Controls how long customers have to submit a transfer before
-                    the order is treated as expired.
-                  </p>
-                  <Input
-                    id="payment-countdown"
-                    type="number"
-                    min={1}
-                    value={draft.paymentCountdownMinutes}
-                    onChange={(event) =>
-                      setDraft((current) => ({
-                        ...current,
-                        paymentCountdownMinutes:
-                          Number(event.target.value) || 1,
-                      }))
-                    }
                   />
                 </div>
 

@@ -19,7 +19,7 @@ export interface OnboardingStep {
   href: string;
 }
 
-const TOTAL_STEPS = 7;
+const TOTAL_STEPS = 5;
 
 export function useOnboardingStatus() {
   const trpc = useTRPC();
@@ -39,33 +39,14 @@ export function useOnboardingStatus() {
     enabled: !!firstBranch?.id,
   });
 
-  const { data: hasPayment, isLoading: paymentLoading } = useQuery({
-    ...trpc.paymentConfig.has.queryOptions(),
-    enabled: !!organization,
-  });
-
-  const { data: hasVerification, isLoading: verificationLoading } = useQuery({
-    ...trpc.verification.isSubmitted.queryOptions({
-      restaurantId: firstRestaurant?.id as string,
-    }),
-    enabled: !!firstRestaurant?.id,
-  });
-
   const isLoading =
-    orgLoading ||
-    restaurantsLoading ||
-    branchesLoading ||
-    menuLoading ||
-    paymentLoading ||
-    verificationLoading;
+    orgLoading || restaurantsLoading || branchesLoading || menuLoading;
 
   const steps: OnboardingStep[] = useMemo(() => {
     const hasOrg = !!organization;
     const hasRestaurant = restaurants.length > 0;
     const hasBranch = branches.length > 0;
     const menuDone = !!hasMenu;
-    const paymentDone = !!hasPayment;
-    const verificationDone = !!hasVerification;
 
     const getStatus = (done: boolean, prevDone: boolean): StepStatus => {
       if (done) return "complete";
@@ -104,34 +85,13 @@ export function useOnboardingStatus() {
       },
       {
         id: 5,
-        title: "Payment Methods",
-        description: "Configure how customers can pay",
-        status: getStatus(paymentDone, menuDone),
-        href: "/organization/onboarding?step=5",
-      },
-      {
-        id: 6,
-        title: "Verification",
-        description: "Upload documents to verify your business",
-        status: getStatus(verificationDone, paymentDone),
-        href: "/organization/onboarding?step=6",
-      },
-      {
-        id: 7,
         title: "Complete",
         description: "Review and launch your restaurant",
-        status: getStatus(false, verificationDone),
-        href: "/organization/onboarding?step=7",
+        status: getStatus(false, menuDone),
+        href: "/organization/onboarding?step=5",
       },
     ];
-  }, [
-    organization,
-    restaurants,
-    branches,
-    hasMenu,
-    hasPayment,
-    hasVerification,
-  ]);
+  }, [organization, restaurants, branches, hasMenu]);
 
   const completedCount = steps.filter((s) => s.status === "complete").length;
   const allComplete = completedCount >= TOTAL_STEPS - 1;

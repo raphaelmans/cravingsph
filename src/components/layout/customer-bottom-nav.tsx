@@ -1,18 +1,17 @@
 "use client";
 
-import { Heart, Home, Receipt, ScanLine, User } from "lucide-react";
+import { Home, Receipt, ScanLine, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { appRoutes } from "@/common/app-routes";
-import { cn } from "@/lib/utils";
 import { QrScannerModal } from "@/features/discovery/components/qr-scanner-modal";
+import { cn } from "@/lib/utils";
 
 const tabs = [
   { href: appRoutes.index.base, label: "Home", icon: Home },
   { href: appRoutes.orders.base, label: "Orders", icon: Receipt },
   { href: "__qr__", label: "Scan", icon: ScanLine },
-  { href: appRoutes.saved.base, label: "Saved", icon: Heart },
   { href: appRoutes.customerAccount.base, label: "Account", icon: User },
 ] as const;
 

@@ -1,5 +1,5 @@
-import { SavedRestaurantsPage } from "@/features/saved-restaurants/components/saved-restaurants-page";
+import { redirect } from "next/navigation";
 
 export default function SavedPage() {
-  return <SavedRestaurantsPage />;
+  redirect("/");
 }

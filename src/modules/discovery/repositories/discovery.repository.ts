@@ -1,5 +1,10 @@
 import { and, eq, ilike, or, sql } from "drizzle-orm";
-import { branch, restaurant } from "@/shared/infra/db/schema";
+import {
+  branch,
+  category,
+  menuItem,
+  restaurant,
+} from "@/shared/infra/db/schema";
 import type { DbClient } from "@/shared/infra/db/types";
 
 // ---------------------------------------------------------------------------
@@ -23,6 +28,20 @@ export interface LocationRow {
   count: number;
 }
 
+export interface FoodSearchRow {
+  restaurantId: string;
+  restaurantSlug: string;
+  restaurantName: string;
+  logoUrl: string | null;
+  coverUrl: string | null;
+  cuisineType: string | null;
+  branchCity: string | null;
+  branchBarangay: string | null;
+  itemName: string;
+  itemBasePrice: string;
+  itemImageUrl: string | null;
+}
+
 // ---------------------------------------------------------------------------
 // Interface
 // ---------------------------------------------------------------------------
@@ -38,8 +57,14 @@ export interface IDiscoveryRepository {
     query?: string;
     cuisine?: string;
     city?: string;
+    barangay?: string;
     limit: number;
   }): Promise<DiscoveryRow[]>;
+  searchFood(opts: {
+    query: string;
+    barangay?: string;
+    limit?: number;
+  }): Promise<FoodSearchRow[]>;
   findLocations(): Promise<LocationRow[]>;
   findPopularItems(restaurantIds: string[]): Promise<Map<string, string[]>>;
 }
@@ -127,24 +152,26 @@ export class DiscoveryRepository implements IDiscoveryRepository {
   }
 
   /**
-   * Search restaurants by name, cuisine type, and branch city.
+   * Search restaurants by name, cuisine type, branch city, and barangay.
    */
   async search(opts: {
     query?: string;
     cuisine?: string;
     city?: string;
+    barangay?: string;
     limit: number;
   }): Promise<DiscoveryRow[]> {
     const conditions = [eq(restaurant.isActive, true)];
 
     if (opts.query) {
       const pattern = `%${opts.query}%`;
-      conditions.push(
-        or(
-          ilike(restaurant.name, pattern),
-          ilike(restaurant.cuisineType, pattern),
-        )!,
+      const orCondition = or(
+        ilike(restaurant.name, pattern),
+        ilike(restaurant.cuisineType, pattern),
       );
+      if (orCondition) {
+        conditions.push(orCondition);
+      }
     }
 
     if (opts.cuisine) {
@@ -153,6 +180,10 @@ export class DiscoveryRepository implements IDiscoveryRepository {
 
     if (opts.city) {
       conditions.push(ilike(branch.city, opts.city));
+    }
+
+    if (opts.barangay) {
+      conditions.push(ilike(branch.barangay, `%${opts.barangay}%`));
     }
 
     return this.db
@@ -173,6 +204,63 @@ export class DiscoveryRepository implements IDiscoveryRepository {
       )
       .where(and(...conditions))
       .limit(opts.limit);
+  }
+
+  /**
+   * Search menu items by name, returning restaurant + matched item details.
+   * Joins menu_item → category → branch → restaurant.
+   */
+  async searchFood(opts: {
+    query: string;
+    barangay?: string;
+    limit?: number;
+  }): Promise<FoodSearchRow[]> {
+    const itemLimit = opts.limit ?? 20;
+    const pattern = `%${opts.query}%`;
+
+    const conditions = [
+      eq(restaurant.isActive, true),
+      eq(branch.isActive, true),
+      eq(menuItem.isAvailable, true),
+      ilike(menuItem.name, pattern),
+    ];
+
+    if (opts.barangay) {
+      conditions.push(ilike(branch.barangay, `%${opts.barangay}%`));
+    }
+
+    const rows = await this.db
+      .select({
+        restaurantId: restaurant.id,
+        restaurantSlug: restaurant.slug,
+        restaurantName: restaurant.name,
+        logoUrl: restaurant.logoUrl,
+        coverUrl: restaurant.coverUrl,
+        cuisineType: restaurant.cuisineType,
+        branchCity: branch.city,
+        branchBarangay: branch.barangay,
+        itemName: menuItem.name,
+        itemBasePrice: menuItem.basePrice,
+        itemImageUrl: menuItem.imageUrl,
+      })
+      .from(menuItem)
+      .innerJoin(category, eq(category.id, menuItem.categoryId))
+      .innerJoin(
+        branch,
+        and(eq(branch.id, category.branchId), eq(branch.isActive, true)),
+      )
+      .innerJoin(
+        restaurant,
+        and(
+          eq(restaurant.id, branch.restaurantId),
+          eq(restaurant.isActive, true),
+        ),
+      )
+      .where(and(...conditions))
+      .orderBy(restaurant.name, menuItem.sortOrder)
+      .limit(itemLimit);
+
+    return rows;
   }
 
   /**

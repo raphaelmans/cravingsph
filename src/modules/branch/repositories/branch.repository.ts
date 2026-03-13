@@ -118,7 +118,7 @@ export class BranchRepository implements IBranchRepository {
       .select()
       .from(operatingHours)
       .where(eq(operatingHours.branchId, branchId))
-      .orderBy(operatingHours.dayOfWeek);
+      .orderBy(operatingHours.dayOfWeek, operatingHours.slotIndex);
   }
 
   async upsertOperatingHours(
@@ -129,27 +129,26 @@ export class BranchRepository implements IBranchRepository {
     const client = this.getClient(ctx);
     const now = new Date();
 
-    for (const entry of hours) {
-      await client
-        .insert(operatingHours)
-        .values({
+    // Delete all existing rows for this branch, then reinsert.
+    // This handles slot additions/removals cleanly since the unique
+    // constraint is now (branchId, dayOfWeek, slotIndex).
+    await client
+      .delete(operatingHours)
+      .where(eq(operatingHours.branchId, branchId));
+
+    if (hours.length > 0) {
+      await client.insert(operatingHours).values(
+        hours.map((entry) => ({
           branchId,
           dayOfWeek: entry.dayOfWeek,
+          slotIndex: entry.slotIndex,
           opensAt: entry.opensAt,
           closesAt: entry.closesAt,
           isClosed: entry.isClosed,
           createdAt: now,
           updatedAt: now,
-        })
-        .onConflictDoUpdate({
-          target: [operatingHours.branchId, operatingHours.dayOfWeek],
-          set: {
-            opensAt: entry.opensAt,
-            closesAt: entry.closesAt,
-            isClosed: entry.isClosed,
-            updatedAt: now,
-          },
-        });
+        })),
+      );
     }
   }
 }

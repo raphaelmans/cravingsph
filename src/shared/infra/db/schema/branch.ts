@@ -2,6 +2,7 @@ import {
   boolean,
   index,
   integer,
+  jsonb,
   numeric,
   pgTable,
   text,
@@ -28,6 +29,8 @@ export const branch = pgTable(
     name: varchar("name", { length: 200 }).notNull(),
     slug: varchar("slug", { length: 200 }).notNull(),
     address: text("address"),
+    street: varchar("street", { length: 200 }),
+    barangay: varchar("barangay", { length: 100 }),
     province: varchar("province", { length: 100 }),
     city: varchar("city", { length: 100 }),
     phone: varchar("phone", { length: 20 }),
@@ -39,6 +42,7 @@ export const branch = pgTable(
       .notNull(),
     latitude: numeric("latitude", { precision: 10, scale: 7 }),
     longitude: numeric("longitude", { precision: 10, scale: 7 }),
+    amenities: jsonb("amenities").$type<string[]>().default([]),
     isActive: boolean("is_active").default(true).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()

@@ -2,6 +2,7 @@ import { publicProcedure, router } from "@/shared/infra/trpc/trpc";
 import {
   FeaturedInputSchema,
   NearbyInputSchema,
+  SearchFoodInputSchema,
   SearchInputSchema,
 } from "./dtos/discovery.dto";
 import { makeDiscoveryService } from "./factories/discovery.factory";
@@ -26,7 +27,7 @@ export const discoveryRouter = router({
   }),
 
   /**
-   * Search restaurants — filter by text, cuisine, and city.
+   * Search restaurants — filter by text, cuisine, city, and barangay.
    */
   search: publicProcedure.input(SearchInputSchema).query(async ({ input }) => {
     const service = makeDiscoveryService();
@@ -34,9 +35,24 @@ export const discoveryRouter = router({
       query: input.query,
       cuisine: input.cuisine,
       city: input.city,
+      barangay: input.barangay,
       limit: input.limit,
     });
   }),
+
+  /**
+   * Search menu items by name — returns restaurants with matched food items.
+   */
+  searchFood: publicProcedure
+    .input(SearchFoodInputSchema)
+    .query(async ({ input }) => {
+      const service = makeDiscoveryService();
+      return service.searchFood({
+        query: input.query,
+        barangay: input.barangay,
+        limit: input.limit,
+      });
+    }),
 
   /**
    * Distinct cities with active restaurants.

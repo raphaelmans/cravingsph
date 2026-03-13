@@ -1,12 +1,24 @@
 import { z } from "zod";
 
+const BRANCH_AMENITY = z.enum([
+  "air_conditioning",
+  "parking",
+  "free_wifi",
+  "outdoor_seating",
+]);
+
+export type BranchAmenity = z.infer<typeof BRANCH_AMENITY>;
+
 export const CreateBranchSchema = z.object({
   restaurantId: z.string().uuid(),
   name: z.string().min(1).max(200),
   address: z.string().max(500).optional(),
+  street: z.string().max(200).optional(),
+  barangay: z.string().max(100).optional(),
   province: z.string().max(100).optional(),
   city: z.string().max(100).optional(),
   phone: z.string().max(20).optional(),
+  amenities: z.array(BRANCH_AMENITY).optional(),
 });
 
 export type CreateBranchDTO = z.infer<typeof CreateBranchSchema>;
@@ -15,9 +27,12 @@ export const UpdateBranchSchema = z.object({
   id: z.string().uuid(),
   name: z.string().min(1).max(200).optional(),
   address: z.string().max(500).optional(),
+  street: z.string().max(200).optional(),
+  barangay: z.string().max(100).optional(),
   province: z.string().max(100).optional(),
   city: z.string().max(100).optional(),
   phone: z.string().max(20).optional(),
+  amenities: z.array(BRANCH_AMENITY).optional(),
   coverUrl: z.string().url().optional(),
   isOrderingEnabled: z.boolean().optional(),
   autoAcceptOrders: z.boolean().optional(),
@@ -28,6 +43,7 @@ export type UpdateBranchDTO = z.infer<typeof UpdateBranchSchema>;
 
 const OperatingHourEntrySchema = z.object({
   dayOfWeek: z.number().int().min(0).max(6),
+  slotIndex: z.number().int().min(0).max(3),
   opensAt: z.string().regex(/^\d{2}:\d{2}$/),
   closesAt: z.string().regex(/^\d{2}:\d{2}$/),
   isClosed: z.boolean(),
@@ -39,7 +55,7 @@ export const GetOperatingHoursSchema = z.object({
 
 export const UpdateOperatingHoursSchema = z.object({
   branchId: z.string().uuid(),
-  hours: z.array(OperatingHourEntrySchema).length(7),
+  hours: z.array(OperatingHourEntrySchema).min(7).max(28),
 });
 
 export type OperatingHourEntry = z.infer<typeof OperatingHourEntrySchema>;

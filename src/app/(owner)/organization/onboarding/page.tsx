@@ -11,9 +11,7 @@ import { BranchForm } from "@/features/onboarding/components/branch-form";
 import { CompletionStep } from "@/features/onboarding/components/completion-step";
 import { MenuBuilderStep } from "@/features/onboarding/components/menu-builder-step";
 import { OrganizationForm } from "@/features/onboarding/components/organization-form";
-import { PaymentMethodsStep } from "@/features/onboarding/components/payment-methods-step";
 import { RestaurantForm } from "@/features/onboarding/components/restaurant-form";
-import { VerificationStep } from "@/features/onboarding/components/verification-step";
 import { WizardProgress } from "@/features/onboarding/components/wizard-progress";
 import { useOnboardingStatus } from "@/features/onboarding/hooks/use-onboarding-status";
 import {
@@ -21,7 +19,7 @@ import {
   useRestaurants,
 } from "@/features/owner/hooks/use-owner-sidebar-data";
 
-const TOTAL_STEPS = 7;
+const TOTAL_STEPS = 5;
 
 function OnboardingWizardContent() {
   const router = useRouter();
@@ -102,6 +100,7 @@ function OnboardingWizardContent() {
         {currentStep === 3 && firstRestaurant && (
           <BranchForm
             restaurantId={firstRestaurant.id}
+            restaurantName={firstRestaurant.name}
             onComplete={handleStepComplete}
           />
         )}
@@ -109,12 +108,6 @@ function OnboardingWizardContent() {
           <MenuBuilderStep onComplete={handleStepComplete} />
         )}
         {currentStep === 5 && (
-          <PaymentMethodsStep onComplete={handleStepComplete} />
-        )}
-        {currentStep === 6 && (
-          <VerificationStep onComplete={handleStepComplete} />
-        )}
-        {currentStep === 7 && (
           <CompletionStep
             allComplete={allComplete}
             completedCount={completedCount}

@@ -1,14 +1,10 @@
 "use client";
 
-import { Heart, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { useSession } from "@/features/auth/hooks/use-auth";
-import { useSavedRestaurants } from "@/features/saved-restaurants/hooks/use-saved-restaurants";
-import { cn } from "@/lib/utils";
 
 export interface RestaurantPreview {
   id: string;
@@ -26,26 +22,6 @@ interface RestaurantCardProps {
 }
 
 export function RestaurantCard({ restaurant }: RestaurantCardProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const session = useSession();
-  const { isSaved, toggleSavedRestaurant } = useSavedRestaurants();
-
-  const isAuthenticated = !!session.data;
-  const saved = isAuthenticated && isSaved(restaurant.id);
-
-  function handleSave(e: React.MouseEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!isAuthenticated) {
-      router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
-      return;
-    }
-
-    toggleSavedRestaurant(restaurant.id);
-  }
-
   return (
     <Card
       data-slot="restaurant-card"
@@ -122,23 +98,6 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
           )}
         </div>
       </Link>
-
-      {/* Save button — overlaid on top-right of cover image */}
-      <button
-        type="button"
-        onClick={handleSave}
-        aria-label={saved ? "Unsave restaurant" : "Save restaurant"}
-        className="absolute right-2 top-2 flex size-10 items-center justify-center rounded-full bg-background/80 backdrop-blur-sm transition-colors hover:bg-background"
-      >
-        <Heart
-          className={cn(
-            "size-4 transition-colors",
-            saved
-              ? "fill-destructive text-destructive"
-              : "text-muted-foreground",
-          )}
-        />
-      </button>
     </Card>
   );
 }

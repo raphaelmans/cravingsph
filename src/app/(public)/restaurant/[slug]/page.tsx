@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import { RestaurantHeader } from "@/features/menu/components/restaurant-header";
 import { RestaurantMenu } from "@/features/menu/components/restaurant-menu";
-import { RestaurantReviews } from "@/features/orders/components/restaurant-reviews";
 import { NotFoundError } from "@/shared/kernel/errors";
 import { api } from "@/trpc/server";
 
@@ -114,10 +113,6 @@ export default async function RestaurantPage({
       />
 
       <RestaurantMenu menu={menu} branchSlug={slug} />
-      <RestaurantReviews
-        restaurantSlug={restaurant.slug}
-        restaurantName={restaurant.name}
-      />
     </div>
   );
 }

@@ -147,13 +147,25 @@ export default function OwnerBranchDetailPage({ params }: BranchPageProps) {
           <BranchForm
             mode="edit"
             restaurantId={restaurant.id}
+            restaurantName={restaurant.name}
             branchId={branch.id}
             initialValues={{
               name: branch.name,
               address: branch.address ?? "",
+              street:
+                ((branch as Record<string, unknown>).street as string) ?? "",
+              barangay:
+                ((branch as Record<string, unknown>).barangay as string) ?? "",
               province: branch.province ?? "",
               city: branch.city ?? "",
               phone: branch.phone ?? "",
+              amenities:
+                ((branch as Record<string, unknown>).amenities as Array<
+                  | "air_conditioning"
+                  | "parking"
+                  | "free_wifi"
+                  | "outdoor_seating"
+                >) ?? [],
             }}
             title="Branch Details"
             description="Update the branch name, service address, and contact information used by staff and customers."

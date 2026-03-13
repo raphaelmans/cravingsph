@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { OrderStatusEvent } from "../types";
 
 const STATUS_LABELS: Record<string, string> = {
-  placed: "Order Placed",
+  placed: "Order Submitted",
   accepted: "Accepted",
   preparing: "Preparing",
   ready: "Ready for Pickup",

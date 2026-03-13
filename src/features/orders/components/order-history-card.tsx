@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock3, RotateCcw, Star, Store } from "lucide-react";
+import { Clock3, RotateCcw, Store } from "lucide-react";
 import { Price } from "@/components/brand/price";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,9 +15,7 @@ import type { CustomerOrderRecord } from "../hooks/use-customer-orders";
 
 interface OrderHistoryCardProps {
   order: CustomerOrderRecord;
-  hasReview: boolean;
   onReorder: () => void;
-  onLeaveReview: () => void;
 }
 
 const STATUS_COPY = {
@@ -39,12 +37,7 @@ function formatDate(value: string) {
   }).format(new Date(value));
 }
 
-export function OrderHistoryCard({
-  order,
-  hasReview,
-  onReorder,
-  onLeaveReview,
-}: OrderHistoryCardProps) {
+export function OrderHistoryCard({ order, onReorder }: OrderHistoryCardProps) {
   const status = STATUS_COPY[order.status];
   const previewItems = order.items.slice(0, 2);
   const extraItems = Math.max(order.items.length - previewItems.length, 0);
@@ -126,25 +119,6 @@ export function OrderHistoryCard({
           <RotateCcw className="size-4" />
           Reorder
         </Button>
-
-        {order.status === "completed" && !hasReview ? (
-          <Button
-            shape="pill"
-            variant="outline"
-            className="w-full sm:flex-1"
-            onClick={onLeaveReview}
-          >
-            <Star className="size-4" />
-            Leave review
-          </Button>
-        ) : null}
-
-        {hasReview ? (
-          <div className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-primary/20 px-4 py-2 text-sm font-medium text-primary sm:w-auto">
-            <Star className="size-4 fill-current" />
-            Reviewed
-          </div>
-        ) : null}
       </CardFooter>
     </Card>
   );
