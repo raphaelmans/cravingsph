@@ -28,10 +28,10 @@ export function HeroSection() {
       <Logo size="lg" />
       <div className="space-y-1 text-center">
         <p className="font-heading text-xl font-bold text-peach-foreground">
-          Discover local restaurants
+          Scan, order, enjoy
         </p>
         <p className="text-sm text-peach-foreground/70">
-          Browse menus, order dine-in or pickup
+          Browse menus and order dine-in right from your phone
         </p>
       </div>
       <form onSubmit={handleSubmit} className="mt-1 w-full max-w-sm">

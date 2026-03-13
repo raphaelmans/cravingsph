@@ -56,15 +56,7 @@ export default function GetStartedPage() {
       {/* Setup cards grid */}
       <div className="grid gap-4 sm:grid-cols-2">
         {isLoading
-          ? [
-              "org",
-              "restaurant",
-              "branch",
-              "menu",
-              "payment",
-              "verify",
-              "complete",
-            ].map((key) => (
+          ? ["org", "restaurant", "branch", "menu", "complete"].map((key) => (
               <Skeleton key={key} className="h-[88px] rounded-xl" />
             ))
           : steps.map((step) => <SetupCard key={step.id} step={step} />)}

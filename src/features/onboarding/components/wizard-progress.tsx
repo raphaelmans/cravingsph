@@ -8,8 +8,6 @@ const STEP_LABELS = [
   "Restaurant",
   "Branch",
   "Menu",
-  "Payments",
-  "Verification",
   "Complete",
 ];
 

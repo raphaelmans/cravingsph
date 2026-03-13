@@ -30,24 +30,17 @@ test.describe("AC-004: Save-for-later on discovery", () => {
   });
 });
 
-test.describe("AC-005: Saved restaurants are account-scoped", () => {
-  test("new customer sees empty state on /saved", async ({ page }) => {
+test.describe("AC-005: Saved restaurants out of MVP scope", () => {
+  test("/saved redirects to homepage (feature not in current MVP)", async ({
+    page,
+  }) => {
     await page.goto("/saved");
     await page.waitForLoadState("domcontentloaded");
+    await page.waitForTimeout(2_000);
 
-    // New test account should see empty state
-    const emptyIndicator = page.locator(
-      "text=/no saved|empty|start saving|nothing here|haven.*saved/i",
-    );
-    const hasCards = await page
-      .locator('a[href^="/restaurant/"]')
-      .first()
-      .isVisible()
-      .catch(() => false);
-
-    if (!hasCards) {
-      await expect(emptyIndicator.first()).toBeVisible({ timeout: 5_000 });
-    }
+    // Per PRD v4: saved restaurants is out of MVP scope — page redirects to /
+    const url = page.url();
+    expect(url).toMatch(/\/$/);
   });
 });
 
@@ -93,6 +86,44 @@ test.describe("AC-008: Portal separation enforced", () => {
 
     // Either redirected away OR on get-started (which is the entry gate)
     expect(isRedirected || isOnGetStarted).toBe(true);
+  });
+});
+
+test.describe("Onboarding: Customer account page", () => {
+  test("account page does not show 'Saved restaurants' link", async ({
+    page,
+  }) => {
+    await page.goto("/account");
+    await page.waitForLoadState("domcontentloaded");
+
+    // The "Saved restaurants" link was removed — no clickable link should exist
+    await expect(
+      page.locator('a:has-text("Saved restaurants")'),
+    ).not.toBeVisible();
+  });
+
+  test("account page shows 'Order history' link", async ({ page }) => {
+    await page.goto("/account");
+    await page.waitForLoadState("domcontentloaded");
+
+    await expect(page.locator("text=/order history/i").first()).toBeVisible({
+      timeout: 10_000,
+    });
+  });
+
+  test("account page shows 'Orders' stat instead of 'Saved'", async ({
+    page,
+  }) => {
+    await page.goto("/account");
+    await page.waitForLoadState("domcontentloaded");
+
+    // The "Quick return" stat should show "Orders" not "Saved"
+    await expect(page.locator("text=/orders/i").first()).toBeVisible({
+      timeout: 10_000,
+    });
+    // Make sure "Saved" is not shown as a stat label
+    const savedStat = page.locator("text=/^saved$/i");
+    await expect(savedStat).not.toBeVisible();
   });
 });
 

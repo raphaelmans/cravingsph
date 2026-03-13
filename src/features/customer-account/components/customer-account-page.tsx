@@ -3,7 +3,6 @@
 import { useQuery } from "@tanstack/react-query";
 import {
   ArrowRightLeft,
-  Heart,
   History,
   LogOut,
   ShieldCheck,
@@ -123,7 +122,7 @@ export function CustomerAccountPage() {
             </div>
             <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
               <p className="text-sm text-muted-foreground">Quick return</p>
-              <p className="mt-2 font-heading text-3xl font-bold">Saved</p>
+              <p className="mt-2 font-heading text-3xl font-bold">Orders</p>
             </div>
             <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
               <p className="text-sm text-muted-foreground">Best next step</p>
@@ -147,26 +146,6 @@ export function CustomerAccountPage() {
               </div>
 
               <div className="mt-6 space-y-4">
-                <Link
-                  href={appRoutes.saved.base}
-                  className="flex items-center justify-between rounded-3xl border border-primary/10 px-4 py-4 transition-colors hover:bg-primary/5"
-                >
-                  <span className="inline-flex items-center gap-4">
-                    <span className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
-                      <Heart className="size-4" />
-                    </span>
-                    <span>
-                      <span className="block font-medium">
-                        Saved restaurants
-                      </span>
-                      <span className="text-sm text-muted-foreground">
-                        Review your go-to places and trim your list.
-                      </span>
-                    </span>
-                  </span>
-                  <span className="text-sm font-medium text-primary">Open</span>
-                </Link>
-
                 <Link
                   href={appRoutes.orders.base}
                   className="flex items-center justify-between rounded-3xl border border-primary/10 px-4 py-4 transition-colors hover:bg-primary/5"

@@ -38,17 +38,45 @@ test.describe("AC-002: Search filters by location", () => {
     await page.goto("/search");
     await page.waitForLoadState("domcontentloaded");
 
-    // Search input should be present
-    const searchInput = page.locator('input[type="search"]');
-    await expect(searchInput).toBeVisible({ timeout: 10_000 });
+    // Wait for Suspense to resolve — combobox only renders after hydration
+    const locationFilter = page.getByRole("combobox").first();
+    await expect(locationFilter).toBeVisible({ timeout: 15_000 });
 
-    // Location filter (combobox or select) should be present
-    const locationFilter = page.getByRole("combobox");
-    await expect(locationFilter).toBeVisible({ timeout: 5_000 });
-
-    // Cuisine filter pills should be present
+    // Cuisine filter pills should be present (also post-Suspense)
     const cuisinePills = page.locator("text=/Filipino|Chicken|Seafood/i");
     await expect(cuisinePills.first()).toBeVisible({ timeout: 5_000 });
+  });
+});
+
+test.describe("Onboarding: Homepage hero and how-it-works", () => {
+  test("homepage shows 'Scan, order, enjoy' hero text", async ({ page }) => {
+    await page.goto("/");
+    await page.waitForLoadState("domcontentloaded");
+
+    // Hero text is a <p>, not a heading
+    await expect(page.locator("text=Scan, order, enjoy")).toBeVisible({
+      timeout: 10_000,
+    });
+
+    await expect(
+      page.locator("text=/browse menus.*order.*from your phone/i"),
+    ).toBeVisible();
+  });
+
+  test("homepage shows 'How it works' 3-step section", async ({ page }) => {
+    await page.goto("/");
+    await page.waitForLoadState("domcontentloaded");
+
+    await expect(
+      page.getByRole("heading", { name: /how it works/i }),
+    ).toBeVisible({ timeout: 10_000 });
+
+    // All 3 steps should be present
+    await expect(page.locator("text=/scan.*qr.*code/i").first()).toBeVisible();
+    await expect(
+      page.locator("text=/order from your phone/i").first(),
+    ).toBeVisible();
+    await expect(page.locator("text=/enjoy your meal/i").first()).toBeVisible();
   });
 });
 
@@ -57,8 +85,8 @@ test.describe("AC-003: QR scanner", () => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
 
-    // The fixed-position scan button should be visible
-    const scanButton = page.getByRole("button", { name: /scan cravings qr/i });
+    // The scan button lives in the bottom navigation bar
+    const scanButton = page.getByRole("button", { name: /scan qr code/i });
     await expect(scanButton).toBeVisible({ timeout: 10_000 });
   });
 });

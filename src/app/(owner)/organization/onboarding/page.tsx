@@ -15,6 +15,7 @@ import { RestaurantForm } from "@/features/onboarding/components/restaurant-form
 import { WizardProgress } from "@/features/onboarding/components/wizard-progress";
 import { useOnboardingStatus } from "@/features/onboarding/hooks/use-onboarding-status";
 import {
+  useBranches,
   useOrganization,
   useRestaurants,
 } from "@/features/owner/hooks/use-owner-sidebar-data";
@@ -29,6 +30,8 @@ function OnboardingWizardContent() {
   const { data: organization } = useOrganization();
   const { data: restaurants = [] } = useRestaurants(organization?.id);
   const firstRestaurant = restaurants[0];
+  const { data: branches = [] } = useBranches(firstRestaurant?.id);
+  const firstBranch = branches[0];
 
   const { steps, completedCount, totalSteps, isLoading, allComplete } =
     useOnboardingStatus();
@@ -104,14 +107,18 @@ function OnboardingWizardContent() {
             onComplete={handleStepComplete}
           />
         )}
-        {currentStep === 4 && (
-          <MenuBuilderStep onComplete={handleStepComplete} />
+        {currentStep === 4 && firstBranch && (
+          <MenuBuilderStep
+            branchId={firstBranch.id}
+            onComplete={handleStepComplete}
+          />
         )}
         {currentStep === 5 && (
           <CompletionStep
             allComplete={allComplete}
             completedCount={completedCount}
             totalSteps={totalSteps}
+            steps={steps}
           />
         )}
       </div>

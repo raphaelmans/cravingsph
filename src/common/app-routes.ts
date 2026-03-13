@@ -36,6 +36,11 @@ export const appRoutes = {
     base: "/search",
     options: { type: "public" as const },
   },
+  guides: {
+    base: "/guides",
+    options: { type: "public" as const },
+    detail: (slug: string) => `/guides/${slug}` as const,
+  },
 
   // Protected customer (auth optional, redirect to login if needed)
   orders: {
@@ -117,6 +122,7 @@ const publicBases = [
   appRoutes.index.base,
   appRoutes.restaurant.base,
   appRoutes.search.base,
+  appRoutes.guides.base,
 ];
 
 const guestBases = [

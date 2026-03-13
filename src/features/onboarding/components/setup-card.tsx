@@ -4,10 +4,8 @@ import {
   Building2,
   Check,
   ChefHat,
-  CreditCard,
   MapPin,
   PartyPopper,
-  ShieldCheck,
   Store,
 } from "lucide-react";
 import Link from "next/link";
@@ -23,9 +21,7 @@ const stepIcons: Record<number, React.ComponentType<{ className?: string }>> = {
   2: Store,
   3: MapPin,
   4: ChefHat,
-  5: CreditCard,
-  6: ShieldCheck,
-  7: PartyPopper,
+  5: PartyPopper,
 };
 
 const statusConfig: Record<

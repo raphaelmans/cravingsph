@@ -4,6 +4,7 @@ import {
   CuisinePill,
 } from "@/features/discovery/components/cuisine-pill";
 import { HeroSection } from "@/features/discovery/components/hero-section";
+import { HowItWorksSection } from "@/features/discovery/components/how-it-works-section";
 import { RestaurantCardList } from "@/features/discovery/components/restaurant-card-list";
 import { api } from "@/trpc/server";
 
@@ -18,6 +19,9 @@ export default async function HomePage() {
     <div data-slot="home-page" className="flex min-h-dvh flex-col">
       {/* Hero */}
       <HeroSection />
+
+      {/* How it works */}
+      <HowItWorksSection />
 
       {/* Cuisine categories */}
       <section data-slot="cuisine-categories" className="py-4">
