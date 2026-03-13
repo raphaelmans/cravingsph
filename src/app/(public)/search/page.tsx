@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { type FormEvent, Suspense, useRef } from "react";
 import { Input } from "@/components/ui/input";
+import { BarangayFilter } from "@/features/discovery/components/barangay-filter";
 import { CuisineFilter } from "@/features/discovery/components/cuisine-filter";
 import { FoodSearchResults } from "@/features/discovery/components/food-search-results";
 import { LocationFilter } from "@/features/discovery/components/location-filter";
@@ -37,6 +38,7 @@ function SearchPageContent() {
   const query = searchParams.get("q") ?? "";
   const cuisine = searchParams.get("cuisine") ?? "";
   const location = searchParams.get("location") ?? "";
+  const barangay = searchParams.get("barangay") ?? "";
   const mode: SearchMode =
     searchParams.get("mode") === "food" ? "food" : "restaurant";
 
@@ -47,6 +49,7 @@ function SearchPageContent() {
         query: query || undefined,
         cuisine: cuisine || undefined,
         city: location || undefined,
+        barangay: barangay || undefined,
       }),
       enabled: mode === "restaurant",
     });
@@ -55,6 +58,7 @@ function SearchPageContent() {
   const { data: foodResults = [], isLoading: isLoadingFood } = useQuery({
     ...trpc.discovery.searchFood.queryOptions({
       query: query,
+      barangay: barangay || undefined,
       limit: 20,
     }),
     enabled: mode === "food" && query.length > 0,
@@ -62,6 +66,10 @@ function SearchPageContent() {
 
   const { data: locations = [] } = useQuery(
     trpc.discovery.locations.queryOptions(),
+  );
+
+  const { data: barangays = [] } = useQuery(
+    trpc.discovery.barangays.queryOptions(),
   );
 
   const isLoading =
@@ -90,7 +98,7 @@ function SearchPageContent() {
     updateParams({ mode: newMode === "restaurant" ? "" : newMode });
   }
 
-  const hasFilters = query || cuisine || location;
+  const hasFilters = query || cuisine || location || barangay;
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -160,6 +168,13 @@ function SearchPageContent() {
               locations={locations}
             />
           )}
+
+          {/* Barangay filter (both modes) */}
+          <BarangayFilter
+            value={barangay || "all"}
+            onChange={(v) => updateParams({ barangay: v === "all" ? "" : v })}
+            barangays={barangays}
+          />
         </div>
 
         {/* Cuisine filter (restaurant mode only) */}

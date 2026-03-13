@@ -67,3 +67,10 @@ export interface LocationDTO {
   slug: string;
   count: number;
 }
+
+export interface BarangayDTO {
+  barangay: string;
+  city: string | null;
+  slug: string;
+  count: number;
+}

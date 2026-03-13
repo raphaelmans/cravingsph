@@ -12,12 +12,10 @@ import {
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { useAdminDashboardOverview } from "@/features/admin/hooks/use-admin-portal";
 
 const navItems = [
   {
@@ -44,8 +42,6 @@ const navItems = [
 
 export function AdminSidebar() {
   const pathname = usePathname();
-  const { data } = useAdminDashboardOverview();
-
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="p-4">
@@ -60,7 +56,6 @@ export function AdminSidebar() {
             <SidebarMenu>
               {navItems.map((item) => {
                 const isDashboard = item.href === appRoutes.admin.base;
-                const showBadge = false;
 
                 return (
                   <SidebarMenuItem key={item.href}>
@@ -78,12 +73,6 @@ export function AdminSidebar() {
                         <span>{item.label}</span>
                       </Link>
                     </SidebarMenuButton>
-
-                    {showBadge && (data?.pendingVerifications ?? 0) > 0 ? (
-                      <SidebarMenuBadge>
-                        {data?.pendingVerifications}
-                      </SidebarMenuBadge>
-                    ) : null}
                   </SidebarMenuItem>
                 );
               })}

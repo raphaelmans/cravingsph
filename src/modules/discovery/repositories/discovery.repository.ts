@@ -28,6 +28,12 @@ export interface LocationRow {
   count: number;
 }
 
+export interface BarangayRow {
+  barangay: string;
+  city: string | null;
+  count: number;
+}
+
 export interface FoodSearchRow {
   restaurantId: string;
   restaurantSlug: string;
@@ -66,6 +72,7 @@ export interface IDiscoveryRepository {
     limit?: number;
   }): Promise<FoodSearchRow[]>;
   findLocations(): Promise<LocationRow[]>;
+  findBarangays(): Promise<BarangayRow[]>;
   findPopularItems(restaurantIds: string[]): Promise<Map<string, string[]>>;
 }
 
@@ -286,6 +293,33 @@ export class DiscoveryRepository implements IDiscoveryRepository {
       .orderBy(branch.city);
 
     return rows as LocationRow[];
+  }
+
+  /**
+   * Distinct barangays with active restaurants, with counts.
+   */
+  async findBarangays(): Promise<BarangayRow[]> {
+    const rows = await this.db
+      .select({
+        barangay: branch.barangay,
+        city: branch.city,
+        count: sql<number>`count(distinct ${restaurant.id})`.mapWith(Number),
+      })
+      .from(branch)
+      .innerJoin(
+        restaurant,
+        and(
+          eq(restaurant.id, branch.restaurantId),
+          eq(restaurant.isActive, true),
+        ),
+      )
+      .where(
+        and(eq(branch.isActive, true), sql`${branch.barangay} IS NOT NULL`),
+      )
+      .groupBy(branch.barangay, branch.city)
+      .orderBy(branch.barangay);
+
+    return rows as BarangayRow[];
   }
 
   /**

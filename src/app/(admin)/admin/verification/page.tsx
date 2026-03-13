@@ -1,5 +1,5 @@
-import { AdminVerificationQueuePage } from "@/features/admin/components/admin-verification-queue-page";
+import { redirect } from "next/navigation";
 
 export default function AdminVerificationPage() {
-  return <AdminVerificationQueuePage />;
+  redirect("/admin");
 }

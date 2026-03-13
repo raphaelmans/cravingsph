@@ -42,6 +42,7 @@ export const appRoutes = {
     base: "/orders",
     options: { type: "protected" as const },
   },
+  /** @deprecated Hidden for MVP — page redirects to / */
   saved: {
     base: "/saved",
     options: { type: "protected" as const },
@@ -81,8 +82,10 @@ export const appRoutes = {
     getStarted: "/organization/get-started",
     onboarding: "/organization/onboarding",
     restaurants: "/organization/restaurants",
+    /** @deprecated Hidden for MVP — page redirects to /organization */
     payments: "/organization/payments",
     team: "/organization/team",
+    /** @deprecated Hidden for MVP — page redirects to /organization */
     verify: "/organization/verify",
     settings: "/organization/settings",
   },
@@ -96,7 +99,9 @@ export const appRoutes = {
     base: "/admin",
     options: { type: "admin" as const },
     invitations: "/admin/invitations",
+    /** @deprecated Hidden for MVP — page redirects to /admin */
     verification: "/admin/verification",
+    /** @deprecated Hidden for MVP — page redirects to /admin */
     verificationRequest: (requestId: string) =>
       `/admin/verification/${requestId}`,
     restaurants: "/admin/restaurants",

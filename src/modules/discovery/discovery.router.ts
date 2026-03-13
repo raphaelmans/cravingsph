@@ -61,4 +61,12 @@ export const discoveryRouter = router({
     const service = makeDiscoveryService();
     return service.listLocations();
   }),
+
+  /**
+   * Distinct barangays with active restaurants.
+   */
+  barangays: publicProcedure.query(async () => {
+    const service = makeDiscoveryService();
+    return service.listBarangays();
+  }),
 });

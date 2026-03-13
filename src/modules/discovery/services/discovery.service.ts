@@ -1,4 +1,5 @@
 import type {
+  BarangayDTO,
   FoodSearchResultDTO,
   LocationDTO,
   RestaurantPreviewDTO,
@@ -33,6 +34,7 @@ export interface IDiscoveryService {
     limit?: number;
   }): Promise<FoodSearchResultDTO[]>;
   listLocations(): Promise<LocationDTO[]>;
+  listBarangays(): Promise<BarangayDTO[]>;
 }
 
 // ---------------------------------------------------------------------------
@@ -82,6 +84,16 @@ export class DiscoveryService implements IDiscoveryService {
       city: r.city,
       province: r.province,
       slug: r.city.toLowerCase().replace(/\s+/g, "-"),
+      count: r.count,
+    }));
+  }
+
+  async listBarangays(): Promise<BarangayDTO[]> {
+    const rows = await this.repository.findBarangays();
+    return rows.map((r) => ({
+      barangay: r.barangay,
+      city: r.city,
+      slug: r.barangay.toLowerCase().replace(/\s+/g, "-"),
       count: r.count,
     }));
   }
