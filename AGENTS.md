@@ -62,6 +62,8 @@ Route-based access control via `src/proxy.ts`:
 
 ## Design System
 
+Canonical reference: `docs/design-system.md`
+
 - shadcn/ui `new-york` style with Radix primitives
 - Icons: lucide-react exclusively
 - Colors: OKLCH tokens in `src/app/globals.css` — **never use hardcoded Tailwind color classes** (no `red-500`, `green-600`, etc.)
@@ -72,22 +74,6 @@ Route-based access control via `src/proxy.ts`:
 - Fonts: Inter (sans), Plus Jakarta Sans (headings), Geist Mono (mono)
 - Customer portal uses pill shapes (`rounded-full` buttons, `rounded-4xl` cards)
 - Owner portal uses standard `rounded-lg`, data-dense layouts
-
-## Design Principles
-
-1. **Content is king** — Food images, names, prices are the hero. UI chrome is invisible.
-2. **Scan, don't read** — Instant comprehension via hierarchy, spacing (8px grid), typography.
-3. **Mobile-first, always** — Small screens first. 44px minimum touch targets.
-4. **Two tones, one brand** — Customer = warm/playful; Owner = structured/efficient. Same brand color, fonts, spacing.
-5. **Feedback, not flash** — 150-250ms animations, ease-out, purposeful only. Respect `prefers-reduced-motion`.
-
-## Accessibility
-
-- Target: WCAG 2.1 AA
-- Touch targets: 44x44px minimum on mobile
-- Focus rings on all interactive elements
-- `prefers-reduced-motion: reduce` disables all animations
-- Color is never the sole indicator of state
 
 ## Error Handling
 

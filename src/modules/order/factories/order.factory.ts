@@ -2,6 +2,7 @@ import { getContainer } from "@/shared/infra/container";
 import { OrderRepository } from "../repositories/order.repository";
 import { BranchChecker } from "../services/branch-checker";
 import { OrderService } from "../services/order.service";
+import { TableSessionChecker } from "../services/table-session-checker";
 
 let orderRepository: OrderRepository | null = null;
 let orderService: OrderService | null = null;
@@ -19,6 +20,7 @@ export function makeOrderService() {
     orderService = new OrderService(
       makeOrderRepository(),
       new BranchChecker(db),
+      new TableSessionChecker(db),
     );
   }
   return orderService;

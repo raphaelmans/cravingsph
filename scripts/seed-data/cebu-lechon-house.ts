@@ -4,8 +4,7 @@ export const cebuLechonHouse: DemoSeed = {
   organization: {
     name: "Demo Food Group",
     slug: "demo-food-group",
-    description:
-      "Multi-brand restaurant group for development and testing.",
+    description: "Multi-brand restaurant group for development and testing.",
   },
 
   restaurant: {
@@ -149,5 +148,21 @@ export const cebuLechonHouse: DemoSeed = {
         },
       ],
     },
+  ],
+
+  tables: [
+    { label: "Table 1", code: "T-01", sortOrder: 0 },
+    { label: "Table 2", code: "T-02", sortOrder: 1 },
+    { label: "Table 3", code: "T-03", sortOrder: 2 },
+    { label: "Table 4", code: "T-04", sortOrder: 3 },
+    { label: "Table 5", code: "T-05", sortOrder: 4 },
+    { label: "Table 6", code: "T-06", sortOrder: 5 },
+    { label: "Table 7", code: "T-07", sortOrder: 6 },
+    { label: "Table 8", code: "T-08", sortOrder: 7 },
+  ],
+
+  tableSessions: [
+    { tableCode: "T-02", status: "active", note: "Group lunch — 6 pax" },
+    { tableCode: "T-06", status: "active" },
   ],
 };

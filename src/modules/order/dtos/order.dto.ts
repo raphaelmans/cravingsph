@@ -22,6 +22,7 @@ export const CreateOrderInputSchema = z.object({
   customerName: z.string().max(200).nullable().optional(),
   customerPhone: z.string().max(20).nullable().optional(),
   tableNumber: z.string().max(20).nullable().optional(),
+  tableSessionId: z.string().uuid().nullable().optional(),
   specialInstructions: z.string().max(2000).nullable().optional(),
   paymentMethod: z.string().max(50).nullable().optional(),
   items: z.array(OrderItemInputSchema).min(1),
@@ -90,6 +91,7 @@ export interface OrderDTO {
   customerName: string | null;
   customerPhone: string | null;
   tableNumber: string | null;
+  tableSessionId: string | null;
   totalAmount: number;
   status: string;
   paymentStatus: string;

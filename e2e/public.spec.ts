@@ -117,6 +117,89 @@ test.describe("AC-015: Breadcrumb hydration clean", () => {
   });
 });
 
+test.describe("AC-020: Checkout table selector shows real tables", () => {
+  test("checkout shows table dropdown instead of text input", async ({
+    page,
+  }) => {
+    // Navigate to a restaurant that has active table sessions
+    await page.goto("/restaurant/le-petit-bistro");
+    await page.waitForLoadState("domcontentloaded");
+
+    // Wait for menu items to render
+    const menuItem = page.locator('[data-slot="menu-item-card"]').first();
+    await expect(menuItem).toBeVisible({ timeout: 15_000 });
+
+    // Quick-add a simple item (click the + button)
+    const addButton = menuItem.getByRole("button", { name: /add to cart/i });
+    await addButton.click();
+
+    // Open cart via floating button
+    const cartButton = page.locator(
+      '[data-slot="cart-floating-button"] button',
+    );
+    await expect(cartButton).toBeVisible({ timeout: 5_000 });
+    await cartButton.click();
+
+    // Click "Checkout" in cart drawer
+    const checkoutButton = page.getByRole("button", { name: /checkout/i });
+    await expect(checkoutButton).toBeVisible({ timeout: 5_000 });
+    await checkoutButton.click();
+
+    // Verify checkout sheet opened with "Table" label
+    await expect(page.getByText("Table", { exact: true })).toBeVisible({
+      timeout: 5_000,
+    });
+
+    // Verify a select trigger exists (not a text input)
+    const selectTrigger = page.locator('[data-slot="select-trigger"]');
+    await expect(selectTrigger).toBeVisible({ timeout: 5_000 });
+
+    // Verify there is NO text input for table number
+    const tableInput = page.locator('input[placeholder*="e.g"]');
+    await expect(tableInput).not.toBeVisible();
+  });
+
+  test("table dropdown shows active tables from database", async ({ page }) => {
+    await page.goto("/restaurant/le-petit-bistro");
+    await page.waitForLoadState("domcontentloaded");
+
+    // Add an item to cart
+    const menuItem = page.locator('[data-slot="menu-item-card"]').first();
+    await expect(menuItem).toBeVisible({ timeout: 15_000 });
+    const addButton = menuItem.getByRole("button", { name: /add to cart/i });
+    await addButton.click();
+
+    // Open cart → checkout
+    const cartButton = page.locator(
+      '[data-slot="cart-floating-button"] button',
+    );
+    await expect(cartButton).toBeVisible({ timeout: 10_000 });
+    await cartButton.click();
+    const checkoutButton = page.getByRole("button", { name: /checkout/i });
+    await expect(checkoutButton).toBeVisible({ timeout: 10_000 });
+    await checkoutButton.click();
+
+    // Wait for checkout sheet to fully render
+    await expect(page.getByText("Table", { exact: true })).toBeVisible({
+      timeout: 10_000,
+    });
+
+    // Click the select trigger to open dropdown
+    const selectTrigger = page.locator('[data-slot="select-trigger"]');
+    await expect(selectTrigger).toBeVisible({ timeout: 10_000 });
+    await selectTrigger.click();
+
+    // Le Petit Bistro has 3 active sessions: T-01, T-03, T-05
+    const option1 = page.getByRole("option", { name: /Table 1.*T-01/i });
+    const option2 = page.getByRole("option", { name: /Table 3.*T-03/i });
+    const option3 = page.getByRole("option", { name: /Table 5.*T-05/i });
+
+    await expect(option1).toBeVisible({ timeout: 10_000 });
+    await expect(option2).toBeVisible();
+    await expect(option3).toBeVisible();
+  });
+});
+
 test.describe("AC-018: No image URL crashes", () => {
   test("restaurant page loads images without hostname errors", async ({
     page,

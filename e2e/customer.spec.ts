@@ -127,6 +127,61 @@ test.describe("Onboarding: Customer account page", () => {
   });
 });
 
+test.describe("AC-021: Dine-in order with table selection", () => {
+  test("customer can place a dine-in order by selecting a table", async ({
+    page,
+  }) => {
+    // Navigate to a restaurant with active table sessions
+    await page.goto("/restaurant/le-petit-bistro");
+    await page.waitForLoadState("domcontentloaded");
+
+    // Wait for menu items
+    const menuItem = page.locator('[data-slot="menu-item-card"]').first();
+    await expect(menuItem).toBeVisible({ timeout: 15_000 });
+
+    // Quick-add a simple item
+    const addButton = menuItem.getByRole("button", { name: /add to cart/i });
+    await addButton.click();
+
+    // Open cart
+    const cartButton = page.locator(
+      '[data-slot="cart-floating-button"] button',
+    );
+    await expect(cartButton).toBeVisible({ timeout: 5_000 });
+    await cartButton.click();
+
+    // Click checkout
+    const checkoutButton = page.getByRole("button", { name: /checkout/i });
+    await expect(checkoutButton).toBeVisible({ timeout: 5_000 });
+    await checkoutButton.click();
+
+    // Select a table from dropdown
+    const selectTrigger = page.locator('[data-slot="select-trigger"]');
+    await expect(selectTrigger).toBeVisible({ timeout: 5_000 });
+    await selectTrigger.click();
+
+    // Pick the first available table
+    const firstOption = page.getByRole("option").first();
+    await expect(firstOption).toBeVisible({ timeout: 5_000 });
+    await firstOption.click();
+
+    // Verify table is now selected (trigger should show table name)
+    await expect(selectTrigger).not.toHaveText(/select a table/i);
+
+    // Place order
+    const placeOrderButton = page.getByRole("button", {
+      name: /place order/i,
+    });
+    await expect(placeOrderButton).toBeVisible({ timeout: 5_000 });
+    await placeOrderButton.click();
+
+    // Should see the order confirmation sheet with "Order Placed!"
+    await expect(page.locator("text=Order Placed!")).toBeVisible({
+      timeout: 15_000,
+    });
+  });
+});
+
 test.describe("AC-004: Guest behavior", () => {
   test.use({ storageState: { cookies: [], origins: [] } });
 

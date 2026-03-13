@@ -1,6 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -21,15 +23,22 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import type { CartItem } from "@/features/cart/stores/cart.store";
+import { useTRPC } from "@/trpc/client";
 
 // --- Schema ---
 
 const checkoutSchema = z.object({
-  tableNumber: z.string().optional(),
+  tableSessionId: z.string().optional(),
   specialInstructions: z.string().optional(),
 });
 
@@ -37,7 +46,7 @@ export type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 
 export interface CheckoutSubmitPayload {
   orderType: "dine-in";
-  tableNumber: string | null;
+  tableSessionId: string | null;
   customerName: null;
   customerPhone: null;
   specialInstructions: string | null;
@@ -53,6 +62,7 @@ interface CheckoutSheetProps {
   itemCount: number;
   onSubmit: (payload: CheckoutSubmitPayload) => void;
   isSubmitting: boolean;
+  branchId?: string;
 }
 
 // --- Component ---
@@ -65,11 +75,21 @@ export function CheckoutSheet({
   itemCount,
   onSubmit,
   isSubmitting,
+  branchId,
 }: CheckoutSheetProps) {
+  const trpc = useTRPC();
+
+  const tablesQuery = useQuery(
+    trpc.branch.listActiveTables.queryOptions(
+      { branchId: branchId! },
+      { enabled: !!branchId && open },
+    ),
+  );
+
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
-      tableNumber: "",
+      tableSessionId: "",
       specialInstructions: "",
     },
   });
@@ -88,7 +108,7 @@ export function CheckoutSheet({
     (values: CheckoutFormValues) => {
       onSubmit({
         orderType: "dine-in",
-        tableNumber: values.tableNumber?.trim() || null,
+        tableSessionId: values.tableSessionId?.trim() || null,
         customerName: null,
         customerPhone: null,
         specialInstructions: values.specialInstructions?.trim() || null,
@@ -109,6 +129,8 @@ export function CheckoutSheet({
     [form, onOpenChange],
   );
 
+  const tables = tablesQuery.data ?? [];
+
   return (
     <Drawer open={open} onOpenChange={handleOpenChange}>
       <DrawerContent className="max-h-[85vh]">
@@ -123,15 +145,43 @@ export function CheckoutSheet({
               onSubmit={form.handleSubmit(handleSubmit)}
               className="space-y-6"
             >
-              {/* Table number */}
+              {/* Table selection */}
               <FormField
                 control={form.control}
-                name="tableNumber"
+                name="tableSessionId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Table number</FormLabel>
+                    <FormLabel>Table</FormLabel>
                     <FormControl>
-                      <Input shape="pill" placeholder="e.g. 5" {...field} />
+                      {tablesQuery.isLoading ? (
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground py-2">
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                          Loading tables...
+                        </div>
+                      ) : tables.length === 0 ? (
+                        <p className="text-sm text-muted-foreground py-2">
+                          No tables available
+                        </p>
+                      ) : (
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger className="rounded-full">
+                            <SelectValue placeholder="Select a table" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {tables.map((table) => (
+                              <SelectItem
+                                key={table.activeSessionId}
+                                value={table.activeSessionId}
+                              >
+                                {table.label} ({table.code})
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
                     </FormControl>
                     <FormMessage />
                   </FormItem>

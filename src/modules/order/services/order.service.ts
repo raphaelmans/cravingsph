@@ -12,6 +12,8 @@ import {
   InvalidStatusTransitionError,
   OrderNotFoundError,
   OrderNotOwnedError,
+  TableSessionNotActiveError,
+  TableSessionNotFoundError,
 } from "../errors/order.errors";
 import type {
   CustomerOrderRow,
@@ -37,6 +39,16 @@ const VALID_TRANSITIONS: Record<string, string[]> = {
 
 export interface IBranchChecker {
   isOrderingEnabled(branchId: string): Promise<boolean>;
+}
+
+export interface ITableSessionChecker {
+  getActiveSession(tableSessionId: string): Promise<{
+    id: string;
+    branchTableId: string;
+    tableLabel: string;
+    tableCode: string;
+    status: string;
+  } | null>;
 }
 
 export interface IOrderService {
@@ -65,6 +77,7 @@ export class OrderService implements IOrderService {
   constructor(
     private repository: IOrderRepository,
     private branchChecker: IBranchChecker,
+    private tableSessionChecker: ITableSessionChecker,
   ) {}
 
   async create(customerId: string, input: CreateOrderInput): Promise<OrderDTO> {
@@ -85,6 +98,22 @@ export class OrderService implements IOrderService {
 
     const orderNumber = await this.repository.nextOrderNumber();
 
+    // Resolve table session → denormalized table label
+    let tableNumber = input.tableNumber ?? null;
+    let tableSessionId: string | null = input.tableSessionId ?? null;
+
+    if (input.orderType === "dine-in" && tableSessionId) {
+      const session =
+        await this.tableSessionChecker.getActiveSession(tableSessionId);
+      if (!session) {
+        throw new TableSessionNotFoundError(tableSessionId);
+      }
+      if (session.status !== "active") {
+        throw new TableSessionNotActiveError(tableSessionId);
+      }
+      tableNumber = session.tableLabel;
+    }
+
     const orderRow = await this.repository.create({
       orderNumber,
       branchId: input.branchId,
@@ -92,7 +121,8 @@ export class OrderService implements IOrderService {
       orderType: input.orderType,
       customerName: input.customerName ?? null,
       customerPhone: input.customerPhone ?? null,
-      tableNumber: input.tableNumber ?? null,
+      tableNumber,
+      tableSessionId,
       totalAmount,
       specialInstructions: input.specialInstructions ?? null,
       paymentMethod: input.paymentMethod ?? null,
@@ -296,6 +326,7 @@ export class OrderService implements IOrderService {
       customerName: row.customerName,
       customerPhone: row.customerPhone,
       tableNumber: row.tableNumber,
+      tableSessionId: row.tableSessionId,
       totalAmount: Number(row.totalAmount),
       status: row.status,
       paymentStatus: row.paymentStatus,

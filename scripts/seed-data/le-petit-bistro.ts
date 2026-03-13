@@ -11,8 +11,7 @@ export const lePetitBistro: DemoSeed = {
   organization: {
     name: "Demo Food Group",
     slug: "demo-food-group",
-    description:
-      "Multi-brand restaurant group for development and testing.",
+    description: "Multi-brand restaurant group for development and testing.",
   },
 
   restaurant: {

@@ -36,6 +36,7 @@ export interface OrderRecord {
   customerName: string | null;
   customerPhone: string | null;
   tableNumber: string | null;
+  tableSessionId: string | null;
   itemCount: number;
   totalAmount: number;
   specialInstructions: string | null;

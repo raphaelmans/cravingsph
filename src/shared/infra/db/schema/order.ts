@@ -11,6 +11,7 @@ import { authUsers } from "drizzle-orm/supabase";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import type { z } from "zod";
 import { branch } from "./branch";
+import { tableSession } from "./table-session";
 
 /**
  * Order table.
@@ -32,6 +33,9 @@ export const order = pgTable(
     customerName: varchar("customer_name", { length: 200 }),
     customerPhone: varchar("customer_phone", { length: 20 }),
     tableNumber: varchar("table_number", { length: 20 }),
+    tableSessionId: uuid("table_session_id").references(() => tableSession.id, {
+      onDelete: "set null",
+    }),
     totalAmount: numeric("total_amount", { precision: 10, scale: 2 }).notNull(),
     status: varchar("status", { length: 20 }).notNull().default("placed"),
     paymentStatus: varchar("payment_status", { length: 20 })
@@ -52,6 +56,7 @@ export const order = pgTable(
     index("idx_order_branch_status").on(t.branchId, t.status),
     index("idx_order_customer").on(t.customerId),
     index("idx_order_created").on(t.createdAt),
+    index("idx_order_table_session").on(t.tableSessionId),
   ],
 );
 

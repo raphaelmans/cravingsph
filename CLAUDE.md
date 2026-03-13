@@ -94,6 +94,8 @@ Base class hierarchy in `src/shared/kernel/errors.ts`:
 
 ### Design System
 
+Canonical reference: `docs/design-system.md`
+
 - shadcn/ui `new-york` style with Radix primitives
 - Icons: lucide-react exclusively
 - Colors: OKLCH tokens in `src/app/globals.css` — never use hardcoded Tailwind color classes (red-500, green-600, etc.)
@@ -208,7 +210,7 @@ Read and follow for any server-side work:
 | DI container | `src/shared/infra/container.ts` |
 | Design tokens | `src/app/globals.css` |
 | Env validation | `src/lib/env/` |
-| Design system doc | `~/Downloads/Design System.docx` |
+| Design system doc | `docs/design-system.md` |
 
 ## Design Context
 
@@ -234,6 +236,8 @@ Read and follow for any server-side work:
 ### Motion
 
 Subtle, purposeful, fast. Animations complete in 150-250ms with ease-out curves. Motion communicates state changes (hover, selection, loading) — never decorative. Skeleton loaders for async content. Slight scale (1.02-1.04) on button hover, gentle elevation on card hover.
+
+**Animation tools:** Tailwind CSS animations (`tw-animate-css`) and raw CSS only. No heavy animation libraries (Framer Motion, GSAP, etc.) — they bloat the bundle and hurt SEO/performance.
 
 ### Design Principles
 

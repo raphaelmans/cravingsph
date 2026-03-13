@@ -39,6 +39,7 @@ export const ORDERING_GUIDE_SLUG = "how-to-order-dine-in-on-cravingsph";
 export const OWNER_OPS_GUIDE_SLUG =
   "how-to-manage-orders-and-operations-on-cravingsph";
 export const ADMIN_GUIDE_SLUG = "how-to-administer-the-cravingsph-platform";
+export const DINE_IN_GUIDE_SLUG = "how-to-use-qr-table-ordering-on-cravingsph";
 
 const GUIDE_PUBLISHED_AT = "2026-03-13";
 
@@ -186,6 +187,76 @@ export const GUIDE_ENTRIES: GuideEntry[] = [
       },
     ],
     relatedLinks: [
+      { label: "Find a restaurant", href: "/search" },
+      {
+        label: "QR table ordering guide",
+        href: `/guides/${DINE_IN_GUIDE_SLUG}`,
+      },
+      { label: "View your orders", href: "/orders" },
+      { label: "More guides", href: "/guides" },
+    ],
+  },
+
+  // ── Journey 3b — QR Table Ordering (Customer) ─────────────────────────
+  {
+    slug: DINE_IN_GUIDE_SLUG,
+    title: "How To Use QR Table Ordering On CravingsPH",
+    description:
+      "A step-by-step customer guide to scanning a QR code at your table, opening a table session, customising items with required and optional modifiers, and placing dine-in orders on CravingsPH.",
+    audience: "customer",
+    heroEyebrow: "Customer Guide",
+    publishedAt: GUIDE_PUBLISHED_AT,
+    updatedAt: GUIDE_PUBLISHED_AT,
+    intro:
+      "Scan the QR code on your table to open a table session. The system identifies your branch and table automatically — no need to type anything. Browse the menu, customise items with required modifiers (like steak temperature) and optional extras (like sauce or wine pairing), add to cart, and submit. Your table is pre-filled at checkout. You can place multiple orders during a single session — drinks first, then food, then dessert — and the restaurant sees all orders grouped by your table.",
+    sections: [],
+    faqs: [
+      {
+        question: "What is a table session?",
+        answer:
+          "A table session is a live record that connects your visit to a physical table. It starts when you scan the QR code and stays active until the restaurant closes it out. All orders you place during the session are linked to the same table.",
+      },
+      {
+        question: "Can multiple people at the same table scan the QR code?",
+        answer:
+          "Yes. Each guest can scan the same QR code. All orders go to the same table session, so the restaurant can serve the right table regardless of who placed each order.",
+      },
+      {
+        question: "What are required modifiers?",
+        answer:
+          "Required modifiers force you to make a selection before adding an item. For example, a steak requires a temperature choice. The Add to Cart button stays disabled until all required selections are made. This ensures the kitchen always knows how to prepare your item.",
+      },
+      {
+        question: "What are optional modifiers?",
+        answer:
+          "Optional modifiers let you add extras without obligation — like a sauce or wine pairing. Some have an additional cost. You can toggle them on or skip them entirely. Multi-select groups may have a maximum limit.",
+      },
+      {
+        question: "Can I place more than one order per visit?",
+        answer:
+          "Yes. After submitting an order, your cart clears but the table session stays active. Browse the menu and place another order whenever you are ready — drinks first, then starters, then mains.",
+      },
+      {
+        question: "What if I cannot scan the QR code?",
+        answer:
+          "You can find the restaurant through the search page and browse its menu. At checkout, you will need to enter your table number manually instead of having it auto-filled.",
+      },
+      {
+        question: "When does my table session end?",
+        answer:
+          "The restaurant staff closes the session after you pay and leave. You do not need to do anything — but you can also close it yourself from the session banner if you want.",
+      },
+      {
+        question: "Is my cart saved between orders?",
+        answer:
+          "Yes. Your cart is stored on your device. If you close the browser and return, your items are still there as long as you go back to the same restaurant. Your table session also remains active.",
+      },
+    ],
+    relatedLinks: [
+      {
+        label: "General ordering guide",
+        href: `/guides/${ORDERING_GUIDE_SLUG}`,
+      },
       { label: "Find a restaurant", href: "/search" },
       { label: "View your orders", href: "/orders" },
       { label: "More guides", href: "/guides" },

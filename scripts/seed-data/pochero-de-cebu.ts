@@ -4,8 +4,7 @@ export const pocheroDecebu: DemoSeed = {
   organization: {
     name: "Demo Food Group",
     slug: "demo-food-group",
-    description:
-      "Multi-brand restaurant group for development and testing.",
+    description: "Multi-brand restaurant group for development and testing.",
   },
 
   restaurant: {
@@ -161,4 +160,13 @@ export const pocheroDecebu: DemoSeed = {
       ],
     },
   ],
+
+  tables: [
+    { label: "Table 1", code: "T-01", sortOrder: 0 },
+    { label: "Table 2", code: "T-02", sortOrder: 1 },
+    { label: "Table 3", code: "T-03", sortOrder: 2 },
+    { label: "Table 4", code: "T-04", sortOrder: 3 },
+  ],
+
+  tableSessions: [{ tableCode: "T-02", status: "active" }],
 };

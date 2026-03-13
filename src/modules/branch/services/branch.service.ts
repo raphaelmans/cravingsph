@@ -32,6 +32,11 @@ export interface IBranchService {
     userId: string,
     restaurantId: string,
   ): Promise<BranchRecord[]>;
+  listActiveTables(
+    branchId: string,
+  ): Promise<
+    { tableId: string; label: string; code: string; activeSessionId: string }[]
+  >;
   create(
     userId: string,
     restaurantId: string,
@@ -205,6 +210,14 @@ export class BranchService implements IBranchService {
         "Operating hours updated",
       );
     });
+  }
+
+  async listActiveTables(
+    branchId: string,
+  ): Promise<
+    { tableId: string; label: string; code: string; activeSessionId: string }[]
+  > {
+    return this.branchRepository.findActiveTablesWithSessions(branchId);
   }
 
   private async assertRestaurantOwnership(

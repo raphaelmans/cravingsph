@@ -1,5 +1,6 @@
 "use client";
 
+import { useMutation } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { CartDrawer } from "@/features/cart/components/cart-drawer";
@@ -19,6 +20,7 @@ import {
 import { OrderConfirmationSheet } from "@/features/checkout/components/order-confirmation-sheet";
 import type { OrderType } from "@/features/checkout/components/order-type-selector";
 import { PaymentSheet } from "@/features/payment/components/payment-sheet";
+import { useTRPC } from "@/trpc/client";
 import type {
   FullMenu,
   MenuItemWithDetails,
@@ -32,6 +34,7 @@ import { MenuSectionList } from "./menu-section-list";
 interface RestaurantMenuProps {
   menu: FullMenu;
   branchSlug: string;
+  branchId?: string;
 }
 
 // --- Helpers ---
@@ -82,7 +85,11 @@ function buildCartItemFromPayload(
 
 // --- Component ---
 
-export function RestaurantMenu({ menu, branchSlug }: RestaurantMenuProps) {
+export function RestaurantMenu({
+  menu,
+  branchSlug,
+  branchId,
+}: RestaurantMenuProps) {
   const categoryIds = useMemo(() => menu.map((c) => c.category.id), [menu]);
 
   const categories = useMemo(
@@ -147,9 +154,14 @@ export function RestaurantMenu({ menu, branchSlug }: RestaurantMenuProps) {
   // Cart drawer state
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  // tRPC
+  const trpc = useTRPC();
+  const createOrderMutation = useMutation(
+    trpc.order.create.mutationOptions({}),
+  );
+
   // Checkout sheet state
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-  const [isCheckoutSubmitting, setIsCheckoutSubmitting] = useState(false);
 
   // Order confirmation state
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -259,24 +271,40 @@ export function RestaurantMenu({ menu, branchSlug }: RestaurantMenuProps) {
 
   const handleCheckoutSubmit = useCallback(
     async (payload: CheckoutSubmitPayload) => {
-      setIsCheckoutSubmitting(true);
+      if (!branchId) {
+        toast.error("No branch found. Please try again.");
+        return;
+      }
+
       try {
-        // TODO: Replace with order.create tRPC mutation when order module exists
-        await new Promise((resolve) => setTimeout(resolve, 1200));
-        const orderId = crypto.randomUUID().slice(0, 8).toUpperCase();
+        const result = await createOrderMutation.mutateAsync({
+          branchId,
+          orderType: payload.orderType,
+          tableSessionId: payload.tableSessionId,
+          specialInstructions: payload.specialInstructions,
+          items: payload.items.map((item) => ({
+            menuItemId: item.menuItemId,
+            itemVariantId: item.variantId,
+            name: item.name,
+            quantity: item.quantity,
+            unitPrice: item.unitPrice,
+            modifiers: item.modifiers.map((m) => ({
+              name: m.name,
+              price: m.price,
+            })),
+          })),
+        });
 
         setIsCheckoutOpen(false);
         clearCart();
-        setConfirmedOrderId(orderId);
+        setConfirmedOrderId(result.id);
         setConfirmedOrderType(payload.orderType);
         setIsConfirmationOpen(true);
       } catch {
         toast.error("Failed to place order. Please try again.");
-      } finally {
-        setIsCheckoutSubmitting(false);
       }
     },
-    [clearCart],
+    [branchId, clearCart, createOrderMutation],
   );
 
   const handlePayment = useCallback(() => {
@@ -344,7 +372,8 @@ export function RestaurantMenu({ menu, branchSlug }: RestaurantMenuProps) {
         subtotal={cartTotal}
         itemCount={cartItemCount}
         onSubmit={handleCheckoutSubmit}
-        isSubmitting={isCheckoutSubmitting}
+        isSubmitting={createOrderMutation.isPending}
+        branchId={branchId}
       />
 
       <OrderConfirmationSheet

@@ -2,6 +2,7 @@
 
 import {
   ExternalLink,
+  Grid3X3,
   ReceiptText,
   Settings2,
   Store,
@@ -238,6 +239,18 @@ export default function OwnerBranchDetailPage({ params }: BranchPageProps) {
                   >
                     <ReceiptText className="size-4" />
                     View orders
+                  </Link>
+                </Button>
+                <Button
+                  className="w-full justify-start"
+                  variant="outline"
+                  asChild
+                >
+                  <Link
+                    href={`/organization/restaurants/${restaurant.id}/branches/${branch.id}/tables`}
+                  >
+                    <Grid3X3 className="size-4" />
+                    Manage tables
                   </Link>
                 </Button>
                 <Button

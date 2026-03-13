@@ -12,6 +12,7 @@ import { profileRouter } from "@/modules/profile/profile.router";
 import { restaurantRouter } from "@/modules/restaurant/restaurant.router";
 import { reviewRouter } from "@/modules/review/review.router";
 import { savedRestaurantRouter } from "@/modules/saved-restaurant/saved-restaurant.router";
+import { tableRouter } from "@/modules/table/table.router";
 import { verificationRouter } from "@/modules/verification/verification.router";
 import { router } from "./trpc";
 
@@ -33,6 +34,7 @@ export const appRouter = router({
   order: orderRouter,
   paymentConfig: paymentConfigRouter,
   review: reviewRouter,
+  table: tableRouter,
   verification: verificationRouter,
 });
 

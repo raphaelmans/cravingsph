@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { HealthCheck } from "@/components/health-check";
 import { Providers } from "@/components/providers";
-import { antonio, geistMono, inter, plusJakartaSans } from "@/lib/fonts";
+import { geistMono, inter, plusJakartaSans } from "@/lib/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${plusJakartaSans.variable} ${antonio.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${plusJakartaSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
           {children}

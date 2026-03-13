@@ -2,9 +2,11 @@ import { and, eq } from "drizzle-orm";
 import {
   type BranchRecord,
   branch,
+  branchTable,
   type InsertBranch,
   type OperatingHoursRecord,
   operatingHours,
+  tableSession,
 } from "@/shared/infra/db/schema";
 import type { DbClient, DrizzleTransaction } from "@/shared/infra/db/types";
 import type { RequestContext } from "@/shared/kernel/context";
@@ -36,6 +38,11 @@ export interface IBranchRepository {
     hours: OperatingHourEntry[],
     ctx?: RequestContext,
   ): Promise<void>;
+  findActiveTablesWithSessions(
+    branchId: string,
+  ): Promise<
+    { tableId: string; label: string; code: string; activeSessionId: string }[]
+  >;
 }
 
 export class BranchRepository implements IBranchRepository {
@@ -150,5 +157,31 @@ export class BranchRepository implements IBranchRepository {
         })),
       );
     }
+  }
+
+  async findActiveTablesWithSessions(
+    branchId: string,
+  ): Promise<
+    { tableId: string; label: string; code: string; activeSessionId: string }[]
+  > {
+    const rows = await this.db
+      .select({
+        tableId: branchTable.id,
+        label: branchTable.label,
+        code: branchTable.code,
+        activeSessionId: tableSession.id,
+      })
+      .from(branchTable)
+      .innerJoin(tableSession, eq(tableSession.branchTableId, branchTable.id))
+      .where(
+        and(
+          eq(branchTable.branchId, branchId),
+          eq(branchTable.isActive, true),
+          eq(tableSession.status, "active"),
+        ),
+      )
+      .orderBy(branchTable.sortOrder);
+
+    return rows;
   }
 }

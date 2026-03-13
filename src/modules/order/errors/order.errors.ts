@@ -23,3 +23,15 @@ export class OrderNotOwnedError extends BusinessRuleError {
     super("You do not own this order");
   }
 }
+
+export class TableSessionNotFoundError extends NotFoundError {
+  constructor(tableSessionId: string) {
+    super(`Table session not found: ${tableSessionId}`, { tableSessionId });
+  }
+}
+
+export class TableSessionNotActiveError extends BusinessRuleError {
+  constructor(tableSessionId: string) {
+    super("This table session is no longer active", { tableSessionId });
+  }
+}

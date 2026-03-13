@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Script from "next/script";
 import { Badge } from "@/components/ui/badge";
 import { AdminGuideArticlePage } from "@/features/guides/components/admin-guide/admin-guide-article-page";
+import { DineInGuideArticlePage } from "@/features/guides/components/dine-in-guide/dine-in-guide-article-page";
 import { DiscoveryGuideArticlePage } from "@/features/guides/components/discovery-guide/discovery-guide-article-page";
 import { OrderingGuideArticlePage } from "@/features/guides/components/ordering-guide/ordering-guide-article-page";
 import { OwnerOpsGuideArticlePage } from "@/features/guides/components/owner-ops-guide/owner-ops-guide-article-page";
@@ -11,6 +12,7 @@ import { OwnerSetupGuideArticlePage } from "@/features/guides/components/owner-s
 import type { GuideEntry } from "@/features/guides/content/guides";
 import {
   ADMIN_GUIDE_SLUG,
+  DINE_IN_GUIDE_SLUG,
   DISCOVERY_GUIDE_SLUG,
   GUIDE_ENTRIES,
   getGuideBySlug,
@@ -124,6 +126,7 @@ const INTERACTIVE_SLUGS = new Set([
   DISCOVERY_GUIDE_SLUG,
   OWNER_SETUP_GUIDE_SLUG,
   ORDERING_GUIDE_SLUG,
+  DINE_IN_GUIDE_SLUG,
   OWNER_OPS_GUIDE_SLUG,
   ADMIN_GUIDE_SLUG,
 ]);
@@ -252,6 +255,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
       [DISCOVERY_GUIDE_SLUG]: DiscoveryGuideArticlePage,
       [OWNER_SETUP_GUIDE_SLUG]: OwnerSetupGuideArticlePage,
       [ORDERING_GUIDE_SLUG]: OrderingGuideArticlePage,
+      [DINE_IN_GUIDE_SLUG]: DineInGuideArticlePage,
       [OWNER_OPS_GUIDE_SLUG]: OwnerOpsGuideArticlePage,
       [ADMIN_GUIDE_SLUG]: AdminGuideArticlePage,
     };

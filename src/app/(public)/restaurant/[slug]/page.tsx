@@ -112,7 +112,7 @@ export default async function RestaurantPage({
         branchAddress={branch?.address}
       />
 
-      <RestaurantMenu menu={menu} branchSlug={slug} />
+      <RestaurantMenu menu={menu} branchSlug={slug} branchId={branch?.id} />
     </div>
   );
 }

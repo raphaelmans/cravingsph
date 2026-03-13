@@ -22,6 +22,7 @@ export interface OrderRow {
   customerName: string | null;
   customerPhone: string | null;
   tableNumber: string | null;
+  tableSessionId: string | null;
   totalAmount: string;
   status: string;
   paymentStatus: string;
@@ -84,6 +85,7 @@ export interface IOrderRepository {
     customerName?: string | null;
     customerPhone?: string | null;
     tableNumber?: string | null;
+    tableSessionId?: string | null;
     totalAmount: number;
     specialInstructions?: string | null;
     paymentMethod?: string | null;
@@ -143,6 +145,7 @@ export class OrderRepository implements IOrderRepository {
     customerName?: string | null;
     customerPhone?: string | null;
     tableNumber?: string | null;
+    tableSessionId?: string | null;
     totalAmount: number;
     specialInstructions?: string | null;
     paymentMethod?: string | null;
@@ -157,6 +160,7 @@ export class OrderRepository implements IOrderRepository {
         customerName: data.customerName ?? null,
         customerPhone: data.customerPhone ?? null,
         tableNumber: data.tableNumber ?? null,
+        tableSessionId: data.tableSessionId ?? null,
         totalAmount: String(data.totalAmount),
         specialInstructions: data.specialInstructions ?? null,
         paymentMethod: data.paymentMethod ?? null,
@@ -256,6 +260,7 @@ export class OrderRepository implements IOrderRepository {
         customerName: order.customerName,
         customerPhone: order.customerPhone,
         tableNumber: order.tableNumber,
+        tableSessionId: order.tableSessionId,
         totalAmount: order.totalAmount,
         status: order.status,
         paymentStatus: order.paymentStatus,

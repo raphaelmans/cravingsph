@@ -1,4 +1,14 @@
 import { expect, test } from "@playwright/test";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+const serviceKey = process.env.SUPABASE_SECRET_KEY ?? "";
+
+function createAdminSupabase() {
+  return createClient(supabaseUrl, serviceKey, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+}
 
 test.describe("AC-009: Owner nav has no dead links", () => {
   const sidebarLinks = [
@@ -364,5 +374,301 @@ test.describe("AC-015: Breadcrumb hydration on owner pages", () => {
     await page.waitForLoadState("domcontentloaded");
 
     expect(hydrationErrors).toHaveLength(0);
+  });
+});
+
+test.describe("Table Management", () => {
+  test.describe.configure({ mode: "serial" });
+
+  let tablesUrl = "";
+  let branchDetailUrl = "";
+
+  test.beforeAll(async () => {
+    const supabase = createAdminSupabase();
+
+    const { data: restaurant } = await supabase
+      .from("restaurant")
+      .select("id")
+      .eq("slug", "e2e-test-restaurant")
+      .single();
+
+    if (!restaurant) return;
+
+    const { data: branch } = await supabase
+      .from("branch")
+      .select("id")
+      .eq("restaurant_id", restaurant.id)
+      .eq("slug", "e2e-main-branch")
+      .single();
+
+    if (!branch) return;
+
+    branchDetailUrl = `/organization/restaurants/${restaurant.id}/branches/${branch.id}`;
+    tablesUrl = `${branchDetailUrl}/tables`;
+
+    // Clean up leftover test table from previous failed runs
+    await supabase
+      .from("branch_table")
+      .delete()
+      .eq("branch_id", branch.id)
+      .eq("code", "E2E-NEW");
+  });
+
+  test("branch detail page shows 'Manage tables' in Branch Tools", async ({
+    page,
+  }) => {
+    test.skip(!branchDetailUrl, "Seed data not available");
+
+    await page.goto(branchDetailUrl);
+    await page.waitForLoadState("domcontentloaded");
+
+    const link = page.locator("a:has-text('Manage tables')");
+    await expect(link).toBeVisible({ timeout: 10_000 });
+  });
+
+  test("tables page loads with 5 seeded tables", async ({ page }) => {
+    test.skip(!tablesUrl, "Seed data not available");
+
+    await page.goto(tablesUrl);
+    await page.waitForLoadState("domcontentloaded");
+
+    for (const label of [
+      "Table 1",
+      "Table 2",
+      "Table 3",
+      "Table 4",
+      "Table 5",
+    ]) {
+      await expect(page.locator(`td:has-text("${label}")`).first()).toBeVisible(
+        { timeout: 5_000 },
+      );
+    }
+
+    for (const code of ["T-01", "T-02", "T-03", "T-04", "T-05"]) {
+      await expect(page.locator(`code:has-text("${code}")`)).toBeVisible();
+    }
+  });
+
+  test("seeded tables T-01 and T-03 show active sessions", async ({ page }) => {
+    test.skip(!tablesUrl, "Seed data not available");
+
+    await page.goto(tablesUrl);
+    await page.waitForLoadState("domcontentloaded");
+    await page.waitForTimeout(2_000);
+
+    // T-01 row should have "Close session" button (session is active)
+    const t01Row = page.locator("tr", {
+      has: page.locator('code:has-text("T-01")'),
+    });
+    await expect(
+      t01Row.getByRole("button", { name: "Close session" }),
+    ).toBeVisible();
+
+    // T-03 row should have "Close session" button
+    const t03Row = page.locator("tr", {
+      has: page.locator('code:has-text("T-03")'),
+    });
+    await expect(
+      t03Row.getByRole("button", { name: "Close session" }),
+    ).toBeVisible();
+
+    // T-02 row should have "Open session" button (no active session)
+    const t02Row = page.locator("tr", {
+      has: page.locator('code:has-text("T-02")'),
+    });
+    await expect(
+      t02Row.getByRole("button", { name: "Open session" }),
+    ).toBeVisible();
+  });
+
+  test("create table via Add Table dialog", async ({ page }) => {
+    test.skip(!tablesUrl, "Seed data not available");
+
+    await page.goto(tablesUrl);
+    await page.waitForLoadState("domcontentloaded");
+    await page.waitForTimeout(2_000);
+
+    // Open the Add Table dialog
+    await page
+      .getByRole("button", { name: /add table/i })
+      .first()
+      .click();
+
+    const dialog = page.locator('[role="dialog"]');
+    await expect(dialog).toBeVisible({ timeout: 5_000 });
+
+    // Fill form fields
+    await dialog.getByLabel("Label").fill("E2E New Table");
+    await dialog.getByLabel("Code").fill("e2e-new"); // auto-uppercases to E2E-NEW
+
+    // Submit
+    await dialog.getByRole("button", { name: "Add Table" }).click();
+
+    // Verify success toast and new row
+    await expect(page.locator("text=Table created")).toBeVisible({
+      timeout: 5_000,
+    });
+    await expect(page.locator('td:has-text("E2E New Table")')).toBeVisible({
+      timeout: 5_000,
+    });
+    await expect(page.locator('code:has-text("E2E-NEW")')).toBeVisible();
+  });
+
+  test("duplicate code shows conflict error", async ({ page }) => {
+    test.skip(!tablesUrl, "Seed data not available");
+
+    await page.goto(tablesUrl);
+    await page.waitForLoadState("domcontentloaded");
+    await page.waitForTimeout(2_000);
+
+    await page
+      .getByRole("button", { name: /add table/i })
+      .first()
+      .click();
+
+    const dialog = page.locator('[role="dialog"]');
+    await expect(dialog).toBeVisible({ timeout: 5_000 });
+
+    await dialog.getByLabel("Label").fill("Duplicate Test");
+    await dialog.getByLabel("Code").fill("T-01");
+    await dialog.getByRole("button", { name: "Add Table" }).click();
+
+    // Conflict error toast
+    await expect(page.locator("text=/already exists/i")).toBeVisible({
+      timeout: 5_000,
+    });
+  });
+
+  test("edit table updates label", async ({ page }) => {
+    test.skip(!tablesUrl, "Seed data not available");
+
+    await page.goto(tablesUrl);
+    await page.waitForLoadState("domcontentloaded");
+    await page.waitForTimeout(2_000);
+
+    // Click edit on the E2E New Table row
+    const row = page.locator("tr", {
+      has: page.locator('code:has-text("E2E-NEW")'),
+    });
+    await row.getByRole("button", { name: "Edit" }).click();
+
+    // Edit dialog should open
+    const dialog = page.locator('[role="dialog"]');
+    await expect(dialog).toBeVisible({ timeout: 5_000 });
+    await expect(dialog.locator("text=Edit Table")).toBeVisible();
+
+    // Change the label
+    const labelInput = dialog.getByLabel("Label");
+    await labelInput.clear();
+    await labelInput.fill("E2E Updated Table");
+
+    await dialog.getByRole("button", { name: "Save Changes" }).click();
+
+    // Verify success
+    await expect(page.locator("text=Table updated")).toBeVisible({
+      timeout: 5_000,
+    });
+    await expect(page.locator('td:has-text("E2E Updated Table")')).toBeVisible({
+      timeout: 5_000,
+    });
+  });
+
+  test("open and close table session", async ({ page }) => {
+    test.skip(!tablesUrl, "Seed data not available");
+
+    await page.goto(tablesUrl);
+    await page.waitForLoadState("domcontentloaded");
+    await page.waitForTimeout(2_000);
+
+    // T-02 has no active session — open one
+    const t02Row = page.locator("tr", {
+      has: page.locator('code:has-text("T-02")'),
+    });
+    await t02Row.getByRole("button", { name: "Open session" }).click();
+
+    await expect(page.locator("text=Session opened")).toBeVisible({
+      timeout: 5_000,
+    });
+
+    // Now T-02 should show "Close session"
+    await expect(
+      t02Row.getByRole("button", { name: "Close session" }),
+    ).toBeVisible({ timeout: 5_000 });
+
+    // Close it
+    await t02Row.getByRole("button", { name: "Close session" }).click();
+
+    await expect(page.locator("text=Session closed")).toBeVisible({
+      timeout: 5_000,
+    });
+
+    // T-02 should show "Open session" again
+    await expect(
+      t02Row.getByRole("button", { name: "Open session" }),
+    ).toBeVisible({ timeout: 5_000 });
+  });
+
+  test("close all sessions clears all active sessions", async ({ page }) => {
+    test.skip(!tablesUrl, "Seed data not available");
+
+    await page.goto(tablesUrl);
+    await page.waitForLoadState("domcontentloaded");
+    await page.waitForTimeout(2_000);
+
+    // Click "Close All Sessions"
+    await page.getByRole("button", { name: /close all sessions/i }).click();
+
+    // Success toast
+    await expect(page.locator("text=/session.*closed/i")).toBeVisible({
+      timeout: 5_000,
+    });
+
+    // Wait for UI to update
+    await page.waitForTimeout(1_000);
+
+    // All seeded tables should now show "Open session"
+    const t01Row = page.locator("tr", {
+      has: page.locator('code:has-text("T-01")'),
+    });
+    await expect(
+      t01Row.getByRole("button", { name: "Open session" }),
+    ).toBeVisible({ timeout: 5_000 });
+
+    const t03Row = page.locator("tr", {
+      has: page.locator('code:has-text("T-03")'),
+    });
+    await expect(
+      t03Row.getByRole("button", { name: "Open session" }),
+    ).toBeVisible({ timeout: 5_000 });
+  });
+
+  test("delete table with confirmation dialog", async ({ page }) => {
+    test.skip(!tablesUrl, "Seed data not available");
+
+    await page.goto(tablesUrl);
+    await page.waitForLoadState("domcontentloaded");
+    await page.waitForTimeout(2_000);
+
+    // Delete the E2E table we created earlier
+    const row = page.locator("tr", {
+      has: page.locator('code:has-text("E2E-NEW")'),
+    });
+    await row.getByRole("button", { name: "Delete" }).click();
+
+    // Confirmation dialog should appear
+    const alertDialog = page.locator('[role="alertdialog"]');
+    await expect(alertDialog).toBeVisible({ timeout: 5_000 });
+    await expect(alertDialog.locator("text=Delete table?")).toBeVisible();
+
+    // Confirm deletion
+    await alertDialog.getByRole("button", { name: "Delete" }).click();
+
+    // Verify success
+    await expect(page.locator("text=/deleted/i")).toBeVisible({
+      timeout: 5_000,
+    });
+    await expect(page.locator('code:has-text("E2E-NEW")')).not.toBeVisible({
+      timeout: 5_000,
+    });
   });
 });

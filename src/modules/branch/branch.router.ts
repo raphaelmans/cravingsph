@@ -14,6 +14,16 @@ import { makeBranchService } from "./factories/branch.factory";
 
 export const branchRouter = router({
   /**
+   * List active tables with sessions for a branch (public — used by checkout).
+   */
+  listActiveTables: publicProcedure
+    .input(z.object({ branchId: z.string().uuid() }))
+    .query(async ({ input }) => {
+      const branchService = makeBranchService();
+      return branchService.listActiveTables(input.branchId);
+    }),
+
+  /**
    * Get a branch by its restaurant-scoped slug (public).
    */
   getBySlug: publicProcedure
