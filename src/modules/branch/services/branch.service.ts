@@ -23,11 +23,13 @@ export interface IBranchService {
   getById(id: string): Promise<BranchRecord>;
   getBySlug(restaurantId: string, slug: string): Promise<BranchRecord>;
   getByPortalSlug(portalSlug: string): Promise<BranchRecord>;
+  listByOrganizationId(organizationId: string): Promise<AccessibleBranchRow[]>;
   listPublicByRestaurant(restaurantId: string): Promise<BranchRecord[]>;
   listByRestaurant(
     userId: string,
     restaurantId: string,
   ): Promise<BranchRecord[]>;
+  listByRestaurantId(restaurantId: string): Promise<BranchRecord[]>;
   listAccessible(userId: string): Promise<AccessibleBranchRow[]>;
   listActiveTables(
     branchId: string,
@@ -87,10 +89,20 @@ export class BranchService implements IBranchService {
     return branch;
   }
 
+  async listByOrganizationId(
+    organizationId: string,
+  ): Promise<AccessibleBranchRow[]> {
+    return this.branchRepository.findAccessibleByOrganizationId(organizationId);
+  }
+
   async listPublicByRestaurant(restaurantId: string): Promise<BranchRecord[]> {
     const branches =
       await this.branchRepository.findByRestaurantId(restaurantId);
     return branches.filter((b) => b.isActive);
+  }
+
+  async listByRestaurantId(restaurantId: string): Promise<BranchRecord[]> {
+    return this.branchRepository.findByRestaurantId(restaurantId);
   }
 
   async listByRestaurant(

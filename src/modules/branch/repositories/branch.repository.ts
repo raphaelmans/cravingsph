@@ -41,6 +41,10 @@ export interface IBranchRepository {
     ownerId: string,
     ctx?: RequestContext,
   ): Promise<AccessibleBranchRow[]>;
+  findAccessibleByOrganizationId(
+    organizationId: string,
+    ctx?: RequestContext,
+  ): Promise<AccessibleBranchRow[]>;
   create(data: InsertBranch, ctx?: RequestContext): Promise<BranchRecord>;
   update(
     id: string,
@@ -144,6 +148,25 @@ export class BranchRepository implements IBranchRepository {
       .orderBy(restaurant.name, branch.name);
 
     return rows;
+  }
+
+  async findAccessibleByOrganizationId(
+    organizationId: string,
+    ctx?: RequestContext,
+  ): Promise<AccessibleBranchRow[]> {
+    const client = this.getClient(ctx);
+    return client
+      .select({
+        id: branch.id,
+        name: branch.name,
+        portalSlug: branch.portalSlug,
+        restaurantId: branch.restaurantId,
+        restaurantName: restaurant.name,
+      })
+      .from(branch)
+      .innerJoin(restaurant, eq(branch.restaurantId, restaurant.id))
+      .where(eq(restaurant.organizationId, organizationId))
+      .orderBy(restaurant.name, branch.name);
   }
 
   async create(

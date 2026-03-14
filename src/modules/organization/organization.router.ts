@@ -1,4 +1,5 @@
 import { TRPCError } from "@trpc/server";
+import { makeResolveOwnerConsoleAccessUseCase } from "@/modules/team-access/factories/team-access.factory";
 import { protectedProcedure, router } from "@/shared/infra/trpc/trpc";
 import { AuthorizationError } from "@/shared/kernel/errors";
 import {
@@ -12,8 +13,21 @@ export const organizationRouter = router({
    * Get current user's organization.
    */
   mine: protectedProcedure.query(async ({ ctx }) => {
-    const organizationService = makeOrganizationService();
-    return organizationService.getByOwnerId(ctx.userId);
+    const access = await makeResolveOwnerConsoleAccessUseCase().execute({
+      userId: ctx.userId,
+    });
+
+    if (!access) {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "Owner console access required",
+        cause: new AuthorizationError("Owner console access required", {
+          userId: ctx.userId,
+        }),
+      });
+    }
+
+    return access.organization;
   }),
 
   /**
@@ -43,8 +57,21 @@ export const organizationRouter = router({
   update: protectedProcedure
     .input(UpdateOrganizationSchema)
     .mutation(async ({ input, ctx }) => {
+      const access = await makeResolveOwnerConsoleAccessUseCase().execute({
+        userId: ctx.userId,
+      });
+
+      if (!access || access.accessLevel !== "business_owner") {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Organization owner access required",
+          cause: new AuthorizationError("Organization owner access required", {
+            userId: ctx.userId,
+          }),
+        });
+      }
+
       const organizationService = makeOrganizationService();
-      const org = await organizationService.getByOwnerId(ctx.userId);
-      return organizationService.update(org.id, input);
+      return organizationService.update(access.organization.id, input);
     }),
 });

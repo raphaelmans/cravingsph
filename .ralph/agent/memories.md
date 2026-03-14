@@ -2,6 +2,10 @@
 
 ## Patterns
 
+### mem-1773506069-c947
+> Post-login now checks a safe redirect= query first, then uses SmartRedirectUseCase to send users with exactly one active branch assignment straight to /branch/:portalSlug; business-scope assignees still fall back to legacy routing until owner-console scoped access exists.
+<!-- tags: auth, branch-portal, team-access | created: 2026-03-14 -->
+
 ### mem-1773499461-f88c
 > Team-access module (src/modules/team-access/) has 3 tables: team_membership (user↔org link, statuses: active/revoked/pending), scoped_assignment (membership↔role+scope, 6 role templates: business_owner/manager/viewer + branch_manager/staff/viewer, scope types: business/branch), team_invite (owner-initiated invites with crypto token, status: pending/accepted/expired/revoked). ROLE_SCOPE_MAP enforces that business_* roles require business scope and branch_* roles require branch scope. AssignmentService.hasAccess checks: (1) org owner = implicit business_owner, (2) direct scope match, (3) business-scope fallback for branch access. Factory provides lazy singletons. Router has listMembers + hasAccess stubs. Migration 0005.
 <!-- tags: team-access, auth, trpc, schema | created: 2026-03-14 -->
@@ -117,6 +121,14 @@
 ## Decisions
 
 ## Fixes
+
+### mem-1773507003-eb31
+> failure: cmd=node inline Playwright verification with dotenv.config('.env.local'), exit=1, error=Missing Supabase env because local env vars were not available in plain node stdin execution, next=run the verification command through dotenvx or rely on already-exported env before using the Supabase admin client
+<!-- tags: testing, e2e, error-handling | created: 2026-03-14 -->
+
+### mem-1773505710-d184
+> failure: cmd=npx vitest run src/__tests__/modules/branch/smart-redirect.use-case.test.ts src/__tests__/app/auth/post-login-page.test.ts, exit=1, error=Vitest hoisted vi.mock factory accessed mockFlags before initialization, next=use vi.hoisted for shared mutable mock state before importing the module under test
+<!-- tags: testing, vitest, error-handling | created: 2026-03-14 -->
 
 ### mem-1773070527-47fd
 > LOOP_COMPLETE should be sent with 'ralph emit' and a brief payload; the earlier malformed completion came from invalid event JSON rather than unfinished work.

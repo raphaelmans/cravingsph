@@ -83,6 +83,7 @@ function makeMockBranchRepo(
     findByPortalSlug: vi.fn().mockResolvedValue(null),
     findByRestaurantId: vi.fn().mockResolvedValue([]),
     findAccessibleByOwner: vi.fn().mockResolvedValue([]),
+    findAccessibleByOrganizationId: vi.fn().mockResolvedValue([]),
     create: vi.fn(),
     update: vi.fn(),
     findOperatingHours: vi.fn().mockResolvedValue([]),

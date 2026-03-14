@@ -24,8 +24,12 @@ import {
   makeAssignmentRepository,
   makeAssignmentService,
   makeInviteService,
+  makeMembershipRepository,
   makeMembershipService,
+  makeResolveOwnerConsoleAccessUseCase,
+  makeTeamInviteRepository,
 } from "./factories/team-access.factory";
+import { canManageTeam, canViewTeam } from "./permissions";
 
 /** Resolve a scope ID to a human-readable label. */
 async function resolveScopeName(
@@ -41,6 +45,44 @@ async function resolveScopeName(
   }
 }
 
+async function requireTeamAccess(
+  userId: string,
+  organizationId: string,
+  permission: "view" | "manage",
+) {
+  const access = await makeResolveOwnerConsoleAccessUseCase().execute({
+    userId,
+    organizationId,
+  });
+
+  if (!access) {
+    throw new AuthorizationError("Not authorized to access this organization", {
+      organizationId,
+      userId,
+    });
+  }
+
+  const allowed =
+    permission === "manage"
+      ? canManageTeam(access.accessLevel)
+      : canViewTeam(access.accessLevel);
+
+  if (!allowed) {
+    throw new AuthorizationError(
+      permission === "manage"
+        ? "Not authorized to manage team access"
+        : "Not authorized to view team access",
+      {
+        organizationId,
+        userId,
+        accessLevel: access.accessLevel,
+      },
+    );
+  }
+
+  return access;
+}
+
 const inviteRouter = router({
   /** Create a team invite (owner-only) */
   create: protectedProcedure
@@ -49,33 +91,44 @@ const inviteRouter = router({
       if (!flags.ownerTeamAccess) {
         throw new AuthorizationError("Team access feature is not enabled");
       }
+      await requireTeamAccess(ctx.userId, input.organizationId, "manage");
       const service = makeInviteService();
       return service.create(input, ctx.userId);
     }),
 
   /** List invites for an organization (enriched with scope names) */
-  list: protectedProcedure.input(ListInvitesSchema).query(async ({ input }) => {
-    if (!flags.ownerTeamAccess) {
-      throw new AuthorizationError("Team access feature is not enabled");
-    }
-    const service = makeInviteService();
-    const invites = await service.list(input.organizationId, input.status);
+  list: protectedProcedure
+    .input(ListInvitesSchema)
+    .query(async ({ input, ctx }) => {
+      if (!flags.ownerTeamAccess) {
+        throw new AuthorizationError("Team access feature is not enabled");
+      }
+      await requireTeamAccess(ctx.userId, input.organizationId, "view");
 
-    return Promise.all(
-      invites.map(async (invite) => ({
-        ...invite,
-        scopeName: await resolveScopeName(invite.scopeType, invite.scopeId),
-      })),
-    );
-  }),
+      const service = makeInviteService();
+      const invites = await service.list(input.organizationId, input.status);
+
+      return Promise.all(
+        invites.map(async (invite) => ({
+          ...invite,
+          scopeName: await resolveScopeName(invite.scopeType, invite.scopeId),
+        })),
+      );
+    }),
 
   /** Revoke a pending invite */
   revoke: protectedProcedure
     .input(RevokeInviteSchema)
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       if (!flags.ownerTeamAccess) {
         throw new AuthorizationError("Team access feature is not enabled");
       }
+
+      const invite = await makeTeamInviteRepository().findById(input.inviteId);
+      if (invite) {
+        await requireTeamAccess(ctx.userId, invite.organizationId, "manage");
+      }
+
       const service = makeInviteService();
       await service.revoke(input.inviteId);
     }),
@@ -122,7 +175,12 @@ export const teamAccessRouter = router({
   /** List memberships for an organization (enriched with user info and assignments) */
   listMembers: protectedProcedure
     .input(ListMembersSchema)
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
+      if (!flags.ownerTeamAccess) {
+        throw new AuthorizationError("Team access feature is not enabled");
+      }
+      await requireTeamAccess(ctx.userId, input.organizationId, "view");
+
       const membershipService = makeMembershipService();
       const memberships = await membershipService.findByOrg(
         input.organizationId,
@@ -166,11 +224,22 @@ export const teamAccessRouter = router({
   /** Revoke a team membership (and cascading assignments) */
   revokeMember: protectedProcedure
     .input(RevokeMemberSchema)
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       if (!flags.ownerTeamAccess) {
         throw new AuthorizationError("Team access feature is not enabled");
       }
+
       const membershipService = makeMembershipService();
+      const membership = await makeMembershipRepository().findById(
+        input.membershipId,
+      );
+      if (membership) {
+        await requireTeamAccess(
+          ctx.userId,
+          membership.organizationId,
+          "manage",
+        );
+      }
       await membershipService.revoke(input.membershipId);
     }),
 

@@ -9,6 +9,7 @@ import { AssignmentService } from "../services/assignment.service";
 import { InviteService } from "../services/invite.service";
 import { MembershipService } from "../services/membership.service";
 import { AcceptInviteUseCase } from "../use-cases/accept-invite.use-case";
+import { ResolveOwnerConsoleAccessUseCase } from "../use-cases/resolve-owner-console-access.use-case";
 
 let membershipRepository: MembershipRepository | null = null;
 let assignmentRepository: AssignmentRepository | null = null;
@@ -17,6 +18,8 @@ let membershipService: MembershipService | null = null;
 let assignmentService: AssignmentService | null = null;
 let inviteService: InviteService | null = null;
 let acceptInviteUseCase: AcceptInviteUseCase | null = null;
+let resolveOwnerConsoleAccessUseCase: ResolveOwnerConsoleAccessUseCase | null =
+  null;
 
 export function makeMembershipRepository() {
   if (!membershipRepository) {
@@ -77,4 +80,14 @@ export function makeAcceptInviteUseCase() {
     );
   }
   return acceptInviteUseCase;
+}
+
+export function makeResolveOwnerConsoleAccessUseCase() {
+  if (!resolveOwnerConsoleAccessUseCase) {
+    resolveOwnerConsoleAccessUseCase = new ResolveOwnerConsoleAccessUseCase(
+      makeOrganizationRepository(),
+      makeAssignmentService(),
+    );
+  }
+  return resolveOwnerConsoleAccessUseCase;
 }

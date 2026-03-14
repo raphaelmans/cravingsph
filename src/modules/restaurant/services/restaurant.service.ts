@@ -18,6 +18,7 @@ import type { IRestaurantRepository } from "../repositories/restaurant.repositor
 export interface IRestaurantService {
   getById(id: string): Promise<RestaurantRecord>;
   getBySlug(slug: string): Promise<RestaurantRecord>;
+  listByOrganizationId(organizationId: string): Promise<RestaurantRecord[]>;
   listByOrganization(
     userId: string,
     organizationId: string,
@@ -75,6 +76,12 @@ export class RestaurantService implements IRestaurantService {
       throw new RestaurantNotFoundError(slug);
     }
     return restaurant;
+  }
+
+  async listByOrganizationId(
+    organizationId: string,
+  ): Promise<RestaurantRecord[]> {
+    return this.restaurantRepository.findByOrganizationId(organizationId);
   }
 
   async listByOrganization(

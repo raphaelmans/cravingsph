@@ -3,8 +3,7 @@ import { redirect } from "next/navigation";
 import { appRoutes } from "@/common/app-routes";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { OwnerBottomNav } from "@/components/layout/owner-bottom-nav";
-import { OrganizationNotFoundError } from "@/modules/organization/errors/organization.errors";
-import { makeOrganizationService } from "@/modules/organization/factories/organization.factory";
+import { makeResolveOwnerConsoleAccessUseCase } from "@/modules/team-access/factories/team-access.factory";
 import { flags } from "@/shared/infra/feature-flags";
 import { requireSession } from "@/shared/infra/supabase/session";
 import { OwnerSidebar } from "./sidebar";
@@ -29,20 +28,19 @@ export default async function OwnerLayout({
     pathname === appRoutes.organization.getStarted ||
     pathname === appRoutes.organization.onboarding;
 
-  let hasOrganization = false;
+  const ownerConsoleAccess =
+    await makeResolveOwnerConsoleAccessUseCase().execute({
+      userId: session.userId,
+    });
 
-  try {
-    await makeOrganizationService().getByOwnerId(session.userId);
-    hasOrganization = true;
-  } catch (error) {
-    if (!(error instanceof OrganizationNotFoundError)) {
-      throw error;
-    }
+  // Legacy accounts with null portal_preference + org are treated as owners.
+  // Business-scoped assignees may also enter the console once resolved here.
+  if (!ownerConsoleAccess && !isOnboardingRoute) {
+    redirect(appRoutes.organization.getStarted);
   }
 
-  // Legacy accounts with null portal_preference + org are treated as owners
-  if (!hasOrganization && !isOnboardingRoute) {
-    redirect(appRoutes.organization.getStarted);
+  if (ownerConsoleAccess && isOnboardingRoute) {
+    redirect(appRoutes.organization.base);
   }
 
   const sidebar = flags.ownerConsoleSidebarV2 ? (

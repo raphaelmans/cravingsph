@@ -92,6 +92,7 @@ function makeBranchRepository(
     findByPortalSlug: vi.fn(),
     findByRestaurantId: vi.fn(),
     findAccessibleByOwner: vi.fn(),
+    findAccessibleByOrganizationId: vi.fn(),
     create: vi.fn(),
     update: vi.fn(),
     findOperatingHours: vi.fn(),

@@ -1,9 +1,14 @@
 import { z } from "zod";
+import { RestaurantNotFoundError } from "@/modules/restaurant/errors/restaurant.errors";
+import { makeRestaurantRepository } from "@/modules/restaurant/factories/restaurant.factory";
+import { makeResolveOwnerConsoleAccessUseCase } from "@/modules/team-access/factories/team-access.factory";
+import { canAccessOwnerConsole } from "@/modules/team-access/permissions";
 import {
   protectedProcedure,
   publicProcedure,
   router,
 } from "@/shared/infra/trpc/trpc";
+import { AuthorizationError } from "@/shared/kernel/errors";
 import {
   CreateBranchSchema,
   GetOperatingHoursSchema,
@@ -58,6 +63,17 @@ export const branchRouter = router({
    */
   listAccessible: protectedProcedure.query(async ({ ctx }) => {
     const branchService = makeBranchService();
+    const ownerConsoleAccess =
+      await makeResolveOwnerConsoleAccessUseCase().execute({
+        userId: ctx.userId,
+      });
+
+    if (ownerConsoleAccess) {
+      return branchService.listByOrganizationId(
+        ownerConsoleAccess.organization.id,
+      );
+    }
+
     return branchService.listAccessible(ctx.userId);
   }),
 
@@ -71,8 +87,35 @@ export const branchRouter = router({
       }),
     )
     .query(async ({ input, ctx }) => {
+      const restaurant = await makeRestaurantRepository().findById(
+        input.restaurantId,
+      );
+
+      if (!restaurant) {
+        throw new RestaurantNotFoundError(input.restaurantId);
+      }
+
+      const ownerConsoleAccess =
+        await makeResolveOwnerConsoleAccessUseCase().execute({
+          userId: ctx.userId,
+          organizationId: restaurant.organizationId,
+        });
+
+      if (
+        !ownerConsoleAccess ||
+        !canAccessOwnerConsole(ownerConsoleAccess.accessLevel)
+      ) {
+        throw new AuthorizationError(
+          "Not authorized to view this restaurant's branches",
+          {
+            restaurantId: input.restaurantId,
+            userId: ctx.userId,
+          },
+        );
+      }
+
       const branchService = makeBranchService();
-      return branchService.listByRestaurant(ctx.userId, input.restaurantId);
+      return branchService.listByRestaurantId(input.restaurantId);
     }),
 
   /**

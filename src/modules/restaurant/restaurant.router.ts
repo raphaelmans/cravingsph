@@ -4,6 +4,9 @@ import {
   publicProcedure,
   router,
 } from "@/shared/infra/trpc/trpc";
+import { AuthorizationError } from "@/shared/kernel/errors";
+import { makeResolveOwnerConsoleAccessUseCase } from "../team-access/factories/team-access.factory";
+import { canAccessOwnerConsole } from "../team-access/permissions";
 import {
   CreateRestaurantSchema,
   UpdateRestaurantSchema,
@@ -29,11 +32,22 @@ export const restaurantRouter = router({
   listByOrganization: protectedProcedure
     .input(z.object({ organizationId: z.string().uuid() }))
     .query(async ({ input, ctx }) => {
+      const access = await makeResolveOwnerConsoleAccessUseCase().execute({
+        userId: ctx.userId,
+        organizationId: input.organizationId,
+      });
+      if (!access || !canAccessOwnerConsole(access.accessLevel)) {
+        throw new AuthorizationError(
+          "Not authorized to view this organization's restaurants",
+          {
+            organizationId: input.organizationId,
+            userId: ctx.userId,
+          },
+        );
+      }
+
       const restaurantService = makeRestaurantService();
-      return restaurantService.listByOrganization(
-        ctx.userId,
-        input.organizationId,
-      );
+      return restaurantService.listByOrganizationId(input.organizationId);
     }),
 
   /**

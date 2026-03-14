@@ -1,0 +1,9 @@
+[2m2026-03-14T16:34:58.416889Z[0m [33m WARN[0m [2mralph::preflight[0m[2m:[0m Config file "presets/pdd-to-code-assist.yml" not found, using defaults
+[2m2026-03-14T16:34:58.417256Z[0m [32m INFO[0m [2mralph[0m[2m:[0m Loop lock held by PID 18972 (.agents/planning/2026-03-14-branch-ops-owner-conso), spawning parallel loop in worktree
+[2m2026-03-14T16:34:58.482707Z[0m [32m INFO[0m [2mralph[0m[2m:[0m Created worktree at /home/raphaelm/Github/cravingsph/.worktrees/peppy-daisy on branch ralph/peppy-daisy
+[2m2026-03-14T16:34:58.493102Z[0m [33m WARN[0m [2mralph::loop_runner[0m[2m:[0m2026-03-14T16:35:01.226005Z  INFO ralph_tui::app: Ctrl+C detected, signaling abort
+m2026-03-14T16:34:58.493709Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph/.worktrees/peppy-daisy"
+[2m2026-03-14T16:34:58.493720Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.worktrees/peppy-daisy/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T16:34:58.494790Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 43 memories from store
+[2m2026-03-14T16:34:58.494817Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 43 memories (18596 chars) into prompt
+[2m2026-03-14T16:34:58.495109Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (2 ready, 2 open, 81 closed) into prompt
