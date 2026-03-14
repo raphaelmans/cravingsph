@@ -71,6 +71,10 @@ export const appRoutes = {
     base: "/register/owner",
     options: { type: "guest" as const },
   },
+  registerTeam: {
+    base: "/register/team",
+    options: { type: "public" as const },
+  },
   magicLink: {
     base: "/magic-link",
     options: { type: "guest" as const },
@@ -170,7 +174,18 @@ export const routeGroups = {
 export const matchesRoute = (path: string, base: string) =>
   exactOrChild(path, base);
 
+/**
+ * Routes that override their parent route group's type.
+ * e.g. /register/team is public (not guest) so both auth states can access it.
+ */
+const publicOverrides = [appRoutes.registerTeam.base];
+
 export function getRouteType(pathname: string): RouteType {
+  // Check specific overrides first (more specific than parent route groups)
+  if (publicOverrides.some((route) => exactOrChild(pathname, route))) {
+    return "public";
+  }
+
   if (routeGroups.admin.some((route) => exactOrChild(pathname, route))) {
     return "admin";
   }

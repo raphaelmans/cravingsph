@@ -3,3 +3,4 @@ export { LoginForm } from "./login-form";
 export { MagicLinkForm } from "./magic-link-form";
 export { OwnerRegisterForm } from "./owner-register-form";
 export { RegisterForm } from "./register-form";
+export { TeamInviteForm } from "./team-invite-form";

@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { makeBranchService } from "@/modules/branch/factories/branch.factory";
+import { makeOrganizationService } from "@/modules/organization/factories/organization.factory";
 import { flags } from "@/shared/infra/feature-flags";
 import {
   protectedProcedure,
@@ -59,7 +61,30 @@ const inviteRouter = router({
     .input(ValidateInviteSchema)
     .query(async ({ input }) => {
       const service = makeInviteService();
-      return service.validate(input.token);
+      const invite = await service.validate(input.token);
+
+      // Enrich with display names for the landing page
+      let organizationName = "Unknown organization";
+      try {
+        const org = await makeOrganizationService().getById(
+          invite.organizationId,
+        );
+        organizationName = org.name;
+      } catch {
+        // org not found — use fallback
+      }
+
+      let scopeName = "Business-wide access";
+      if (invite.scopeType === "branch") {
+        try {
+          const branch = await makeBranchService().getById(invite.scopeId);
+          scopeName = branch.name;
+        } catch {
+          scopeName = "Unknown branch";
+        }
+      }
+
+      return { ...invite, organizationName, scopeName };
     }),
 
   /** Accept a team invite */
