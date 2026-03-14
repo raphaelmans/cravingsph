@@ -122,6 +122,10 @@
 
 ## Fixes
 
+### mem-1773507052-5372
+> failure: cmd=pnpm exec dotenvx run --env-file=.env.local -- node inline Playwright verification, exit=9, error=.env.local not found in this repo state, next=use already-exported env vars if present or skip Supabase-backed browser verification when local env files are absent
+<!-- tags: testing, e2e, error-handling | created: 2026-03-14 -->
+
 ### mem-1773507003-eb31
 > failure: cmd=node inline Playwright verification with dotenv.config('.env.local'), exit=1, error=Missing Supabase env because local env vars were not available in plain node stdin execution, next=run the verification command through dotenvx or rely on already-exported env before using the Supabase admin client
 <!-- tags: testing, e2e, error-handling | created: 2026-03-14 -->
