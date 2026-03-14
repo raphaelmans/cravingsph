@@ -1,0 +1,7 @@
+[2m2026-03-14T15:44:37.320198Z[0m [33m WARN[0m [2mralph::preflight[0m[2m:[0m Config file "presets/pdd-to-code-assist.yml" not found, using defaults
+[2m2026-03-14T15:44:37.328075Z[0m [33m WARN[0m [2mralph::loop_runner[0m[2m:[0m Interactive mode requested but stdout is not a TTY, falling back to autonomous
+[2m2026-03-14T15:44:37.328617Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph"
+[2m2026-03-14T15:44:37.328633Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T15:44:37.329454Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 41 memories from store
+[2m2026-03-14T15:44:37.329477Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 41 memories (17817 chars) into prompt
+[2m2026-03-14T15:44:37.329565Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (0 ready, 0 open, 80 closed) into prompt

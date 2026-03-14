@@ -1,0 +1,86 @@
+[2m2026-03-14T13:34:15.532570Z[0m [33m WARN[0m [2mralph::preflight[0m[2m:[0m Config file "presets/pdd-to-code-assist.yml" not found, using defaults
+[2m2026-03-14T13:34:15.536815Z[0m [33m WARN[0m [2mralph::loop_runner[0m[2m:[0m Interactive mode requested but stdout is not a TTY, falling back to autonomous
+[2m2026-03-14T13:34:15.537293Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph"
+[2m2026-03-14T13:34:15.537306Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T13:34:15.538425Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 39 memories from store
+[2m2026-03-14T13:34:15.538455Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 39 memories (16309 chars) into prompt
+[2m2026-03-14T13:34:15.538855Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (0 ready, 0 open, 67 closed) into prompt
+[2m2026-03-14T13:40:25.061508Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph"
+[2m2026-03-14T13:40:25.061540Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T13:40:25.061689Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 39 memories from store
+[2m2026-03-14T13:40:25.061708Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 39 memories (16309 chars) into prompt
+[2m2026-03-14T13:40:25.061732Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting scratchpad (759 chars) into prompt
+[2m2026-03-14T13:40:25.061811Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (1 ready, 1 open, 68 closed) into prompt
+[2m2026-03-14T13:49:51.075436Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph"
+[2m2026-03-14T13:49:51.075523Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T13:49:51.075777Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 40 memories from store
+[2m2026-03-14T13:49:51.075807Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 40 memories (16989 chars) into prompt
+[2m2026-03-14T13:49:51.075863Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting scratchpad (1940 chars) into prompt
+[2m2026-03-14T13:49:51.075983Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (0 ready, 0 open, 69 closed) into prompt
+[2m2026-03-14T13:55:51.753246Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph"
+[2m2026-03-14T13:55:51.753286Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T13:55:51.753517Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 40 memories from store
+[2m2026-03-14T13:55:51.753548Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 40 memories (16989 chars) into prompt
+[2m2026-03-14T13:55:51.753584Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting scratchpad (3301 chars) into prompt
+[2m2026-03-14T13:55:51.753694Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (0 ready, 0 open, 70 closed) into prompt
+[2m2026-03-14T14:04:12.272030Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph"
+[2m2026-03-14T14:04:12.272076Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T14:04:12.272292Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 40 memories from store
+[2m2026-03-14T14:04:12.272324Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 40 memories (16989 chars) into prompt
+[2m2026-03-14T14:04:12.272355Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting scratchpad (5003 chars) into prompt
+[2m2026-03-14T14:04:12.272468Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (0 ready, 0 open, 71 closed) into prompt
+[2m2026-03-14T14:15:06.486603Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph"
+[2m2026-03-14T14:15:06.486630Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T14:15:06.486786Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 40 memories from store
+[2m2026-03-14T14:15:06.486805Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 40 memories (16989 chars) into prompt
+[2m2026-03-14T14:15:06.486832Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting scratchpad (5127 chars) into prompt
+[2m2026-03-14T14:15:06.486909Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (0 ready, 0 open, 72 closed) into prompt
+[2m2026-03-14T14:20:55.564441Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph"
+[2m2026-03-14T14:20:55.564501Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T14:20:55.564787Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 40 memories from store
+[2m2026-03-14T14:20:55.564832Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 40 memories (16989 chars) into prompt
+[2m2026-03-14T14:20:55.564877Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting scratchpad (6919 chars) into prompt
+[2m2026-03-14T14:20:55.565029Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (0 ready, 0 open, 73 closed) into prompt
+[2m2026-03-14T14:28:49.986708Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph"
+[2m2026-03-14T14:28:49.986736Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T14:28:49.986891Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 40 memories from store
+[2m2026-03-14T14:28:49.986913Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 40 memories (16989 chars) into prompt
+[2m2026-03-14T14:28:49.986940Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting scratchpad (8624 chars) into prompt
+[2m2026-03-14T14:28:49.987017Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (0 ready, 0 open, 74 closed) into prompt
+[2m2026-03-14T14:34:22.893566Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph"
+[2m2026-03-14T14:34:22.893596Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T14:34:22.893789Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 40 memories from store
+[2m2026-03-14T14:34:22.893824Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 40 memories (16989 chars) into prompt
+[2m2026-03-14T14:34:22.893866Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting scratchpad (10083 chars) into prompt
+[2m2026-03-14T14:34:22.893967Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (0 ready, 0 open, 75 closed) into prompt
+[2m2026-03-14T14:44:30.281622Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph"
+[2m2026-03-14T14:44:30.281651Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T14:44:30.281805Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 41 memories from store
+[2m2026-03-14T14:44:30.281827Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 41 memories (17817 chars) into prompt
+[2m2026-03-14T14:44:30.281852Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting scratchpad (11270 chars) into prompt
+[2m2026-03-14T14:44:30.281932Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (0 ready, 0 open, 76 closed) into prompt
+[2m2026-03-14T15:07:33.739165Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph"
+[2m2026-03-14T15:07:33.739199Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T15:07:33.739410Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 41 memories from store
+[2m2026-03-14T15:07:33.739441Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 41 memories (17817 chars) into prompt
+[2m2026-03-14T15:07:33.739491Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting scratchpad (13759 chars) into prompt
+[2m2026-03-14T15:07:33.739618Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (1 ready, 1 open, 77 closed) into prompt
+[2m2026-03-14T15:21:03.368617Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph"
+[2m2026-03-14T15:21:03.368648Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T15:21:03.368806Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 41 memories from store
+[2m2026-03-14T15:21:03.368828Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 41 memories (17817 chars) into prompt
+[2m2026-03-14T15:21:03.368853Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting scratchpad (15169 chars) into prompt
+[2m2026-03-14T15:21:03.368937Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (0 ready, 0 open, 78 closed) into prompt
+[2m2026-03-14T15:34:39.770732Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph"
+[2m2026-03-14T15:34:39.770758Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T15:34:39.770915Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 41 memories from store
+[2m2026-03-14T15:34:39.770937Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 41 memories (17817 chars) into prompt
+[2m2026-03-14T15:34:39.770966Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting scratchpad (16223 chars) into prompt
+[2m2026-03-14T15:34:39.771056Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (0 ready, 0 open, 79 closed) into prompt
+[2m2026-03-14T15:41:33.621657Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/raphaelm/Github/cravingsph"
+[2m2026-03-14T15:41:33.621681Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/raphaelm/Github/cravingsph/.ralph/agent/memories.md" (exists: true)
+[2m2026-03-14T15:41:33.621834Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 41 memories from store
+[2m2026-03-14T15:41:33.621856Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting 41 memories (17817 chars) into prompt
+[2m2026-03-14T15:41:33.621885Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting scratchpad (16278 chars) into prompt
+[2m2026-03-14T15:41:33.621969Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Injecting ready tasks (0 ready, 0 open, 80 closed) into prompt
+[2m2026-03-14T15:44:25.738369Z[0m [33m WARN[0m [2mralph::rpc_stdin[0m[2m:[0m Failed to write to stdout, stopping emitter

@@ -2,6 +2,14 @@
 
 ## Patterns
 
+### mem-1773499461-f88c
+> Team-access module (src/modules/team-access/) has 3 tables: team_membership (user↔org link, statuses: active/revoked/pending), scoped_assignment (membership↔role+scope, 6 role templates: business_owner/manager/viewer + branch_manager/staff/viewer, scope types: business/branch), team_invite (owner-initiated invites with crypto token, status: pending/accepted/expired/revoked). ROLE_SCOPE_MAP enforces that business_* roles require business scope and branch_* roles require branch scope. AssignmentService.hasAccess checks: (1) org owner = implicit business_owner, (2) direct scope match, (3) business-scope fallback for branch access. Factory provides lazy singletons. Router has listMembers + hasAccess stubs. Migration 0005.
+<!-- tags: team-access, auth, trpc, schema | created: 2026-03-14 -->
+
+### mem-1773496177-a143
+> Branch portalSlug column (nullable varchar(400), unique index idx_branch_portal_slug) added in migration 0004. Shared slug utility at src/shared/kernel/slug.ts provides generateSlug, composePortalSlug (restaurant-slug + branch-slug), and generatePortalSlug with collision handling (base → city → random suffix). BranchService.create() generates portalSlug automatically. BranchRepository.findByPortalSlug(portalSlug) resolves branches by portal slug. Backfill script at scripts/backfill-portal-slugs.ts. Seed script (seed-restaurant.ts) also populates portalSlug for new seeds.
+<!-- tags: branch, portal-slug, schema, trpc | created: 2026-03-14 -->
+
 ### mem-1773082151-2d89
 > Onboarding wizard uses useOnboardingStatus hook as single source of truth for both hub (get-started) and wizard pages. Steps 4-6 now query real backends: menu.hasContent (checks if branch has ≥1 menu item via category join), paymentConfig.has (checks org has ≥1 active method), verification.isSubmitted (checks restaurant docs submitted). CompletionStep accepts allComplete prop — shows 'Partial Setup Complete' with amber warning when steps remain incomplete, or 'You're All Set\!' with green party popper when all 6 required steps are done. allComplete = completedCount >= TOTAL_STEPS - 1 (steps 1-6 all complete; step 7 is the completion step itself).
 <!-- tags: onboarding, trpc, frontend | created: 2026-03-09 -->

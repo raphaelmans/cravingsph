@@ -1,134 +1,159 @@
-# CravingsPH UI Audit Resolution — Production Readiness
+# Branch Ops Portal + Owner Console IA + Team Scope
 
 ## Objective
 
-Resolve all 18 issues from the initial UI audit (`issues/init/`) to make CravingsPH production-ready. Replace all stub data and local stores with real Supabase-backed persistence, enforce portal separation, add file upload infrastructure, implement QR scanning, and fix component-level bugs.
+Introduce a branch-scoped operations portal (`/branch/:portalSlug`), restructure the owner console sidebar, and build a team access foundation with scoped role assignments — all behind feature flags for safe rollout.
+
+Two interconnected features:
+
+1. **Branch Ops Portal** — A new `(branch)` route group at `/branch/:portalSlug` giving branch staff a short, memorable workspace for daily operations (orders, menu, tables, settings). Reuses existing branch operation components in a new navigation shell.
+2. **Owner Console IA + Team Scope** — Flat task-oriented sidebar v2 with workspace/restaurant switcher, branch shortcuts into the portal, and a Team Access section. New RBAC foundation using membership + scoped assignments with role templates.
 
 ## Key Requirements
 
-1. Follow the design and plan in `specs/ui-audit-resolution/`.
-2. Apply schema changes with `pnpm db:push` (Drizzle push) — do NOT use `drizzle-kit generate`/`migrate`.
-3. Create 8 new Drizzle schema files: saved_restaurant, order, order_item, order_status_history, review, payment_method, verification_document, operating_hours.
-4. Add `portal_preference` column to profile table and `latitude`/`longitude` to branch table.
-5. Create 6 new tRPC routers (discovery, savedRestaurant, order, review, paymentConfig, verification) and extend 3 existing routers (branch, admin, menu).
-6. Rewrite 8 frontend hooks to use tRPC instead of local stores/seed data.
-7. Replace stub arrays on landing page and search page with live discovery queries.
-8. Enforce portal separation: `profile.portal_preference` checked in owner layout, org mutations, and post-login routing.
-9. Set up Supabase Storage: seed 5 buckets, create upload utilities, replace image URL input with file upload.
-10. Implement browser camera QR scanner using `html5-qrcode`.
-11. Fix breadcrumb hydration errors, add-item dialog defaults/validation, onboarding wizard completion state.
-12. Create 4 Cebu City restaurant seed fixtures with lat/lng coordinates.
-13. Verify all 18 fixes with Playwright E2E tests.
+1. Follow the design and plan in `.agents/planning/2026-03-14-branch-ops-owner-console/`.
+2. Apply schema changes with `pnpm db:generate && pnpm db:migrate` (Drizzle migrations).
+3. Create feature flag system: env-backed typed config at `src/shared/infra/feature-flags/index.ts` with 6 flags (`FF_BRANCH_OPS_PORTAL`, `FF_BRANCH_SCOPED_STAFF_ACCESS`, `FF_BRANCH_PORTAL_SHORT_ROUTES`, `FF_OWNER_CONSOLE_SIDEBAR_V2`, `FF_OWNER_TEAM_ACCESS`, `FF_OWNER_WORKSPACE_SWITCHER`).
+4. Add `portal_slug` column (varchar, globally unique) to branch table. Generate composite slugs as `<restaurant-slug>-<branch-slug>` with collision fallback (append city, then random suffix). Backfill all existing branches.
+5. Create `(branch)` route group: layout resolves `portalSlug` → branch, checks auth + membership, renders `BranchPortalShell`. Update `proxy.ts` to protect `/branch/**`. Update `app-routes.ts`.
+6. Build branch portal sidebar + bottom nav with 5 items: Overview, Orders, Menu, Tables, Settings. Add branch switcher for multi-branch users. Add "Owner Console" link for owners.
+7. Wire branch portal pages by reusing existing components from `src/features/owner/` — refactor shared components into `src/features/branch-operations/` if needed.
+8. Create sidebar-v2 at `src/app/(owner)/sidebar-v2.tsx` with 5 groups: Overview, Restaurants, Branch Operations, Team Access, Account. Conditionally render v1/v2 based on flag.
+9. Add workspace switcher (restaurant selector) in sidebar-v2 header. Store selection in Zustand or URL param.
+10. Wire Branch Operations group: branch shortcuts route to `/branch/:portalSlug` when portal flag on, old URL when off.
+11. Create 3 new DB tables: `team_membership` (user_id, organization_id, status), `scoped_assignment` (membership_id, role_template, scope_type, scope_id, status), `team_invite` (organization_id, invited_by, email, token, role_template, scope_type, scope_id, status, expires_at).
+12. Create `src/modules/team-access/` module following DDD pattern: repositories, services, DTOs, errors, factories. Key method: `AssignmentService.hasAccess(userId, scopeType, scopeId)`.
+13. Build owner-initiated invite flow: create/list/revoke/validate/accept procedures. Accept-invite use case creates membership + assignment in transaction. Add invite landing page at `src/app/(auth)/register/team/page.tsx`.
+14. Build Team Access UI at `/organization/team`: members list, invites list, invite form (email + role template + scope picker). Wire to sidebar-v2 Team Access group.
+15. Create `branchMiddleware` and `branchProcedure` for branch-scoped authorization. `getBranchAccessLevel()` helper for conditional UI. Update branch portal layout to check membership when `branchScopedStaffAccess` flag is on.
+16. Smart post-login redirect: single branch → portal, multiple branches → org dashboard, org owner → org dashboard. `?redirect=` param always takes priority.
 
 ## Acceptance Criteria
 
 ```gherkin
-# AC-001: Discovery shows live data
-Given a published restaurant exists in the database
-When a customer visits /
-Then the restaurant appears in the featured or nearby section
-And clicking the card navigates to a working /restaurant/{slug} page
+# AC-001: Feature flags gate all new behavior
+Given all FF_ env vars are unset or false
+When a user navigates the app
+Then all existing behavior is unchanged and no new routes are accessible
 
-# AC-002: Search filters by location
-Given restaurants exist in "Cebu City" and "Mandaue"
-When a customer selects "Cebu City" from the location filter on /search
-Then only restaurants with branches in Cebu City are shown
+# AC-002: Branch portal resolves portal slug
+Given a branch with portal_slug "jollibee-makati" exists
+When an authenticated owner navigates to /branch/jollibee-makati
+Then the branch portal renders with the correct branch context
 
-# AC-003: QR scanner works
-Given a valid QR code encoding a restaurant slug
-When a customer taps "Scan cravings QR" and scans the code
-Then the scanner decodes the slug and navigates to /restaurant/{slug}
+# AC-003: Branch portal has 5 operational pages
+Given an owner is in the branch portal for "jollibee-makati"
+When they navigate through Overview, Orders, Menu, Tables, Settings
+Then each page renders correctly with data matching the owner console for that branch
 
-# AC-004: Save-for-later on discovery
-Given an authenticated customer on /
-When they tap the save button on a restaurant card
-Then the restaurant is saved to their account and persists across sessions
+# AC-004: Branch portal 404 for invalid slug
+Given no branch with portal_slug "nonexistent" exists
+When a user navigates to /branch/nonexistent
+Then the system returns a 404 page
 
-# AC-005: Saved restaurants are account-scoped
-Given a new customer account with no saved restaurants
-When they visit /saved
-Then the page shows the empty state
+# AC-005: Branch portal requires auth
+Given an unauthenticated user
+When they navigate to /branch/jollibee-makati
+Then they are redirected to /login with redirect param
 
-# AC-006: Order history is account-scoped
-Given a new customer account with no orders
-When they visit /orders
-Then the page shows the empty state with zero orders and zero spend
+# AC-006: Owner sidebar v2 is task-oriented
+Given FF_OWNER_CONSOLE_SIDEBAR_V2 is true
+When an owner views the console
+Then the sidebar shows flat groups: Overview, Restaurants, Branch Operations, Team Access, Account
+And the sidebar does not expand into a nested restaurant→branch tree
 
-# AC-007: Reorder validates target
-Given a customer with a completed order for a valid restaurant
-When they tap "Reorder"
-Then items are added to cart and they navigate to the working restaurant page
+# AC-007: Workspace switcher filters branches
+Given an owner with restaurants "Jollibee" and "Chowking"
+When they select "Jollibee" in the workspace switcher
+Then the Branch Operations group shows only Jollibee branches
 
-# AC-008: Portal separation enforced
-Given a customer account (portal_preference = 'customer')
-When they navigate to /organization/get-started
-Then they are redirected to /
+# AC-008: Branch shortcuts route to portal
+Given FF_BRANCH_OPS_PORTAL and FF_OWNER_CONSOLE_SIDEBAR_V2 are true
+When an owner clicks a branch shortcut in the sidebar
+Then they navigate to /branch/:portalSlug (not the old nested URL)
 
-# AC-009: Owner nav has no dead links
-Given an owner in the dashboard
-When they click any sidebar link
-Then the route exists and renders correctly
+# AC-009: Team membership + scoped assignments work
+Given an owner invites staff@example.com as branch_staff for "Jollibee Makati"
+When the invitee accepts
+Then a team_membership and scoped_assignment record exist
+And the staff user can access /branch/jollibee-makati
 
-# AC-010: Onboarding completion is honest
-Given an owner who completed steps 1-3 but skipped 4-6
-When they view the wizard completion step
-Then it does NOT show "You're All Set!"
+# AC-010: Branch-scoped staff isolation
+Given a staff user assigned only to "Jollibee Makati"
+When they try to access /branch/jollibee-bgc
+Then the system returns 403 Forbidden
 
-# AC-011: Branch orders are branch-scoped
-Given a new branch with no orders
-When the owner views that branch's orders page
-Then the page shows the empty state
+# AC-011: Org owner has implicit full access
+Given the organization owner
+When they access any branch portal under their org
+Then access is granted without requiring explicit team_membership rows
 
-# AC-012: Payment methods are org-scoped
-Given a new organization with no configured payment methods
-When the owner visits /organization/payments
-Then the page shows the empty state
+# AC-012: Team Access UI in owner console
+Given FF_OWNER_TEAM_ACCESS is true
+When an owner navigates to /organization/team
+Then they see a members list, can invite new members, and see scoped assignments
 
-# AC-013: Verification starts in draft
-Given a newly created restaurant
-When the owner visits /organization/verify
-Then the restaurant shows "Draft" status with 0 of 3 documents
+# AC-013: Smart post-login for single-branch staff
+Given a staff user with exactly one branch assignment
+When they log in
+Then they land directly in /branch/:portalSlug
 
-# AC-014: Operating hours persist
-Given an owner sets Monday hours to 9:00-21:00 for a branch
-When they refresh the page
-Then Monday hours still show 9:00-21:00
+# AC-014: Smart post-login preserves redirect param
+Given a staff user with a ?redirect=/branch/jollibee-bgc param
+When they log in
+Then they land on /branch/jollibee-bgc (not their default branch)
 
-# AC-015: Breadcrumb hydration clean
-Given any owner page with breadcrumbs
-When the page loads
-Then zero hydration errors appear in the console
+# AC-015: Portal slug generated on branch creation
+Given an owner creates a new branch "Cebu" for restaurant "Jollibee" (slug: jollibee)
+When the branch is saved
+Then portal_slug is auto-generated as "jollibee-cebu"
 
-# AC-016: Admin user toggle persists
-Given an admin deactivates a user
-When they refresh the admin user list
-Then the user still shows as deactivated
+# AC-016: Portal slug collision handling
+Given a branch with portal_slug "jollibee-makati" already exists
+When another branch would generate the same slug
+Then the system appends city or random suffix to produce a unique readable slug
 
-# AC-017: Add item dialog works on first try
-Given a branch with one category
-When the owner opens the Add Item dialog
-Then the category is pre-selected and leaving Image empty causes no validation error
+# AC-017: Role template validation
+Given an owner invites a user with role_template "business_owner" and scope_type "branch"
+When the invite is created
+Then the system rejects it as an invalid role/scope combination
 
-# AC-018: No image URL crashes
-Given menu items use Supabase Storage uploads only
-When a customer views the restaurant page
-Then all images load correctly with no hostname errors
+# AC-018: Invite lifecycle
+Given a pending invite
+When the invite expires or is revoked
+Then attempting to accept it fails with an appropriate error
 ```
+
+## Implementation Order
+
+Follow `.agents/planning/2026-03-14-branch-ops-owner-console/implementation/plan.md` steps 1–14 sequentially. Each step builds on the previous and ends with demoable functionality. Do not skip steps.
+
+## Role Templates
+
+| Template | Scope | Description |
+|----------|-------|-------------|
+| `business_owner` | business | Full org/restaurant/branch management |
+| `business_manager` | business | Manage restaurants and branches, no billing |
+| `business_viewer` | business | Read-only across the business |
+| `branch_manager` | branch | Full control of one branch |
+| `branch_staff` | branch | Day-to-day operations (orders, tables) |
+| `branch_viewer` | branch | Read-only for one branch |
 
 ## References
 
-- `specs/ui-audit-resolution/design.md` — architecture, data models, error handling
-- `specs/ui-audit-resolution/plan.md` — 18-step implementation plan
-- `specs/ui-audit-resolution/research/` — 6 research documents covering schema, routers, hooks, storage, auth, and components
-- `issues/init/` — original 18 issue files with repro steps and code evidence
-- `docs/prd.md` — product requirements
-- `specs/frontend-ui-scaffold/` — original scaffold design
+- `.agents/planning/2026-03-14-branch-ops-owner-console/design/detailed-design.md` — architecture, data models, components, auth model, testing strategy
+- `.agents/planning/2026-03-14-branch-ops-owner-console/implementation/plan.md` — 14-step implementation plan with checklist
+- `.agents/planning/2026-03-14-branch-ops-owner-console/research/` — 6 research documents covering current auth, sidebar, branch model, feature flags, middleware, external references
+- `openspec/changes/branch-ops-portal-ff/` — original branch ops portal specs
+- `openspec/changes/owner-console-ia-team-scope-ff/` — original owner console + team scope specs
+- `docs/design-system.md` — design system reference
 
 ## Notes
 
-- Always run `pnpm db:push` after any schema file changes.
-- Follow existing module conventions: factory DI, cascading auth checks, transaction wrapping.
-- Storage bucket seed script follows the pattern in the next16bp boilerplate (`scripts/seed-storage-buckets.ts`).
-- Seed data focuses on Cebu City for realistic geolocation testing.
-- Use playwright-cli for E2E verification after each major step.
-- Apply frontend-design, copywriting, product-designer, and ui-ux-pro-max skills for empty states, error copy, and UI polish.
+- All new behavior MUST be gated behind feature flags. Default all flags to `false`.
+- Follow existing module conventions: factory DI, service layer auth checks, transaction wrapping.
+- Reuse existing branch operation components — do not duplicate. Extract shared components if tightly coupled to owner console URL params.
+- The org owner (`organization.ownerId`) always has implicit `business_owner` access — check in code, don't store as a row.
+- Branch portal pages share the same visual system as the owner console (same heading treatment, surface hierarchy, motion rules) but with a different navigation shell.
+- Use `pnpm db:generate && pnpm db:migrate` for schema changes (not `db:push`).
+- Run `pnpm lint` and `pnpm test:unit` after each step to verify no regressions.
