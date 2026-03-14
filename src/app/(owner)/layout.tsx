@@ -49,6 +49,7 @@ export default async function OwnerLayout({
     <OwnerSidebarV2
       showBranchOps={flags.branchOpsPortal}
       showTeamAccess={flags.ownerTeamAccess}
+      showWorkspaceSwitcher={flags.ownerWorkspaceSwitcher}
     />
   ) : (
     <OwnerSidebar />

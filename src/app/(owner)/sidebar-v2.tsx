@@ -2,6 +2,8 @@
 
 import {
   Building2,
+  Check,
+  ChevronsUpDown,
   GitBranch,
   LayoutDashboard,
   LogOut,
@@ -36,7 +38,14 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import { useLogout, useSession } from "@/features/auth/hooks/use-auth";
-import { useOrganization } from "@/features/owner/hooks/use-owner-sidebar-data";
+import {
+  useOrganization,
+  useRestaurants,
+} from "@/features/owner/hooks/use-owner-sidebar-data";
+import {
+  useSelectedRestaurantId,
+  useWorkspaceActions,
+} from "@/features/owner/stores/workspace.store";
 
 // ---------------------------------------------------------------------------
 // Nav item definitions
@@ -71,6 +80,8 @@ export interface OwnerSidebarV2Props {
   showBranchOps: boolean;
   /** Whether the team access flag is enabled */
   showTeamAccess: boolean;
+  /** Whether the workspace/restaurant switcher is enabled */
+  showWorkspaceSwitcher: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -80,6 +91,7 @@ export interface OwnerSidebarV2Props {
 export function OwnerSidebarV2({
   showBranchOps,
   showTeamAccess,
+  showWorkspaceSwitcher,
 }: OwnerSidebarV2Props) {
   const pathname = usePathname();
   const { data: session } = useSession();
@@ -92,9 +104,15 @@ export function OwnerSidebarV2({
 
   return (
     <Sidebar collapsible="icon">
-      {/* ── Header: org name + role ── */}
+      {/* ── Header: workspace switcher or org name ── */}
       <SidebarHeader className="border-b">
-        {orgLoading ? (
+        {showWorkspaceSwitcher && organization ? (
+          <WorkspaceSwitcher
+            organizationId={organization.id}
+            organizationName={organization.name}
+            role={session?.role ?? "Member"}
+          />
+        ) : orgLoading ? (
           <div className="flex items-center gap-2 p-2">
             <div className="flex h-8 w-8 animate-skeleton items-center justify-center rounded-md bg-muted" />
             <div className="flex-1 space-y-1.5">
@@ -204,6 +222,89 @@ export function OwnerSidebarV2({
 
       <SidebarRail />
     </Sidebar>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// WorkspaceSwitcher — restaurant context selector in sidebar header
+// ---------------------------------------------------------------------------
+
+function WorkspaceSwitcher({
+  organizationId,
+  organizationName,
+  role,
+}: {
+  organizationId: string;
+  organizationName: string;
+  role: string;
+}) {
+  const { data: restaurants } = useRestaurants(organizationId);
+  const selectedRestaurantId = useSelectedRestaurantId();
+  const { selectRestaurant, clearSelection } = useWorkspaceActions();
+
+  const selectedRestaurant = restaurants?.find(
+    (r) => r.id === selectedRestaurantId,
+  );
+
+  const displayName = selectedRestaurant?.name ?? organizationName;
+  const isFiltered = selectedRestaurantId !== null;
+
+  return (
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <SidebarMenuButton
+              size="lg"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            >
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                {isFiltered ? (
+                  <Store className="h-4 w-4" />
+                ) : (
+                  <Building2 className="h-4 w-4" />
+                )}
+              </div>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-medium">{displayName}</span>
+                <span className="truncate text-xs text-muted-foreground capitalize">
+                  {role}
+                </span>
+              </div>
+              <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
+            </SidebarMenuButton>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="start"
+            side="bottom"
+            className="w-[--radix-dropdown-menu-trigger-width] min-w-56"
+          >
+            <DropdownMenuItem onSelect={clearSelection}>
+              <Building2 className="mr-2 h-4 w-4" />
+              <span className="flex-1">All Restaurants</span>
+              {!isFiltered && <Check className="ml-2 h-4 w-4" />}
+            </DropdownMenuItem>
+            {restaurants && restaurants.length > 0 && (
+              <>
+                <DropdownMenuSeparator />
+                {restaurants.map((restaurant) => (
+                  <DropdownMenuItem
+                    key={restaurant.id}
+                    onSelect={() => selectRestaurant(restaurant.id)}
+                  >
+                    <Store className="mr-2 h-4 w-4" />
+                    <span className="flex-1 truncate">{restaurant.name}</span>
+                    {selectedRestaurantId === restaurant.id && (
+                      <Check className="ml-2 h-4 w-4" />
+                    )}
+                  </DropdownMenuItem>
+                ))}
+              </>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </SidebarMenuItem>
+    </SidebarMenu>
   );
 }
 
