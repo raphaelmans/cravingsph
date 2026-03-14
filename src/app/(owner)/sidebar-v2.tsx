@@ -8,6 +8,7 @@ import {
   GitBranch,
   LayoutDashboard,
   LogOut,
+  Mail,
   Rocket,
   Store,
   User,
@@ -161,24 +162,38 @@ export function OwnerSidebarV2({
         {/* Branch Operations — shortcuts to branch portal */}
         <BranchShortcuts showBranchOps={showBranchOps} />
 
-        {/* Team Access — placeholder until Step 11 wires member/invite pages */}
+        {/* Team Access — members and invites */}
         <SidebarGroup>
           <SidebarGroupLabel>Team Access</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {showTeamAccess ? (
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive(appRoutes.organization.team)}
-                    tooltip="Members"
-                  >
-                    <Link href={appRoutes.organization.team}>
-                      <Users className="size-4" />
-                      <span>Members</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                <>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === appRoutes.organization.team}
+                      tooltip="Members"
+                    >
+                      <Link href={appRoutes.organization.team}>
+                        <Users className="size-4" />
+                        <span>Members</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive(appRoutes.organization.teamInvites)}
+                      tooltip="Invites"
+                    >
+                      <Link href={appRoutes.organization.teamInvites}>
+                        <Mail className="size-4" />
+                        <span>Invites</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </>
               ) : (
                 <SidebarMenuItem>
                   <div className="px-2 py-1.5">

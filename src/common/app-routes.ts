@@ -94,6 +94,7 @@ export const appRoutes = {
     /** @deprecated Hidden for MVP — page redirects to /organization */
     payments: "/organization/payments",
     team: "/organization/team",
+    teamInvites: "/organization/team/invites",
     /** @deprecated Hidden for MVP — page redirects to /organization */
     verify: "/organization/verify",
     settings: "/organization/settings",

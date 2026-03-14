@@ -92,6 +92,10 @@ export const RevokeAssignmentSchema = z.object({
   assignmentId: z.string().uuid(),
 });
 
+export const RevokeMemberSchema = z.object({
+  membershipId: z.string().uuid(),
+});
+
 export const HasAccessSchema = z.object({
   scopeType: ScopeTypeSchema,
   scopeId: z.string().uuid(),

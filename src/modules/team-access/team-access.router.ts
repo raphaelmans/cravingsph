@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { makeBranchService } from "@/modules/branch/factories/branch.factory";
 import { makeOrganizationService } from "@/modules/organization/factories/organization.factory";
+import { makeProfileService } from "@/modules/profile/factories/profile.factory";
 import { flags } from "@/shared/infra/feature-flags";
 import {
   protectedProcedure,
@@ -15,14 +16,30 @@ import {
   ListInvitesSchema,
   ListMembersSchema,
   RevokeInviteSchema,
+  RevokeMemberSchema,
   ValidateInviteSchema,
 } from "./dtos/team-access.dto";
 import {
   makeAcceptInviteUseCase,
+  makeAssignmentRepository,
   makeAssignmentService,
   makeInviteService,
   makeMembershipService,
 } from "./factories/team-access.factory";
+
+/** Resolve a scope ID to a human-readable label. */
+async function resolveScopeName(
+  scopeType: string,
+  scopeId: string,
+): Promise<string> {
+  if (scopeType === "business") return "Business-wide access";
+  try {
+    const branch = await makeBranchService().getById(scopeId);
+    return branch.name;
+  } catch {
+    return "Unknown branch";
+  }
+}
 
 const inviteRouter = router({
   /** Create a team invite (owner-only) */
@@ -36,13 +53,20 @@ const inviteRouter = router({
       return service.create(input, ctx.userId);
     }),
 
-  /** List invites for an organization */
+  /** List invites for an organization (enriched with scope names) */
   list: protectedProcedure.input(ListInvitesSchema).query(async ({ input }) => {
     if (!flags.ownerTeamAccess) {
       throw new AuthorizationError("Team access feature is not enabled");
     }
     const service = makeInviteService();
-    return service.list(input.organizationId, input.status);
+    const invites = await service.list(input.organizationId, input.status);
+
+    return Promise.all(
+      invites.map(async (invite) => ({
+        ...invite,
+        scopeName: await resolveScopeName(invite.scopeType, invite.scopeId),
+      })),
+    );
   }),
 
   /** Revoke a pending invite */
@@ -74,15 +98,10 @@ const inviteRouter = router({
         // org not found — use fallback
       }
 
-      let scopeName = "Business-wide access";
-      if (invite.scopeType === "branch") {
-        try {
-          const branch = await makeBranchService().getById(invite.scopeId);
-          scopeName = branch.name;
-        } catch {
-          scopeName = "Unknown branch";
-        }
-      }
+      const scopeName = await resolveScopeName(
+        invite.scopeType,
+        invite.scopeId,
+      );
 
       return { ...invite, organizationName, scopeName };
     }),
@@ -100,12 +119,59 @@ const inviteRouter = router({
  * Team access router — manages memberships, scoped assignments, and invites.
  */
 export const teamAccessRouter = router({
-  /** List memberships for an organization */
+  /** List memberships for an organization (enriched with user info and assignments) */
   listMembers: protectedProcedure
     .input(ListMembersSchema)
     .query(async ({ input }) => {
-      const service = makeMembershipService();
-      return service.findByOrg(input.organizationId);
+      const membershipService = makeMembershipService();
+      const memberships = await membershipService.findByOrg(
+        input.organizationId,
+      );
+
+      const profileService = makeProfileService();
+      const assignmentRepo = makeAssignmentRepository();
+
+      return Promise.all(
+        memberships.map(async (m) => {
+          let email = "Unknown";
+          let displayName: string | null = null;
+          try {
+            const userProfile = await profileService.getProfile(m.userId);
+            email = userProfile.email ?? "Unknown";
+            displayName = userProfile.displayName;
+          } catch {
+            // profile not found — use fallbacks
+          }
+
+          const assignments = await assignmentRepo.findByMembership(m.id);
+          const enrichedAssignments = await Promise.all(
+            assignments
+              .filter((a) => a.status === "active")
+              .map(async (a) => ({
+                ...a,
+                scopeName: await resolveScopeName(a.scopeType, a.scopeId),
+              })),
+          );
+
+          return {
+            ...m,
+            email,
+            displayName,
+            assignments: enrichedAssignments,
+          };
+        }),
+      );
+    }),
+
+  /** Revoke a team membership (and cascading assignments) */
+  revokeMember: protectedProcedure
+    .input(RevokeMemberSchema)
+    .mutation(async ({ input }) => {
+      if (!flags.ownerTeamAccess) {
+        throw new AuthorizationError("Team access feature is not enabled");
+      }
+      const membershipService = makeMembershipService();
+      await membershipService.revoke(input.membershipId);
     }),
 
   /** Check if the current user has access to a scope */

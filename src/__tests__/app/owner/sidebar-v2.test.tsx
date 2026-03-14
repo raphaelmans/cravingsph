@@ -238,12 +238,18 @@ describe("OwnerSidebarV2", () => {
     expect(screen.getByText("Chowking Ortigas")).toBeTruthy();
   });
 
-  it("shows Team Access Members link when teamAccess flag is on", () => {
+  it("shows Team Access Members and Invites links when teamAccess flag is on", () => {
     render(<OwnerSidebarV2 {...defaultProps} showTeamAccess={true} />);
 
     expect(screen.getByText("Members")).toBeTruthy();
-    const link = screen.getByText("Members").closest("a");
-    expect(link?.getAttribute("href")).toBe("/organization/team");
+    const membersLink = screen.getByText("Members").closest("a");
+    expect(membersLink?.getAttribute("href")).toBe("/organization/team");
+
+    expect(screen.getByText("Invites")).toBeTruthy();
+    const invitesLink = screen.getByText("Invites").closest("a");
+    expect(invitesLink?.getAttribute("href")).toBe(
+      "/organization/team/invites",
+    );
   });
 
   it("renders both flag-gated sections when both flags are on", () => {
