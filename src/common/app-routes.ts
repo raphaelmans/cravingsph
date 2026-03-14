@@ -105,6 +105,8 @@ export const appRoutes = {
     options: { type: "protected" as const },
     byPortalSlug: (portalSlug: string) => `/branch/${portalSlug}`,
     orders: (portalSlug: string) => `/branch/${portalSlug}/orders`,
+    orderDetail: (portalSlug: string, orderId: string) =>
+      `/branch/${portalSlug}/orders/${orderId}`,
     menu: (portalSlug: string) => `/branch/${portalSlug}/menu`,
     tables: (portalSlug: string) => `/branch/${portalSlug}/tables`,
     settings: (portalSlug: string) => `/branch/${portalSlug}/settings`,

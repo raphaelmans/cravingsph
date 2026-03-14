@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { BranchPortalProvider } from "@/features/branch-portal/components/branch-portal-provider";
 import { BranchNotFoundError } from "@/modules/branch/errors/branch.errors";
 import { makeBranchService } from "@/modules/branch/factories/branch.factory";
 import { makeOrganizationRepository } from "@/modules/organization/factories/organization.factory";
@@ -71,11 +72,22 @@ export default async function BranchPortalLayout({
   }
 
   return (
-    <DashboardShell
-      sidebar={<BranchPortalSidebar />}
-      bottomNav={<BranchPortalBottomNav />}
+    <BranchPortalProvider
+      value={{
+        branchId: branch.id,
+        restaurantId: branch.restaurantId,
+        portalSlug,
+        branchName: branch.name,
+        restaurantName: restaurant.name,
+        restaurantSlug: restaurant.slug,
+      }}
     >
-      {children}
-    </DashboardShell>
+      <DashboardShell
+        sidebar={<BranchPortalSidebar />}
+        bottomNav={<BranchPortalBottomNav />}
+      >
+        {children}
+      </DashboardShell>
+    </BranchPortalProvider>
   );
 }
