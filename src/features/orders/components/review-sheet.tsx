@@ -44,7 +44,7 @@ export function ReviewSheet({
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerContent className="max-h-[88vh]">
         <DrawerHeader className="space-y-2 text-left">
-          <DrawerTitle className="font-heading text-xl">
+          <DrawerTitle className="font-heading text-2xl font-semibold tracking-tight">
             Rate your order
           </DrawerTitle>
           <DrawerDescription>
@@ -100,7 +100,7 @@ export function ReviewSheet({
               value={comment}
               onChange={(event) => setComment(event.target.value)}
               placeholder="The serving time was quick, the chicken stayed hot, and pickup instructions were easy to follow."
-              className="min-h-32 rounded-3xl"
+              className="min-h-32 rounded-3xl border-primary/10 bg-background/95"
             />
             <p className="text-xs text-muted-foreground">
               Minimum 10 characters. Keep it useful and specific.

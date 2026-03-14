@@ -91,7 +91,7 @@ export function CustomerProfileForm() {
 
   if (isLoading && !profile) {
     return (
-      <section className="rounded-4xl border border-primary/15 bg-background p-6 shadow-sm">
+      <section className="rounded-3xl border border-primary/15 bg-background p-6 shadow-sm">
         <div className="space-y-4">
           <Skeleton className="h-6 w-40 rounded-full" />
           <Skeleton className="h-4 w-72 rounded-full" />
@@ -112,10 +112,12 @@ export function CustomerProfileForm() {
     isSubmitting || !form.formState.isDirty || !form.formState.isValid;
 
   return (
-    <section className="rounded-4xl border border-primary/15 bg-background p-6 shadow-sm">
+    <section className="rounded-3xl border border-primary/15 bg-background p-6 shadow-sm">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-1">
-          <h2 className="font-heading text-2xl font-bold">Profile details</h2>
+          <h2 className="font-heading text-2xl font-semibold tracking-tight">
+            Profile details
+          </h2>
           <p className="text-sm leading-6 text-muted-foreground">
             Keep your contact details current so receipts, support replies, and
             saved favorites stay tied to the right account.

@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImagePlus, Loader2, X } from "lucide-react";
+import Image from "next/image";
 
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -146,7 +147,9 @@ export function EditItemDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Edit Item</DialogTitle>
+          <DialogTitle className="font-heading text-xl font-semibold tracking-tight">
+            Edit item
+          </DialogTitle>
           <DialogDescription>
             Update the details for &ldquo;{item?.item.name}&rdquo;.
           </DialogDescription>
@@ -161,7 +164,7 @@ export function EditItemDialog({
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input autoFocus {...field} />
+                    <Input autoFocus shape="pill" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -177,7 +180,7 @@ export function EditItemDialog({
                   <FormControl>
                     <Textarea
                       placeholder="Brief description of the item"
-                      className="resize-none"
+                      className="resize-none rounded-3xl"
                       rows={2}
                       {...field}
                     />
@@ -194,7 +197,7 @@ export function EditItemDialog({
                 <FormItem>
                   <FormLabel>Base Price</FormLabel>
                   <FormControl>
-                    <Input placeholder="0.00" {...field} />
+                    <Input shape="pill" placeholder="0.00" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -206,11 +209,14 @@ export function EditItemDialog({
               <FormLabel>Image (optional)</FormLabel>
               <div className="flex items-center gap-4">
                 {previewUrl ? (
-                  <div className="relative size-20 shrink-0 overflow-hidden rounded-lg border bg-muted">
-                    <img
+                  <div className="relative size-20 shrink-0 overflow-hidden rounded-2xl border bg-muted">
+                    <Image
                       src={previewUrl}
                       alt="Item preview"
-                      className="size-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="80px"
+                      unoptimized
                     />
                     <button
                       type="button"
@@ -225,7 +231,7 @@ export function EditItemDialog({
                     type="button"
                     disabled={uploading}
                     onClick={() => fileInputRef.current?.click()}
-                    className="flex size-20 shrink-0 items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25 bg-muted/50 text-muted-foreground transition-colors hover:border-muted-foreground/50 hover:bg-muted disabled:opacity-50"
+                    className="flex size-20 shrink-0 items-center justify-center rounded-2xl border-2 border-dashed border-muted-foreground/25 bg-muted/50 text-muted-foreground transition-colors hover:border-muted-foreground/50 hover:bg-muted disabled:opacity-50"
                   >
                     {uploading ? (
                       <Loader2 className="size-6 animate-spin" />
@@ -254,12 +260,14 @@ export function EditItemDialog({
               <Button
                 type="button"
                 variant="outline"
+                shape="pill"
                 onClick={() => onOpenChange(false)}
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
+                shape="pill"
                 disabled={updateMutation.isPending || uploading}
               >
                 {updateMutation.isPending ? "Saving..." : "Save Changes"}

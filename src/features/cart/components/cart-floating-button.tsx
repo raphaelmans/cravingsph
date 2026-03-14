@@ -21,13 +21,13 @@ export function CartFloatingButton({
   return (
     <div
       data-slot="cart-floating-button"
-      className="fixed inset-x-0 bottom-16 z-40 p-4"
+      className="fixed inset-x-0 bottom-16 z-40 p-4 md:inset-x-auto md:bottom-6 md:right-6 md:w-auto md:p-0"
     >
       <Button
         type="button"
         shape="pill"
         size="lg"
-        className="w-full shadow-lg"
+        className="w-full shadow-lg md:w-auto md:min-w-[15rem]"
         onClick={onClick}
       >
         <div className="relative mr-1">

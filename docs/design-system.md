@@ -27,6 +27,7 @@ Generous white space is used to reduce cognitive load and guide users naturally 
 - **User-Centric** — Design decisions should prioritize what helps users quickly find food that satisfies their cravings. Interfaces should reduce friction and make discovery effortless.
 - **Mobile-First** — Most users will discover restaurants on mobile devices. Layouts, components, and interactions should be designed for small screens first, then expanded for larger screens.
 - **Quick Scan** — Users should be able to understand key information instantly. Menus, restaurant cards, and search results must prioritize scannability through clear hierarchy, strong typography, and consistent spacing.
+- **One System Across All Portals** — Customer, owner, admin, and guide experiences share the same typography, radius scale, card hierarchy, empty-state behavior, and motion rules. Navigation shells may differ, but the visual language does not.
 
 ---
 

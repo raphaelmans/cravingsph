@@ -44,14 +44,14 @@ export function OrderRow({
   return (
     <div
       data-slot="order-row"
-      className="flex items-center gap-4 rounded-lg border p-4 transition-colors hover:bg-muted/50"
+      className="flex items-center gap-4 rounded-3xl border border-border/70 bg-background/95 p-4 transition-colors hover:bg-muted/40 hover:shadow-sm"
     >
       {/* Order info */}
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <Link
             href={detailHref}
-            className="text-sm font-semibold hover:underline"
+            className="font-heading text-base font-semibold tracking-tight hover:underline"
           >
             #{order.orderNumber}
           </Link>
@@ -109,7 +109,7 @@ export function OrderRow({
 
       {order.status !== "placed" && (
         <Link href={detailHref}>
-          <Button size="icon" variant="ghost">
+          <Button size="icon" variant="ghost" shape="pill">
             <MoreHorizontal className="size-4" />
           </Button>
         </Link>

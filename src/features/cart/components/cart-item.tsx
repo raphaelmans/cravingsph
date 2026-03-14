@@ -37,7 +37,7 @@ export function CartItem({
       {/* Thumbnail */}
       <button
         type="button"
-        className="relative size-16 shrink-0 overflow-hidden rounded-md bg-muted"
+        className="relative size-16 shrink-0 overflow-hidden rounded-2xl bg-muted"
         onClick={() => onEdit(item.uuid)}
       >
         {item.imageUrl ? (
@@ -59,13 +59,13 @@ export function CartItem({
         <div>
           <button
             type="button"
-            className="text-left text-sm font-medium leading-tight hover:underline"
+            className="font-heading text-left text-base font-semibold leading-tight hover:underline"
             onClick={() => onEdit(item.uuid)}
           >
             {item.name}
           </button>
           {modifierSummary && (
-            <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
+            <p className="mt-1 line-clamp-1 text-xs leading-5 text-muted-foreground">
               {modifierSummary}
             </p>
           )}
@@ -91,7 +91,7 @@ export function CartItem({
             </Button>
           </div>
 
-          <Price amount={lineTotal} className="text-sm" />
+          <Price amount={lineTotal} className="text-sm font-semibold" />
         </div>
       </div>
     </div>

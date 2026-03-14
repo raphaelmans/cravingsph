@@ -1,3 +1,4 @@
+import { AppEmptyState } from "@/components/ui/app-empty-state";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -17,33 +18,19 @@ export function EmptyState({
   className,
 }: EmptyStateProps) {
   return (
-    <div
-      data-slot="empty-state"
-      className={cn(
-        "flex flex-col items-center justify-center gap-4 rounded-xl bg-peach p-8 text-center",
-        className,
-      )}
-    >
-      {icon && (
-        <div className="text-peach-foreground/60 [&>svg]:size-10">{icon}</div>
-      )}
-      <div className="space-y-1">
-        <h3 className="text-sm font-semibold text-peach-foreground">{title}</h3>
-        {description && (
-          <p className="text-sm text-peach-foreground/70">{description}</p>
-        )}
-      </div>
-      {action && (
-        <Button
-          variant="default"
-          size="sm"
-          shape="pill"
-          onClick={action.onClick}
-          className="mt-1"
-        >
-          {action.label}
-        </Button>
-      )}
-    </div>
+    <AppEmptyState
+      icon={icon}
+      title={title}
+      description={description}
+      tone="warm"
+      className={cn("px-6 py-8", className)}
+      primaryAction={
+        action ? (
+          <Button size="sm" shape="pill" onClick={action.onClick}>
+            {action.label}
+          </Button>
+        ) : undefined
+      }
+    />
   );
 }

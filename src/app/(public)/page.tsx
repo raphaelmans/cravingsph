@@ -40,6 +40,7 @@ export default async function HomePage() {
         <section data-slot="featured-section" className="py-2">
           <RestaurantCardList
             title="Featured near you"
+            description="Curated places worth checking first when you want something reliable, nearby, and ready to order."
             restaurants={featured}
             direction="horizontal"
             seeAllHref="/search"
@@ -51,6 +52,7 @@ export default async function HomePage() {
       <section data-slot="nearby-section" className="py-4">
         <RestaurantCardList
           title="Nearby restaurants"
+          description="Browse what is close now, then drill straight into the menu that matches what you are craving."
           restaurants={nearby}
           direction="vertical"
           seeAllHref="/search"

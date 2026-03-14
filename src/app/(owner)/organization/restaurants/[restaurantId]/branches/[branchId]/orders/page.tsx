@@ -3,7 +3,11 @@
 import { Inbox } from "lucide-react";
 import { use, useState } from "react";
 import { toast } from "sonner";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
+import { AppEmptyState } from "@/components/ui/app-empty-state";
+import { Button } from "@/components/ui/button";
+import { OwnerWalkthroughPanel } from "@/features/onboarding/components/owner-walkthrough-panel";
 import { OrderDashboardTabs } from "@/features/order-management/components/order-dashboard-tabs";
 import {
   useAcceptOrder,
@@ -46,9 +50,35 @@ export default function OrdersPage({ params }: OrdersPageProps) {
       />
 
       <div className="flex-1 space-y-4 p-4 md:p-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold tracking-tight">Orders</h1>
-        </div>
+        <AppPageHeader
+          eyebrow="Branch operations"
+          title="Orders"
+          description="Review new orders, move active tickets forward, and keep the branch queue clean."
+          variant="compact"
+        />
+
+        <OwnerWalkthroughPanel
+          flowId="owner-branch-orders"
+          title="Run the branch order queue"
+          description="Live operations view for every incoming order."
+          steps={[
+            {
+              title: "Start with inbox orders",
+              description:
+                "New orders land here for accept or reject decisions.",
+            },
+            {
+              title: "Use tabs to separate workload",
+              description:
+                "Tabs separate active, completed, and cancelled orders.",
+            },
+            {
+              title: "Open detail pages for edge cases",
+              description:
+                "Open detail view for timeline, payment, or item review.",
+            },
+          ]}
+        />
 
         {isLoading ? (
           <OrdersSkeleton />
@@ -82,15 +112,15 @@ function OrdersSkeleton() {
 
 function OrdersEmptyState() {
   return (
-    <div className="flex flex-col items-center justify-center py-24 text-center">
-      <div className="mb-4 rounded-full bg-muted p-4">
-        <Inbox className="size-8 text-muted-foreground" />
-      </div>
-      <h2 className="text-lg font-semibold">No orders yet</h2>
-      <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-        Orders will appear here when customers start placing them. Make sure
-        your menu is set up and online ordering is enabled.
-      </p>
-    </div>
+    <AppEmptyState
+      icon={<Inbox />}
+      title="No orders yet"
+      description="Orders will appear here when customers start placing them. Make sure your menu is set up and online ordering is enabled."
+      primaryAction={
+        <Button asChild shape="pill">
+          <a href="./menu">Review menu</a>
+        </Button>
+      }
+    />
   );
 }

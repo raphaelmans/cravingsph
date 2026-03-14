@@ -44,7 +44,10 @@ export function OrderStatusTracker({
   timestamps,
 }: OrderStatusTrackerProps) {
   return (
-    <div data-slot="order-status-tracker">
+    <div
+      data-slot="order-status-tracker"
+      className="rounded-3xl border border-primary/10 bg-background/95 p-3 shadow-sm"
+    >
       {STATUS_STEPS.map((step, index) => {
         const state = getStepState(step.status, currentStatus);
         const timestamp = timestamps?.[step.status];

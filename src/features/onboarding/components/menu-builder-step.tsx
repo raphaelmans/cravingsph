@@ -101,14 +101,16 @@ export function MenuBuilderStep({
 
   if (hasMenu) {
     return (
-      <Card>
+      <Card className="rounded-3xl border-border/70 bg-background/95">
         <CardHeader>
           <div className="flex items-center gap-4">
-            <div className="flex size-10 items-center justify-center rounded-full bg-success/10">
+            <div className="flex size-10 items-center justify-center rounded-2xl bg-success/10">
               <Check className="size-5 text-success" />
             </div>
             <div>
-              <CardTitle className="text-base">Menu Created</CardTitle>
+              <CardTitle className="font-heading text-lg font-semibold tracking-tight">
+                Menu created
+              </CardTitle>
               <CardDescription>
                 Your menu has items. You can add more from the dashboard later.
               </CardDescription>
@@ -116,21 +118,25 @@ export function MenuBuilderStep({
           </div>
         </CardHeader>
         <CardContent>
-          <Button onClick={onComplete}>Continue</Button>
+          <Button shape="pill" onClick={onComplete}>
+            Continue
+          </Button>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card>
+    <Card className="rounded-3xl border-border/70 bg-background/95">
       <CardHeader>
         <div className="flex items-center gap-4">
-          <div className="flex size-10 items-center justify-center rounded-full bg-primary/10">
+          <div className="flex size-10 items-center justify-center rounded-2xl bg-primary/10">
             <ChefHat className="size-5 text-primary" />
           </div>
           <div>
-            <CardTitle className="text-base">Build Your Menu</CardTitle>
+            <CardTitle className="font-heading text-lg font-semibold tracking-tight">
+              Build your menu
+            </CardTitle>
             <CardDescription>
               Add your first category and item to get started. You can add more
               from the dashboard later.
@@ -154,7 +160,11 @@ export function MenuBuilderStep({
                 <FormItem>
                   <FormLabel>Menu Category</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. Main Dishes, Drinks" {...field} />
+                    <Input
+                      shape="pill"
+                      placeholder="e.g. Main Dishes, Drinks"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -169,6 +179,7 @@ export function MenuBuilderStep({
                   <FormLabel>First Item Name</FormLabel>
                   <FormControl>
                     <Input
+                      shape="pill"
                       placeholder="e.g. Chicken Adobo, Halo-Halo"
                       {...field}
                     />
@@ -188,6 +199,7 @@ export function MenuBuilderStep({
                     <Input
                       type="text"
                       inputMode="decimal"
+                      shape="pill"
                       placeholder="e.g. 150"
                       {...field}
                     />
@@ -198,10 +210,15 @@ export function MenuBuilderStep({
             />
 
             <div className="flex gap-2">
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" shape="pill" disabled={isSubmitting}>
                 {isSubmitting ? "Creating..." : "Create Menu Item"}
               </Button>
-              <Button type="button" variant="ghost" onClick={onComplete}>
+              <Button
+                type="button"
+                variant="ghost"
+                shape="pill"
+                onClick={onComplete}
+              >
                 Skip for Now
               </Button>
             </div>

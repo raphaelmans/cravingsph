@@ -7,49 +7,52 @@
  *
  * Usage:
  *   SEED_OWNER_USER_ID=<uuid> pnpm db:seed:nuke
+ *
+ * Optional:
+ *   SEED_OWNER_USER_ID  — Defaults to 68fb241f-eaa2-4292-99ea-a229ae7737f5
  */
 
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "../src/shared/infra/db/schema";
-
-function requireEnv(name: string): string {
-  const value = process.env[name];
-  if (!value) {
-    console.error(`ERROR: Missing required environment variable: ${name}`);
-    process.exit(1);
-  }
-  return value;
-}
+import {
+  DEFAULT_SEED_OWNER_USER_ID,
+  envOrDefault,
+  getSeedOwnerContext,
+  requireEnv,
+} from "./seed-owner";
 
 async function main() {
   console.log("💣 CravingsPH — Nuke Seed Data\n");
 
   const databaseUrl = requireEnv("DATABASE_URL");
-  const ownerUserId = requireEnv("SEED_OWNER_USER_ID");
+  const ownerUserId = envOrDefault(
+    "SEED_OWNER_USER_ID",
+    DEFAULT_SEED_OWNER_USER_ID,
+  );
 
   const client = postgres(databaseUrl, { max: 1, prepare: false });
   const db = drizzle({ client, casing: "snake_case", schema });
 
   try {
-    // Verify user exists
-    const [authUser] = await db.execute<{ id: string }>(
-      sql`SELECT id FROM auth.users WHERE id = ${ownerUserId}`,
-    );
+    const owner = await getSeedOwnerContext(db, ownerUserId);
 
-    if (!authUser) {
+    if (!owner) {
       console.error(`ERROR: No auth.users row for ${ownerUserId}`);
       process.exit(1);
     }
 
-    console.log(`Owner: ${ownerUserId}\n`);
+    console.log(`Owner: ${owner.userId}`);
+    console.log(
+      `Profile seed: ${owner.displayName ?? "Owner"} <${owner.email ?? "no-email"}>\n`,
+    );
 
     // 1. Delete organizations (cascades to restaurants → branches → categories → items → variants/modifiers/tables/sessions/orders)
     const orgs = await db
       .select({ id: schema.organization.id, name: schema.organization.name })
       .from(schema.organization)
-      .where(eq(schema.organization.ownerId, ownerUserId));
+      .where(eq(schema.organization.ownerId, owner.userId));
 
     if (orgs.length === 0) {
       console.log("No organizations found for this user. Nothing to nuke.");
@@ -61,26 +64,26 @@ async function main() {
 
       await db
         .delete(schema.organization)
-        .where(eq(schema.organization.ownerId, ownerUserId));
+        .where(eq(schema.organization.ownerId, owner.userId));
       console.log(`Organizations deleted (cascade clears all child data).\n`);
     }
 
     // 2. Delete saved restaurants
     await db
       .delete(schema.savedRestaurant)
-      .where(eq(schema.savedRestaurant.userId, ownerUserId));
+      .where(eq(schema.savedRestaurant.userId, owner.userId));
     console.log("Saved restaurants cleared.");
 
     // 3. Delete user roles
     await db
       .delete(schema.userRoles)
-      .where(eq(schema.userRoles.userId, ownerUserId));
+      .where(eq(schema.userRoles.userId, owner.userId));
     console.log("User roles cleared.");
 
     // 4. Delete profile
     await db
       .delete(schema.profile)
-      .where(eq(schema.profile.userId, ownerUserId));
+      .where(eq(schema.profile.userId, owner.userId));
     console.log("Profile cleared.");
 
     console.log("\n✅ All seed data nuked. Ready to re-seed.");

@@ -50,11 +50,11 @@ export function OrderDetail({ order }: OrderDetailProps) {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <Card>
+      <Card className="border-primary/10 bg-background/95 shadow-sm">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <CardTitle className="text-lg">
+              <CardTitle className="font-heading text-xl font-semibold tracking-tight">
                 Order #{order.orderNumber}
               </CardTitle>
               <Badge variant={statusBadge.variant}>{statusBadge.label}</Badge>
@@ -102,11 +102,13 @@ export function OrderDetail({ order }: OrderDetailProps) {
 
           {/* Items */}
           <div className="space-y-2">
-            <h3 className="text-sm font-medium">Items</h3>
+            <h3 className="font-heading text-lg font-semibold tracking-tight">
+              Items
+            </h3>
             {order.items.map((item, idx) => (
               <div
                 key={`${item.name}-${idx}`}
-                className="flex items-start justify-between gap-4"
+                className="flex items-start justify-between gap-4 rounded-2xl bg-muted/30 px-4 py-3"
               >
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium">
@@ -136,10 +138,10 @@ export function OrderDetail({ order }: OrderDetailProps) {
             <>
               <Separator />
               <div>
-                <h3 className="mb-1 text-sm font-medium">
+                <h3 className="mb-1 font-heading text-lg font-semibold tracking-tight">
                   Special Instructions
                 </h3>
-                <p className="rounded-md bg-muted px-4 py-2 text-sm text-muted-foreground">
+                <p className="rounded-3xl bg-muted px-4 py-3 text-sm text-muted-foreground">
                   {order.specialInstructions}
                 </p>
               </div>
@@ -149,7 +151,7 @@ export function OrderDetail({ order }: OrderDetailProps) {
           <Separator />
 
           {/* Total */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between rounded-2xl border border-dashed border-primary/20 px-4 py-3">
             <span className="text-sm font-medium">Total</span>
             <Price amount={order.totalAmount} className="text-base" />
           </div>
@@ -157,10 +159,12 @@ export function OrderDetail({ order }: OrderDetailProps) {
       </Card>
 
       {/* Payment info */}
-      <Card>
+      <Card className="border-primary/10 bg-background/95 shadow-sm">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base">Payment</CardTitle>
+            <CardTitle className="font-heading text-lg font-semibold tracking-tight">
+              Payment
+            </CardTitle>
             <Badge variant={paymentBadge.variant}>{paymentBadge.label}</Badge>
           </div>
         </CardHeader>

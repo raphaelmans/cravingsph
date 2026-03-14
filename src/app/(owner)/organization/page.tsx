@@ -3,23 +3,22 @@
 import {
   ArrowRight,
   Check,
-  ClipboardList,
   Clock,
   MapPin,
   Plus,
   Rocket,
-  ShoppingBag,
-  TrendingUp,
   UtensilsCrossed,
 } from "lucide-react";
 import Link from "next/link";
 import { appRoutes } from "@/common/app-routes";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
+import { OwnerWalkthroughPanel } from "@/features/onboarding/components/owner-walkthrough-panel";
 import { useOnboardingStatus } from "@/features/onboarding/hooks/use-onboarding-status";
 import {
   useOrganization,
@@ -44,7 +43,7 @@ function StatCard({
   isLoading?: boolean;
 }) {
   return (
-    <Card>
+    <Card className="rounded-3xl border-border/70 bg-background/95">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
         <Icon className="size-4 text-muted-foreground" />
@@ -57,7 +56,9 @@ function StatCard({
           </div>
         ) : (
           <>
-            <div className="text-2xl font-bold">{value}</div>
+            <div className="font-heading text-3xl font-semibold tracking-tight">
+              {value}
+            </div>
             <p className="text-xs text-muted-foreground">{description}</p>
           </>
         )}
@@ -83,13 +84,15 @@ function QuickLink({
 }) {
   return (
     <Link href={href}>
-      <Card className="group transition-colors hover:bg-accent active:bg-accent">
+      <Card className="group rounded-3xl border-border/70 bg-background/95 transition-colors hover:bg-accent/40 hover:shadow-sm active:bg-accent">
         <CardContent className="flex items-center gap-4 p-4">
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
             <Icon className="size-5" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium">{title}</p>
+            <p className="font-heading text-base font-semibold tracking-tight">
+              {title}
+            </p>
             <p className="text-xs text-muted-foreground truncate">
               {description}
             </p>
@@ -140,10 +143,10 @@ function SetupChecklist() {
   const progressPercent = Math.round((completedCount / (totalSteps - 1)) * 100);
 
   return (
-    <Card className="border-primary/20 bg-primary/[0.03]">
+    <Card className="rounded-3xl border-primary/20 bg-primary/[0.03]">
       <CardContent className="p-4 md:p-6">
         <div className="flex items-start gap-4">
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
             <Rocket className="size-5 text-primary" />
           </div>
           <div className="flex-1 space-y-4">
@@ -159,7 +162,7 @@ function SetupChecklist() {
             <div className="grid gap-2 sm:grid-cols-2">
               {requiredSteps.map((step) => (
                 <Link key={step.id} href={step.href}>
-                  <div className="flex items-center gap-3 rounded-lg border px-3 py-2 text-sm transition-colors hover:bg-accent/50">
+                  <div className="flex items-center gap-3 rounded-2xl border px-3 py-2 text-sm transition-colors hover:bg-accent/50">
                     {step.status === "complete" ? (
                       <Check className="size-4 text-success" />
                     ) : (
@@ -213,51 +216,51 @@ export default function OwnerDashboardPage() {
       <DashboardNavbar breadcrumbs={[{ label: "Dashboard" }]} />
 
       <div className="flex-1 space-y-6 p-4 md:p-6">
-        {/* Welcome header */}
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">
-            {orgLoading ? (
-              <Skeleton className="h-8 w-48 inline-block" />
+        <AppPageHeader
+          eyebrow="Owner workspace"
+          title={
+            orgLoading ? (
+              <Skeleton className="inline-block h-8 w-56" />
             ) : (
               `Welcome back${organization?.name ? `, ${organization.name}` : ""}`
-            )}
-          </h1>
-          <p className="text-muted-foreground">
-            Here&apos;s an overview of your organization.
-          </p>
-        </div>
+            )
+          }
+          description="Your daily overview of setup progress and branch activity."
+          icon={<Rocket className="size-5" />}
+        />
+
+        <OwnerWalkthroughPanel
+          flowId="owner-dashboard"
+          title="Learn the owner dashboard"
+          description="Stat cards, setup checklist, and quick links."
+          steps={[
+            {
+              title: "Start with setup progress",
+              description:
+                "Complete checklist steps before your branch can accept orders.",
+            },
+            {
+              title: "Read the daily health snapshot",
+              description:
+                "Stat cards show order readiness and location coverage.",
+            },
+            {
+              title: "Use quick actions to jump deeper",
+              description: "Jump into restaurants, menus, and hours from here.",
+            },
+          ]}
+        />
 
         {/* Setup checklist for incomplete onboarding */}
         <SetupChecklist />
 
-        {/* Stat cards */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard
-            title="Orders Today"
-            value="--"
-            description="Awaiting backend integration"
-            icon={ShoppingBag}
-            isLoading={isLoading}
-          />
-          <StatCard
-            title="Pending Orders"
-            value="--"
-            description="Awaiting backend integration"
-            icon={ClipboardList}
-            isLoading={isLoading}
-          />
+        {/* Active locations stat */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <StatCard
             title="Active Locations"
             value={String(branchCount)}
             description={`${restaurants.length} restaurant${restaurants.length !== 1 ? "s" : ""} registered`}
             icon={MapPin}
-            isLoading={isLoading}
-          />
-          <StatCard
-            title="Revenue Today"
-            value="--"
-            description="Awaiting backend integration"
-            icon={TrendingUp}
             isLoading={isLoading}
           />
         </div>

@@ -5,9 +5,12 @@ import { Grid3X3, Plus } from "lucide-react";
 import { use, useState } from "react";
 import { toast } from "sonner";
 import { appRoutes } from "@/common/app-routes";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
+import { AppEmptyState } from "@/components/ui/app-empty-state";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { OwnerWalkthroughPanel } from "@/features/onboarding/components/owner-walkthrough-panel";
 import { AddTableDialog } from "@/features/table-management/components/add-table-dialog";
 import { EditTableDialog } from "@/features/table-management/components/edit-table-dialog";
 import { TableList } from "@/features/table-management/components/table-list";
@@ -78,6 +81,35 @@ export default function TableManagementPage({
       />
 
       <div className="flex-1 space-y-4 p-4 md:p-6">
+        <AppPageHeader
+          eyebrow="Branch operations"
+          title="Tables"
+          description="Set up tables for dine-in QR ordering."
+          variant="compact"
+        />
+
+        <OwnerWalkthroughPanel
+          flowId="owner-branch-tables"
+          title="Set up QR table ordering"
+          description="Link physical tables to the digital ordering flow."
+          steps={[
+            {
+              title: "Add every scannable table",
+              description:
+                "Create a record for each seat grouping customers scan.",
+            },
+            {
+              title: "Watch active sessions",
+              description: "See which tables have open dine-in sessions.",
+            },
+            {
+              title: "Pair this page with branch QR materials",
+              description:
+                "Review the QR entry point in branch settings after setup.",
+            },
+          ]}
+        />
+
         {isLoading ? (
           <div className="space-y-3">
             <Skeleton className="h-10 w-full rounded-lg" />
@@ -86,20 +118,17 @@ export default function TableManagementPage({
             <Skeleton className="h-16 w-full rounded-lg" />
           </div>
         ) : !tables || tables.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <div className="mb-4 flex size-16 items-center justify-center rounded-full bg-primary/10">
-              <Grid3X3 className="size-8 text-primary" />
-            </div>
-            <h2 className="text-lg font-semibold">No tables yet</h2>
-            <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-              Add your physical dining tables so customers can scan QR codes for
-              dine-in ordering.
-            </p>
-            <Button className="mt-4" onClick={() => setAddOpen(true)}>
-              <Plus className="mr-1.5 size-4" />
-              Add First Table
-            </Button>
-          </div>
+          <AppEmptyState
+            icon={<Grid3X3 />}
+            title="No tables yet"
+            description="Add your physical dining tables so customers can scan QR codes for dine-in ordering."
+            primaryAction={
+              <Button shape="pill" onClick={() => setAddOpen(true)}>
+                <Plus className="mr-1.5 size-4" />
+                Add first table
+              </Button>
+            }
+          />
         ) : (
           <TableList
             branchId={branchId}

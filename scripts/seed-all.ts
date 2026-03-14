@@ -6,10 +6,12 @@
  *
  * Requires:
  *   DATABASE_URL        — Postgres connection string
+ *
+ * Optional:
  *   SEED_OWNER_USER_ID  — UUID of an existing auth.users row
+ *                         Defaults to 68fb241f-eaa2-4292-99ea-a229ae7737f5
  */
 
-import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "../src/shared/infra/db/schema";
@@ -19,6 +21,12 @@ import { demoRestaurant } from "./seed-data/demo-restaurant";
 import { lePetitBistro } from "./seed-data/le-petit-bistro";
 import { pocheroDecebu } from "./seed-data/pochero-de-cebu";
 import { sugboMercadoGrill } from "./seed-data/sugbo-mercado-grill";
+import {
+  DEFAULT_SEED_OWNER_USER_ID,
+  envOrDefault,
+  getSeedOwnerContext,
+  requireEnv,
+} from "./seed-owner";
 import { seedRestaurant } from "./seed-restaurant";
 
 const ALL_FIXTURES = [
@@ -30,30 +38,22 @@ const ALL_FIXTURES = [
   lePetitBistro,
 ];
 
-function requireEnv(name: string): string {
-  const value = process.env[name];
-  if (!value) {
-    console.error(`ERROR: Missing required environment variable: ${name}`);
-    process.exit(1);
-  }
-  return value;
-}
-
 async function main() {
   console.log("🌱 CravingsPH — Seed All Restaurants\n");
 
   const databaseUrl = requireEnv("DATABASE_URL");
-  const ownerUserId = requireEnv("SEED_OWNER_USER_ID");
+  const ownerUserId = envOrDefault(
+    "SEED_OWNER_USER_ID",
+    DEFAULT_SEED_OWNER_USER_ID,
+  );
 
   const client = postgres(databaseUrl, { max: 1, prepare: false });
   const db = drizzle({ client, casing: "snake_case", schema });
 
   try {
-    const [authUser] = await db.execute<{ id: string }>(
-      sql`SELECT id FROM auth.users WHERE id = ${ownerUserId}`,
-    );
+    const owner = await getSeedOwnerContext(db, ownerUserId);
 
-    if (!authUser) {
+    if (!owner) {
       console.error(
         `ERROR: No auth.users row found for SEED_OWNER_USER_ID=${ownerUserId}`,
       );
@@ -63,10 +63,18 @@ async function main() {
       process.exit(1);
     }
 
-    console.log(`Owner verified: ${ownerUserId}\n`);
+    console.log(`Owner verified: ${owner.userId}`);
+    console.log(
+      `Profile seed: ${owner.displayName ?? "Owner"} <${owner.email ?? "no-email"}>\n`,
+    );
 
     for (const fixture of ALL_FIXTURES) {
-      await seedRestaurant(db, ownerUserId, fixture);
+      await seedRestaurant(db, owner.userId, fixture, {
+        ownerProfile: {
+          displayName: owner.displayName,
+          email: owner.email,
+        },
+      });
       console.log("");
     }
 

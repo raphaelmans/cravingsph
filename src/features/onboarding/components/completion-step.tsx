@@ -28,20 +28,22 @@ export function CompletionStep({
 }: CompletionStepProps) {
   if (allComplete) {
     return (
-      <Card>
+      <Card className="rounded-3xl border-border/70 bg-background/95">
         <CardHeader className="text-center">
           <div className="flex justify-center">
-            <div className="flex size-14 items-center justify-center rounded-full bg-success/10">
+            <div className="flex size-14 items-center justify-center rounded-2xl bg-success/10">
               <PartyPopper className="size-7 text-success" />
             </div>
           </div>
-          <CardTitle className="text-xl">You&apos;re All Set!</CardTitle>
+          <CardTitle className="font-heading text-2xl font-semibold tracking-tight">
+            You&apos;re all set
+          </CardTitle>
           <CardDescription>
             Your restaurant is ready to start accepting orders on cravıngs.
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-4">
-          <Button asChild size="lg">
+          <Button asChild shape="pill" size="lg">
             <Link href={appRoutes.organization.base}>
               Go to Dashboard
               <ArrowRight className="ml-2 size-4" />
@@ -57,14 +59,16 @@ export function CompletionStep({
     .map((s) => s.title);
 
   return (
-    <Card>
+    <Card className="rounded-3xl border-border/70 bg-background/95">
       <CardHeader className="text-center">
         <div className="flex justify-center">
-          <div className="flex size-14 items-center justify-center rounded-full bg-warning/10">
+          <div className="flex size-14 items-center justify-center rounded-2xl bg-warning/10">
             <AlertTriangle className="size-7 text-warning" />
           </div>
         </div>
-        <CardTitle className="text-xl">Almost There</CardTitle>
+        <CardTitle className="font-heading text-2xl font-semibold tracking-tight">
+          Almost there
+        </CardTitle>
         <CardDescription>
           You&apos;ve completed {completedCount} of {totalSteps - 1} required
           steps. Finish these to start accepting orders:
@@ -84,12 +88,12 @@ export function CompletionStep({
         )}
       </CardHeader>
       <CardContent className="flex flex-col items-center gap-4">
-        <Button asChild size="lg">
+        <Button asChild shape="pill" size="lg">
           <Link href={appRoutes.organization.getStarted}>
             View Setup Progress
           </Link>
         </Button>
-        <Button asChild variant="ghost" size="sm">
+        <Button asChild variant="ghost" shape="pill" size="sm">
           <Link href={appRoutes.organization.base}>Skip to Dashboard</Link>
         </Button>
       </CardContent>

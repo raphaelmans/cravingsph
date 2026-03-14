@@ -18,7 +18,10 @@ export function StatusStep({
   isLast = false,
 }: StatusStepProps) {
   return (
-    <div data-slot="status-step" className="flex gap-4">
+    <div
+      data-slot="status-step"
+      className="flex gap-4 rounded-3xl border border-transparent px-3 py-2"
+    >
       {/* Indicator column: circle + connecting line */}
       <div className="flex flex-col items-center">
         {/* Circle indicator */}
@@ -56,7 +59,7 @@ export function StatusStep({
       <div className={cn("pb-6", isLast && "pb-0")}>
         <p
           className={cn(
-            "text-sm font-medium leading-7",
+            "font-heading text-base font-semibold leading-7 tracking-tight",
             state === "completed" && "text-success",
             state === "current" && "text-foreground",
             state === "upcoming" && "text-muted-foreground",
@@ -65,7 +68,9 @@ export function StatusStep({
           {label}
         </p>
         {description && (
-          <p className="text-xs text-muted-foreground">{description}</p>
+          <p className="text-xs leading-5 text-muted-foreground">
+            {description}
+          </p>
         )}
       </div>
     </div>

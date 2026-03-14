@@ -3,7 +3,9 @@
 import { CircleCheckBig, ShieldAlert, Star, Store } from "lucide-react";
 import { useMemo, useState } from "react";
 import { appRoutes } from "@/common/app-routes";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
+import { AppEmptyState } from "@/components/ui/app-empty-state";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
@@ -57,16 +59,13 @@ export function AdminRestaurantManagementPage() {
       />
 
       <div className="flex-1 space-y-6 p-4 md:p-6">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">
-            Restaurant management
-          </h1>
-          <p className="max-w-3xl text-sm text-muted-foreground">
-            Review all restaurant listings, filter by platform status, and open
-            a record to edit profile fields or adjust featured and active
-            visibility.
-          </p>
-        </div>
+        <AppPageHeader
+          eyebrow="Admin workspace"
+          title="Restaurant management"
+          description="Review restaurant listings, filter by platform status, and open a record to adjust profile data and visibility."
+          icon={<Store className="size-5" />}
+          variant="compact"
+        />
 
         <div className="grid gap-4 md:grid-cols-4">
           <Card>
@@ -168,12 +167,12 @@ export function AdminRestaurantManagementPage() {
         ) : null}
 
         {!isLoading && filteredRestaurants.length === 0 ? (
-          <Card className="border-dashed">
-            <CardContent className="py-16 text-center text-sm text-muted-foreground">
-              No restaurants match the {FILTER_LABELS[filter].toLowerCase()}{" "}
-              filter right now.
-            </CardContent>
-          </Card>
+          <AppEmptyState
+            tone="subtle"
+            icon={<Store />}
+            title="No restaurants match this filter"
+            description={`No restaurants match the ${FILTER_LABELS[filter].toLowerCase()} filter right now.`}
+          />
         ) : null}
 
         {!isLoading ? (

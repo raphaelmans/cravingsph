@@ -1,10 +1,10 @@
 "use client";
 
 import { AlertTriangle, ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useMemo } from "react";
 import { appRoutes } from "@/common/app-routes";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,6 +18,7 @@ import { BranchForm } from "@/features/onboarding/components/branch-form";
 import { CompletionStep } from "@/features/onboarding/components/completion-step";
 import { MenuBuilderStep } from "@/features/onboarding/components/menu-builder-step";
 import { OrganizationForm } from "@/features/onboarding/components/organization-form";
+import { OwnerWalkthroughPanel } from "@/features/onboarding/components/owner-walkthrough-panel";
 import { RestaurantForm } from "@/features/onboarding/components/restaurant-form";
 import { WizardProgress } from "@/features/onboarding/components/wizard-progress";
 import { useOnboardingStatus } from "@/features/onboarding/hooks/use-onboarding-status";
@@ -103,19 +104,34 @@ function OnboardingWizardContent() {
 
   return (
     <div className="flex w-full flex-1 flex-col gap-6 p-6 md:p-8">
-      {/* Header */}
-      <div className="flex items-center gap-4">
-        <Button asChild variant="ghost" size="icon">
-          <Link href={appRoutes.organization.getStarted}>
-            <ArrowLeft className="size-4" />
-            <span className="sr-only">Back to setup hub</span>
-          </Link>
-        </Button>
-        <h1 className="text-lg font-semibold">Setup Wizard</h1>
-        <span className="text-sm text-muted-foreground ml-auto">
-          Step {currentStep} of {TOTAL_STEPS}
-        </span>
-      </div>
+      <AppPageHeader
+        variant="compact"
+        backHref={appRoutes.organization.getStarted}
+        eyebrow="Owner onboarding"
+        title="Setup wizard"
+        description={`Step ${currentStep} of ${TOTAL_STEPS}. Finish the essentials in one guided flow.`}
+      />
+
+      <OwnerWalkthroughPanel
+        flowId="owner-onboarding"
+        title="Use the setup wizard efficiently"
+        description="Complete each stage before advancing."
+        steps={[
+          {
+            title: "Finish the current prerequisite first",
+            description: "The wizard enforces step order automatically.",
+          },
+          {
+            title: "Watch the progress row",
+            description:
+              "See what is complete versus what still needs attention.",
+          },
+          {
+            title: "Return to the hub when you need context",
+            description: "Jump to another step or review overall completion.",
+          },
+        ]}
+      />
 
       {/* Progress indicator */}
       <WizardProgress

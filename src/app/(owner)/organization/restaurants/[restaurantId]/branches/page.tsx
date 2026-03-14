@@ -5,11 +5,14 @@ import Link from "next/link";
 import { use } from "react";
 import { toast } from "sonner";
 import { appRoutes } from "@/common/app-routes";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
+import { AppEmptyState } from "@/components/ui/app-empty-state";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BranchForm } from "@/features/onboarding/components/branch-form";
+import { OwnerWalkthroughPanel } from "@/features/onboarding/components/owner-walkthrough-panel";
 import { BranchOverviewCard } from "@/features/restaurant-management/components/branch-overview-card";
 import { useOwnerRestaurantManagement } from "@/features/restaurant-management/hooks/use-owner-restaurant-management";
 
@@ -67,24 +70,19 @@ export default function OwnerRestaurantBranchesPage({
           ]}
         />
         <div className="flex-1 p-4 md:p-6">
-          <Card className="border-dashed">
-            <CardContent className="flex flex-col items-center gap-4 py-16 text-center">
-              <div className="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground">
-                <Waypoints className="size-6" />
-              </div>
-              <div className="space-y-1">
-                <p className="text-lg font-semibold">Restaurant not found</p>
-                <p className="max-w-md text-sm text-muted-foreground">
-                  Choose a valid restaurant before managing its branches.
-                </p>
-              </div>
-              <Button variant="outline" asChild>
+          <AppEmptyState
+            tone="subtle"
+            icon={<Waypoints />}
+            title="Restaurant not found"
+            description="Choose a valid restaurant before managing its branches."
+            primaryAction={
+              <Button variant="outline" shape="pill" asChild>
                 <Link href={appRoutes.organization.restaurants}>
                   Back to restaurants
                 </Link>
               </Button>
-            </CardContent>
-          </Card>
+            }
+          />
         </div>
       </>
     );
@@ -112,18 +110,38 @@ export default function OwnerRestaurantBranchesPage({
       />
 
       <div className="flex-1 space-y-6 p-4 md:p-6">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight">
-            {restaurant.name} Branches
-          </h1>
-          <p className="max-w-3xl text-sm text-muted-foreground">
-            Manage each branch independently. Branch pages control menus, order
-            inboxes, and branch-specific settings.
-          </p>
-        </div>
+        <AppPageHeader
+          eyebrow="Branch directory"
+          title={`${restaurant.name} branches`}
+          description="Manage menus, orders, tables, and settings per branch."
+          icon={<Waypoints className="size-5" />}
+        />
+
+        <OwnerWalkthroughPanel
+          flowId="owner-branch-directory"
+          title="Organize locations before operations"
+          description="Turn brand-level setup into branch operations."
+          steps={[
+            {
+              title: "Start with the branch list",
+              description:
+                "Confirm each location's readiness before diving into setup.",
+            },
+            {
+              title: "Read the branch health summary",
+              description:
+                "Stat cards show live and auto-accept counts at a glance.",
+            },
+            {
+              title: "Add new locations from the side panel",
+              description:
+                "Create a branch, then finish its settings and QR setup.",
+            },
+          ]}
+        />
 
         <div className="grid gap-4 md:grid-cols-3">
-          <Card>
+          <Card className="rounded-3xl border-border/70 bg-background/95">
             <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Waypoints className="size-5" />
@@ -132,12 +150,14 @@ export default function OwnerRestaurantBranchesPage({
                 <p className="text-sm font-medium text-muted-foreground">
                   Branches
                 </p>
-                <p className="text-2xl font-semibold">{branches.length}</p>
+                <p className="font-heading text-3xl font-semibold tracking-tight">
+                  {branches.length}
+                </p>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="rounded-3xl border-border/70 bg-background/95">
             <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Zap className="size-5" />
@@ -146,12 +166,14 @@ export default function OwnerRestaurantBranchesPage({
                 <p className="text-sm font-medium text-muted-foreground">
                   Ordering live
                 </p>
-                <p className="text-2xl font-semibold">{liveOrderingCount}</p>
+                <p className="font-heading text-3xl font-semibold tracking-tight">
+                  {liveOrderingCount}
+                </p>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="rounded-3xl border-border/70 bg-background/95">
             <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <CheckCircle2 className="size-5" />
@@ -160,7 +182,9 @@ export default function OwnerRestaurantBranchesPage({
                 <p className="text-sm font-medium text-muted-foreground">
                   Auto-accept enabled
                 </p>
-                <p className="text-2xl font-semibold">{autoAcceptCount}</p>
+                <p className="font-heading text-3xl font-semibold tracking-tight">
+                  {autoAcceptCount}
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -191,22 +215,12 @@ export default function OwnerRestaurantBranchesPage({
                 ))}
               </div>
             ) : (
-              <Card className="border-dashed">
-                <CardContent className="flex flex-col items-center gap-4 py-14 text-center">
-                  <div className="flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <PlusCircle className="size-6" />
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-lg font-semibold">
-                      No branches added yet
-                    </p>
-                    <p className="max-w-md text-sm text-muted-foreground">
-                      Start with the first physical location for this
-                      restaurant. You can add more branches later.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+              <AppEmptyState
+                tone="subtle"
+                icon={<PlusCircle />}
+                title="No branches added yet"
+                description="Start with the first physical location for this restaurant. You can add more branches later."
+              />
             )}
           </section>
 

@@ -5,6 +5,7 @@ import { Copy, Loader2, UserPlus, XCircle } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { appRoutes } from "@/common/app-routes";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -119,13 +120,13 @@ export function AdminInvitationsPage() {
       />
 
       <div className="flex-1 space-y-6 p-4 md:p-6">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">Invitations</h1>
-          <p className="max-w-3xl text-sm text-muted-foreground">
-            Generate invite-only registration links for restaurant owners. Each
-            link is single-use and expires after 7 days.
-          </p>
-        </div>
+        <AppPageHeader
+          eyebrow="Admin workspace"
+          title="Invitations"
+          description="Generate invite-only registration links for restaurant owners. Each link is single-use and expires after 7 days."
+          icon={<UserPlus className="size-5" />}
+          variant="compact"
+        />
 
         {/* Create invitation form */}
         <Card>

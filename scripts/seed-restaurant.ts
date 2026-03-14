@@ -12,6 +12,13 @@ import type { DemoSeed } from "./seed-data/demo-restaurant";
 
 type DB = PostgresJsDatabase<typeof schema>;
 
+type SeedRestaurantOptions = {
+  ownerProfile?: {
+    displayName?: string | null;
+    email?: string | null;
+  };
+};
+
 type EntityName =
   | "profile"
   | "user_role"
@@ -27,30 +34,37 @@ type EntityName =
   | "table_session";
 
 function createTracker() {
-  const counts: Record<EntityName, { created: number; skipped: number }> = {
-    profile: { created: 0, skipped: 0 },
-    user_role: { created: 0, skipped: 0 },
-    organization: { created: 0, skipped: 0 },
-    restaurant: { created: 0, skipped: 0 },
-    branch: { created: 0, skipped: 0 },
-    category: { created: 0, skipped: 0 },
-    menu_item: { created: 0, skipped: 0 },
-    item_variant: { created: 0, skipped: 0 },
-    modifier_group: { created: 0, skipped: 0 },
-    modifier: { created: 0, skipped: 0 },
-    branch_table: { created: 0, skipped: 0 },
-    table_session: { created: 0, skipped: 0 },
+  const counts: Record<
+    EntityName,
+    { created: number; skipped: number; updated: number }
+  > = {
+    profile: { created: 0, skipped: 0, updated: 0 },
+    user_role: { created: 0, skipped: 0, updated: 0 },
+    organization: { created: 0, skipped: 0, updated: 0 },
+    restaurant: { created: 0, skipped: 0, updated: 0 },
+    branch: { created: 0, skipped: 0, updated: 0 },
+    category: { created: 0, skipped: 0, updated: 0 },
+    menu_item: { created: 0, skipped: 0, updated: 0 },
+    item_variant: { created: 0, skipped: 0, updated: 0 },
+    modifier_group: { created: 0, skipped: 0, updated: 0 },
+    modifier: { created: 0, skipped: 0, updated: 0 },
+    branch_table: { created: 0, skipped: 0, updated: 0 },
+    table_session: { created: 0, skipped: 0, updated: 0 },
   };
 
   return {
-    track(entity: EntityName, action: "created" | "skipped") {
+    track(entity: EntityName, action: "created" | "skipped" | "updated") {
       counts[entity][action]++;
     },
     print() {
       console.log("--- Seed Summary ---");
-      for (const [entity, { created, skipped }] of Object.entries(counts)) {
+      for (const [entity, { created, skipped, updated }] of Object.entries(
+        counts,
+      )) {
         const label = entity.replace(/_/g, " ");
-        console.log(`  ${label}: ${created} created, ${skipped} skipped`);
+        console.log(
+          `  ${label}: ${created} created, ${updated} updated, ${skipped} skipped`,
+        );
       }
       console.log("--------------------");
     },
@@ -61,8 +75,11 @@ export async function seedRestaurant(
   db: DB,
   ownerUserId: string,
   fixture: DemoSeed,
+  options: SeedRestaurantOptions = {},
 ) {
   const { track, print } = createTracker();
+  const ownerDisplayName = options.ownerProfile?.displayName ?? "Demo Owner";
+  const ownerEmail = options.ownerProfile?.email ?? null;
 
   console.log(`Seeding: ${fixture.restaurant.name}`);
 
@@ -72,12 +89,46 @@ export async function seedRestaurant(
   });
 
   if (existingProfile) {
-    track("profile", "skipped");
+    const profileUpdate: {
+      displayName?: string | null;
+      email?: string | null;
+      portalPreference?: string | null;
+    } = {};
+
+    if (
+      ownerDisplayName &&
+      (!existingProfile.displayName ||
+        existingProfile.displayName === "Demo Owner")
+    ) {
+      profileUpdate.displayName = ownerDisplayName;
+    }
+
+    if (
+      ownerEmail &&
+      (!existingProfile.email || existingProfile.email === "owner@demo.local")
+    ) {
+      profileUpdate.email = ownerEmail;
+    }
+
+    if (existingProfile.portalPreference !== "owner") {
+      profileUpdate.portalPreference = "owner";
+    }
+
+    if (Object.keys(profileUpdate).length > 0) {
+      await db
+        .update(schema.profile)
+        .set(profileUpdate)
+        .where(eq(schema.profile.id, existingProfile.id));
+      track("profile", "updated");
+    } else {
+      track("profile", "skipped");
+    }
   } else {
     await db.insert(schema.profile).values({
       userId: ownerUserId,
-      displayName: "Demo Owner",
-      email: "owner@demo.local",
+      displayName: ownerDisplayName,
+      email: ownerEmail,
+      portalPreference: "owner",
     });
     track("profile", "created");
   }
@@ -88,7 +139,15 @@ export async function seedRestaurant(
   });
 
   if (existingRole) {
-    track("user_role", "skipped");
+    if (existingRole.role === "owner") {
+      track("user_role", "skipped");
+    } else {
+      await db
+        .update(schema.userRoles)
+        .set({ role: "owner" })
+        .where(eq(schema.userRoles.id, existingRole.id));
+      track("user_role", "updated");
+    }
   } else {
     await db.insert(schema.userRoles).values({
       userId: ownerUserId,
@@ -104,6 +163,12 @@ export async function seedRestaurant(
   });
 
   if (existingOrg) {
+    if (existingOrg.ownerId !== ownerUserId) {
+      throw new Error(
+        `Organization slug "${orgData.slug}" already belongs to another owner. Use a namespaced seed script for additional users.`,
+      );
+    }
+
     track("organization", "skipped");
   } else {
     const [inserted] = await db
@@ -126,6 +191,12 @@ export async function seedRestaurant(
   });
 
   if (existingRest) {
+    if (existingRest.organizationId !== existingOrg.id) {
+      throw new Error(
+        `Restaurant slug "${restData.slug}" is already attached to another organization. Use a namespaced seed script for additional users.`,
+      );
+    }
+
     track("restaurant", "skipped");
   } else {
     const [inserted] = await db

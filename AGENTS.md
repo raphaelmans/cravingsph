@@ -72,8 +72,8 @@ Canonical reference: `docs/design-system.md`
 - Brand primary: `#f86006` (warm orange)
 - Border radius: use token scale (`rounded-sm` through `rounded-4xl`), never raw pixel values
 - Fonts: Inter (sans), Plus Jakarta Sans (headings), Geist Mono (mono)
-- Customer portal uses pill shapes (`rounded-full` buttons, `rounded-4xl` cards)
-- Owner portal uses standard `rounded-lg`, data-dense layouts
+- All portals use one shared visual system: the same heading treatment, surface hierarchy, empty-state patterns, and motion rules
+- Navigation shells may differ by context, but customer, owner, admin, and guides should not drift into separate visual dialects
 
 ## Error Handling
 

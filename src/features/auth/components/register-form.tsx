@@ -6,15 +6,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { appRoutes } from "@/common/app-routes";
 import { getSafeRedirectPath } from "@/common/redirects";
+import { AuthSurface } from "@/components/brand/auth-surface";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -91,42 +84,64 @@ export function RegisterForm({ redirectParam }: RegisterFormProps = {}) {
 
   if (success) {
     return (
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Check your email</CardTitle>
-          <CardDescription>
-            We&apos;ve sent a confirmation link to your email address. Please
-            click the link to verify your account.
-          </CardDescription>
-        </CardHeader>
-        <CardFooter>
-          <Link
-            href={loginHref}
-            className="text-primary hover:underline text-sm"
-          >
-            Back to sign in
-          </Link>
-        </CardFooter>
-      </Card>
+      <AuthSurface
+        eyebrow="Almost there"
+        title="Check your inbox"
+        description="Open the confirmation link on this device to finish setup."
+        footer={
+          <>
+            <p className="text-sm text-muted-foreground">
+              Didn&apos;t get it after a few minutes? Check spam or retry the
+              sign-up flow with the same email.
+            </p>
+            <p className="text-sm text-muted-foreground">
+              <Link href={loginHref} className="text-primary hover:underline">
+                Back to sign in
+              </Link>
+            </p>
+          </>
+        }
+      >
+        <div className="rounded-3xl border border-primary/15 bg-primary/[0.04] p-5 text-sm leading-6 text-muted-foreground">
+          Once you confirm your email, CravingsPH will send you straight to the
+          right post-login route for ordering.
+        </div>
+      </AuthSurface>
     );
   }
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle>Create Account</CardTitle>
-        <CardDescription>
-          Enter your details to create an account
-        </CardDescription>
-      </CardHeader>
+    <AuthSurface
+      eyebrow="Get started"
+      title="Create your account"
+      description="Save orders, speed up checkout, and keep your profile synced."
+      helperLabel="For owners"
+      helperHref={appRoutes.registerOwner.base}
+      footer={
+        <>
+          <p className="text-sm text-muted-foreground">
+            Already have an account?{" "}
+            <Link href={loginHref} className="text-primary hover:underline">
+              Sign in
+            </Link>
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Want to list your restaurant?{" "}
+            <Link
+              href={appRoutes.registerOwner.base}
+              className="text-primary hover:underline"
+            >
+              Register as an owner
+            </Link>
+          </p>
+        </>
+      }
+    >
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-6"
-        >
-          <CardContent className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-4">
             {form.formState.errors.root && (
-              <div className="text-destructive text-sm">
+              <div className="rounded-2xl border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-destructive">
                 {form.formState.errors.root.message}
               </div>
             )}
@@ -136,7 +151,13 @@ export function RegisterForm({ redirectParam }: RegisterFormProps = {}) {
               isLoading={googleLoginMutation.isPending}
             />
 
-            <Separator />
+            <div className="flex items-center gap-3">
+              <Separator className="flex-1" />
+              <span className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                or
+              </span>
+              <Separator className="flex-1" />
+            </div>
 
             <FormField
               control={form.control}
@@ -149,6 +170,7 @@ export function RegisterForm({ redirectParam }: RegisterFormProps = {}) {
                       type="email"
                       placeholder="you@example.com"
                       autoComplete="email"
+                      shape="pill"
                       {...field}
                     />
                   </FormControl>
@@ -168,6 +190,7 @@ export function RegisterForm({ redirectParam }: RegisterFormProps = {}) {
                       type="password"
                       placeholder="At least 8 characters"
                       autoComplete="new-password"
+                      shape="pill"
                       {...field}
                     />
                   </FormControl>
@@ -175,38 +198,21 @@ export function RegisterForm({ redirectParam }: RegisterFormProps = {}) {
                 </FormItem>
               )}
             />
-          </CardContent>
+          </div>
 
-          <CardFooter className="flex flex-col gap-4">
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={registerMutation.isPending}
-            >
-              {registerMutation.isPending
-                ? "Creating account..."
-                : "Create Account"}
-            </Button>
-
-            <div className="text-muted-foreground text-sm">
-              Already have an account?{" "}
-              <Link href={loginHref} className="text-primary hover:underline">
-                Sign in
-              </Link>
-            </div>
-
-            <div className="text-muted-foreground text-sm">
-              Want to list your restaurant?{" "}
-              <Link
-                href={appRoutes.registerOwner.base}
-                className="text-primary hover:underline"
-              >
-                Register as an owner
-              </Link>
-            </div>
-          </CardFooter>
+          <Button
+            type="submit"
+            className="w-full"
+            shape="pill"
+            size="lg"
+            disabled={registerMutation.isPending}
+          >
+            {registerMutation.isPending
+              ? "Creating account..."
+              : "Create account"}
+          </Button>
         </form>
       </Form>
-    </Card>
+    </AuthSurface>
   );
 }

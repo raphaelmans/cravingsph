@@ -248,14 +248,16 @@ export function BranchForm({
     submitLabel ?? (isEditMode ? "Save Changes" : "Add Branch");
 
   return (
-    <Card>
+    <Card className="rounded-3xl border-border/70 bg-background/95">
       <CardHeader>
         <div className="flex items-center gap-4">
-          <div className="flex size-10 items-center justify-center rounded-full bg-primary/10">
+          <div className="flex size-10 items-center justify-center rounded-2xl bg-primary/10">
             <MapPin className="size-5 text-primary" />
           </div>
           <div>
-            <CardTitle className="text-base">{resolvedTitle}</CardTitle>
+            <CardTitle className="font-heading text-lg font-semibold tracking-tight">
+              {resolvedTitle}
+            </CardTitle>
             <CardDescription>{resolvedDescription}</CardDescription>
           </div>
         </div>
@@ -283,13 +285,18 @@ export function BranchForm({
                           {restaurantName} &ndash;
                         </span>
                         <Input
+                          shape="pill"
                           className="rounded-l-none"
                           placeholder="e.g. Main Branch"
                           {...field}
                         />
                       </div>
                     ) : (
-                      <Input placeholder="e.g. Main Branch" {...field} />
+                      <Input
+                        shape="pill"
+                        placeholder="e.g. Main Branch"
+                        {...field}
+                      />
                     )}
                   </FormControl>
                   <FormMessage />
@@ -310,6 +317,7 @@ export function BranchForm({
                   </FormLabel>
                   <FormControl>
                     <Input
+                      shape="pill"
                       placeholder="e.g. 123 Rizal St., Brgy. San Antonio"
                       {...field}
                     />
@@ -332,7 +340,11 @@ export function BranchForm({
                       </span>
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. 123 Rizal Street" {...field} />
+                      <Input
+                        shape="pill"
+                        placeholder="e.g. 123 Rizal Street"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -352,6 +364,7 @@ export function BranchForm({
                     </FormLabel>
                     <FormControl>
                       <Input
+                        shape="pill"
                         placeholder="e.g. Barangay San Antonio"
                         {...field}
                       />
@@ -375,7 +388,11 @@ export function BranchForm({
                       </span>
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. Metro Manila" {...field} />
+                      <Input
+                        shape="pill"
+                        placeholder="e.g. Metro Manila"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -394,7 +411,11 @@ export function BranchForm({
                       </span>
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. Makati" {...field} />
+                      <Input
+                        shape="pill"
+                        placeholder="e.g. Makati"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -414,7 +435,12 @@ export function BranchForm({
                     </span>
                   </FormLabel>
                   <FormControl>
-                    <Input type="tel" placeholder="09XX XXX XXXX" {...field} />
+                    <Input
+                      type="tel"
+                      shape="pill"
+                      placeholder="09XX XXX XXXX"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -452,6 +478,7 @@ export function BranchForm({
                             type="button"
                             variant="outline"
                             size="sm"
+                            shape="pill"
                             className={
                               isActive
                                 ? "border-primary bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary"
@@ -471,7 +498,7 @@ export function BranchForm({
               }}
             />
 
-            <Button type="submit" disabled={mutation.isPending}>
+            <Button type="submit" shape="pill" disabled={mutation.isPending}>
               {mutation.isPending
                 ? isEditMode
                   ? "Saving..."

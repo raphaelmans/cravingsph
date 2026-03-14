@@ -53,10 +53,15 @@ export function OrderDetails({
   const paymentBadge = PAYMENT_BADGE_MAP[paymentStatus];
 
   return (
-    <Card data-slot="order-details">
+    <Card
+      data-slot="order-details"
+      className="border-primary/10 bg-background/95 shadow-sm"
+    >
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base">Order #{orderId}</CardTitle>
+          <CardTitle className="font-heading text-lg font-semibold tracking-tight">
+            Order #{orderId}
+          </CardTitle>
           <Badge variant={paymentBadge.variant}>{paymentBadge.label}</Badge>
         </div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -82,7 +87,7 @@ export function OrderDetails({
           {items.map((item, index) => (
             <li
               key={`${item.name}-${index}`}
-              className="flex justify-between gap-2"
+              className="flex justify-between gap-3 rounded-2xl bg-muted/30 px-4 py-3"
             >
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium">
@@ -107,7 +112,7 @@ export function OrderDetails({
         {specialInstructions && (
           <>
             <Separator />
-            <div>
+            <div className="rounded-3xl border border-primary/10 bg-muted/20 p-4">
               <p className="text-xs font-medium text-muted-foreground mb-1">
                 Special Instructions
               </p>
@@ -119,7 +124,7 @@ export function OrderDetails({
         <Separator />
 
         {/* Subtotal */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between rounded-2xl border border-dashed border-primary/20 px-4 py-3">
           <p className="text-sm font-medium">Subtotal</p>
           <Price amount={subtotal} className="text-base" />
         </div>

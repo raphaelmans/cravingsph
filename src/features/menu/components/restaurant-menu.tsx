@@ -20,11 +20,11 @@ import {
 import { OrderConfirmationSheet } from "@/features/checkout/components/order-confirmation-sheet";
 import type { OrderType } from "@/features/checkout/components/order-type-selector";
 import { PaymentSheet } from "@/features/payment/components/payment-sheet";
-import { useTRPC } from "@/trpc/client";
 import type {
   FullMenu,
   MenuItemWithDetails,
 } from "@/modules/menu/repositories/menu.repository";
+import { useTRPC } from "@/trpc/client";
 import { useCategoryObserver } from "../hooks/use-category-observer";
 import { CategoryTabs } from "./category-tabs";
 import { MenuItemSheet, type MenuItemSheetPayload } from "./menu-item-sheet";

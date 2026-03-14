@@ -32,9 +32,11 @@ interface OrderTimelineProps {
 export function OrderTimeline({ events }: OrderTimelineProps) {
   if (events.length === 0) {
     return (
-      <Card>
+      <Card className="border-primary/10 bg-background/95 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-base">Timeline</CardTitle>
+          <CardTitle className="font-heading text-lg font-semibold tracking-tight">
+            Timeline
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -47,9 +49,11 @@ export function OrderTimeline({ events }: OrderTimelineProps) {
   }
 
   return (
-    <Card>
+    <Card className="border-primary/10 bg-background/95 shadow-sm">
       <CardHeader>
-        <CardTitle className="text-base">Timeline</CardTitle>
+        <CardTitle className="font-heading text-lg font-semibold tracking-tight">
+          Timeline
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <ol className="relative ml-2 border-l border-border">

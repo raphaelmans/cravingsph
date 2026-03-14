@@ -1,7 +1,7 @@
 "use client";
 
 import { LayoutDashboard, ShieldCheck, ShoppingBag, Users } from "lucide-react";
-import { appRoutes } from "@/common/app-routes";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
 import { AdminDashboardStatCard } from "@/features/admin/components/admin-dashboard-stat-card";
 import { AdminRecentActivityFeed } from "@/features/admin/components/admin-recent-activity-feed";
@@ -15,15 +15,13 @@ export function AdminDashboardPage() {
       <DashboardNavbar breadcrumbs={[{ label: "Admin" }]} />
 
       <div className="flex-1 space-y-6 p-4 md:p-6">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">
-            Platform dashboard
-          </h1>
-          <p className="text-muted-foreground">
-            Monitor verification demand, restaurant growth, and platform
-            coverage.
-          </p>
-        </div>
+        <AppPageHeader
+          eyebrow="Admin workspace"
+          title="Platform dashboard"
+          description="Monitor restaurant growth, platform activity, and the operational health of the live system."
+          icon={<LayoutDashboard className="size-5" />}
+          variant="compact"
+        />
 
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <AdminDashboardStatCard
@@ -65,10 +63,9 @@ export function AdminDashboardPage() {
           isLoading={isLoading}
         />
 
-        <div className="rounded-lg border border-dashed p-4 text-sm text-muted-foreground">
-          Verification review, restaurant management, and user actions are
-          scaffolded next at {appRoutes.admin.verification},{" "}
-          {appRoutes.admin.restaurants}, and {appRoutes.admin.users}.
+        <div className="rounded-3xl border border-dashed p-4 text-sm text-muted-foreground">
+          Use restaurants and users to manage live records. Verification flows
+          remain non-live until the dedicated admin queue is restored.
         </div>
       </div>
     </>

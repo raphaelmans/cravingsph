@@ -1,7 +1,7 @@
 "use client";
 
 import { ShoppingBag } from "lucide-react";
-import { EmptyState } from "@/components/brand/empty-state";
+import { AppEmptyState } from "@/components/ui/app-empty-state";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -46,7 +46,9 @@ export function CartDrawer({
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerContent className="max-h-[85vh]">
         <DrawerHeader className="flex-row items-center justify-between">
-          <DrawerTitle>Your Cart</DrawerTitle>
+          <DrawerTitle className="font-heading text-xl font-semibold tracking-tight">
+            Your cart
+          </DrawerTitle>
           {!isEmpty && (
             <Button
               type="button"
@@ -62,10 +64,11 @@ export function CartDrawer({
 
         {isEmpty ? (
           <div className="px-4 pb-4">
-            <EmptyState
+            <AppEmptyState
               icon={<ShoppingBag />}
               title="Your cart is empty"
               description="Add items from the menu to get started"
+              tone="warm"
             />
           </div>
         ) : (

@@ -215,14 +215,16 @@ export function MenuItemSheet({
           )}
 
           {/* Item info */}
-          <div className="space-y-1 px-4 pt-4">
-            <DrawerTitle className="text-lg">{menuItem.name}</DrawerTitle>
+          <div className="space-y-2 px-4 pt-4">
+            <DrawerTitle className="font-heading text-2xl font-semibold tracking-tight">
+              {menuItem.name}
+            </DrawerTitle>
             {menuItem.description && (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm leading-6 text-muted-foreground">
                 {menuItem.description}
               </p>
             )}
-            <Price amount={Number(menuItem.basePrice)} className="text-sm" />
+            <Price amount={Number(menuItem.basePrice)} className="text-base" />
           </div>
 
           <Separator className="my-4" />
@@ -231,7 +233,9 @@ export function MenuItemSheet({
           {variants.length > 0 && (
             <>
               <div className="space-y-4 px-4">
-                <h3 className="text-sm font-semibold">Size</h3>
+                <h3 className="font-heading text-lg font-semibold tracking-tight">
+                  Size
+                </h3>
                 <RadioGroup
                   value={selectedVariantId ?? ""}
                   onValueChange={setSelectedVariantId}
@@ -243,7 +247,7 @@ export function MenuItemSheet({
                       <Label
                         key={variant.id}
                         htmlFor={variant.id}
-                        className="flex cursor-pointer items-center justify-between py-2.5 font-normal"
+                        className="flex cursor-pointer items-center justify-between rounded-2xl px-3 py-2.5 font-normal hover:bg-muted/40"
                       >
                         <div className="flex items-center gap-4">
                           <RadioGroupItem value={variant.id} id={variant.id} />

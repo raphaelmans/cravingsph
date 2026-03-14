@@ -90,7 +90,9 @@ export function EditTableDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Edit Table</DialogTitle>
+          <DialogTitle className="font-heading text-xl font-semibold tracking-tight">
+            Edit table
+          </DialogTitle>
           <DialogDescription>
             Update table details and availability.
           </DialogDescription>
@@ -105,7 +107,7 @@ export function EditTableDialog({
                 <FormItem>
                   <FormLabel>Label</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. Table 1" {...field} />
+                    <Input shape="pill" placeholder="e.g. Table 1" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -121,6 +123,7 @@ export function EditTableDialog({
                   <FormControl>
                     <Input
                       placeholder="e.g. T1"
+                      shape="pill"
                       {...field}
                       onChange={(e) =>
                         field.onChange(e.target.value.toUpperCase())
@@ -145,6 +148,7 @@ export function EditTableDialog({
                     <Input
                       type="number"
                       min={0}
+                      shape="pill"
                       value={field.value ?? 0}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
@@ -158,7 +162,7 @@ export function EditTableDialog({
               control={form.control}
               name="isActive"
               render={({ field }) => (
-                <FormItem className="flex items-center justify-between rounded-lg border p-3">
+                <FormItem className="flex items-center justify-between rounded-3xl border p-3">
                   <div className="space-y-0.5">
                     <FormLabel>Active</FormLabel>
                     <FormDescription>

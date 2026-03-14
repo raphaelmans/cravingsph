@@ -96,7 +96,9 @@ export function PaymentSheet({
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Complete Payment</DrawerTitle>
+          <DrawerTitle className="font-heading text-xl font-semibold tracking-tight">
+            Complete payment
+          </DrawerTitle>
           {orderId && (
             <p className="text-sm text-muted-foreground">Order #{orderId}</p>
           )}
@@ -109,7 +111,7 @@ export function PaymentSheet({
               onExpired={handleExpired}
             />
 
-            <div className="space-y-2">
+            <div className="space-y-3 rounded-3xl border border-primary/10 bg-muted/20 p-4">
               <p className="text-sm font-medium">Send payment to:</p>
               {STUB_PAYMENT_METHODS.map((method) => (
                 <PaymentMethodCard key={method.id} method={method} />

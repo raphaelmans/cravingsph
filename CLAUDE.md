@@ -104,7 +104,8 @@ Canonical reference: `docs/design-system.md`
 - Brand primary: `#f86006` (warm orange) — the only hex color in the system
 - Border radius: use token scale (`rounded-sm` through `rounded-4xl`), never raw pixel values
 - Fonts: Inter (sans), Plus Jakarta Sans (headings), Geist Mono (mono)
-- Customer portal uses pill shapes (`rounded-full` for buttons/badges, `rounded-4xl` for large cards)
+- All portals share one visual system: the same heading treatment, surface hierarchy, empty-state patterns, and motion rules
+- Navigation shells may differ by context, but customer, owner, admin, and guides should not drift into separate visual dialects
 
 ### Logging
 
@@ -228,8 +229,8 @@ Read and follow for any server-side work:
 
 **Apple-style minimal.** Clean, light, refined. Generous white space reduces cognitive load. Content-forward — food images, restaurant info, and prices are the visual focus, not the chrome around them.
 
-- **Customer portal**: Pill shapes (`rounded-full` buttons, `rounded-4xl` cards), peach accents for hero/celebratory moments, emoji cuisine filters, floating cart — playful and discovery-driven
-- **Owner portal**: Like Notion/Linear/Stripe — structured, efficient, scannable. Standard `rounded-lg`, data-dense cards, inline editing, live previews. Professional but still warm (not cold SaaS)
+- **Global UI language**: Clean, modern, and refined across every portal. Use the same heading scale, radius system, card density, and CTA hierarchy everywhere, then adapt only the navigation shell to the task
+- **Warmth with restraint**: Orange and peach accents signal guidance, progress, and action, but content and operational clarity still lead every screen
 - **Theme**: Light + dark mode, OKLCH tokens throughout, never hardcoded Tailwind color classes
 - **Anti-references**: GrabFood/FoodPanda (cluttered, promo-heavy), generic SaaS dashboards (cold, no personality), over-designed apps (animation over usability)
 
@@ -244,7 +245,7 @@ Subtle, purposeful, fast. Animations complete in 150-250ms with ease-out curves.
 1. **Content is king** — Food images, names, and prices are the hero. UI chrome should be invisible. Reduce decoration; increase clarity.
 2. **Scan, don't read** — Users should understand key information instantly. Strong hierarchy, consistent spacing (8px grid), and clear typography enable quick scanning.
 3. **Mobile-first, always** — Design for small screens first. Pill shapes and large touch targets on customer-facing UI. Layouts expand for desktop, not the reverse.
-4. **Two tones, one brand** — Customer portal is warm and playful; owner portal is structured and efficient. Both share the orange brand color, the same font stack, and the same spacing system. The warmth carries through even in the admin side.
+4. **One system, many workflows** — Customer, owner, admin, and guides all use the same visual language. Let the workflow change the layout, not the design system.
 5. **Feedback, not flash** — Every interaction gets immediate, lightweight feedback (press, hover, loading). No gratuitous animation. `prefers-reduced-motion` is respected.
 
 ### Accessibility

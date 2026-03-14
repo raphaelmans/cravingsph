@@ -4,7 +4,9 @@ import { ExternalLink, QrCode, Settings2, Store } from "lucide-react";
 import { use, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { appRoutes } from "@/common/app-routes";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
+import { AppEmptyState } from "@/components/ui/app-empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +15,7 @@ import { Switch } from "@/components/ui/switch";
 import { QRCodePreview } from "@/features/branch-settings/components/qr-code-preview";
 import { WeeklyHoursEditor } from "@/features/branch-settings/components/weekly-hours-editor";
 import { useBranchSettings } from "@/features/branch-settings/hooks/use-branch-settings";
+import { OwnerWalkthroughPanel } from "@/features/onboarding/components/owner-walkthrough-panel";
 
 interface BranchSettingsPageProps {
   params: Promise<{ restaurantId: string; branchId: string }>;
@@ -129,25 +132,19 @@ export default function BranchSettingsPage({
         />
 
         <div className="flex-1 p-4 md:p-6">
-          <Card className="border-dashed">
-            <CardContent className="flex flex-col items-center justify-center gap-4 py-16 text-center">
-              <div className="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground">
-                <Settings2 className="size-6" />
-              </div>
-              <div className="space-y-1">
-                <p className="text-lg font-semibold">Branch not found</p>
-                <p className="max-w-md text-sm text-muted-foreground">
-                  This branch could not be loaded for the selected restaurant.
-                  Return to the restaurant list and choose another branch.
-                </p>
-              </div>
-              <Button variant="outline" asChild>
+          <AppEmptyState
+            tone="subtle"
+            icon={<Settings2 />}
+            title="Branch not found"
+            description="This branch could not be loaded for the selected restaurant. Return to the restaurant list and choose another branch."
+            primaryAction={
+              <Button variant="outline" shape="pill" asChild>
                 <a href={appRoutes.organization.restaurants}>
                   Back to restaurants
                 </a>
               </Button>
-            </CardContent>
-          </Card>
+            }
+          />
         </div>
       </>
     );
@@ -170,24 +167,42 @@ export default function BranchSettingsPage({
       />
 
       <div className="flex-1 space-y-6 p-4 md:p-6">
-        <div className="space-y-2">
-          <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              {branch.name}
-            </h1>
+        <AppPageHeader
+          eyebrow="Branch operations"
+          title={branch.name}
+          description="Control ordering, hours, and QR materials for this branch."
+          icon={<Settings2 className="size-5" />}
+          actions={
             <Badge variant={branch.isActive ? "secondary" : "outline"}>
               {branch.isActive ? "Active branch" : "Inactive branch"}
             </Badge>
-          </div>
-          <p className="max-w-3xl text-sm text-muted-foreground">
-            Adjust order intake, storefront timing, and table QR materials for
-            this location. Changes here affect only this branch and do not
-            modify the rest of the restaurant network.
-          </p>
-        </div>
+          }
+        />
+
+        <OwnerWalkthroughPanel
+          flowId="owner-branch-settings"
+          title="Tune branch-level operations"
+          description="Ordering state, hours, and customer entry point."
+          steps={[
+            {
+              title: "Check ordering status first",
+              description:
+                "Confirm whether this branch should be live right now.",
+            },
+            {
+              title: "Set hours before printing QR materials",
+              description: "Set accurate hours before printing QR materials.",
+            },
+            {
+              title: "Validate the public preview",
+              description:
+                "Preview what guests will see before sharing the QR code.",
+            },
+          ]}
+        />
 
         <div className="grid gap-4 md:grid-cols-1">
-          <Card>
+          <Card className="rounded-3xl border-border/70 bg-background/95">
             <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Store className="size-5" />
@@ -196,7 +211,7 @@ export default function BranchSettingsPage({
                 <p className="text-sm font-medium text-muted-foreground">
                   Ordering status
                 </p>
-                <p className="text-2xl font-semibold">
+                <p className="font-heading text-3xl font-semibold tracking-tight">
                   {draft.isOrderingEnabled ? "Live" : "Paused"}
                 </p>
               </div>
@@ -228,9 +243,11 @@ export default function BranchSettingsPage({
           />
 
           <div className="space-y-6">
-            <Card>
+            <Card className="rounded-3xl border-border/70 bg-background/95">
               <CardHeader>
-                <CardTitle>Order Settings</CardTitle>
+                <CardTitle className="font-heading text-xl font-semibold tracking-tight">
+                  Order settings
+                </CardTitle>
                 <p className="text-sm text-muted-foreground">
                   Branch-level controls for storefront availability and order
                   intake behavior. These changes are persisted to the current
@@ -238,7 +255,7 @@ export default function BranchSettingsPage({
                 </p>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-start justify-between gap-4 rounded-xl border p-4">
+                <div className="flex items-start justify-between gap-4 rounded-3xl border p-4">
                   <div className="space-y-1">
                     <p className="font-medium">Enable online ordering</p>
                     <p className="text-sm text-muted-foreground">
@@ -275,7 +292,7 @@ export default function BranchSettingsPage({
                 <CardTitle>Preview</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="rounded-xl border bg-muted/30 p-4 text-sm text-muted-foreground">
+                <div className="rounded-3xl border bg-muted/30 p-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2 text-foreground">
                     <QrCode className="size-4 text-primary" />
                     <span className="font-medium">Public menu entry point</span>

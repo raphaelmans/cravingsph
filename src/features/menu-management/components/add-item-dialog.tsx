@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImagePlus, Loader2, X } from "lucide-react";
+import Image from "next/image";
 
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -162,7 +163,9 @@ export function AddItemDialog({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Add Item</DialogTitle>
+          <DialogTitle className="font-heading text-xl font-semibold tracking-tight">
+            Add item
+          </DialogTitle>
           <DialogDescription>
             Add a new menu item to a category.
           </DialogDescription>
@@ -182,7 +185,7 @@ export function AddItemDialog({
                     value={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="rounded-3xl">
                         <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
                     </FormControl>
@@ -212,6 +215,7 @@ export function AddItemDialog({
                     <Input
                       placeholder="e.g. Iced Coffee, Chicken Adobo"
                       autoFocus
+                      shape="pill"
                       {...field}
                     />
                   </FormControl>
@@ -229,7 +233,7 @@ export function AddItemDialog({
                   <FormControl>
                     <Textarea
                       placeholder="Brief description of the item"
-                      className="resize-none"
+                      className="resize-none rounded-3xl"
                       rows={2}
                       {...field}
                     />
@@ -246,7 +250,7 @@ export function AddItemDialog({
                 <FormItem>
                   <FormLabel>Base Price</FormLabel>
                   <FormControl>
-                    <Input placeholder="0.00" {...field} />
+                    <Input shape="pill" placeholder="0.00" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -258,11 +262,14 @@ export function AddItemDialog({
               <FormLabel>Image (optional)</FormLabel>
               <div className="flex items-center gap-4">
                 {previewUrl ? (
-                  <div className="relative size-20 shrink-0 overflow-hidden rounded-lg border bg-muted">
-                    <img
+                  <div className="relative size-20 shrink-0 overflow-hidden rounded-2xl border bg-muted">
+                    <Image
                       src={previewUrl}
                       alt="Item preview"
-                      className="size-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="80px"
+                      unoptimized
                     />
                     <button
                       type="button"
@@ -277,7 +284,7 @@ export function AddItemDialog({
                     type="button"
                     disabled={uploading}
                     onClick={() => fileInputRef.current?.click()}
-                    className="flex size-20 shrink-0 items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25 bg-muted/50 text-muted-foreground transition-colors hover:border-muted-foreground/50 hover:bg-muted disabled:opacity-50"
+                    className="flex size-20 shrink-0 items-center justify-center rounded-2xl border-2 border-dashed border-muted-foreground/25 bg-muted/50 text-muted-foreground transition-colors hover:border-muted-foreground/50 hover:bg-muted disabled:opacity-50"
                   >
                     {uploading ? (
                       <Loader2 className="size-6 animate-spin" />
@@ -306,12 +313,14 @@ export function AddItemDialog({
               <Button
                 type="button"
                 variant="outline"
+                shape="pill"
                 onClick={() => onOpenChange(false)}
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
+                shape="pill"
                 disabled={createMutation.isPending || uploading}
               >
                 {createMutation.isPending ? "Creating..." : "Add Item"}

@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 interface DashboardShellProps {
   children: React.ReactNode;
   sidebar: React.ReactNode;
+  bottomNav?: React.ReactNode;
   defaultOpen?: boolean;
   className?: string;
 }
@@ -13,6 +14,7 @@ interface DashboardShellProps {
 export function DashboardShell({
   children,
   sidebar,
+  bottomNav,
   defaultOpen = true,
   className,
 }: DashboardShellProps) {
@@ -22,10 +24,15 @@ export function DashboardShell({
       <SidebarInset>
         <div
           data-slot="dashboard-shell"
-          className={cn("flex flex-1 flex-col", className)}
+          className={cn(
+            "flex flex-1 flex-col",
+            bottomNav && "pb-20 md:pb-0",
+            className,
+          )}
         >
           {children}
         </div>
+        {bottomNav}
       </SidebarInset>
     </SidebarProvider>
   );

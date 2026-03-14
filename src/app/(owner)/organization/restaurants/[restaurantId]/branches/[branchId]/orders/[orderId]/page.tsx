@@ -4,8 +4,11 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
 import { toast } from "sonner";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
+import { AppEmptyState } from "@/components/ui/app-empty-state";
 import { Button } from "@/components/ui/button";
+import { OwnerWalkthroughPanel } from "@/features/onboarding/components/owner-walkthrough-panel";
 import { AcceptRejectActions } from "@/features/order-management/components/accept-reject-actions";
 import { OrderDetail } from "@/features/order-management/components/order-detail";
 import { OrderTimeline } from "@/features/order-management/components/order-timeline";
@@ -81,49 +84,68 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
       />
 
       <div className="flex-1 space-y-4 p-4 md:p-6">
-        {/* Back link */}
-        <Link href={ordersHref}>
-          <Button variant="ghost" size="sm" className="-ml-2">
-            <ArrowLeft className="mr-1 size-4" />
-            Back to orders
-          </Button>
-        </Link>
-
         {isLoading ? (
           <OrderDetailSkeleton />
         ) : !order ? (
           <OrderNotFound ordersHref={ordersHref} />
         ) : (
           <div className="mx-auto max-w-2xl space-y-4">
-            {/* Actions bar */}
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <h1 className="text-xl font-semibold">
-                Order #{order.orderNumber}
-              </h1>
+            <AppPageHeader
+              variant="compact"
+              backHref={ordersHref}
+              eyebrow="Branch orders"
+              title={`Order #${order.orderNumber}`}
+              description="Review the order payload, payment proof, and timeline before moving the ticket forward."
+              icon={<ArrowLeft className="size-4" />}
+              actions={
+                <div className="flex flex-wrap items-center gap-2">
+                  {order.status === "placed" && (
+                    <AcceptRejectActions
+                      orderId={order.id}
+                      isAccepting={acceptMutation.isPending}
+                      isRejecting={rejectMutation.isPending}
+                      onAccept={handleAccept}
+                      onReject={handleReject}
+                    />
+                  )}
 
-              <div className="flex flex-wrap items-center gap-2">
-                {order.status === "placed" && (
-                  <AcceptRejectActions
-                    orderId={order.id}
-                    isAccepting={acceptMutation.isPending}
-                    isRejecting={rejectMutation.isPending}
-                    onAccept={handleAccept}
-                    onReject={handleReject}
-                  />
-                )}
+                  {["accepted", "preparing", "ready"].includes(
+                    order.status,
+                  ) && (
+                    <StatusUpdateDropdown
+                      orderId={order.id}
+                      currentStatus={order.status}
+                      isPending={statusMutation.isPending}
+                      onStatusChange={handleStatusChange}
+                    />
+                  )}
+                </div>
+              }
+            />
 
-                {["accepted", "preparing", "ready"].includes(order.status) && (
-                  <StatusUpdateDropdown
-                    orderId={order.id}
-                    currentStatus={order.status}
-                    isPending={statusMutation.isPending}
-                    onStatusChange={handleStatusChange}
-                  />
-                )}
-              </div>
-            </div>
+            <OwnerWalkthroughPanel
+              flowId="owner-order-detail"
+              title="Handle edge cases from one screen"
+              description="The order detail page is where you slow down, verify payment, and make the right decision before the kitchen keeps moving."
+              steps={[
+                {
+                  title: "Confirm the ticket status first",
+                  description:
+                    "Use the action controls at the top to accept the order or move it to the next operational state.",
+                },
+                {
+                  title: "Review payment carefully",
+                  description:
+                    "Use the payment proof section to confirm or reject uploads without losing the rest of the order context.",
+                },
+                {
+                  title: "Use the timeline for dispute resolution",
+                  description:
+                    "The timeline helps staff explain what happened when customers ask about order progress or payment issues.",
+                },
+              ]}
+            />
 
-            {/* Order detail card */}
             <OrderDetail order={order} />
 
             <PaymentProofReview
@@ -155,16 +177,15 @@ function OrderDetailSkeleton() {
 
 function OrderNotFound({ ordersHref }: { ordersHref: string }) {
   return (
-    <div className="flex flex-col items-center justify-center py-24 text-center">
-      <h2 className="text-lg font-semibold">Order not found</h2>
-      <p className="mt-1 text-sm text-muted-foreground">
-        This order may have been deleted or the link is incorrect.
-      </p>
-      <Link href={ordersHref} className="mt-4">
-        <Button variant="outline" size="sm">
-          Back to orders
+    <AppEmptyState
+      tone="subtle"
+      title="Order not found"
+      description="This order may have been deleted or the link is incorrect."
+      primaryAction={
+        <Button variant="outline" size="sm" shape="pill" asChild>
+          <Link href={ordersHref}>Back to orders</Link>
         </Button>
-      </Link>
-    </div>
+      }
+    />
   );
 }

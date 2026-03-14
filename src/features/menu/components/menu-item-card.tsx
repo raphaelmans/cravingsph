@@ -43,55 +43,54 @@ export function MenuItemCard({
 
   return (
     <div
-      role="button"
-      tabIndex={0}
       data-slot="menu-item-card"
-      className="flex w-full gap-4 rounded-lg p-2 text-left transition-colors hover:bg-muted/50 active:bg-muted cursor-pointer"
-      onClick={() => onSelect(menuItem)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onSelect(menuItem);
-        }
-      }}
+      className="group flex w-full gap-4 rounded-3xl border border-transparent p-3 transition-[background-color,border-color,box-shadow] hover:border-primary/10 hover:bg-muted/40 hover:shadow-sm active:bg-muted"
     >
-      {/* Thumbnail */}
-      {item.imageUrl && !imgError ? (
-        <div className="relative size-20 shrink-0 overflow-hidden rounded-md bg-muted">
-          <Image
-            src={item.imageUrl}
-            alt={item.name}
-            fill
-            className="object-cover"
-            sizes="80px"
-            unoptimized={!item.imageUrl.includes("supabase.co")}
-            onError={() => setImgError(true)}
-          />
-        </div>
-      ) : (
-        <div className="size-20 shrink-0 rounded-md bg-muted" />
-      )}
+      <button
+        type="button"
+        className="flex min-w-0 flex-1 gap-4 text-left"
+        onClick={() => onSelect(menuItem)}
+      >
+        {/* Thumbnail */}
+        {item.imageUrl && !imgError ? (
+          <div className="relative size-20 shrink-0 overflow-hidden rounded-2xl bg-muted">
+            <Image
+              src={item.imageUrl}
+              alt={item.name}
+              fill
+              className="object-cover"
+              sizes="80px"
+              unoptimized={!item.imageUrl.includes("supabase.co")}
+              onError={() => setImgError(true)}
+            />
+          </div>
+        ) : (
+          <div className="size-20 shrink-0 rounded-2xl bg-muted" />
+        )}
 
-      {/* Content */}
-      <div className="flex min-w-0 flex-1 flex-col justify-between py-0.5">
-        <div>
-          <h3 className="text-sm font-medium leading-tight">{item.name}</h3>
-          {item.description && (
-            <p className="mt-0.5 line-clamp-2 text-xs text-muted-foreground">
-              {item.description}
-            </p>
-          )}
+        {/* Content */}
+        <div className="flex min-w-0 flex-1 flex-col justify-between py-0.5">
+          <div>
+            <h3 className="font-heading text-base font-semibold leading-tight text-balance">
+              {item.name}
+            </h3>
+            {item.description && (
+              <p className="mt-1 line-clamp-2 text-xs leading-5 text-muted-foreground">
+                {item.description}
+              </p>
+            )}
+          </div>
+          <div className="mt-2">
+            {showFromPrice && (
+              <span className="text-xs text-muted-foreground">from </span>
+            )}
+            <Price amount={price} className="text-sm" />
+          </div>
         </div>
-        <div className="mt-1">
-          {showFromPrice && (
-            <span className="text-xs text-muted-foreground">from </span>
-          )}
-          <Price amount={price} className="text-sm" />
-        </div>
-      </div>
+      </button>
 
       {/* Quick add / inline quantity */}
-      <div className="flex shrink-0 items-end pb-0.5">
+      <div className="flex shrink-0 items-end pb-1">
         {cartQuantity > 0 && onIncrease && onDecrease ? (
           <InlineQuantityPicker
             quantity={cartQuantity}

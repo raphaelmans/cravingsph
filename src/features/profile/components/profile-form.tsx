@@ -71,7 +71,7 @@ export function ProfileForm() {
 
   if (isLoading) {
     return (
-      <Card>
+      <Card className="rounded-3xl border-border/70 bg-background/95">
         <CardHeader>
           <Skeleton className="h-6 w-40" />
           <Skeleton className="h-4 w-80" />
@@ -90,9 +90,11 @@ export function ProfileForm() {
     submitting || !form.formState.isDirty || !form.formState.isValid;
 
   return (
-    <Card>
+    <Card className="rounded-3xl border-border/70 bg-background/95">
       <CardHeader>
-        <CardTitle>Profile</CardTitle>
+        <CardTitle className="font-heading text-xl font-semibold tracking-tight">
+          Profile
+        </CardTitle>
         <CardDescription>
           Manage your personal details used across authenticated features.
         </CardDescription>
@@ -101,7 +103,7 @@ export function ProfileForm() {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
             {form.formState.errors.root && (
-              <div className="text-destructive text-sm">
+              <div className="rounded-3xl border border-destructive/20 bg-destructive/5 px-4 py-4 text-sm text-destructive">
                 {form.formState.errors.root.message}
               </div>
             )}
@@ -113,7 +115,7 @@ export function ProfileForm() {
                 <FormItem>
                   <FormLabel>Display Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your name" {...field} />
+                    <Input shape="pill" placeholder="Your name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -129,6 +131,7 @@ export function ProfileForm() {
                   <FormControl>
                     <Input
                       type="email"
+                      shape="pill"
                       placeholder="you@example.com"
                       {...field}
                     />
@@ -147,6 +150,7 @@ export function ProfileForm() {
                   <FormControl>
                     <Input
                       type="tel"
+                      shape="pill"
                       placeholder="+1 555 123 4567"
                       {...field}
                     />
@@ -158,7 +162,7 @@ export function ProfileForm() {
           </CardContent>
 
           <CardFooter>
-            <Button type="submit" disabled={isSubmitDisabled}>
+            <Button type="submit" shape="pill" disabled={isSubmitDisabled}>
               {submitting ? "Saving..." : "Save Profile"}
             </Button>
           </CardFooter>

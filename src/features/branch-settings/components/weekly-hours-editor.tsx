@@ -87,10 +87,12 @@ export function WeeklyHoursEditor({
   }, [hours]);
 
   return (
-    <Card>
+    <Card className="border-border/70 bg-background/95">
       <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-1">
-          <CardTitle>Operating Hours</CardTitle>
+          <CardTitle className="font-heading text-xl font-semibold tracking-tight">
+            Operating hours
+          </CardTitle>
           <p className="text-sm text-muted-foreground">
             Set the storefront schedule your team plans to follow. Changes are
             saved when you press the save button below.
@@ -120,7 +122,7 @@ export function WeeklyHoursEditor({
           const isClosed = primarySlot?.isClosed ?? true;
 
           return (
-            <div key={group.dayKey} className="rounded-xl border p-4">
+            <div key={group.dayKey} className="rounded-3xl border p-4">
               {/* Day header with label, badge, and open/closed toggle */}
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
                 <div className="flex min-w-0 flex-1 items-center justify-between gap-4">
@@ -139,7 +141,7 @@ export function WeeklyHoursEditor({
                   </Badge>
                 </div>
 
-                <div className="flex items-center gap-4 rounded-lg border bg-muted/30 px-4 py-2">
+                <div className="flex items-center gap-4 rounded-3xl border bg-muted/30 px-4 py-2">
                   <Switch
                     checked={!isClosed}
                     onCheckedChange={(checked) =>

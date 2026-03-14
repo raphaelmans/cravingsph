@@ -12,12 +12,15 @@ import Link from "next/link";
 import { use } from "react";
 import { toast } from "sonner";
 import { appRoutes } from "@/common/app-routes";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
+import { AppEmptyState } from "@/components/ui/app-empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BranchForm } from "@/features/onboarding/components/branch-form";
+import { OwnerWalkthroughPanel } from "@/features/onboarding/components/owner-walkthrough-panel";
 import { useOwnerRestaurantManagement } from "@/features/restaurant-management/hooks/use-owner-restaurant-management";
 
 interface BranchPageProps {
@@ -63,24 +66,19 @@ export default function OwnerBranchDetailPage({ params }: BranchPageProps) {
           ]}
         />
         <div className="flex-1 p-4 md:p-6">
-          <Card className="border-dashed">
-            <CardContent className="flex flex-col items-center gap-4 py-16 text-center">
-              <div className="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground">
-                <Store className="size-6" />
-              </div>
-              <div className="space-y-1">
-                <p className="text-lg font-semibold">Branch not found</p>
-                <p className="max-w-md text-sm text-muted-foreground">
-                  The selected branch could not be loaded for this restaurant.
-                </p>
-              </div>
-              <Button variant="outline" asChild>
+          <AppEmptyState
+            tone="subtle"
+            icon={<Store />}
+            title="Branch not found"
+            description="The selected branch could not be loaded for this restaurant."
+            primaryAction={
+              <Button variant="outline" shape="pill" asChild>
                 <Link href={appRoutes.organization.restaurants}>
                   Back to restaurants
                 </Link>
               </Button>
-            </CardContent>
-          </Card>
+            }
+          />
         </div>
       </>
     );
@@ -126,23 +124,47 @@ export default function OwnerBranchDetailPage({ params }: BranchPageProps) {
       />
 
       <div className="flex-1 space-y-6 p-4 md:p-6">
-        <div className="space-y-2">
-          <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              {branch.name}
-            </h1>
-            <Badge variant={branch.isActive ? "secondary" : "outline"}>
-              {branch.isActive ? "Active" : "Inactive"}
-            </Badge>
-            <Badge variant={branch.isOrderingEnabled ? "secondary" : "outline"}>
-              {branch.isOrderingEnabled ? "Ordering live" : "Ordering paused"}
-            </Badge>
-          </div>
-          <p className="max-w-3xl text-sm text-muted-foreground">
-            Update branch identity and contact information here. Menu, order
-            operations, and QR settings stay on the linked branch tools.
-          </p>
-        </div>
+        <AppPageHeader
+          eyebrow="Branch overview"
+          title={branch.name}
+          description="Edit branch identity and contact details."
+          icon={<Store className="size-5" />}
+          actions={
+            <div className="flex flex-wrap gap-2">
+              <Badge variant={branch.isActive ? "secondary" : "outline"}>
+                {branch.isActive ? "Active" : "Inactive"}
+              </Badge>
+              <Badge
+                variant={branch.isOrderingEnabled ? "secondary" : "outline"}
+              >
+                {branch.isOrderingEnabled ? "Ordering live" : "Ordering paused"}
+              </Badge>
+            </div>
+          }
+        />
+
+        <OwnerWalkthroughPanel
+          flowId="owner-branch-overview"
+          title="Use the branch overview as your local control hub"
+          description="Branch identity, snapshot, and tools in one place."
+          steps={[
+            {
+              title: "Keep branch identity accurate",
+              description:
+                "Address and contact info affect staff and customers alike.",
+            },
+            {
+              title: "Use the snapshot for quick health checks",
+              description:
+                "The side panel summarizes location and ordering policy.",
+            },
+            {
+              title: "Branch tools are the real daily workflow",
+              description:
+                "Jump into menu, orders, tables, or settings from here.",
+            },
+          ]}
+        />
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_340px]">
           <BranchForm
@@ -182,7 +204,7 @@ export default function OwnerBranchDetailPage({ params }: BranchPageProps) {
                 <CardTitle className="text-base">Branch Snapshot</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 text-sm text-muted-foreground">
-                <div className="rounded-xl border bg-muted/30 p-4">
+                <div className="rounded-3xl border bg-muted/30 p-4">
                   <p className="font-medium text-foreground">Location</p>
                   <p>{branch.address || "Address not added"}</p>
                   <p>
@@ -193,7 +215,7 @@ export default function OwnerBranchDetailPage({ params }: BranchPageProps) {
                         "City and province not added"}
                   </p>
                 </div>
-                <div className="rounded-xl border bg-muted/30 p-4">
+                <div className="rounded-3xl border bg-muted/30 p-4">
                   <p className="font-medium text-foreground">Ordering policy</p>
                   <p>
                     {branch.autoAcceptOrders
@@ -204,7 +226,7 @@ export default function OwnerBranchDetailPage({ params }: BranchPageProps) {
                     {branch.paymentCountdownMinutes} minute payment countdown
                   </p>
                 </div>
-                <div className="rounded-xl border bg-muted/30 p-4">
+                <div className="rounded-3xl border bg-muted/30 p-4">
                   <p className="font-medium text-foreground">Contact</p>
                   <p>{branch.phone || "Phone not added"}</p>
                   <p>Slug: {branch.slug}</p>

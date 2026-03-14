@@ -43,7 +43,7 @@ export function OrderHistoryCard({ order, onReorder }: OrderHistoryCardProps) {
   const extraItems = Math.max(order.items.length - previewItems.length, 0);
 
   return (
-    <Card className="overflow-hidden border-primary/10 bg-background/95 shadow-sm">
+    <Card className="overflow-hidden rounded-3xl border-primary/10 bg-background/95 shadow-sm">
       <CardHeader className="gap-4 border-b border-primary/10 bg-linear-to-br from-primary/10 via-primary/5 to-transparent">
         <div className="flex items-start justify-between gap-2">
           <div className="space-y-1">
@@ -51,7 +51,7 @@ export function OrderHistoryCard({ order, onReorder }: OrderHistoryCardProps) {
               <Store className="size-4 text-primary" />
               <span>{order.branchLabel}</span>
             </div>
-            <CardTitle className="font-heading text-xl">
+            <CardTitle className="font-heading text-xl font-semibold tracking-tight">
               {order.restaurantName}
             </CardTitle>
           </div>

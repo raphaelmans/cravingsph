@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, MapPinned, Sparkles } from "lucide-react";
+import { Heart, MapPinned } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { appRoutes } from "@/common/app-routes";
@@ -33,54 +33,31 @@ export function SavedRestaurantsPage() {
   return (
     <div className="min-h-dvh bg-linear-to-b from-peach via-background to-background">
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 pt-6">
-        <section className="overflow-hidden rounded-4xl border border-primary/15 bg-linear-to-br from-primary/[0.18] via-background to-background p-6 shadow-sm">
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-            <div className="space-y-2">
-              <p className="inline-flex items-center gap-2 rounded-full bg-background/85 px-3 py-1 text-xs font-medium uppercase tracking-[0.24em] text-primary">
-                <Sparkles className="size-3.5" />
-                Quick return list
-              </p>
-              <div>
-                <h2 className="font-heading text-2xl font-bold">
-                  {profile?.displayName
-                    ? `${profile.displayName.split(" ")[0]}'s favorite stops`
-                    : "Your favorite stops"}
-                </h2>
-                <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
-                  Keep the restaurants you trust close to checkout, reorder from
-                  familiar kitchens, and trim the list whenever your cravings
-                  change.
-                </p>
-              </div>
+        <section className="rounded-3xl border border-border/70 bg-card/95 p-5 shadow-sm md:p-6">
+          <div className="flex min-w-0 items-start gap-4">
+            <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <Heart className="size-5" />
             </div>
-
-            <div className="grid gap-4 sm:min-w-72 sm:grid-cols-3 sm:self-stretch">
-              <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
-                <p className="text-sm text-muted-foreground">Saved now</p>
-                <p className="mt-2 font-heading text-3xl font-bold">
-                  {stats.totalSaved}
-                </p>
-              </div>
-              <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
-                <p className="text-sm text-muted-foreground">Cuisine mix</p>
-                <p className="mt-2 font-heading text-3xl font-bold">
-                  {stats.cuisineCount}
-                </p>
-              </div>
-              <div className="rounded-3xl bg-background/85 p-4 shadow-sm">
-                <p className="text-sm text-muted-foreground">Added this week</p>
-                <p className="mt-2 font-heading text-3xl font-bold">
-                  {stats.recentlySavedCount}
-                </p>
-              </div>
+            <div className="min-w-0 space-y-2">
+              <h1 className="font-heading text-2xl font-semibold tracking-tight text-balance">
+                {profile?.displayName
+                  ? `${profile.displayName.split(" ")[0]}'s saved restaurants`
+                  : "Saved restaurants"}
+              </h1>
+              <p className="text-sm leading-6 text-muted-foreground">
+                {stats.totalSaved} saved
+              </p>
             </div>
           </div>
         </section>
 
         {isLoading ? (
-          <div className="flex items-center justify-center py-16">
+          <output
+            aria-label="Loading saved restaurants"
+            className="flex items-center justify-center py-16"
+          >
             <Spinner className="text-primary" />
-          </div>
+          </output>
         ) : restaurants.length > 0 ? (
           <section className="space-y-4">
             {restaurants.map((restaurant) => (

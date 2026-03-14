@@ -81,7 +81,7 @@ export function CheckoutSheet({
 
   const tablesQuery = useQuery(
     trpc.branch.listActiveTables.queryOptions(
-      { branchId: branchId! },
+      { branchId: branchId ?? "" },
       { enabled: !!branchId && open },
     ),
   );
@@ -135,7 +135,9 @@ export function CheckoutSheet({
     <Drawer open={open} onOpenChange={handleOpenChange}>
       <DrawerContent className="max-h-[85vh]">
         <DrawerHeader>
-          <DrawerTitle>Checkout</DrawerTitle>
+          <DrawerTitle className="font-heading text-xl font-semibold tracking-tight">
+            Checkout
+          </DrawerTitle>
         </DrawerHeader>
 
         <div className="overflow-y-auto px-4 pb-4">
@@ -159,7 +161,7 @@ export function CheckoutSheet({
                           Loading tables...
                         </div>
                       ) : tables.length === 0 ? (
-                        <p className="text-sm text-muted-foreground py-2">
+                        <p className="rounded-2xl border border-dashed px-4 py-3 text-sm text-muted-foreground">
                           No tables available
                         </p>
                       ) : (
@@ -212,8 +214,10 @@ export function CheckoutSheet({
               <Separator />
 
               {/* Order summary */}
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold">Order summary</h3>
+              <div className="space-y-3 rounded-3xl border border-primary/10 bg-muted/20 p-4">
+                <h3 className="font-heading text-lg font-semibold tracking-tight">
+                  Order summary
+                </h3>
                 <ul className="space-y-1">
                   {itemSummary.map((line) => (
                     <li key={line} className="text-sm text-muted-foreground">
@@ -221,7 +225,7 @@ export function CheckoutSheet({
                     </li>
                   ))}
                 </ul>
-                <div className="flex items-center justify-between pt-2">
+                <div className="flex items-center justify-between border-t border-primary/10 pt-3">
                   <span className="text-sm text-muted-foreground">
                     Subtotal ({itemCount} {itemCount === 1 ? "item" : "items"})
                   </span>

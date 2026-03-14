@@ -10,6 +10,7 @@ import {
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { appRoutes } from "@/common/app-routes";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -94,13 +95,13 @@ export function AdminUserManagementPage() {
       />
 
       <div className="flex-1 space-y-6 p-4 md:p-6">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">User management</h1>
-          <p className="max-w-3xl text-sm text-muted-foreground">
-            Review all platform accounts with assigned roles, search by name or
-            contact details, and manage user access from the admin portal.
-          </p>
-        </div>
+        <AppPageHeader
+          eyebrow="Admin workspace"
+          title="User management"
+          description="Review all platform accounts with assigned roles, search by name or contact details, and manage user access from the admin portal."
+          icon={<Users className="size-5" />}
+          variant="compact"
+        />
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <Card>

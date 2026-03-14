@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { appRoutes } from "@/common/app-routes";
 import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { OwnerBottomNav } from "@/components/layout/owner-bottom-nav";
 import { OrganizationNotFoundError } from "@/modules/organization/errors/organization.errors";
 import { makeOrganizationService } from "@/modules/organization/factories/organization.factory";
 import { requireSession } from "@/shared/infra/supabase/session";
@@ -42,5 +43,9 @@ export default async function OwnerLayout({
     redirect(appRoutes.organization.getStarted);
   }
 
-  return <DashboardShell sidebar={<OwnerSidebar />}>{children}</DashboardShell>;
+  return (
+    <DashboardShell sidebar={<OwnerSidebar />} bottomNav={<OwnerBottomNav />}>
+      {children}
+    </DashboardShell>
+  );
 }

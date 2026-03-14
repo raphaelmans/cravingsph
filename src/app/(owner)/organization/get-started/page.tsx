@@ -3,9 +3,11 @@
 import { Rocket } from "lucide-react";
 import Link from "next/link";
 import { appRoutes } from "@/common/app-routes";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
+import { OwnerWalkthroughPanel } from "@/features/onboarding/components/owner-walkthrough-panel";
 import { SetupCard } from "@/features/onboarding/components/setup-card";
 import { useOnboardingStatus } from "@/features/onboarding/hooks/use-onboarding-status";
 
@@ -18,20 +20,32 @@ export default function GetStartedPage() {
 
   return (
     <div className="flex w-full flex-1 flex-col gap-8 p-6 md:p-8">
-      {/* Header */}
-      <div className="space-y-2">
-        <div className="flex items-center gap-4">
-          <div className="flex size-10 items-center justify-center rounded-full bg-primary/10">
-            <Rocket className="size-5 text-primary" />
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight">
-            Set Up Your Restaurant
-          </h1>
-        </div>
-        <p className="text-muted-foreground">
-          Complete the steps below to start accepting orders on cravıngs.
-        </p>
-      </div>
+      <AppPageHeader
+        eyebrow="Owner onboarding"
+        title="Set up your restaurant"
+        description="Complete each step to go live."
+        icon={<Rocket className="size-5" />}
+      />
+
+      <OwnerWalkthroughPanel
+        flowId="owner-get-started"
+        title="Work through setup in the right order"
+        description="Open the next step or jump into the wizard."
+        steps={[
+          {
+            title: "Use the progress bar as your launch status",
+            description: "See how much of the activation path is done.",
+          },
+          {
+            title: "Open the next incomplete card",
+            description: "Each card links directly to the correct step.",
+          },
+          {
+            title: "Switch to the full wizard when you want momentum",
+            description: "One guided pass without bouncing between pages.",
+          },
+        ]}
+      />
 
       {/* Progress overview */}
       <div className="space-y-2">

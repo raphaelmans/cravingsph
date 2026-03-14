@@ -1,7 +1,7 @@
 "use client";
 
 import { cva, type VariantProps } from "class-variance-authority";
-import type * as React from "react";
+import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,7 +11,6 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="input-group"
-      role="group"
       className={cn(
         "group/input-group border-input dark:bg-input/30 relative flex w-full items-center rounded-md border shadow-xs transition-[color,box-shadow] outline-none",
         "h-9 min-w-0 has-[>textarea]:h-auto",
@@ -61,18 +60,36 @@ function InputGroupAddon({
   align = "inline-start",
   ...props
 }: React.ComponentProps<"div"> & VariantProps<typeof inputGroupAddonVariants>) {
+  const addonRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const addon = addonRef.current;
+    if (!addon) {
+      return;
+    }
+
+    const handleMouseDown = (event: MouseEvent) => {
+      if ((event.target as HTMLElement).closest("button")) {
+        return;
+      }
+
+      event.preventDefault();
+      addon.parentElement?.querySelector("input")?.focus();
+    };
+
+    addon.addEventListener("mousedown", handleMouseDown);
+
+    return () => {
+      addon.removeEventListener("mousedown", handleMouseDown);
+    };
+  }, []);
+
   return (
     <div
-      role="group"
+      ref={addonRef}
       data-slot="input-group-addon"
       data-align={align}
       className={cn(inputGroupAddonVariants({ align }), className)}
-      onClick={(e) => {
-        if ((e.target as HTMLElement).closest("button")) {
-          return;
-        }
-        e.currentTarget.parentElement?.querySelector("input")?.focus();
-      }}
       {...props}
     />
   );

@@ -34,10 +34,12 @@ export function RestaurantReviews({
           <p className="text-sm font-medium uppercase tracking-[0.24em] text-primary">
             Customer reviews
           </p>
-          <h2 className="font-heading text-2xl font-bold">{restaurantName}</h2>
+          <h2 className="font-heading text-2xl font-semibold tracking-tight text-balance">
+            {restaurantName}
+          </h2>
         </div>
 
-        <div className="rounded-full border border-primary/15 bg-primary/5 px-4 py-2 text-right">
+        <div className="rounded-3xl border border-primary/15 bg-primary/5 px-4 py-3 text-right">
           <p className="text-sm text-muted-foreground">Average rating</p>
           <p className="flex items-center justify-end gap-1 font-semibold text-foreground">
             <Star className="size-4 fill-primary text-primary" />
@@ -49,7 +51,10 @@ export function RestaurantReviews({
       {reviews.length > 0 ? (
         <div className="grid gap-4">
           {reviews.map((review) => (
-            <Card key={review.id} className="border-primary/10 shadow-sm">
+            <Card
+              key={review.id}
+              className="rounded-3xl border-primary/10 bg-background/95 shadow-sm"
+            >
               <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
                 <div className="flex items-center gap-4">
                   <Avatar className="size-11 border border-primary/10">

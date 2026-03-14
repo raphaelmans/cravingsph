@@ -4,10 +4,13 @@ import { Building2, CircleCheckBig, PlusCircle, Store } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { appRoutes } from "@/common/app-routes";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
+import { AppEmptyState } from "@/components/ui/app-empty-state";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { OwnerWalkthroughPanel } from "@/features/onboarding/components/owner-walkthrough-panel";
 import { RestaurantForm } from "@/features/onboarding/components/restaurant-form";
 import { RestaurantOverviewCard } from "@/features/restaurant-management/components/restaurant-overview-card";
 import { useOwnerRestaurantManagement } from "@/features/restaurant-management/hooks/use-owner-restaurant-management";
@@ -48,27 +51,19 @@ export default function OwnerRestaurantsPage() {
       <>
         <DashboardNavbar breadcrumbs={[{ label: "Restaurants" }]} />
         <div className="flex-1 p-4 md:p-6">
-          <Card className="border-dashed">
-            <CardContent className="flex flex-col items-center gap-4 py-16 text-center">
-              <div className="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground">
-                <Store className="size-6" />
-              </div>
-              <div className="space-y-1">
-                <p className="text-lg font-semibold">
-                  Finish organization setup first
-                </p>
-                <p className="max-w-md text-sm text-muted-foreground">
-                  Restaurant management becomes available after the owner
-                  organization is created.
-                </p>
-              </div>
-              <Button asChild>
+          <AppEmptyState
+            tone="subtle"
+            icon={<Store />}
+            title="Finish organization setup first"
+            description="Restaurant management becomes available after the owner organization is created."
+            primaryAction={
+              <Button asChild shape="pill">
                 <Link href={appRoutes.organization.getStarted}>
                   Go to setup hub
                 </Link>
               </Button>
-            </CardContent>
-          </Card>
+            }
+          />
         </div>
       </>
     );
@@ -76,30 +71,41 @@ export default function OwnerRestaurantsPage() {
 
   return (
     <>
-      <DashboardNavbar
-        breadcrumbs={[{ label: "Restaurants" }]}
-        actions={
-          <Button variant="outline" asChild>
-            <Link href={appRoutes.organization.verify}>
-              Review verification
-            </Link>
-          </Button>
-        }
-      />
+      <DashboardNavbar breadcrumbs={[{ label: "Restaurants" }]} />
 
       <div className="flex-1 space-y-6 p-4 md:p-6">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Restaurant Workspace
-          </h1>
-          <p className="max-w-3xl text-sm text-muted-foreground">
-            Create restaurant brands, update their public profile, and drill
-            into branches for menus, orders, and branch-level settings.
-          </p>
-        </div>
+        <AppPageHeader
+          eyebrow="Owner operations"
+          title="Restaurant workspace"
+          description="Manage brands, branches, and menus."
+          icon={<Store className="size-5" />}
+        />
+
+        <OwnerWalkthroughPanel
+          flowId="owner-restaurants"
+          title="Manage brands before locations"
+          description="Create a restaurant, then add branches."
+          steps={[
+            {
+              title: "Create the brand first",
+              description:
+                "Branches, menus, and listings depend on a restaurant record.",
+            },
+            {
+              title: "Use the cards to inspect readiness",
+              description:
+                "Badges show whether a restaurant is active and approved.",
+            },
+            {
+              title: "Go one level deeper for branches",
+              description:
+                "Open branch management for locations, menus, and tables.",
+            },
+          ]}
+        />
 
         <div className="grid gap-4 md:grid-cols-3">
-          <Card>
+          <Card className="rounded-3xl border-border/70 bg-background/95">
             <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Store className="size-5" />
@@ -108,12 +114,14 @@ export default function OwnerRestaurantsPage() {
                 <p className="text-sm font-medium text-muted-foreground">
                   Restaurants
                 </p>
-                <p className="text-2xl font-semibold">{restaurants.length}</p>
+                <p className="font-heading text-3xl font-semibold tracking-tight">
+                  {restaurants.length}
+                </p>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="rounded-3xl border-border/70 bg-background/95">
             <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Building2 className="size-5" />
@@ -122,12 +130,14 @@ export default function OwnerRestaurantsPage() {
                 <p className="text-sm font-medium text-muted-foreground">
                   Active listings
                 </p>
-                <p className="text-2xl font-semibold">{activeRestaurants}</p>
+                <p className="font-heading text-3xl font-semibold tracking-tight">
+                  {activeRestaurants}
+                </p>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="rounded-3xl border-border/70 bg-background/95">
             <CardContent className="flex items-center gap-4 p-4">
               <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <CircleCheckBig className="size-5" />
@@ -136,7 +146,9 @@ export default function OwnerRestaurantsPage() {
                 <p className="text-sm font-medium text-muted-foreground">
                   Verification approved
                 </p>
-                <p className="text-2xl font-semibold">{approvedRestaurants}</p>
+                <p className="font-heading text-3xl font-semibold tracking-tight">
+                  {approvedRestaurants}
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -167,20 +179,12 @@ export default function OwnerRestaurantsPage() {
                 ))}
               </div>
             ) : (
-              <Card className="border-dashed">
-                <CardContent className="flex flex-col items-center gap-4 py-14 text-center">
-                  <div className="flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <PlusCircle className="size-6" />
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-lg font-semibold">No restaurants yet</p>
-                    <p className="max-w-md text-sm text-muted-foreground">
-                      Add the first restaurant brand for this organization, then
-                      attach one or more branches under it.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+              <AppEmptyState
+                tone="subtle"
+                icon={<PlusCircle />}
+                title="No restaurants yet"
+                description="Create your first restaurant to get started."
+              />
             )}
           </section>
 
@@ -188,7 +192,7 @@ export default function OwnerRestaurantsPage() {
             <RestaurantForm
               organizationId={organization.id}
               title="Add Restaurant"
-              description="Create a new restaurant brand before adding branches, menus, and staff workflows."
+              description="Add a new restaurant brand."
               onComplete={() => {
                 toast.success("Restaurant added");
               }}

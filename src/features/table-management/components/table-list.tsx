@@ -1,5 +1,6 @@
 "use client";
 
+import type { inferRouterOutputs } from "@trpc/server";
 import { formatDistanceToNow } from "date-fns";
 import { Pencil, Play, Square, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -24,7 +25,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { inferRouterOutputs } from "@trpc/server";
 import type { AppRouter } from "@/shared/infra/trpc/root";
 import {
   useCloseSession,
@@ -90,7 +90,7 @@ export function TableList({ branchId, tables, onEdit }: TableListProps) {
 
   return (
     <>
-      <div className="rounded-lg border">
+      <div className="overflow-hidden rounded-3xl border border-border/70 bg-background/95">
         <Table>
           <TableHeader>
             <TableRow>
@@ -107,7 +107,7 @@ export function TableList({ branchId, tables, onEdit }: TableListProps) {
               <TableRow key={table.id}>
                 <TableCell className="font-medium">{table.label}</TableCell>
                 <TableCell>
-                  <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
+                  <code className="rounded-full bg-muted px-2 py-0.5 text-xs">
                     {table.code}
                   </code>
                 </TableCell>

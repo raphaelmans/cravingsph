@@ -61,7 +61,9 @@ export function AddTableDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Add Table</DialogTitle>
+          <DialogTitle className="font-heading text-xl font-semibold tracking-tight">
+            Add table
+          </DialogTitle>
           <DialogDescription>
             Add a physical table for dine-in ordering.
           </DialogDescription>
@@ -79,6 +81,7 @@ export function AddTableDialog({
                     <Input
                       placeholder="e.g. Table 1, Window Seat A"
                       autoFocus
+                      shape="pill"
                       {...field}
                     />
                   </FormControl>
@@ -96,6 +99,7 @@ export function AddTableDialog({
                   <FormControl>
                     <Input
                       placeholder="e.g. T1, WINDOW-A"
+                      shape="pill"
                       {...field}
                       onChange={(e) =>
                         field.onChange(e.target.value.toUpperCase())
@@ -120,6 +124,7 @@ export function AddTableDialog({
                     <Input
                       type="number"
                       min={0}
+                      shape="pill"
                       placeholder="Auto-assigned if empty"
                       value={field.value ?? ""}
                       onChange={(e) =>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Script from "next/script";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { Badge } from "@/components/ui/badge";
 import type { GuideEntry } from "@/features/guides/content/guides";
 
@@ -77,8 +78,9 @@ export function GuideArticlePage({ guide }: { guide: GuideEntry }) {
       </Script>
       <div className="mx-auto max-w-3xl px-4 py-12 md:py-16">
         <article className="space-y-10">
-          <header className="space-y-5">
-            <div className="flex flex-wrap items-center gap-3">
+          <AppPageHeader
+            variant="hero"
+            eyebrow={
               <Badge
                 variant={
                   guide.audience === "customer" ? "secondary" : "default"
@@ -86,20 +88,17 @@ export function GuideArticlePage({ guide }: { guide: GuideEntry }) {
               >
                 {guide.heroEyebrow}
               </Badge>
-            </div>
-            <div className="space-y-3">
-              <h1 className="font-heading text-4xl font-bold tracking-tight md:text-5xl">
-                {guide.title}
-              </h1>
-              <p className="text-base leading-7 text-muted-foreground md:text-lg">
-                {guide.description}
-              </p>
-            </div>
+            }
+            title={guide.title}
+            description={guide.description}
+          />
+
+          <header className="space-y-5">
             <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
               <span>Published {formatDate(guide.publishedAt)}</span>
               <span>Updated {formatDate(guide.updatedAt)}</span>
             </div>
-            <div className="rounded-2xl border border-primary/15 bg-primary/5 p-5">
+            <div className="rounded-3xl border border-primary/15 bg-primary/5 p-5">
               <p className="font-heading text-sm font-semibold text-foreground">
                 Direct answer
               </p>
@@ -135,7 +134,7 @@ export function GuideArticlePage({ guide }: { guide: GuideEntry }) {
               {guide.faqs.map((faq) => (
                 <div
                   key={faq.question}
-                  className="rounded-2xl border border-border/60 bg-card p-5"
+                  className="rounded-3xl border border-border/60 bg-card p-5"
                 >
                   <h3 className="font-heading text-lg font-semibold tracking-tight">
                     {faq.question}
@@ -148,7 +147,7 @@ export function GuideArticlePage({ guide }: { guide: GuideEntry }) {
             </div>
           </section>
 
-          <section className="space-y-4 rounded-2xl border border-border/60 bg-card p-6">
+          <section className="space-y-4 rounded-3xl border border-border/60 bg-card p-6">
             <h2 className="font-heading text-2xl font-semibold tracking-tight">
               Keep exploring
             </h2>

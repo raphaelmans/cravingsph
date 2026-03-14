@@ -16,8 +16,8 @@ export default function AdminError({
       retry={reset}
       homeHref={appRoutes.admin.base}
       homeLabel="Back to admin"
-      secondaryHref={appRoutes.admin.verification}
-      secondaryLabel="Open verification queue"
+      secondaryHref={appRoutes.admin.restaurants}
+      secondaryLabel="Open restaurants"
     />
   );
 }

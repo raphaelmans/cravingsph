@@ -21,7 +21,10 @@ export function WizardProgress({
   completedSteps,
 }: WizardProgressProps) {
   return (
-    <nav aria-label="Onboarding progress" className="w-full">
+    <nav
+      aria-label="Onboarding progress"
+      className="w-full rounded-3xl border border-primary/10 bg-background/95 p-4 shadow-sm"
+    >
       <ol className="flex items-center gap-1">
         {STEP_LABELS.map((label, index) => {
           const stepNumber = index + 1;
@@ -47,7 +50,7 @@ export function WizardProgress({
                 )}
                 <div
                   className={cn(
-                    "flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-medium transition-colors",
+                    "flex size-8 shrink-0 items-center justify-center rounded-full text-xs font-medium transition-colors",
                     isComplete && "bg-primary text-primary-foreground",
                     isCurrent &&
                       !isComplete &&
@@ -70,7 +73,7 @@ export function WizardProgress({
               </div>
               <span
                 className={cn(
-                  "text-xs leading-tight text-center hidden sm:block",
+                  "hidden text-xs leading-tight text-center sm:block",
                   isCurrent
                     ? "font-medium text-foreground"
                     : "text-muted-foreground",

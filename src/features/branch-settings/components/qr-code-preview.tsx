@@ -99,22 +99,22 @@ export function QRCodePreview({ branchName, publicUrl }: QRCodePreviewProps) {
           <title>${branchName} QR Code</title>
           <style>
             body {
-              font-family: Arial, sans-serif;
+              font-family: "Inter", "Segoe UI", sans-serif;
               margin: 0;
               min-height: 100vh;
               display: grid;
               place-items: center;
-              background: #f8fafc;
-              color: #0f172a;
+              background: oklch(0.97 0.01 260);
+              color: oklch(0.18 0.02 260);
             }
             .sheet {
-              background: white;
-              border: 1px solid #e2e8f0;
-              border-radius: 24px;
+              background: oklch(1 0 0);
+              border: 1px solid oklch(0.92 0.01 260);
+              border-radius: 28px;
               padding: 32px;
               width: min(92vw, 440px);
               text-align: center;
-              box-shadow: 0 24px 80px rgba(15, 23, 42, 0.12);
+              box-shadow: 0 24px 80px oklch(0.18 0.02 260 / 0.12);
             }
             img {
               width: 280px;
@@ -123,13 +123,14 @@ export function QRCodePreview({ branchName, publicUrl }: QRCodePreviewProps) {
               margin: 0 auto 20px;
             }
             h1 {
+              font-family: "Plus Jakarta Sans", "Inter", sans-serif;
               font-size: 28px;
               margin: 0 0 12px;
             }
             p {
               margin: 0;
               line-height: 1.5;
-              color: #475569;
+              color: oklch(0.45 0.02 260);
               word-break: break-word;
             }
           </style>

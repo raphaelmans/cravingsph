@@ -73,34 +73,40 @@ export function OrganizationForm({
 
   if (isComplete) {
     return (
-      <Card>
+      <Card className="rounded-3xl border-border/70 bg-background/95">
         <CardHeader>
           <div className="flex items-center gap-4">
-            <div className="flex size-10 items-center justify-center rounded-full bg-success/10">
+            <div className="flex size-10 items-center justify-center rounded-2xl bg-success/10">
               <Check className="size-5 text-success" />
             </div>
             <div>
-              <CardTitle className="text-base">Organization Created</CardTitle>
+              <CardTitle className="font-heading text-lg font-semibold tracking-tight">
+                Organization created
+              </CardTitle>
               <CardDescription>{existingName}</CardDescription>
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          <Button onClick={onComplete}>Continue</Button>
+          <Button shape="pill" onClick={onComplete}>
+            Continue
+          </Button>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card>
+    <Card className="rounded-3xl border-border/70 bg-background/95">
       <CardHeader>
         <div className="flex items-center gap-4">
-          <div className="flex size-10 items-center justify-center rounded-full bg-primary/10">
+          <div className="flex size-10 items-center justify-center rounded-2xl bg-primary/10">
             <Building2 className="size-5 text-primary" />
           </div>
           <div>
-            <CardTitle className="text-base">Create Organization</CardTitle>
+            <CardTitle className="font-heading text-lg font-semibold tracking-tight">
+              Create organization
+            </CardTitle>
             <CardDescription>
               Your organization is the parent entity for all your restaurants
             </CardDescription>
@@ -126,6 +132,7 @@ export function OrganizationForm({
                   <FormLabel>Organization Name</FormLabel>
                   <FormControl>
                     <Input
+                      shape="pill"
                       placeholder="e.g. Juan's Food Group"
                       autoComplete="organization"
                       {...field}
@@ -136,8 +143,12 @@ export function OrganizationForm({
               )}
             />
 
-            <Button type="submit" disabled={createMutation.isPending}>
-              {createMutation.isPending ? "Creating..." : "Create Organization"}
+            <Button
+              type="submit"
+              shape="pill"
+              disabled={createMutation.isPending}
+            >
+              {createMutation.isPending ? "Creating..." : "Create organization"}
             </Button>
           </CardContent>
         </form>

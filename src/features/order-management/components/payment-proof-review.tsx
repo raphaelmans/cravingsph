@@ -60,10 +60,12 @@ export function PaymentProofReview({
   const canReview = order.paymentStatus === "submitted";
 
   return (
-    <Card>
+    <Card className="border-primary/10 bg-background/95 shadow-sm">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base">Payment Proof</CardTitle>
+          <CardTitle className="font-heading text-lg font-semibold tracking-tight">
+            Payment proof
+          </CardTitle>
           <Badge variant={badge.variant}>{badge.label}</Badge>
         </div>
       </CardHeader>
@@ -93,7 +95,7 @@ export function PaymentProofReview({
             <DialogTrigger asChild>
               <button
                 type="button"
-                className="group relative w-full overflow-hidden rounded-md border"
+                className="group relative w-full overflow-hidden rounded-3xl border"
               >
                 <Image
                   src={order.paymentScreenshotUrl}
@@ -118,12 +120,12 @@ export function PaymentProofReview({
                 alt="Payment proof"
                 width={800}
                 height={600}
-                className="w-full rounded-md object-contain"
+                className="w-full rounded-2xl object-contain"
               />
             </DialogContent>
           </Dialog>
         ) : (
-          <div className="flex h-32 items-center justify-center rounded-md border border-dashed text-muted-foreground">
+          <div className="flex h-32 items-center justify-center rounded-3xl border border-dashed text-muted-foreground">
             <div className="flex flex-col items-center gap-1">
               <ImageIcon className="size-6" />
               <span className="text-xs">No screenshot uploaded</span>

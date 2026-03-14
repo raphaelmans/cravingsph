@@ -48,7 +48,7 @@ export function PaymentMethodCard({ method }: PaymentMethodCardProps) {
   return (
     <div
       data-slot="payment-method-card"
-      className="flex items-center gap-4 rounded-xl border bg-card p-4"
+      className="flex items-center gap-4 rounded-3xl border bg-card p-4"
     >
       <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
         <Icon className="size-5" />

@@ -29,7 +29,7 @@ export function CustomerBottomNav() {
       <nav
         data-slot="customer-bottom-nav"
         aria-label="Main navigation"
-        className="fixed inset-x-0 bottom-0 z-40 border-t bg-background pb-[max(0.25rem,env(safe-area-inset-bottom))]"
+        className="fixed inset-x-0 bottom-0 z-40 border-t bg-background pb-[max(0.25rem,env(safe-area-inset-bottom))] md:hidden"
       >
         <div className="flex items-end justify-around px-2 pt-1">
           {tabs.map((tab) => {

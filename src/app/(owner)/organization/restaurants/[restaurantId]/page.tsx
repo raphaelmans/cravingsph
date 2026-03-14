@@ -1,11 +1,13 @@
 "use client";
 
-import { ExternalLink, LayoutList, Store, Waypoints } from "lucide-react";
+import { ExternalLink, Store, Waypoints } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
 import { toast } from "sonner";
 import { appRoutes } from "@/common/app-routes";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
+import { AppEmptyState } from "@/components/ui/app-empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -56,25 +58,19 @@ export default function OwnerRestaurantDetailPage({
           ]}
         />
         <div className="flex-1 p-4 md:p-6">
-          <Card className="border-dashed">
-            <CardContent className="flex flex-col items-center gap-4 py-16 text-center">
-              <div className="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground">
-                <Store className="size-6" />
-              </div>
-              <div className="space-y-1">
-                <p className="text-lg font-semibold">Restaurant not found</p>
-                <p className="max-w-md text-sm text-muted-foreground">
-                  The selected restaurant could not be loaded for this
-                  organization.
-                </p>
-              </div>
-              <Button variant="outline" asChild>
+          <AppEmptyState
+            tone="subtle"
+            icon={<Store />}
+            title="Restaurant not found"
+            description="The selected restaurant could not be loaded for this organization."
+            primaryAction={
+              <Button variant="outline" shape="pill" asChild>
                 <Link href={appRoutes.organization.restaurants}>
                   Back to restaurants
                 </Link>
               </Button>
-            </CardContent>
-          </Card>
+            }
+          />
         </div>
       </>
     );
@@ -112,30 +108,28 @@ export default function OwnerRestaurantDetailPage({
       />
 
       <div className="flex-1 space-y-6 p-4 md:p-6">
-        <div className="space-y-2">
-          <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              {restaurant.name}
-            </h1>
-            <Badge variant={restaurant.isActive ? "secondary" : "outline"}>
-              {restaurant.isActive ? "Active" : "Inactive"}
-            </Badge>
-            <Badge
-              variant={
-                restaurant.verificationStatus === "approved"
-                  ? "secondary"
-                  : "outline"
-              }
-            >
-              {restaurant.verificationStatus}
-            </Badge>
-          </div>
-          <p className="max-w-3xl text-sm text-muted-foreground">
-            This page controls the brand-level restaurant profile. Manage
-            physical locations, menus, and order operations from the branches
-            workspace.
-          </p>
-        </div>
+        <AppPageHeader
+          eyebrow="Restaurant record"
+          title={restaurant.name}
+          description="Edit the brand profile and manage branches."
+          icon={<Store className="size-5" />}
+          actions={
+            <div className="flex flex-wrap gap-2">
+              <Badge variant={restaurant.isActive ? "secondary" : "outline"}>
+                {restaurant.isActive ? "Active" : "Inactive"}
+              </Badge>
+              <Badge
+                variant={
+                  restaurant.verificationStatus === "approved"
+                    ? "secondary"
+                    : "outline"
+                }
+              >
+                {restaurant.verificationStatus}
+              </Badge>
+            </div>
+          }
+        />
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_340px]">
           <RestaurantForm
@@ -150,7 +144,7 @@ export default function OwnerRestaurantDetailPage({
               email: restaurant.email ?? "",
             }}
             title="Restaurant Details"
-            description="Update the public-facing restaurant profile used across the owner and customer experiences."
+            description="Update your restaurant's public profile."
             submitLabel="Save Restaurant"
             onComplete={() => {
               toast.success("Restaurant updated");
@@ -163,18 +157,18 @@ export default function OwnerRestaurantDetailPage({
                 <CardTitle className="text-base">Restaurant Snapshot</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 text-sm text-muted-foreground">
-                <div className="rounded-xl border bg-muted/30 p-4">
+                <div className="rounded-3xl border bg-muted/30 p-4">
                   <p className="font-medium text-foreground">Customer URL</p>
                   <p>/restaurant/{restaurant.slug}</p>
                 </div>
-                <div className="rounded-xl border bg-muted/30 p-4">
+                <div className="rounded-3xl border bg-muted/30 p-4">
                   <p className="font-medium text-foreground">Branches</p>
                   <p>
                     {branches.length} configured branch
                     {branches.length === 1 ? "" : "es"}
                   </p>
                 </div>
-                <div className="rounded-xl border bg-muted/30 p-4">
+                <div className="rounded-3xl border bg-muted/30 p-4">
                   <p className="font-medium text-foreground">Contact</p>
                   <p>{restaurant.phone || "Phone not added"}</p>
                   <p>{restaurant.email || "Email not added"}</p>
@@ -197,16 +191,6 @@ export default function OwnerRestaurantDetailPage({
                   >
                     <Waypoints className="size-4" />
                     Manage branches
-                  </Link>
-                </Button>
-                <Button
-                  className="w-full justify-start"
-                  variant="outline"
-                  asChild
-                >
-                  <Link href={appRoutes.organization.verify}>
-                    <LayoutList className="size-4" />
-                    Review verification status
                   </Link>
                 </Button>
               </CardContent>

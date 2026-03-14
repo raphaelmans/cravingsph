@@ -65,7 +65,7 @@ export function useSetPageHeader(config: PageHeaderConfig) {
 // Tab root detection
 // ---------------------------------------------------------------------------
 
-export const TAB_ROOT_PATHS = ["/", "/orders", "/saved", "/account"];
+export const TAB_ROOT_PATHS = ["/", "/orders", "/account"];
 
 export function useIsTabRoot() {
   const pathname = usePathname();

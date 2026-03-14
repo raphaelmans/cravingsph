@@ -25,7 +25,7 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
   return (
     <Card
       data-slot="restaurant-card"
-      className="relative overflow-hidden border-0 shadow-sm hover:shadow-md cursor-pointer"
+      className="group relative overflow-hidden border border-border/70 bg-background/95 shadow-sm transition-[box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md"
     >
       <Link
         href={`/restaurant/${restaurant.slug}`}
@@ -64,9 +64,9 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
         </div>
 
         {/* Content */}
-        <div className="space-y-2 p-4">
+        <div className="space-y-3 p-4">
           <h3
-            className={`text-sm font-semibold leading-tight ${restaurant.logoUrl ? "mt-2" : ""}`}
+            className={`font-heading text-base font-semibold leading-tight text-balance ${restaurant.logoUrl ? "mt-2" : ""}`}
           >
             {restaurant.name}
           </h3>
@@ -96,6 +96,10 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
               {restaurant.popularItems.join(" · ")}
             </p>
           )}
+
+          <div className="pt-1 text-sm font-medium text-primary opacity-80 transition-opacity group-hover:opacity-100">
+            Open menu
+          </div>
         </div>
       </Link>
     </Card>

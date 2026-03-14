@@ -20,7 +20,9 @@
     "db:seed:demo": "dotenvx run --env-file=.env.local -- tsx scripts/seed-demo-restaurant.ts",
     "db:seed:buckets": "dotenvx run --env-file=.env.local -- tsx scripts/seed-storage-buckets.ts",
     "db:seed:all": "dotenvx run --env-file=.env.local -- tsx scripts/seed-all.ts",
+    "db:seed:all:other": "dotenvx run --env-file=.env.local -- tsx scripts/seed-all-other-user.ts",
     "db:seed:nuke": "dotenvx run --env-file=.env.local -- tsx scripts/seed-nuke.ts",
+    "db:seed:nuke:other": "dotenvx run --env-file=.env.local -- tsx scripts/seed-nuke-other-user.ts",
     "db:nuke:all": "dotenvx run --env-file=.env.local -- tsx scripts/seed-nuke-all.ts"
   },
   "dependencies": {

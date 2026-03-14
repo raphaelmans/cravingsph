@@ -6,6 +6,7 @@ import { RestaurantCard, type RestaurantPreview } from "./restaurant-card";
 
 interface RestaurantCardListProps {
   title: string;
+  description?: string;
   restaurants: RestaurantPreview[];
   direction?: "horizontal" | "vertical";
   seeAllHref?: string;
@@ -13,22 +14,35 @@ interface RestaurantCardListProps {
 
 export function RestaurantCardList({
   title,
+  description,
   restaurants,
   direction = "vertical",
   seeAllHref,
 }: RestaurantCardListProps) {
   return (
-    <div data-slot="restaurant-card-list" className="space-y-4">
-      <div className="flex items-baseline justify-between px-4">
-        <h2 className="text-lg font-semibold">{title}</h2>
-        {seeAllHref && restaurants.length > 0 && (
+    <div
+      data-slot="restaurant-card-list"
+      className="mx-auto max-w-6xl space-y-4"
+    >
+      <div className="flex flex-col gap-2 px-4 md:flex-row md:items-end md:justify-between">
+        <div className="space-y-1">
+          <h2 className="font-heading text-2xl font-semibold tracking-tight text-balance">
+            {title}
+          </h2>
+          {description ? (
+            <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+              {description}
+            </p>
+          ) : null}
+        </div>
+        {seeAllHref && restaurants.length > 0 ? (
           <Link
             href={seeAllHref}
             className="text-sm font-medium text-primary hover:underline"
           >
             See all
           </Link>
-        )}
+        ) : null}
       </div>
 
       {restaurants.length === 0 ? (

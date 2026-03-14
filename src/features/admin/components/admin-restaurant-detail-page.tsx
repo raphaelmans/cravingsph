@@ -12,7 +12,9 @@ import {
 import Link from "next/link";
 import { toast } from "sonner";
 import { appRoutes } from "@/common/app-routes";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
+import { AppEmptyState } from "@/components/ui/app-empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -125,24 +127,19 @@ export function AdminRestaurantDetailPage({
         />
 
         <div className="flex-1 p-4 md:p-6">
-          <Card className="border-dashed">
-            <CardContent className="flex flex-col items-center gap-4 py-16 text-center">
-              <div className="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground">
-                <Store className="size-6" />
-              </div>
-              <div className="space-y-1">
-                <p className="text-lg font-semibold">Restaurant not found</p>
-                <p className="max-w-md text-sm text-muted-foreground">
-                  This admin record is no longer available.
-                </p>
-              </div>
-              <Button asChild variant="outline">
+          <AppEmptyState
+            tone="subtle"
+            icon={<Store />}
+            title="Restaurant not found"
+            description="This admin record is no longer available."
+            primaryAction={
+              <Button asChild variant="outline" shape="pill">
                 <Link href={appRoutes.admin.restaurants}>
                   Back to restaurants
                 </Link>
               </Button>
-            </CardContent>
-          </Card>
+            }
+          />
         </div>
       </>
     );
@@ -171,25 +168,25 @@ export function AdminRestaurantDetailPage({
       />
 
       <div className="flex-1 space-y-6 p-4 md:p-6">
-        <div className="space-y-2">
-          <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight">{data.name}</h1>
-            <Badge variant={data.isActive ? "secondary" : "outline"}>
-              {data.isActive ? "Active" : "Inactive"}
-            </Badge>
-            <Badge
-              variant={getVerificationBadgeVariant(data.verificationStatus)}
-            >
-              {data.verificationStatus}
-            </Badge>
-            {data.isFeatured ? <Badge>Featured</Badge> : null}
-          </div>
-
-          <p className="max-w-3xl text-sm text-muted-foreground">
-            Admin control over the restaurant record. Update profile content,
-            inspect organization ownership, and adjust listing visibility.
-          </p>
-        </div>
+        <AppPageHeader
+          eyebrow="Admin record"
+          title={data.name}
+          description="Update profile content, inspect ownership, and adjust listing visibility from one place."
+          icon={<Store className="size-5" />}
+          actions={
+            <div className="flex flex-wrap gap-2">
+              <Badge variant={data.isActive ? "secondary" : "outline"}>
+                {data.isActive ? "Active" : "Inactive"}
+              </Badge>
+              <Badge
+                variant={getVerificationBadgeVariant(data.verificationStatus)}
+              >
+                {data.verificationStatus}
+              </Badge>
+              {data.isFeatured ? <Badge>Featured</Badge> : null}
+            </div>
+          }
+        />
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_340px]">
           <AdminRestaurantProfileForm restaurant={data} />

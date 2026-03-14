@@ -113,7 +113,7 @@ export function PaymentProofForm({
           </p>
 
           {proofImage ? (
-            <div className="flex items-center gap-4 rounded-xl border bg-card p-4">
+            <div className="flex items-center gap-4 rounded-3xl border bg-card p-4">
               <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <ImagePlus className="size-5" />
               </div>
@@ -137,7 +137,7 @@ export function PaymentProofForm({
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={disabled}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed p-4 text-sm text-muted-foreground transition-colors hover:bg-muted/50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex w-full items-center justify-center gap-2 rounded-3xl border border-dashed p-4 text-sm text-muted-foreground transition-colors hover:bg-muted/50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Upload className="size-4" />
               Tap to upload screenshot

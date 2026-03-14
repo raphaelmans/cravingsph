@@ -1,10 +1,12 @@
 "use client";
 
-import { ArrowLeft, Upload } from "lucide-react";
+import { ArrowLeft, ReceiptText, Upload } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCallback, useState } from "react";
+import { AppPageHeader } from "@/components/layout/app-page-header";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -90,10 +92,17 @@ export default function OrderTrackingPage() {
   // TODO: Replace with tRPC query: order.status({ orderId: params.orderId })
   // TODO: Add Supabase Realtime subscription for live status updates
   const order = STUB_ORDER;
+  const paymentBadgeLabel =
+    order.paymentStatus === "pending"
+      ? "Payment pending"
+      : order.paymentStatus === "submitted"
+        ? "Proof submitted"
+        : order.paymentStatus === "confirmed"
+          ? "Paid"
+          : "Payment rejected";
 
   return (
     <div data-slot="order-tracking-page" className="min-h-dvh bg-background">
-      {/* Compact restaurant header */}
       <header className="sticky top-0 z-10 flex items-center gap-4 border-b bg-background px-4 py-2">
         <Link
           href={`/restaurant/${params.slug}`}
@@ -118,10 +127,31 @@ export default function OrderTrackingPage() {
         </h1>
       </header>
 
-      <div className="space-y-6 p-4">
-        {/* Order status timeline */}
+      <div className="mx-auto max-w-3xl space-y-6 p-4">
+        <AppPageHeader
+          variant="hero"
+          eyebrow="Live order"
+          title={`Order #${order.orderId}`}
+          description={
+            order.orderType === "dine-in" && order.tableNumber
+              ? `Dine-in order for table ${order.tableNumber}. Track status here and upload proof when payment is still outstanding.`
+              : "Track order status here and upload proof when payment is still outstanding."
+          }
+          icon={<ReceiptText className="size-5" />}
+          actions={
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="secondary" className="capitalize">
+                {order.status}
+              </Badge>
+              <Badge variant="outline">{paymentBadgeLabel}</Badge>
+            </div>
+          }
+        />
+
         <section>
-          <h2 className="mb-3 text-lg font-bold">Order Status</h2>
+          <h2 className="mb-3 font-heading text-xl font-semibold tracking-tight">
+            Order status
+          </h2>
           <OrderStatusTracker
             currentStatus={order.status}
             timestamps={order.timestamps}
@@ -130,7 +160,6 @@ export default function OrderTrackingPage() {
 
         <Separator />
 
-        {/* Order details card */}
         <OrderDetails
           orderId={order.orderId}
           orderType={order.orderType}
@@ -142,7 +171,6 @@ export default function OrderTrackingPage() {
           paymentStatus={order.paymentStatus}
         />
 
-        {/* Payment action — show upload button if payment is pending or rejected */}
         {(order.paymentStatus === "pending" ||
           order.paymentStatus === "rejected") && (
           <Button

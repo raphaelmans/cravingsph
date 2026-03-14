@@ -2,21 +2,14 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { appRoutes } from "@/common/app-routes";
+import { AuthSurface } from "@/components/brand/auth-surface";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -146,99 +139,135 @@ export function OwnerRegisterForm({ token }: OwnerRegisterFormProps) {
   // No token provided — invitation required
   if (!token) {
     return (
-      <Card className="w-full max-w-md">
-        <CardHeader className="items-center text-center">
-          <div className="flex size-12 items-center justify-center rounded-full bg-destructive/10 text-destructive">
-            <AlertCircle className="size-6" />
-          </div>
-          <CardTitle>Invitation Required</CardTitle>
-          <CardDescription>
-            Registration requires an invitation link. Contact CravingsPH to get
-            started.
-          </CardDescription>
-        </CardHeader>
-        <CardFooter className="justify-center">
-          <Link href={appRoutes.index.base}>
-            <Button variant="outline">Back to home</Button>
-          </Link>
-        </CardFooter>
-      </Card>
+      <AuthSurface
+        eyebrow="Owner access"
+        title="Invitation required"
+        description="Owner registration is invite-only so restaurant records stay clean and verified."
+        footer={
+          <p className="text-sm text-muted-foreground">
+            <Link
+              href={appRoutes.index.base}
+              className="text-primary hover:underline"
+            >
+              Back to home
+            </Link>
+          </p>
+        }
+      >
+        <div className="rounded-3xl border border-destructive/20 bg-destructive/5 p-5 text-sm leading-6 text-destructive">
+          Contact CravingsPH for a fresh invitation link or onboarding support.
+        </div>
+      </AuthSurface>
     );
   }
 
   // Validating token
   if (isValidating) {
     return (
-      <Card className="w-full max-w-md">
-        <CardContent className="flex items-center justify-center py-16">
+      <AuthSurface
+        eyebrow="Owner access"
+        title="Checking your invitation"
+        description="We are validating the invite link before creating your owner account."
+      >
+        <div className="flex items-center justify-center py-12">
           <Loader2 className="size-6 animate-spin text-muted-foreground" />
-        </CardContent>
-      </Card>
+        </div>
+      </AuthSurface>
     );
   }
 
   // Token is invalid or expired
   if (validationError) {
     return (
-      <Card className="w-full max-w-md">
-        <CardHeader className="items-center text-center">
-          <div className="flex size-12 items-center justify-center rounded-full bg-destructive/10 text-destructive">
-            <AlertCircle className="size-6" />
-          </div>
-          <CardTitle>Invalid Invitation</CardTitle>
-          <CardDescription>
-            This invitation link is invalid or has expired. Contact CravingsPH
-            to request a new one.
-          </CardDescription>
-        </CardHeader>
-        <CardFooter className="justify-center">
-          <Link href={appRoutes.index.base}>
-            <Button variant="outline">Back to home</Button>
-          </Link>
-        </CardFooter>
-      </Card>
+      <AuthSurface
+        eyebrow="Owner access"
+        title="Invalid invitation"
+        description="This invite link has expired or is no longer valid."
+        footer={
+          <p className="text-sm text-muted-foreground">
+            <Link
+              href={appRoutes.index.base}
+              className="text-primary hover:underline"
+            >
+              Back to home
+            </Link>
+          </p>
+        }
+      >
+        <div className="rounded-3xl border border-destructive/20 bg-destructive/5 p-5 text-sm leading-6 text-destructive">
+          Contact CravingsPH to request a fresh owner invitation before trying
+          again.
+        </div>
+      </AuthSurface>
     );
   }
 
   if (success) {
     return (
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Check your email</CardTitle>
-          <CardDescription>
-            We&apos;ve sent a confirmation link to your email address. Please
-            click the link to verify your account and start setting up your
-            restaurant.
-          </CardDescription>
-        </CardHeader>
-        <CardFooter>
-          <Link
-            href={appRoutes.login.base}
-            className="text-primary hover:underline text-sm"
-          >
-            Back to sign in
-          </Link>
-        </CardFooter>
-      </Card>
+      <AuthSurface
+        eyebrow="Owner access"
+        title="Check your inbox"
+        description="We sent a confirmation link to your email. After verification, CravingsPH will send you to the owner setup hub."
+        footer={
+          <>
+            <p className="text-sm text-muted-foreground">
+              Keep this browser handy. We also saved your organization name
+              locally so the setup flow can prefill it after verification.
+            </p>
+            <p className="text-sm text-muted-foreground">
+              <Link
+                href={appRoutes.login.base}
+                className="text-primary hover:underline"
+              >
+                Back to sign in
+              </Link>
+            </p>
+          </>
+        }
+      >
+        <div className="rounded-3xl border border-primary/15 bg-primary/[0.04] p-5 text-sm leading-6 text-muted-foreground">
+          If the email does not arrive, check spam and request a new invite from
+          the admin who sent your original link.
+        </div>
+      </AuthSurface>
     );
   }
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle>You&apos;ve been invited to join CravingsPH</CardTitle>
-        <CardDescription>
-          Create an owner account to manage your restaurant on CravingsPH
-        </CardDescription>
-      </CardHeader>
+    <AuthSurface
+      eyebrow="Owner access"
+      title="Accept your owner invitation"
+      description="Create an owner account to set up your restaurant, manage branches, and run operations from the dashboard."
+      helperLabel="Customer sign-up"
+      helperHref={appRoutes.register.base}
+      footer={
+        <>
+          <p className="text-sm text-muted-foreground">
+            Already have an account?{" "}
+            <Link
+              href={appRoutes.login.base}
+              className="text-primary hover:underline"
+            >
+              Sign in
+            </Link>
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Just want to order food?{" "}
+            <Link
+              href={appRoutes.register.base}
+              className="text-primary hover:underline"
+            >
+              Create a customer account
+            </Link>
+          </p>
+        </>
+      }
+    >
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-6"
-        >
-          <CardContent className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-4">
             {form.formState.errors.root && (
-              <div className="text-destructive text-sm">
+              <div className="rounded-2xl border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-destructive">
                 {form.formState.errors.root.message}
               </div>
             )}
@@ -246,9 +275,16 @@ export function OwnerRegisterForm({ token }: OwnerRegisterFormProps) {
             <GoogleSignInButton
               onClick={onGoogleLogin}
               isLoading={googleLoginMutation.isPending}
+              label="Continue with Google"
             />
 
-            <Separator />
+            <div className="flex items-center gap-3">
+              <Separator className="flex-1" />
+              <span className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                or
+              </span>
+              <Separator className="flex-1" />
+            </div>
 
             <FormField
               control={form.control}
@@ -260,6 +296,7 @@ export function OwnerRegisterForm({ token }: OwnerRegisterFormProps) {
                     <Input
                       placeholder="e.g. Juan's Food Group"
                       autoComplete="organization"
+                      shape="pill"
                       {...field}
                     />
                   </FormControl>
@@ -279,6 +316,7 @@ export function OwnerRegisterForm({ token }: OwnerRegisterFormProps) {
                       type="email"
                       placeholder="you@example.com"
                       autoComplete="email"
+                      shape="pill"
                       {...field}
                     />
                   </FormControl>
@@ -298,6 +336,7 @@ export function OwnerRegisterForm({ token }: OwnerRegisterFormProps) {
                       type="password"
                       placeholder="At least 8 characters"
                       autoComplete="new-password"
+                      shape="pill"
                       {...field}
                     />
                   </FormControl>
@@ -305,43 +344,23 @@ export function OwnerRegisterForm({ token }: OwnerRegisterFormProps) {
                 </FormItem>
               )}
             />
-          </CardContent>
+          </div>
 
-          <CardFooter className="flex flex-col gap-4">
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={
-                registerMutation.isPending || acceptInvitationMutation.isPending
-              }
-            >
-              {registerMutation.isPending || acceptInvitationMutation.isPending
-                ? "Creating account..."
-                : "Create Owner Account"}
-            </Button>
-
-            <div className="text-muted-foreground text-sm">
-              Already have an account?{" "}
-              <Link
-                href={appRoutes.login.base}
-                className="text-primary hover:underline"
-              >
-                Sign in
-              </Link>
-            </div>
-
-            <div className="text-muted-foreground text-sm">
-              Just want to order food?{" "}
-              <Link
-                href={appRoutes.register.base}
-                className="text-primary hover:underline"
-              >
-                Create a customer account
-              </Link>
-            </div>
-          </CardFooter>
+          <Button
+            type="submit"
+            className="w-full"
+            shape="pill"
+            size="lg"
+            disabled={
+              registerMutation.isPending || acceptInvitationMutation.isPending
+            }
+          >
+            {registerMutation.isPending || acceptInvitationMutation.isPending
+              ? "Creating account..."
+              : "Create owner account"}
+          </Button>
         </form>
       </Form>
-    </Card>
+    </AuthSurface>
   );
 }

@@ -53,7 +53,9 @@ export function ModifierGroup({
     <div data-slot="modifier-group" className="space-y-4">
       {/* Group header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold">{group.name}</h3>
+        <h3 className="font-heading text-lg font-semibold tracking-tight">
+          {group.name}
+        </h3>
         {group.isRequired ? <RequiredBadge /> : <OptionalBadge />}
       </div>
 
@@ -101,7 +103,7 @@ function ModifierRadioOption({ modifier }: { modifier: ModifierRecord }) {
   return (
     <Label
       htmlFor={modifier.id}
-      className="flex cursor-pointer items-center justify-between py-2.5 font-normal"
+      className="flex cursor-pointer items-center justify-between rounded-2xl px-3 py-2.5 font-normal hover:bg-muted/40"
     >
       <div className="flex items-center gap-4">
         <RadioGroupItem value={modifier.id} id={modifier.id} />
@@ -132,7 +134,7 @@ function ModifierCheckboxOption({
   return (
     <Label
       htmlFor={modifier.id}
-      className="flex cursor-pointer items-center justify-between py-2.5 font-normal"
+      className="flex cursor-pointer items-center justify-between rounded-2xl px-3 py-2.5 font-normal hover:bg-muted/40"
     >
       <div className="flex items-center gap-4">
         <Checkbox

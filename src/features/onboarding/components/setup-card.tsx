@@ -39,8 +39,8 @@ export function SetupCard({ step }: { step: OnboardingStep }) {
 
   return (
     <Link href={step.href}>
-      <Card className="flex items-start gap-4 p-4 transition-colors hover:bg-accent/50 active:bg-accent/50">
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+      <Card className="flex items-start gap-4 rounded-3xl border-border/70 bg-background/95 p-4 transition-colors hover:bg-accent/40 hover:shadow-sm active:bg-accent/50">
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
           {step.status === "complete" ? (
             <Check className="size-5 text-primary" />
           ) : (
@@ -49,14 +49,14 @@ export function SetupCard({ step }: { step: OnboardingStep }) {
         </div>
         <div className="min-w-0 flex-1 space-y-1">
           <div className="flex items-center justify-between gap-2">
-            <CardTitle className="truncate text-sm font-medium">
+            <CardTitle className="truncate font-heading text-base font-semibold tracking-tight">
               {step.title}
             </CardTitle>
             <Badge variant={config.variant} className="text-xs shrink-0">
               {config.label}
             </Badge>
           </div>
-          <CardDescription className="text-xs">
+          <CardDescription className="text-sm leading-5">
             {step.description}
           </CardDescription>
         </div>

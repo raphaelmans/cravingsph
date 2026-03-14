@@ -2,12 +2,14 @@
 
 import { CustomerBottomNav } from "@/components/layout/customer-bottom-nav";
 import { CustomerHeader } from "@/components/layout/customer-header";
+import { CustomerSidebar } from "@/components/layout/customer-sidebar";
 import {
   PageHeaderProvider,
   useIsTabRoot,
   usePageHeader,
 } from "@/components/layout/page-header-context";
 import { SubpageHeader } from "@/components/layout/subpage-header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
@@ -25,33 +27,44 @@ function ShellInner({
   const pageHeader = usePageHeader();
 
   return (
-    <div
-      data-slot="customer-shell"
-      className={cn("flex min-h-svh flex-col bg-background", className)}
-    >
-      {/* Skip to content */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg"
-      >
-        Skip to content
-      </a>
+    <SidebarProvider>
+      <CustomerSidebar />
+      <SidebarInset>
+        <div
+          data-slot="customer-shell"
+          className={cn("flex min-h-svh flex-col bg-background", className)}
+        >
+          {/* Skip to content */}
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg"
+          >
+            Skip to content
+          </a>
 
-      {/* Header: brand on tab roots, subpage elsewhere */}
-      {isTabRoot ? (
-        <CustomerHeader />
-      ) : pageHeader ? (
-        <SubpageHeader title={pageHeader.title} label={pageHeader.label} />
-      ) : null}
+          {/* Mobile-only header: logo on tab roots, back button on subpages */}
+          <div className="md:hidden">
+            {isTabRoot ? (
+              <CustomerHeader />
+            ) : pageHeader ? (
+              <SubpageHeader
+                title={pageHeader.title}
+                label={pageHeader.label}
+              />
+            ) : null}
+          </div>
 
-      {/* Main content with bottom padding for the nav bar */}
-      <main id="main-content" className="flex-1 pb-20 touch-manipulation">
-        {children}
-      </main>
+          <main
+            id="main-content"
+            className="flex-1 touch-manipulation pb-20 md:pb-0"
+          >
+            {children}
+          </main>
 
-      {/* Bottom navigation — always visible */}
-      <CustomerBottomNav />
-    </div>
+          <CustomerBottomNav />
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
 

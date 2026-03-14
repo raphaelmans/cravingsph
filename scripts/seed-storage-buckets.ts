@@ -179,7 +179,6 @@ async function main() {
   let bucketsCreated = 0;
   let bucketsSkipped = 0;
   let policiesCreated = 0;
-  let policiesSkipped = 0;
 
   try {
     // --- Buckets ---
@@ -244,7 +243,6 @@ async function main() {
         policiesCreated++;
         console.log(`  + Ensured: ${policy.name} (${policy.operation})`);
       } else {
-        policiesSkipped++;
         console.log(`  ? Failed:  ${policy.name}`);
       }
     }

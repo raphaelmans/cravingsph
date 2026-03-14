@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Script from "next/script";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { Badge } from "@/components/ui/badge";
 import { AdminGuideArticlePage } from "@/features/guides/components/admin-guide/admin-guide-article-page";
 import { DineInGuideArticlePage } from "@/features/guides/components/dine-in-guide/dine-in-guide-article-page";
@@ -155,26 +156,23 @@ function InteractiveGuideWrapper({
 function buildGuideHeader(guide: GuideEntry) {
   return (
     <header className="space-y-5">
-      <div className="flex flex-wrap items-center gap-3">
-        <Badge
-          variant={guide.audience === "customer" ? "secondary" : "default"}
-        >
-          {guide.heroEyebrow}
-        </Badge>
-      </div>
-      <div className="space-y-3">
-        <h1 className="font-heading text-4xl font-bold tracking-tight md:text-5xl">
-          {guide.title}
-        </h1>
-        <p className="text-base leading-7 text-muted-foreground md:text-lg">
-          {guide.description}
-        </p>
-      </div>
+      <AppPageHeader
+        variant="hero"
+        eyebrow={
+          <Badge
+            variant={guide.audience === "customer" ? "secondary" : "default"}
+          >
+            {guide.heroEyebrow}
+          </Badge>
+        }
+        title={guide.title}
+        description={guide.description}
+      />
       <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
         <span>Published {formatDate(guide.publishedAt)}</span>
         <span>Updated {formatDate(guide.updatedAt)}</span>
       </div>
-      <div className="rounded-2xl border border-primary/15 bg-primary/5 p-5">
+      <div className="rounded-3xl border border-primary/15 bg-primary/5 p-5">
         <p className="font-heading text-sm font-semibold text-foreground">
           Direct answer
         </p>
@@ -197,7 +195,7 @@ function buildGuideFooter(guide: GuideEntry) {
           {guide.faqs.map((faq) => (
             <div
               key={faq.question}
-              className="rounded-2xl border border-border/60 bg-card p-5"
+              className="rounded-3xl border border-border/60 bg-card p-5"
             >
               <h3 className="font-heading text-lg font-semibold tracking-tight">
                 {faq.question}
@@ -210,7 +208,7 @@ function buildGuideFooter(guide: GuideEntry) {
         </div>
       </div>
 
-      <div className="space-y-4 rounded-2xl border border-border/60 bg-card p-6">
+      <div className="space-y-4 rounded-3xl border border-border/60 bg-card p-6">
         <h2 className="font-heading text-2xl font-semibold tracking-tight">
           Keep exploring
         </h2>

@@ -11,6 +11,8 @@ import {
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { type FormEvent, Suspense, useRef } from "react";
+import { AppEmptyState } from "@/components/ui/app-empty-state";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { BarangayFilter } from "@/features/discovery/components/barangay-filter";
 import { CuisineFilter } from "@/features/discovery/components/cuisine-filter";
@@ -113,11 +115,16 @@ function SearchPageContent() {
             <ArrowLeft className="size-5" />
           </Link>
 
-          <form onSubmit={handleSearch} className="relative flex-1">
+          <form
+            onSubmit={handleSearch}
+            className="relative flex-1"
+            aria-label="Search"
+          >
             <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               ref={inputRef}
               type="search"
+              aria-label="Search restaurants and dishes"
               placeholder={
                 mode === "food"
                   ? "Search for dishes..."
@@ -135,9 +142,15 @@ function SearchPageContent() {
         {/* Filter bar */}
         <div className="flex items-center gap-2 px-4 pb-2">
           {/* Mode toggle */}
-          <div className="flex shrink-0 rounded-full border bg-muted p-0.5">
+          <div
+            role="tablist"
+            aria-label="Search mode"
+            className="flex shrink-0 rounded-full border bg-muted p-0.5"
+          >
             <button
               type="button"
+              role="tab"
+              aria-selected={mode === "restaurant"}
               onClick={() => handleModeChange("restaurant")}
               className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                 mode === "restaurant"
@@ -149,6 +162,8 @@ function SearchPageContent() {
             </button>
             <button
               type="button"
+              role="tab"
+              aria-selected={mode === "food"}
               onClick={() => handleModeChange("food")}
               className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                 mode === "food"
@@ -236,9 +251,12 @@ function RestaurantModeResults({
 }) {
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-20">
+      <output
+        aria-label="Loading results"
+        className="flex items-center justify-center py-20"
+      >
         <Loader2 className="size-6 animate-spin text-muted-foreground" />
-      </div>
+      </output>
     );
   }
 
@@ -259,7 +277,21 @@ function RestaurantModeResults({
           ))}
         </div>
       ) : (
-        <EmptyState message="No restaurants found" />
+        <AppEmptyState
+          icon={<SearchX />}
+          title="No restaurants found"
+          description="Try a different search, clear one of the filters, or browse nearby listings instead."
+          primaryAction={
+            <Button asChild shape="pill">
+              <Link href="/search">Clear filters</Link>
+            </Button>
+          }
+          secondaryAction={
+            <Button asChild variant="outline" shape="pill">
+              <Link href="/">Browse nearby</Link>
+            </Button>
+          }
+        />
       )}
     </>
   );
@@ -294,30 +326,40 @@ function FoodModeResults({
 }) {
   if (!query) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-        <div className="flex size-16 items-center justify-center rounded-full bg-muted">
-          <UtensilsCrossed className="size-7 text-muted-foreground" />
-        </div>
-        <div>
-          <p className="font-medium">Search for a dish</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Type a dish name to find restaurants that serve it.
-          </p>
-        </div>
-      </div>
+      <AppEmptyState
+        icon={<UtensilsCrossed />}
+        title="Search for a dish"
+        description="Type a dish name to find restaurants that serve it."
+      />
     );
   }
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-20">
+      <output
+        aria-label="Loading results"
+        className="flex items-center justify-center py-20"
+      >
         <Loader2 className="size-6 animate-spin text-muted-foreground" />
-      </div>
+      </output>
     );
   }
 
   if (results.length === 0) {
-    return <EmptyState message="No dishes found" />;
+    return (
+      <AppEmptyState
+        icon={<SearchX />}
+        title="No dishes found"
+        description="Try another dish name, remove the barangay filter, or switch back to restaurant mode."
+        primaryAction={
+          <Button asChild shape="pill">
+            <Link href={`/search?q=${encodeURIComponent(query)}`}>
+              Restaurant mode
+            </Link>
+          </Button>
+        }
+      />
+    );
   }
 
   const totalItems = results.reduce((sum, r) => sum + r.matchedItems.length, 0);
@@ -330,26 +372,6 @@ function FoodModeResults({
       </p>
       <FoodSearchResults results={results} />
     </>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Shared empty state
-// ---------------------------------------------------------------------------
-
-function EmptyState({ message }: { message: string }) {
-  return (
-    <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-      <div className="flex size-16 items-center justify-center rounded-full bg-muted">
-        <SearchX className="size-7 text-muted-foreground" />
-      </div>
-      <div>
-        <p className="font-medium">{message}</p>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Try a different search term or adjust your filters.
-        </p>
-      </div>
-    </div>
   );
 }
 

@@ -1,5 +1,6 @@
 import { ArrowRight, BookOpen } from "lucide-react";
 import Link from "next/link";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -170,28 +171,23 @@ export function GuidesIndexPage({ guides }: { guides: GuideEntry[] }) {
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 md:py-16">
       <div className="space-y-10">
-        {/* Hero */}
-        <div className="max-w-3xl space-y-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-            Guides
-          </p>
-          <h1 className="font-heading text-4xl font-bold tracking-tight md:text-5xl">
-            How CravingsPH works — for customers, owners, and admins
-          </h1>
-          <p className="text-base leading-7 text-muted-foreground md:text-lg">
-            Step-by-step guides for finding restaurants, scanning QR codes to
-            order dine-in, setting up your venue with tables, managing
-            operations, and administering the platform.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild className="font-heading">
-              <Link href="/search">Find restaurants</Link>
-            </Button>
-            <Button asChild variant="outline" className="font-heading">
-              <Link href="/guides#owner-guides">For restaurant owners</Link>
-            </Button>
-          </div>
-        </div>
+        <AppPageHeader
+          variant="hero"
+          eyebrow="Guides"
+          title="How CravingsPH works for customers, owners, and admins"
+          description="Step-by-step guidance for discovery, QR ordering, restaurant setup, and platform operations."
+          icon={<BookOpen className="size-5" />}
+          actions={
+            <>
+              <Button asChild className="font-heading">
+                <Link href="/search">Find restaurants</Link>
+              </Button>
+              <Button asChild variant="outline" className="font-heading">
+                <Link href="/guides#owner-guides">For restaurant owners</Link>
+              </Button>
+            </>
+          }
+        />
 
         {/* Customer guides */}
         {featuredCustomer ? (

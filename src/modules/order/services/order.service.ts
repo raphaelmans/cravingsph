@@ -100,7 +100,7 @@ export class OrderService implements IOrderService {
 
     // Resolve table session → denormalized table label
     let tableNumber = input.tableNumber ?? null;
-    let tableSessionId: string | null = input.tableSessionId ?? null;
+    const tableSessionId: string | null = input.tableSessionId ?? null;
 
     if (input.orderType === "dine-in" && tableSessionId) {
       const session =

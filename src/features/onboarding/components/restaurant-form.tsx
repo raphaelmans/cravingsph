@@ -178,14 +178,16 @@ export function RestaurantForm({
     submitLabel ?? (isEditMode ? "Save Changes" : "Add Restaurant");
 
   return (
-    <Card>
+    <Card className="rounded-3xl border-border/70 bg-background/95">
       <CardHeader>
         <div className="flex items-center gap-4">
-          <div className="flex size-10 items-center justify-center rounded-full bg-primary/10">
+          <div className="flex size-10 items-center justify-center rounded-2xl bg-primary/10">
             <Store className="size-5 text-primary" />
           </div>
           <div>
-            <CardTitle className="text-base">{resolvedTitle}</CardTitle>
+            <CardTitle className="font-heading text-lg font-semibold tracking-tight">
+              {resolvedTitle}
+            </CardTitle>
             <CardDescription>{resolvedDescription}</CardDescription>
           </div>
         </div>
@@ -206,7 +208,11 @@ export function RestaurantForm({
                 <FormItem>
                   <FormLabel>Restaurant Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. Juan's Chicken" {...field} />
+                    <Input
+                      shape="pill"
+                      placeholder="e.g. Juan's Chicken"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -227,6 +233,7 @@ export function RestaurantForm({
                   <FormControl>
                     <Textarea
                       placeholder="Tell customers what makes your restaurant special"
+                      className="rounded-3xl"
                       rows={3}
                       {...field}
                     />
@@ -248,7 +255,11 @@ export function RestaurantForm({
                     </span>
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. Filipino, Japanese" {...field} />
+                    <Input
+                      shape="pill"
+                      placeholder="e.g. Filipino, Japanese"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -270,6 +281,7 @@ export function RestaurantForm({
                     <FormControl>
                       <Input
                         type="tel"
+                        shape="pill"
                         placeholder="09XX XXX XXXX"
                         {...field}
                       />
@@ -293,6 +305,7 @@ export function RestaurantForm({
                     <FormControl>
                       <Input
                         type="email"
+                        shape="pill"
                         placeholder="restaurant@example.com"
                         {...field}
                       />
@@ -303,7 +316,7 @@ export function RestaurantForm({
               />
             </div>
 
-            <Button type="submit" disabled={mutation.isPending}>
+            <Button type="submit" shape="pill" disabled={mutation.isPending}>
               {mutation.isPending
                 ? isEditMode
                   ? "Saving..."

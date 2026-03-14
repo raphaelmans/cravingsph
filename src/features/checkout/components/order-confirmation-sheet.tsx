@@ -57,14 +57,16 @@ export function OrderConfirmationSheet({
           </div>
 
           <div className="space-y-1">
-            <h2 className="text-xl font-bold">Order Placed!</h2>
+            <h2 className="font-heading text-2xl font-semibold tracking-tight">
+              Order placed
+            </h2>
             <p className="text-sm text-muted-foreground">
               Your order has been sent to the restaurant.
             </p>
           </div>
 
           {orderId && (
-            <div className="rounded-xl bg-muted px-4 py-4">
+            <div className="rounded-3xl border border-primary/10 bg-muted/30 px-4 py-4">
               <p className="text-xs text-muted-foreground">Order ID</p>
               <p className="font-mono text-lg font-semibold">#{orderId}</p>
             </div>

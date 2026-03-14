@@ -1,5 +1,8 @@
+import { UserRound } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
+import { appRoutes } from "@/common/app-routes";
+import { AppPageHeader } from "@/components/layout/app-page-header";
+import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
 import { ProfileForm } from "@/features/profile";
 
 export const metadata: Metadata = {
@@ -9,23 +12,24 @@ export const metadata: Metadata = {
 
 export default function OwnerProfilePage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="space-y-6">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-semibold tracking-tight">Profile</h1>
-          <p className="text-muted-foreground text-sm">
-            Update your account details and contact information.
-          </p>
-          <Link
-            href="/organization"
-            className="text-primary text-sm hover:underline"
-          >
-            Back to dashboard
-          </Link>
-        </div>
+    <>
+      <DashboardNavbar
+        breadcrumbs={[
+          { label: "Dashboard", href: appRoutes.organization.base },
+          { label: "Profile" },
+        ]}
+      />
+
+      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
+        <AppPageHeader
+          eyebrow="Owner account"
+          title="Profile"
+          description="Update your name, email, and contact details."
+          icon={<UserRound className="size-5" />}
+        />
 
         <ProfileForm />
       </div>
-    </div>
+    </>
   );
 }

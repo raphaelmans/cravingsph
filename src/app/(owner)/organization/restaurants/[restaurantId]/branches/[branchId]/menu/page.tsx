@@ -3,6 +3,7 @@
 import { MoreHorizontal, Plus, Trash2, UtensilsCrossed } from "lucide-react";
 import { use, useState } from "react";
 import { toast } from "sonner";
+import { AppPageHeader } from "@/components/layout/app-page-header";
 import { DashboardNavbar } from "@/components/layout/dashboard-navbar";
 import {
   AlertDialog,
@@ -14,6 +15,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { AppEmptyState } from "@/components/ui/app-empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -37,6 +39,7 @@ import {
   useToggleAvailability,
 } from "@/features/menu-management/hooks/use-management-menu";
 import type { ManagementMenuItem } from "@/features/menu-management/types";
+import { OwnerWalkthroughPanel } from "@/features/onboarding/components/owner-walkthrough-panel";
 
 interface MenuManagementPageProps {
   params: Promise<{ restaurantId: string; branchId: string }>;
@@ -58,6 +61,8 @@ export default function MenuManagementPage({
   const [variantsTarget, setVariantsTarget] =
     useState<ManagementMenuItem | null>(null);
   const [modifiersTarget, setModifiersTarget] =
+    useState<ManagementMenuItem | null>(null);
+  const [deleteItemTarget, setDeleteItemTarget] =
     useState<ManagementMenuItem | null>(null);
   const [deleteCategoryTarget, setDeleteCategoryTarget] = useState<{
     id: string;
@@ -86,14 +91,11 @@ export default function MenuManagementPage({
   }
 
   function handleDelete(id: string) {
-    if (!confirm("Are you sure you want to delete this item?")) return;
-    deleteMutation.mutate(
-      { id },
-      {
-        onSuccess: () => toast.success("Item deleted"),
-        onError: (err) => toast.error(err.message),
-      },
-    );
+    const target =
+      categories
+        .flatMap((category) => category.items)
+        .find((item) => item.item.id === id) ?? null;
+    setDeleteItemTarget(target);
   }
 
   function handleDeleteCategory() {
@@ -154,6 +156,34 @@ export default function MenuManagementPage({
       />
 
       <div className="flex-1 space-y-4 p-4 md:p-6">
+        <AppPageHeader
+          eyebrow="Branch operations"
+          title="Menu"
+          description="Build categories and keep items in sync with what you serve."
+          variant="compact"
+        />
+
+        <OwnerWalkthroughPanel
+          flowId="owner-branch-menu"
+          title="Shape the live branch menu"
+          description="Source of truth for what customers can order."
+          steps={[
+            {
+              title: "Start with categories",
+              description: "Define categories before adding items to them.",
+            },
+            {
+              title: "Use availability instead of deleting when possible",
+              description:
+                "Toggle availability instead of deleting temporary stockouts.",
+            },
+            {
+              title: "Review variants and modifiers before launch",
+              description: "Verify add-ons and sizes before going live.",
+            },
+          ]}
+        />
+
         {/* Category filter tabs */}
         {isLoading ? (
           <div className="flex gap-2">
@@ -208,20 +238,17 @@ export default function MenuManagementPage({
             <Skeleton className="h-28 rounded-lg" />
           </div>
         ) : categories.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <div className="flex size-16 items-center justify-center rounded-full bg-primary/10 mb-4">
-              <UtensilsCrossed className="size-8 text-primary" />
-            </div>
-            <h2 className="text-lg font-semibold">No menu items yet</h2>
-            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
-              Start by adding a category, then add items to it. Your customers
-              will see these on the public menu.
-            </p>
-            <Button className="mt-4" onClick={() => setAddCategoryOpen(true)}>
-              <Plus className="mr-1.5 size-4" />
-              Add First Category
-            </Button>
-          </div>
+          <AppEmptyState
+            icon={<UtensilsCrossed />}
+            title="No menu items yet"
+            description="Start by adding a category, then add items to it. Customers will only see what you publish here."
+            primaryAction={
+              <Button shape="pill" onClick={() => setAddCategoryOpen(true)}>
+                <Plus className="mr-1.5 size-4" />
+                Add first category
+              </Button>
+            }
+          />
         ) : (
           <div className="space-y-6">
             {filteredCategories.map((cat) => (
@@ -334,6 +361,48 @@ export default function MenuManagementPage({
       />
 
       {/* Delete Category Confirmation */}
+      <AlertDialog
+        open={deleteItemTarget !== null}
+        onOpenChange={(open) => {
+          if (!open) setDeleteItemTarget(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete menu item?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {deleteItemTarget
+                ? `Delete "${deleteItemTarget.item.name}" from this branch menu? This cannot be undone.`
+                : "Delete this menu item?"}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (!deleteItemTarget) return;
+                deleteMutation.mutate(
+                  { id: deleteItemTarget.item.id },
+                  {
+                    onSuccess: () => {
+                      toast.success("Item deleted");
+                      setDeleteItemTarget(null);
+                    },
+                    onError: (err) => {
+                      toast.error(err.message);
+                      setDeleteItemTarget(null);
+                    },
+                  },
+                );
+              }}
+              className="bg-destructive text-white hover:bg-destructive/90"
+            >
+              {deleteMutation.isPending ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <AlertDialog
         open={deleteCategoryTarget !== null}
         onOpenChange={(open) => {

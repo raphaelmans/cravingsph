@@ -10,13 +10,16 @@ export function CartSummary({ subtotal, itemCount }: CartSummaryProps) {
   const itemLabel = itemCount === 1 ? "item" : "items";
 
   return (
-    <div data-slot="cart-summary">
+    <div
+      data-slot="cart-summary"
+      className="border-t border-primary/10 bg-muted/20"
+    >
       <Separator />
       <div className="flex items-center justify-between px-4 py-4">
         <div className="text-sm text-muted-foreground">
           Subtotal ({itemCount} {itemLabel})
         </div>
-        <Price amount={subtotal} className="text-base" />
+        <Price amount={subtotal} className="text-base font-semibold" />
       </div>
     </div>
   );

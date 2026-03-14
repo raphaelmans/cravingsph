@@ -1,7 +1,8 @@
 "use client";
 
+import { UtensilsCrossed } from "lucide-react";
 import { useCallback } from "react";
-import { EmptyState } from "@/components/brand/empty-state";
+import { AppEmptyState } from "@/components/ui/app-empty-state";
 import type {
   FullMenu,
   MenuItemWithDetails,
@@ -36,11 +37,19 @@ export function MenuSectionList({
   );
 
   if (menu.length === 0) {
-    return <EmptyState title="No menu items yet" className="mt-8" />;
+    return (
+      <AppEmptyState
+        className="mx-4 mt-8"
+        icon={<UtensilsCrossed />}
+        tone="warm"
+        title="No menu items yet"
+        description="This branch has not published menu items yet. Browse another restaurant or come back once the menu is live."
+      />
+    );
   }
 
   return (
-    <div data-slot="menu-section-list" className="px-4 pb-24 pt-2">
+    <div data-slot="menu-section-list" className="px-4 pb-24 pt-2 md:pb-10">
       {menu.map(({ category, items }) => (
         <section
           key={category.id}
@@ -48,11 +57,11 @@ export function MenuSectionList({
           data-category-id={category.id}
           className="scroll-mt-[100px]"
         >
-          <h2 className="pb-2 pt-4 text-base font-semibold first:pt-2">
+          <h2 className="pb-2 pt-4 font-heading text-lg font-semibold tracking-tight first:pt-2">
             {category.name}
           </h2>
           {items.length === 0 ? (
-            <p className="py-4 text-center text-sm text-muted-foreground">
+            <p className="rounded-2xl border border-dashed py-4 text-center text-sm text-muted-foreground">
               No items in this category
             </p>
           ) : (

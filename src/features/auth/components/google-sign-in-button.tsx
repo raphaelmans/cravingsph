@@ -47,6 +47,7 @@ export function GoogleSignInButton({
     <Button
       type="button"
       variant="outline"
+      shape="pill"
       className="w-full"
       disabled={isLoading}
       onClick={onClick}
