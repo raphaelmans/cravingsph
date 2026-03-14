@@ -36,6 +36,13 @@
       "when": 1773495833785,
       "tag": "0004_green_dreadnoughts",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1773499227474,
+      "tag": "0005_fresh_living_tribunal",
+      "breakpoints": true
     }
   ]
 }

@@ -13,6 +13,7 @@ import { restaurantRouter } from "@/modules/restaurant/restaurant.router";
 import { reviewRouter } from "@/modules/review/review.router";
 import { savedRestaurantRouter } from "@/modules/saved-restaurant/saved-restaurant.router";
 import { tableRouter } from "@/modules/table/table.router";
+import { teamAccessRouter } from "@/modules/team-access/team-access.router";
 import { verificationRouter } from "@/modules/verification/verification.router";
 import { flagsRouter } from "@/shared/infra/feature-flags/flags.router";
 import { router } from "./trpc";
@@ -37,6 +38,7 @@ export const appRouter = router({
   paymentConfig: paymentConfigRouter,
   review: reviewRouter,
   table: tableRouter,
+  teamAccess: teamAccessRouter,
   verification: verificationRouter,
 });
 
