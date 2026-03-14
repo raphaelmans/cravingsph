@@ -8,6 +8,7 @@
 import { and, eq } from "drizzle-orm";
 import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import * as schema from "../src/shared/infra/db/schema";
+import { composePortalSlug } from "../src/shared/kernel/slug";
 import type { DemoSeed } from "./seed-data/demo-restaurant";
 
 type DB = PostgresJsDatabase<typeof schema>;
@@ -226,12 +227,14 @@ export async function seedRestaurant(
   if (existingBranch) {
     track("branch", "skipped");
   } else {
+    const portalSlug = composePortalSlug(restData.slug, brData.slug);
     const [inserted] = await db
       .insert(schema.branch)
       .values({
         restaurantId: existingRest.id,
         name: brData.name,
         slug: brData.slug,
+        portalSlug,
         city: brData.city,
         province: brData.province,
         address: brData.address,

@@ -23,7 +23,8 @@
     "db:seed:all:other": "dotenvx run --env-file=.env.local -- tsx scripts/seed-all-other-user.ts",
     "db:seed:nuke": "dotenvx run --env-file=.env.local -- tsx scripts/seed-nuke.ts",
     "db:seed:nuke:other": "dotenvx run --env-file=.env.local -- tsx scripts/seed-nuke-other-user.ts",
-    "db:nuke:all": "dotenvx run --env-file=.env.local -- tsx scripts/seed-nuke-all.ts"
+    "db:nuke:all": "dotenvx run --env-file=.env.local -- tsx scripts/seed-nuke-all.ts",
+    "db:backfill:portal-slugs": "dotenvx run --env-file=.env.local -- tsx scripts/backfill-portal-slugs.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

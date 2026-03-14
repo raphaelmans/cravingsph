@@ -7,6 +7,7 @@ import {
   pgTable,
   text,
   timestamp,
+  uniqueIndex,
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
@@ -28,6 +29,7 @@ export const branch = pgTable(
       .references(() => restaurant.id, { onDelete: "cascade" }),
     name: varchar("name", { length: 200 }).notNull(),
     slug: varchar("slug", { length: 200 }).notNull(),
+    portalSlug: varchar("portal_slug", { length: 400 }),
     address: text("address"),
     street: varchar("street", { length: 200 }),
     barangay: varchar("barangay", { length: 100 }),
@@ -55,6 +57,7 @@ export const branch = pgTable(
     index("idx_branch_restaurant").on(table.restaurantId),
     index("idx_branch_slug").on(table.slug),
     index("idx_branch_location").on(table.province, table.city),
+    uniqueIndex("idx_branch_portal_slug").on(table.portalSlug),
   ],
 );
 

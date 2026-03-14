@@ -19,6 +19,10 @@ export interface IBranchRepository {
     slug: string,
     ctx?: RequestContext,
   ): Promise<BranchRecord | null>;
+  findByPortalSlug(
+    portalSlug: string,
+    ctx?: RequestContext,
+  ): Promise<BranchRecord | null>;
   findByRestaurantId(
     restaurantId: string,
     ctx?: RequestContext,
@@ -76,6 +80,20 @@ export class BranchRepository implements IBranchRepository {
       .select()
       .from(branch)
       .where(and(eq(branch.restaurantId, restaurantId), eq(branch.slug, slug)))
+      .limit(1);
+
+    return result[0] ?? null;
+  }
+
+  async findByPortalSlug(
+    portalSlug: string,
+    ctx?: RequestContext,
+  ): Promise<BranchRecord | null> {
+    const client = this.getClient(ctx);
+    const result = await client
+      .select()
+      .from(branch)
+      .where(eq(branch.portalSlug, portalSlug))
       .limit(1);
 
     return result[0] ?? null;

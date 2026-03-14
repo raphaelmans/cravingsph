@@ -6,6 +6,7 @@ import type { BranchRecord } from "@/shared/infra/db/schema";
 import { logger } from "@/shared/infra/logger";
 import type { RequestContext } from "@/shared/kernel/context";
 import { AuthorizationError } from "@/shared/kernel/errors";
+import { generatePortalSlug, generateSlug } from "@/shared/kernel/slug";
 import type { TransactionManager } from "@/shared/kernel/transaction";
 import type {
   CreateBranchDTO,
@@ -15,18 +16,10 @@ import type {
 import { BranchNotFoundError } from "../errors/branch.errors";
 import type { IBranchRepository } from "../repositories/branch.repository";
 
-function generateSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
-}
-
 export interface IBranchService {
   getById(id: string): Promise<BranchRecord>;
   getBySlug(restaurantId: string, slug: string): Promise<BranchRecord>;
+  getByPortalSlug(portalSlug: string): Promise<BranchRecord>;
   listPublicByRestaurant(restaurantId: string): Promise<BranchRecord[]>;
   listByRestaurant(
     userId: string,
@@ -82,6 +75,14 @@ export class BranchService implements IBranchService {
     return branch;
   }
 
+  async getByPortalSlug(portalSlug: string): Promise<BranchRecord> {
+    const branch = await this.branchRepository.findByPortalSlug(portalSlug);
+    if (!branch) {
+      throw new BranchNotFoundError(portalSlug);
+    }
+    return branch;
+  }
+
   async listPublicByRestaurant(restaurantId: string): Promise<BranchRecord[]> {
     const branches =
       await this.branchRepository.findByRestaurantId(restaurantId);
@@ -107,11 +108,34 @@ export class BranchService implements IBranchService {
       const ctx: RequestContext = { tx };
       await this.assertRestaurantOwnership(userId, restaurantId, ctx);
 
+      // Look up the restaurant slug for portal slug composition
+      const restaurant = await this.restaurantRepository.findById(
+        restaurantId,
+        ctx,
+      );
+      if (!restaurant) {
+        throw new RestaurantNotFoundError(restaurantId);
+      }
+
+      const portalSlug = await generatePortalSlug(
+        restaurant.slug,
+        slug,
+        data.city ?? null,
+        async (candidate) => {
+          const existing = await this.branchRepository.findByPortalSlug(
+            candidate,
+            ctx,
+          );
+          return existing !== null;
+        },
+      );
+
       const created = await this.branchRepository.create(
         {
           restaurantId,
           name: data.name,
           slug,
+          portalSlug,
           address: data.address ?? null,
           province: data.province ?? null,
           city: data.city ?? null,
@@ -126,6 +150,7 @@ export class BranchService implements IBranchService {
           branchId: created.id,
           restaurantId: created.restaurantId,
           slug: created.slug,
+          portalSlug: created.portalSlug,
         },
         "Branch created",
       );
