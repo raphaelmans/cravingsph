@@ -96,3 +96,22 @@ export const HasAccessSchema = z.object({
   scopeType: ScopeTypeSchema,
   scopeId: z.string().uuid(),
 });
+
+// --- Invite input schemas ---
+
+export const ListInvitesSchema = z.object({
+  organizationId: z.string().uuid(),
+  status: InviteStatusSchema.optional(),
+});
+
+export const RevokeInviteSchema = z.object({
+  inviteId: z.string().uuid(),
+});
+
+export const ValidateInviteSchema = z.object({
+  token: z.string().min(1).max(100),
+});
+
+export const AcceptInviteSchema = z.object({
+  inviteId: z.string().uuid(),
+});

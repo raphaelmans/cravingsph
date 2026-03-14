@@ -75,3 +75,25 @@ export class InvalidRoleTemplateError extends ValidationError {
     );
   }
 }
+
+export class TeamInviteNotPendingError extends BusinessRuleError {
+  readonly code = "TEAM_INVITE_NOT_PENDING";
+
+  constructor(inviteId: string, currentStatus: string) {
+    super(`Team invite is not pending (status: ${currentStatus})`, {
+      inviteId,
+      currentStatus,
+    });
+  }
+}
+
+export class ScopeNotInOrganizationError extends ValidationError {
+  readonly code = "SCOPE_NOT_IN_ORGANIZATION";
+
+  constructor(scopeId: string, organizationId: string) {
+    super("Scope target does not belong to this organization", {
+      scopeId,
+      organizationId,
+    });
+  }
+}
