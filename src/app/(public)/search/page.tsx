@@ -7,6 +7,7 @@ import {
   Search,
   SearchX,
   UtensilsCrossed,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -25,7 +26,7 @@ import { useTRPC } from "@/trpc/client";
 // Types
 // ---------------------------------------------------------------------------
 
-type SearchMode = "restaurant" | "food";
+type SearchMode = "food" | "restaurant";
 
 // ---------------------------------------------------------------------------
 // Page
@@ -42,7 +43,7 @@ function SearchPageContent() {
   const location = searchParams.get("location") ?? "";
   const barangay = searchParams.get("barangay") ?? "";
   const mode: SearchMode =
-    searchParams.get("mode") === "food" ? "food" : "restaurant";
+    searchParams.get("mode") === "restaurant" ? "restaurant" : "food";
 
   // Restaurant search (only when in restaurant mode)
   const { data: restaurantResults = [], isLoading: isLoadingRestaurants } =
@@ -97,7 +98,7 @@ function SearchPageContent() {
   }
 
   function handleModeChange(newMode: SearchMode) {
-    updateParams({ mode: newMode === "restaurant" ? "" : newMode });
+    updateParams({ mode: newMode === "food" ? "" : newMode });
   }
 
   const hasFilters = query || cuisine || location || barangay;
@@ -117,25 +118,36 @@ function SearchPageContent() {
 
           <form
             onSubmit={handleSearch}
-            className="relative flex-1"
+            className="flex flex-1 items-center gap-2"
             aria-label="Search"
           >
-            <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              ref={inputRef}
-              type="search"
-              aria-label="Search restaurants and dishes"
-              placeholder={
-                mode === "food"
-                  ? "Search for dishes..."
-                  : "Search restaurants or dishes..."
-              }
+            <div className="relative min-w-0 flex-1">
+              <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                ref={inputRef}
+                type="search"
+                aria-label="Search restaurants and dishes"
+                placeholder={
+                  mode === "food"
+                    ? "Search for dishes..."
+                    : "Search restaurants or dishes..."
+                }
+                shape="pill"
+                className="pl-10"
+                defaultValue={query}
+                key={query}
+                autoFocus
+              />
+            </div>
+            <Button
+              type="submit"
+              size="icon"
               shape="pill"
-              className="pl-10"
-              defaultValue={query}
-              key={query}
-              autoFocus
-            />
+              aria-label="Apply search"
+              title="Apply search"
+            >
+              <Search className="size-4" />
+            </Button>
           </form>
         </div>
 
@@ -151,19 +163,6 @@ function SearchPageContent() {
               <button
                 type="button"
                 role="tab"
-                aria-selected={mode === "restaurant"}
-                onClick={() => handleModeChange("restaurant")}
-                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-                  mode === "restaurant"
-                    ? "bg-background text-foreground shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                Restaurants
-              </button>
-              <button
-                type="button"
-                role="tab"
                 aria-selected={mode === "food"}
                 onClick={() => handleModeChange("food")}
                 className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
@@ -173,6 +172,19 @@ function SearchPageContent() {
                 }`}
               >
                 Food
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mode === "restaurant"}
+                onClick={() => handleModeChange("restaurant")}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                  mode === "restaurant"
+                    ? "bg-background text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                Restaurants
               </button>
             </div>
 
@@ -203,6 +215,22 @@ function SearchPageContent() {
             onChange={(v) => updateParams({ cuisine: v })}
           />
         )}
+
+        <AppliedSearchChips
+          query={query}
+          cuisine={cuisine}
+          location={location}
+          barangay={barangay}
+          onClear={(key) => updateParams({ [key]: "" })}
+          onClearAll={() =>
+            updateParams({
+              q: "",
+              cuisine: "",
+              location: "",
+              barangay: "",
+            })
+          }
+        />
       </div>
 
       {/* Results */}
@@ -222,6 +250,92 @@ function SearchPageContent() {
             isLoading={isLoading}
           />
         )}
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Applied chips
+// ---------------------------------------------------------------------------
+
+function AppliedSearchChips({
+  query,
+  cuisine,
+  location,
+  barangay,
+  onClear,
+  onClearAll,
+}: {
+  query: string;
+  cuisine: string;
+  location: string;
+  barangay: string;
+  onClear: (key: "q" | "cuisine" | "location" | "barangay") => void;
+  onClearAll: () => void;
+}) {
+  const chips = [
+    query
+      ? {
+          key: "q" as const,
+          label: `Search: ${query}`,
+        }
+      : null,
+    cuisine
+      ? {
+          key: "cuisine" as const,
+          label: `Cuisine: ${cuisine.replace(/-/g, " ")}`,
+        }
+      : null,
+    location
+      ? {
+          key: "location" as const,
+          label: `Location: ${location}`,
+        }
+      : null,
+    barangay
+      ? {
+          key: "barangay" as const,
+          label: `Barangay: ${barangay}`,
+        }
+      : null,
+  ].filter(Boolean) as Array<{
+    key: "q" | "cuisine" | "location" | "barangay";
+    label: string;
+  }>;
+
+  if (chips.length === 0) return null;
+
+  return (
+    <div className="overflow-x-auto px-4 pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex min-w-max items-center gap-2">
+        {chips.map((chip) => (
+          <Button
+            key={chip.key}
+            type="button"
+            variant="outline"
+            size="sm"
+            shape="pill"
+            className="max-w-[18rem] justify-start gap-1.5 truncate"
+            onClick={() => onClear(chip.key)}
+            title={`Remove ${chip.label}`}
+          >
+            <span className="truncate">{chip.label}</span>
+            <X className="size-3.5" />
+          </Button>
+        ))}
+
+        {chips.length > 1 ? (
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            shape="pill"
+            onClick={onClearAll}
+          >
+            Clear all
+          </Button>
+        ) : null}
       </div>
     </div>
   );
@@ -357,7 +471,9 @@ function FoodModeResults({
         description="Try another dish name, remove the barangay filter, or switch back to restaurant mode."
         primaryAction={
           <Button asChild shape="pill">
-            <Link href={`/search?q=${encodeURIComponent(query)}`}>
+            <Link
+              href={`/search?mode=restaurant&q=${encodeURIComponent(query)}`}
+            >
               Restaurant mode
             </Link>
           </Button>

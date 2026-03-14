@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { HealthCheck } from "@/components/health-check";
 import { Providers } from "@/components/providers";
 import { geistMono, inter, plusJakartaSans } from "@/lib/fonts";
 import "./globals.css";
@@ -23,10 +22,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${plusJakartaSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Providers>
-          {children}
-          <HealthCheck />
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
