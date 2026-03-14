@@ -39,9 +39,43 @@ const mockUseRestaurants = vi.fn(() => ({
   data: mockRestaurants,
 }));
 
+const mockAccessibleBranches: {
+  id: string;
+  name: string;
+  portalSlug: string | null;
+  restaurantId: string;
+  restaurantName: string;
+}[] = [
+  {
+    id: "b-1",
+    name: "Jollibee Makati",
+    portalSlug: "jollibee-makati",
+    restaurantId: "r-1",
+    restaurantName: "Jollibee",
+  },
+  {
+    id: "b-2",
+    name: "Jollibee BGC",
+    portalSlug: "jollibee-bgc",
+    restaurantId: "r-1",
+    restaurantName: "Jollibee",
+  },
+  {
+    id: "b-3",
+    name: "Chowking Ortigas",
+    portalSlug: "chowking-ortigas",
+    restaurantId: "r-2",
+    restaurantName: "Chowking",
+  },
+];
+const mockUseAccessibleBranches = vi.fn(() => ({
+  data: mockAccessibleBranches,
+}));
+
 vi.mock("@/features/owner/hooks/use-owner-sidebar-data", () => ({
   useOrganization: () => mockUseOrganization(),
   useRestaurants: () => mockUseRestaurants(),
+  useAccessibleBranches: () => mockUseAccessibleBranches(),
 }));
 
 const mockSelectRestaurant = vi.fn();
@@ -196,12 +230,12 @@ describe("OwnerSidebarV2", () => {
     expect(comingSoon.length).toBe(1);
   });
 
-  it("shows Branch Operations link when branchOps flag is on", () => {
+  it("shows branch shortcuts when branchOps flag is on", () => {
     render(<OwnerSidebarV2 {...defaultProps} showBranchOps={true} />);
 
-    expect(screen.getByText("All Branches")).toBeTruthy();
-    const link = screen.getByText("All Branches").closest("a");
-    expect(link?.getAttribute("href")).toBe("/branch");
+    expect(screen.getByText("Jollibee Makati")).toBeTruthy();
+    expect(screen.getByText("Jollibee BGC")).toBeTruthy();
+    expect(screen.getByText("Chowking Ortigas")).toBeTruthy();
   });
 
   it("shows Team Access Members link when teamAccess flag is on", () => {
@@ -221,7 +255,7 @@ describe("OwnerSidebarV2", () => {
       />,
     );
 
-    expect(screen.getByText("All Branches")).toBeTruthy();
+    expect(screen.getByText("Jollibee Makati")).toBeTruthy();
     expect(screen.getByText("Members")).toBeTruthy();
     expect(screen.queryByText("Coming soon")).toBeNull();
   });
@@ -311,5 +345,108 @@ describe("WorkspaceSwitcher", () => {
     const header = screen.getByTestId("sidebar-header");
     const trigger = within(header).getByTestId("dropdown-trigger");
     expect(within(trigger).getByText("Chowking")).toBeTruthy();
+  });
+});
+
+describe("BranchShortcuts", () => {
+  beforeEach(() => {
+    mockSelectedRestaurantId = null;
+    mockUseAccessibleBranches.mockReturnValue({
+      data: mockAccessibleBranches,
+    });
+  });
+
+  it("shows 'Coming soon' when branchOps flag is off", () => {
+    render(<OwnerSidebarV2 {...defaultProps} showBranchOps={false} />);
+
+    expect(screen.getAllByText("Coming soon").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("renders branch shortcuts linking to /branch/:portalSlug", () => {
+    render(<OwnerSidebarV2 {...defaultProps} showBranchOps={true} />);
+
+    const makatiLink = screen.getByText("Jollibee Makati").closest("a");
+    expect(makatiLink?.getAttribute("href")).toBe("/branch/jollibee-makati");
+
+    const bgcLink = screen.getByText("Jollibee BGC").closest("a");
+    expect(bgcLink?.getAttribute("href")).toBe("/branch/jollibee-bgc");
+
+    const ortigasLink = screen.getByText("Chowking Ortigas").closest("a");
+    expect(ortigasLink?.getAttribute("href")).toBe("/branch/chowking-ortigas");
+  });
+
+  it("falls back to owner console URL when portalSlug is null", () => {
+    mockUseAccessibleBranches.mockReturnValue({
+      data: [
+        {
+          id: "b-x",
+          name: "No Slug Branch",
+          portalSlug: null,
+          restaurantId: "r-1",
+          restaurantName: "Jollibee",
+        },
+      ],
+    });
+
+    render(<OwnerSidebarV2 {...defaultProps} showBranchOps={true} />);
+
+    const link = screen.getByText("No Slug Branch").closest("a");
+    expect(link?.getAttribute("href")).toBe("/organization/restaurants/r-1");
+  });
+
+  it("filters branches by workspace restaurant selection", () => {
+    mockSelectedRestaurantId = "r-2";
+    render(<OwnerSidebarV2 {...defaultProps} showBranchOps={true} />);
+
+    expect(screen.getByText("Chowking Ortigas")).toBeTruthy();
+    expect(screen.queryByText("Jollibee Makati")).toBeNull();
+    expect(screen.queryByText("Jollibee BGC")).toBeNull();
+  });
+
+  it("shows all branches when workspace is 'All Restaurants'", () => {
+    mockSelectedRestaurantId = null;
+    render(<OwnerSidebarV2 {...defaultProps} showBranchOps={true} />);
+
+    expect(screen.getByText("Jollibee Makati")).toBeTruthy();
+    expect(screen.getByText("Jollibee BGC")).toBeTruthy();
+    expect(screen.getByText("Chowking Ortigas")).toBeTruthy();
+  });
+
+  it("shows 'No branches yet' when list is empty", () => {
+    mockUseAccessibleBranches.mockReturnValue({ data: [] });
+    render(<OwnerSidebarV2 {...defaultProps} showBranchOps={true} />);
+
+    expect(screen.getByText("No branches yet")).toBeTruthy();
+  });
+
+  it("truncates at 10 branches and shows 'View all branches'", () => {
+    const manyBranches = Array.from({ length: 12 }, (_, i) => ({
+      id: `b-${i}`,
+      name: `Branch ${i}`,
+      portalSlug: `branch-${i}`,
+      restaurantId: "r-1",
+      restaurantName: "Jollibee",
+    }));
+    mockUseAccessibleBranches.mockReturnValue({ data: manyBranches });
+    render(<OwnerSidebarV2 {...defaultProps} showBranchOps={true} />);
+
+    // First 10 visible
+    for (let i = 0; i < 10; i++) {
+      expect(screen.getByText(`Branch ${i}`)).toBeTruthy();
+    }
+    // 11th and 12th not visible
+    expect(screen.queryByText("Branch 10")).toBeNull();
+    expect(screen.queryByText("Branch 11")).toBeNull();
+
+    // View all link shown
+    expect(screen.getByText("View all branches")).toBeTruthy();
+    const viewAllLink = screen.getByText("View all branches").closest("a");
+    expect(viewAllLink?.getAttribute("href")).toBe("/organization/restaurants");
+  });
+
+  it("does not show 'View all branches' when 10 or fewer branches", () => {
+    render(<OwnerSidebarV2 {...defaultProps} showBranchOps={true} />);
+
+    expect(screen.queryByText("View all branches")).toBeNull();
   });
 });

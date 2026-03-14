@@ -44,3 +44,16 @@ export function useBranches(restaurantId: string | undefined) {
     staleTime: 2 * 60 * 1000,
   });
 }
+
+/**
+ * Fetches all branches the current user can access.
+ * Returns branches with portal slugs and restaurant names.
+ * Used in sidebar-v2 branch shortcuts.
+ */
+export function useAccessibleBranches() {
+  const trpc = useTRPC();
+  return useQuery({
+    ...trpc.branch.listAccessible.queryOptions(),
+    staleTime: 2 * 60 * 1000,
+  });
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ArrowRight,
   Building2,
   Check,
   ChevronsUpDown,
@@ -39,6 +40,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useLogout, useSession } from "@/features/auth/hooks/use-auth";
 import {
+  useAccessibleBranches,
   useOrganization,
   useRestaurants,
 } from "@/features/owner/hooks/use-owner-sidebar-data";
@@ -156,30 +158,8 @@ export function OwnerSidebarV2({
           isActive={isActive}
         />
 
-        {/* Branch Operations — placeholder until Step 8 wires shortcuts */}
-        <SidebarGroup>
-          <SidebarGroupLabel>Branch Operations</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {showBranchOps ? (
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild tooltip="Branch Operations">
-                    <Link href={appRoutes.branchPortal.base}>
-                      <GitBranch className="size-4" />
-                      <span>All Branches</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ) : (
-                <SidebarMenuItem>
-                  <div className="px-2 py-1.5">
-                    <p className="text-xs text-muted-foreground">Coming soon</p>
-                  </div>
-                </SidebarMenuItem>
-              )}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {/* Branch Operations — shortcuts to branch portal */}
+        <BranchShortcuts showBranchOps={showBranchOps} />
 
         {/* Team Access — placeholder until Step 11 wires member/invite pages */}
         <SidebarGroup>
@@ -305,6 +285,87 @@ function WorkspaceSwitcher({
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// BranchShortcuts — branch portal shortcuts in sidebar
+// ---------------------------------------------------------------------------
+
+const MAX_VISIBLE_BRANCHES = 10;
+
+function BranchShortcuts({ showBranchOps }: { showBranchOps: boolean }) {
+  const { data: branches } = useAccessibleBranches();
+  const selectedRestaurantId = useSelectedRestaurantId();
+
+  if (!showBranchOps) {
+    return (
+      <SidebarGroup>
+        <SidebarGroupLabel>Branch Operations</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <div className="px-2 py-1.5">
+                <p className="text-xs text-muted-foreground">Coming soon</p>
+              </div>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+    );
+  }
+
+  const filteredBranches = selectedRestaurantId
+    ? (branches ?? []).filter((b) => b.restaurantId === selectedRestaurantId)
+    : (branches ?? []);
+
+  const visibleBranches = filteredBranches.slice(0, MAX_VISIBLE_BRANCHES);
+  const hasMore = filteredBranches.length > MAX_VISIBLE_BRANCHES;
+
+  return (
+    <SidebarGroup>
+      <SidebarGroupLabel>Branch Operations</SidebarGroupLabel>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          {visibleBranches.length === 0 ? (
+            <SidebarMenuItem>
+              <div className="px-2 py-1.5">
+                <p className="text-xs text-muted-foreground">No branches yet</p>
+              </div>
+            </SidebarMenuItem>
+          ) : (
+            visibleBranches.map((branch) => {
+              const href = branch.portalSlug
+                ? appRoutes.branchPortal.byPortalSlug(branch.portalSlug)
+                : `/organization/restaurants/${branch.restaurantId}`;
+
+              return (
+                <SidebarMenuItem key={branch.id}>
+                  <SidebarMenuButton asChild tooltip={branch.name}>
+                    <Link href={href}>
+                      <GitBranch className="size-4" />
+                      <span className="flex-1 truncate">{branch.name}</span>
+                      <ArrowRight className="size-3 shrink-0 opacity-40" />
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })
+          )}
+          {hasMore && (
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild tooltip="View all branches">
+                <Link href={appRoutes.organization.restaurants}>
+                  <span className="text-xs text-muted-foreground">
+                    View all branches
+                  </span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
   );
 }
 
