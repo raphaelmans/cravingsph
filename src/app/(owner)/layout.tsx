@@ -5,8 +5,10 @@ import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { OwnerBottomNav } from "@/components/layout/owner-bottom-nav";
 import { OrganizationNotFoundError } from "@/modules/organization/errors/organization.errors";
 import { makeOrganizationService } from "@/modules/organization/factories/organization.factory";
+import { flags } from "@/shared/infra/feature-flags";
 import { requireSession } from "@/shared/infra/supabase/session";
 import { OwnerSidebar } from "./sidebar";
+import { OwnerSidebarV2 } from "./sidebar-v2";
 
 export default async function OwnerLayout({
   children,
@@ -43,8 +45,17 @@ export default async function OwnerLayout({
     redirect(appRoutes.organization.getStarted);
   }
 
+  const sidebar = flags.ownerConsoleSidebarV2 ? (
+    <OwnerSidebarV2
+      showBranchOps={flags.branchOpsPortal}
+      showTeamAccess={flags.ownerTeamAccess}
+    />
+  ) : (
+    <OwnerSidebar />
+  );
+
   return (
-    <DashboardShell sidebar={<OwnerSidebar />} bottomNav={<OwnerBottomNav />}>
+    <DashboardShell sidebar={sidebar} bottomNav={<OwnerBottomNav />}>
       {children}
     </DashboardShell>
   );
