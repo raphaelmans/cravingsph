@@ -6,11 +6,21 @@ import {
   type InsertBranch,
   type OperatingHoursRecord,
   operatingHours,
+  organization,
+  restaurant,
   tableSession,
 } from "@/shared/infra/db/schema";
 import type { DbClient, DrizzleTransaction } from "@/shared/infra/db/types";
 import type { RequestContext } from "@/shared/kernel/context";
 import type { OperatingHourEntry } from "../dtos/branch.dto";
+
+export type AccessibleBranchRow = {
+  id: string;
+  name: string;
+  portalSlug: string | null;
+  restaurantId: string;
+  restaurantName: string;
+};
 
 export interface IBranchRepository {
   findById(id: string, ctx?: RequestContext): Promise<BranchRecord | null>;
@@ -27,6 +37,10 @@ export interface IBranchRepository {
     restaurantId: string,
     ctx?: RequestContext,
   ): Promise<BranchRecord[]>;
+  findAccessibleByOwner(
+    ownerId: string,
+    ctx?: RequestContext,
+  ): Promise<AccessibleBranchRow[]>;
   create(data: InsertBranch, ctx?: RequestContext): Promise<BranchRecord>;
   update(
     id: string,
@@ -108,6 +122,28 @@ export class BranchRepository implements IBranchRepository {
       .select()
       .from(branch)
       .where(eq(branch.restaurantId, restaurantId));
+  }
+
+  async findAccessibleByOwner(
+    ownerId: string,
+    ctx?: RequestContext,
+  ): Promise<AccessibleBranchRow[]> {
+    const client = this.getClient(ctx);
+    const rows = await client
+      .select({
+        id: branch.id,
+        name: branch.name,
+        portalSlug: branch.portalSlug,
+        restaurantId: branch.restaurantId,
+        restaurantName: restaurant.name,
+      })
+      .from(branch)
+      .innerJoin(restaurant, eq(branch.restaurantId, restaurant.id))
+      .innerJoin(organization, eq(restaurant.organizationId, organization.id))
+      .where(eq(organization.ownerId, ownerId))
+      .orderBy(restaurant.name, branch.name);
+
+    return rows;
   }
 
   async create(

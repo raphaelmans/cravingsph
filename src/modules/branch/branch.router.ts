@@ -53,6 +53,15 @@ export const branchRouter = router({
     }),
 
   /**
+   * List all branches the current user can access (for branch switcher).
+   * Returns branches with portal slugs and restaurant names.
+   */
+  listAccessible: protectedProcedure.query(async ({ ctx }) => {
+    const branchService = makeBranchService();
+    return branchService.listAccessible(ctx.userId);
+  }),
+
+  /**
    * List all branches for a restaurant.
    */
   listByRestaurant: protectedProcedure

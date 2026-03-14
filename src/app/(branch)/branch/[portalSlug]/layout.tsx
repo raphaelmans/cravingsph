@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { BranchNotFoundError } from "@/modules/branch/errors/branch.errors";
 import { makeBranchService } from "@/modules/branch/factories/branch.factory";
 import { makeOrganizationRepository } from "@/modules/organization/factories/organization.factory";
@@ -6,6 +7,8 @@ import { makeRestaurantRepository } from "@/modules/restaurant/factories/restaur
 import { flags } from "@/shared/infra/feature-flags";
 import { requireSession } from "@/shared/infra/supabase/session";
 import { AuthorizationError } from "@/shared/kernel/errors";
+import { BranchPortalBottomNav } from "../../branch-portal-bottom-nav";
+import { BranchPortalSidebar } from "../../branch-portal-sidebar";
 
 interface BranchPortalLayoutProps {
   children: React.ReactNode;
@@ -15,7 +18,7 @@ interface BranchPortalLayoutProps {
 /**
  * Branch portal layout.
  * Resolves the portal slug to a branch record, verifies the user has access,
- * and provides branch context to child pages.
+ * and wraps children in the branch portal shell (sidebar + bottom nav).
  *
  * Access control (Step 3): org ownership only.
  * Step 12 will add branch-scoped team access.
@@ -67,5 +70,12 @@ export default async function BranchPortalLayout({
     );
   }
 
-  return <>{children}</>;
+  return (
+    <DashboardShell
+      sidebar={<BranchPortalSidebar />}
+      bottomNav={<BranchPortalBottomNav />}
+    >
+      {children}
+    </DashboardShell>
+  );
 }

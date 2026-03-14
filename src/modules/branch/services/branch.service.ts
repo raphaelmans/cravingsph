@@ -14,7 +14,10 @@ import type {
   UpdateBranchDTO,
 } from "../dtos/branch.dto";
 import { BranchNotFoundError } from "../errors/branch.errors";
-import type { IBranchRepository } from "../repositories/branch.repository";
+import type {
+  AccessibleBranchRow,
+  IBranchRepository,
+} from "../repositories/branch.repository";
 
 export interface IBranchService {
   getById(id: string): Promise<BranchRecord>;
@@ -25,6 +28,7 @@ export interface IBranchService {
     userId: string,
     restaurantId: string,
   ): Promise<BranchRecord[]>;
+  listAccessible(userId: string): Promise<AccessibleBranchRow[]>;
   listActiveTables(
     branchId: string,
   ): Promise<
@@ -235,6 +239,10 @@ export class BranchService implements IBranchService {
         "Operating hours updated",
       );
     });
+  }
+
+  async listAccessible(userId: string): Promise<AccessibleBranchRow[]> {
+    return this.branchRepository.findAccessibleByOwner(userId);
   }
 
   async listActiveTables(
