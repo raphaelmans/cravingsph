@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, use } from "react";
+import type { RoleTemplate } from "@/modules/team-access/dtos/team-access.dto";
 
 export interface BranchPortalContextValue {
   branchId: string;
@@ -9,6 +10,8 @@ export interface BranchPortalContextValue {
   branchName: string;
   restaurantName: string;
   restaurantSlug: string;
+  /** Effective role template for the current user in this branch */
+  accessLevel: RoleTemplate;
 }
 
 const BranchPortalContext = createContext<BranchPortalContextValue | null>(

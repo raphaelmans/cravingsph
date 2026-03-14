@@ -5,6 +5,9 @@ import { BranchNotFoundError } from "@/modules/branch/errors/branch.errors";
 import { makeBranchService } from "@/modules/branch/factories/branch.factory";
 import { makeOrganizationRepository } from "@/modules/organization/factories/organization.factory";
 import { makeRestaurantRepository } from "@/modules/restaurant/factories/restaurant.factory";
+import type { RoleTemplate } from "@/modules/team-access/dtos/team-access.dto";
+import { InsufficientBranchAccessError } from "@/modules/team-access/errors/team-access.errors";
+import { makeAssignmentService } from "@/modules/team-access/factories/team-access.factory";
 import { flags } from "@/shared/infra/feature-flags";
 import { requireSession } from "@/shared/infra/supabase/session";
 import { AuthorizationError } from "@/shared/kernel/errors";
@@ -21,8 +24,10 @@ interface BranchPortalLayoutProps {
  * Resolves the portal slug to a branch record, verifies the user has access,
  * and wraps children in the branch portal shell (sidebar + bottom nav).
  *
- * Access control (Step 3): org ownership only.
- * Step 12 will add branch-scoped team access.
+ * Access control:
+ * - When branchScopedStaffAccess flag is ON: uses AssignmentService.getAccessLevel
+ *   (org owner, business-scope, or branch-scope assignment)
+ * - When flag is OFF: org ownership check only (legacy behavior)
  */
 export default async function BranchPortalLayout({
   children,
@@ -46,7 +51,7 @@ export default async function BranchPortalLayout({
       throw error;
     });
 
-  // Verify user has access: resolve restaurant → organization → check ownership
+  // Resolve restaurant and organization for access checks
   const restaurant = await makeRestaurantRepository().findById(
     branch.restaurantId,
   );
@@ -61,14 +66,35 @@ export default async function BranchPortalLayout({
     notFound();
   }
 
-  if (organization.ownerId !== session.userId) {
-    throw new AuthorizationError(
-      "Not authorized to access this branch portal",
-      {
-        branchId: branch.id,
-        userId: session.userId,
-      },
+  let accessLevel: RoleTemplate;
+
+  if (flags.branchScopedStaffAccess) {
+    // Team-based access: org owner, business-scope, or branch-scope assignment
+    const level = await makeAssignmentService().getAccessLevel(
+      session.userId,
+      "branch",
+      branch.id,
+      organization.id,
     );
+
+    if (!level) {
+      throw new InsufficientBranchAccessError(session.userId, branch.id);
+    }
+
+    accessLevel = level;
+  } else {
+    // Legacy: org ownership only
+    if (organization.ownerId !== session.userId) {
+      throw new AuthorizationError(
+        "Not authorized to access this branch portal",
+        {
+          branchId: branch.id,
+          userId: session.userId,
+        },
+      );
+    }
+
+    accessLevel = "business_owner";
   }
 
   return (
@@ -80,6 +106,7 @@ export default async function BranchPortalLayout({
         branchName: branch.name,
         restaurantName: restaurant.name,
         restaurantSlug: restaurant.slug,
+        accessLevel,
       }}
     >
       <DashboardShell
