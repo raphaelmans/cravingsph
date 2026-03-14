@@ -6,6 +6,12 @@ export const env = createEnv({
     DATABASE_URL: z.string(),
     SUPABASE_URL: z.string().url(),
     SUPABASE_SECRET_KEY: z.string(),
+    FF_BRANCH_OPS_PORTAL: z.string().optional(),
+    FF_BRANCH_SCOPED_STAFF_ACCESS: z.string().optional(),
+    FF_BRANCH_PORTAL_SHORT_ROUTES: z.string().optional(),
+    FF_OWNER_CONSOLE_SIDEBAR_V2: z.string().optional(),
+    FF_OWNER_TEAM_ACCESS: z.string().optional(),
+    FF_OWNER_WORKSPACE_SWITCHER: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
