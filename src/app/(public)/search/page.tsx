@@ -103,9 +103,9 @@ function SearchPageContent() {
   const hasFilters = query || cuisine || location || barangay;
 
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div className="flex min-h-dvh min-w-0 flex-col overflow-x-clip">
       {/* Header + search bar */}
-      <div className="sticky top-0 z-30 border-b bg-background">
+      <div className="sticky top-0 z-30 overflow-x-clip border-b bg-background">
         <div className="flex items-center gap-2 px-4 py-2">
           <Link
             href="/"
@@ -140,56 +140,60 @@ function SearchPageContent() {
         </div>
 
         {/* Filter bar */}
-        <div className="flex items-center gap-2 px-4 pb-2">
-          {/* Mode toggle */}
-          <div
-            role="tablist"
-            aria-label="Search mode"
-            className="flex shrink-0 rounded-full border bg-muted p-0.5"
-          >
-            <button
-              type="button"
-              role="tab"
-              aria-selected={mode === "restaurant"}
-              onClick={() => handleModeChange("restaurant")}
-              className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-                mode === "restaurant"
-                  ? "bg-background text-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
+        <div className="overflow-x-auto px-4 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex min-w-max items-center gap-2">
+            {/* Mode toggle */}
+            <div
+              role="tablist"
+              aria-label="Search mode"
+              className="flex shrink-0 rounded-full border bg-muted p-0.5"
             >
-              Restaurants
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={mode === "food"}
-              onClick={() => handleModeChange("food")}
-              className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-                mode === "food"
-                  ? "bg-background text-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              Food
-            </button>
-          </div>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mode === "restaurant"}
+                onClick={() => handleModeChange("restaurant")}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                  mode === "restaurant"
+                    ? "bg-background text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                Restaurants
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mode === "food"}
+                onClick={() => handleModeChange("food")}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                  mode === "food"
+                    ? "bg-background text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                Food
+              </button>
+            </div>
 
-          {/* Location filter (restaurant mode only) */}
-          {mode === "restaurant" && (
-            <LocationFilter
-              value={location || "all"}
-              onChange={(v) => updateParams({ location: v === "all" ? "" : v })}
-              locations={locations}
+            {/* Location filter (restaurant mode only) */}
+            {mode === "restaurant" && (
+              <LocationFilter
+                value={location || "all"}
+                onChange={(v) =>
+                  updateParams({ location: v === "all" ? "" : v })
+                }
+                locations={locations}
+              />
+            )}
+
+            {/* Barangay filter (both modes) */}
+            <BarangayFilter
+              value={barangay || "all"}
+              onChange={(v) => updateParams({ barangay: v === "all" ? "" : v })}
+              barangays={barangays}
             />
-          )}
-
-          {/* Barangay filter (both modes) */}
-          <BarangayFilter
-            value={barangay || "all"}
-            onChange={(v) => updateParams({ barangay: v === "all" ? "" : v })}
-            barangays={barangays}
-          />
+          </div>
         </div>
 
         {/* Cuisine filter (restaurant mode only) */}
@@ -202,7 +206,7 @@ function SearchPageContent() {
       </div>
 
       {/* Results */}
-      <div className="flex-1 px-4 py-4">
+      <div className="flex-1 min-w-0 px-4 py-4">
         {mode === "food" ? (
           <FoodModeResults
             query={query}
@@ -271,7 +275,7 @@ function RestaurantModeResults({
       ) : null}
 
       {results.length > 0 ? (
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid min-w-0 gap-4 sm:grid-cols-2">
           {results.map((restaurant) => (
             <RestaurantCard key={restaurant.slug} restaurant={restaurant} />
           ))}

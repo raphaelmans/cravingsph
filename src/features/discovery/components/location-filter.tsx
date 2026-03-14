@@ -30,7 +30,7 @@ export function LocationFilter({
 }: LocationFilterProps) {
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="w-auto gap-2 rounded-full">
+      <SelectTrigger className="max-w-[11rem] shrink-0 gap-2 rounded-full sm:max-w-none">
         <MapPin className="size-3.5" />
         <SelectValue placeholder="Location" />
       </SelectTrigger>
