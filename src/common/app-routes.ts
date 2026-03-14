@@ -99,6 +99,17 @@ export const appRoutes = {
     options: { type: "organization" as const },
   },
 
+  // Branch portal (ops)
+  branchPortal: {
+    base: "/branch",
+    options: { type: "protected" as const },
+    byPortalSlug: (portalSlug: string) => `/branch/${portalSlug}`,
+    orders: (portalSlug: string) => `/branch/${portalSlug}/orders`,
+    menu: (portalSlug: string) => `/branch/${portalSlug}/menu`,
+    tables: (portalSlug: string) => `/branch/${portalSlug}/tables`,
+    settings: (portalSlug: string) => `/branch/${portalSlug}/settings`,
+  },
+
   // Admin portal
   admin: {
     base: "/admin",
@@ -136,6 +147,7 @@ const protectedBases = [
   appRoutes.saved.base,
   appRoutes.customerAccount.base,
   appRoutes.postLogin.base,
+  appRoutes.branchPortal.base,
 ];
 
 const organizationBases = [
